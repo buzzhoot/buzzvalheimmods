@@ -1,0 +1,8 @@
+C:\game\Moding\Valheim Mod\BuzzMod\OdinPlus\bin\Debug\OdinPlus.dll
+C:\game\Moding\Valheim Mod\BuzzMod\OdinPlus\bin\Debug\OdinPlus.pdb
+C:\game\Moding\Valheim Mod\BuzzMod\OdinPlus\obj\Debug\OdinPlus.dll
+C:\game\Moding\Valheim Mod\BuzzMod\OdinPlus\obj\Debug\OdinPlus.pdb
+C:\game\steamapps\common\Valheim\BepInEx\scripts\OdinPlus.dll
+C:\game\steamapps\common\Valheim\BepInEx\scripts\OdinPlus.pdb
+C:\game\Moding\Valheim Mod\BuzzMod\OdinPlus\obj\Debug\odinplus.csprojAssemblyReference.cache
+C:\game\Moding\Valheim Mod\BuzzMod\OdinPlus\obj\Debug\odinplus.csproj.CoreCompileInputs.cache
