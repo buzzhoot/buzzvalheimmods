@@ -8,7 +8,12 @@ using HarmonyLib;
 using BepInEx.Logging;
 using UnityEngine;
 using System.Globalization;
-
+//=================TODO=============
+//||X||Save Interval
+//|| ||MouseTeleport
+//||X||Free Camera
+//|| ||QuickLoad
+//============== EndTODO=============
 namespace AdminTool
 {
     [BepInPlugin("buzz.valheim.BuzzAdminTool", "BuzzAdminTool", "0.0.1")]
@@ -44,7 +49,8 @@ namespace AdminTool
 
         public static ConfigEntry<bool> AutoAdmin;
         #endregion
-        public static bool isBNC = false;
+    #region Internal var
+                public static bool isBNC = false;
         public static bool isFM = false;
         public static bool isGod = false;
         public static bool isGhost = false;
@@ -52,9 +58,9 @@ namespace AdminTool
         public static bool isNoClip = false;
         public static bool isAdmin = false;
         public static bool isAutoAdmin;
-
+    #endregion
+    
         private static ManualLogSource logger;
-
         public string consoleLastMessage = string.Empty;
         private History consoleHistory = new History();
         public string LastCMD = string.Empty;
@@ -321,7 +327,10 @@ namespace AdminTool
                     }
                     InfoTL("Destoyed " + num.ToString() + " items");
                 }
-
+                if (inCommand == "/cam")
+                {
+                    GameCamera.instance.ToggleFreeFly();
+                }
                 #region noclip
                 if (inCommand == "/noclip")
                 {
@@ -481,6 +490,7 @@ namespace AdminTool
                     if (c.Length==1)
                     {
                         FT.SpawnPrefab(c[0], Player.m_localPlayer);
+                        return;
                     }
                     if (c.Length == 2)
                     {
@@ -730,7 +740,7 @@ namespace AdminTool
                 num++;
             }
             TerrainModifier.SetTriggerOnPlaced(false);
-            Plugin.blogWarning("Flatten Radius Required");
+            //Plugin.blogWarning("Flatten Radius Required");
         }
         public static void RemoveFlora(float radius)
         {

@@ -20,7 +20,6 @@ namespace OdinPlus
 			PrefabsParent = new GameObject("MeadPrefabs");
 			PrefabsParent.transform.SetParent(Plugin.PrefabParent.transform);
 			PrefabsParent.SetActive(false);
-
 			objectDB = ObjectDB.instance;
 			zns = ZNetScene.instance;
 		}
@@ -29,10 +28,6 @@ namespace OdinPlus
 
 		}
 		public static void CreateMeadPrefab(string name)
-		{
-
-		}
-		public static void Register()
 		{
 
 		}
