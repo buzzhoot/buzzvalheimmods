@@ -27,7 +27,8 @@ namespace OdinPlus
 		void OnDestroy()
 		{
 			Pet.petIns = null;
-			DBG.InfoCT(this.name + " died");
+			DBG.InfoCT(Localization.instance.Localize(this.GetComponent<Humanoid>().m_name+" died"));//add trans
+			
 		}
 	}
 }

@@ -49,6 +49,7 @@ namespace OdinPlus
 			go.AddComponent<PetHelper>();
 			var hd = go.GetComponent<Humanoid>();
 			DestroyImmediate(go.GetComponent<CharacterDrop>());
+			hd.m_name = hd.m_name + " Pet";//trans
 			hd.m_faction = Character.Faction.Players;
 			if (hd.m_randomSets.Length > 1)
 			{
@@ -57,18 +58,8 @@ namespace OdinPlus
 			PetList.Add(name + "Pet", go);
 			return;
 		}
-		public static bool GetPrefab(string name, out GameObject go)		
-		{
-			if (PetList.ContainsKey(name))
-			{
-				go = PetList[name];
-				return true;
-			}
-			go = null;
-			return false;
-		}
 		#region Helper
-					public static void CmdHelper()
+		public static void CmdHelper()
 		{
 			RaycastHit raycastHit;
 			if (petIns != null && Input.GetKeyDown(KeyCode.BackQuote) && Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out raycastHit))
@@ -109,7 +100,6 @@ namespace OdinPlus
 			if (ppfb == null)
 			{
 				DBG.blogWarning("Pet spawned failed cannot find the prefab");
-
 			}
 			petIns = Instantiate(ppfb, Player.m_localPlayer.transform.position + Player.m_localPlayer.transform.forward * 2f + Vector3.up, Quaternion.identity);
 			DBG.InfoCT("You summoned a " + name + "pet");//trans
@@ -117,10 +107,10 @@ namespace OdinPlus
 		#endregion
 		public static void Register()
 		{
-			var fd =Traverse.Create(zns).Field<Dictionary<int,GameObject>>("m_namedPrefabs");
+			var fd = Traverse.Create(zns).Field<Dictionary<int, GameObject>>("m_namedPrefabs");
 			foreach (var item in PetList)
 			{
-				fd.Value.Add(item.Key.GetStableHashCode(),item.Value);
+				fd.Value.Add(item.Key.GetStableHashCode(), item.Value);
 			}
 		}
 		public static void Clear()
