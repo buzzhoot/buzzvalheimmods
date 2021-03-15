@@ -5,7 +5,7 @@ using System.Text;
 
 namespace OdinPlus
 {
-    class DBG
+    public static class DBG
     {
         #region Debug
         public static void cprt(string s)
