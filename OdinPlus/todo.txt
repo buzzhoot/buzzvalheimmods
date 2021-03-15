@@ -1,0 +1,9 @@
+
+//=================TODO=============
+//|| ||Try use mono instead of normal class
+//|| ||new SE test
+//|| ||new Mead test
+//|| ||mech try?
+//|| ||Task system
+//|| ||no mobs area FX on odin,and animator
+//============== EndTODO=============
