@@ -14,7 +14,7 @@ namespace OdinPlus
             Sprite odinicon=ObjectDB.instance.GetItemPrefab("HelmetOdin").GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0];
             var mt=ObjectDB.instance.GetItemPrefab("MeadTasty");
             var id=mt.GetComponent<ItemDrop>().m_itemData;
-            Test = new SE_TrollHelper();
+            Test = ScriptableObject.CreateInstance<SE_TrollHelper>();
             Test.m_icon = odinicon;
             Test.m_name = "OdinTest";
             Test.m_ttl = 60;
