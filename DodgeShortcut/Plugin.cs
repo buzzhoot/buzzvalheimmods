@@ -9,7 +9,6 @@ using HarmonyLib;
 using BepInEx.Logging;
 using UnityEngine;
 using System.Globalization;
-
 namespace DodgeShortcut
 {
     [BepInPlugin("buzz.valheim.DodgeShortcut", "DodgeShortcut", "1.1.1")]
@@ -55,7 +54,8 @@ namespace DodgeShortcut
         {
             private static void Prefix()
             {
-                if (CheckPlayerNull()||Player.m_localPlayer.IsTeleporting()|| global::Console.instance.m_chatWindow.gameObject.activeInHierarchy|| Chat.instance.m_chatWindow.gameObject.activeInHierarchy|| Player.m_localPlayer.InPlaceMode()) { return; }
+                if (CheckPlayerNull()||Player.m_localPlayer.IsTeleporting()|| global::Console.instance.m_chatWindow.gameObject.activeInHierarchy||Chat.instance.m_chatWindow.gameObject.activeInHierarchy||Player.m_localPlayer.InPlaceMode()||TextInput.IsVisible() ||StoreGui.IsVisible() ||InventoryGui.IsVisible()||Menu.IsVisible())
+                 { return; }
                 Vector3 dir = Traverse.Create(Player.m_localPlayer).Field<Vector3>("m_lookDir").Value;
                 Vector3 rdir = Traverse.Create(Player.m_localPlayer).Field<Vector3>("m_moveDir").Value;
                 dir.y = 0;
@@ -67,43 +67,6 @@ namespace DodgeShortcut
                     Dodge(rdir);
                     return;
                 }
-                KeyboardShortcut f;
-                KeyboardShortcut b;
-                KeyboardShortcut l; 
-                KeyboardShortcut r;
-                if (KS_Dodge_Forward.Value.Modifiers != null)
-                {
-                    f = new KeyboardShortcut(KS_Dodge_Forward.Value.Modifiers.First<KeyCode>(), KS_Dodge_Forward.Value.MainKey);
-                    if (f.IsDown())
-                    {
-                        Dodge(dir);
-                    }
-                }
-                if (KS_Dodge_Backward.Value.Modifiers != null)
-                {
-                    b = new KeyboardShortcut(KS_Dodge_Backward.Value.Modifiers.First<KeyCode>(), KS_Dodge_Backward.Value.MainKey);
-                    if (b.IsDown())
-                    {
-                        Dodge(dir * -1);
-                    }
-                }
-                if (KS_Dodge_Right.Value.Modifiers != null)
-                {
-                    r = new KeyboardShortcut(KS_Dodge_Right.Value.Modifiers.First<KeyCode>(), KS_Dodge_Right.Value.MainKey);
-                    if (r.IsDown())
-                    {
-                        Dodge(Quaternion.Euler(0, 90, 0) * dir);
-                    }
-                }
-                if (KS_Dodge_Left.Value.Modifiers != null)
-                {
-                    l = new KeyboardShortcut(KS_Dodge_Left.Value.Modifiers.First<KeyCode>(), KS_Dodge_Left.Value.MainKey);
-                    if (l.IsDown())
-                    {
-                        Dodge(Quaternion.Euler(0, 90, 0) * dir * -1);
-                    }
-                }
-
                 if (KS_Dodge_Forward.Value.IsDown())
                 {
                     Dodge(dir);
