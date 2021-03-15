@@ -48,51 +48,51 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
-      <HintPath>..\..\..\..\..\game\Moding\Valheim Mod\BuzzMod\0libDep\0Harmony.dll</HintPath>
+      <HintPath>c:\game\Moding\Valheim Mod\BuzzMod\0libDep\0Harmony.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="assembly_guiutils">
-      <HintPath>..\..\..\..\..\game\Moding\Valheim Mod\BuzzMod\0libDep\assembly_guiutils.dll</HintPath>
+      <HintPath>c:\game\Moding\Valheim Mod\BuzzMod\0libDep\assembly_guiutils.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="assembly_utils">
-      <HintPath>..\..\..\..\..\game\Moding\Valheim Mod\BuzzMod\0libDep\assembly_utils.dll</HintPath>
+      <HintPath>c:\game\Moding\Valheim Mod\BuzzMod\0libDep\assembly_utils.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="assembly_valheim">
-      <HintPath>..\..\..\..\..\game\Moding\Valheim Mod\BuzzMod\0libDep\assembly_valheim.dll</HintPath>
+      <HintPath>c:\game\Moding\Valheim Mod\BuzzMod\0libDep\assembly_valheim.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="BepInEx">
-      <HintPath>..\..\..\..\..\game\Moding\Valheim Mod\BuzzMod\0libDep\BepInEx.dll</HintPath>
+      <HintPath>c:\game\Moding\Valheim Mod\BuzzMod\0libDep\BepInEx.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>..\..\..\..\..\game\Moding\Valheim Mod\BuzzMod\0libDep\UnityEngine.dll</HintPath>
+      <HintPath>c:\game\Moding\Valheim Mod\BuzzMod\0libDep\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\..\..\..\..\game\Moding\Valheim Mod\BuzzMod\0libDep\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>c:\game\Moding\Valheim Mod\BuzzMod\0libDep\UnityEngine.CoreModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.InputLegacyModule">
-      <HintPath>..\..\..\..\..\game\Moding\Valheim Mod\BuzzMod\0libDep\UnityEngine.InputLegacyModule.dll</HintPath>
+      <HintPath>c:\game\Moding\Valheim Mod\BuzzMod\0libDep\UnityEngine.InputLegacyModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.InputModule">
-      <HintPath>..\..\..\..\..\game\Moding\Valheim Mod\BuzzMod\0libDep\UnityEngine.InputModule.dll</HintPath>
+      <HintPath>c:\game\Moding\Valheim Mod\BuzzMod\0libDep\UnityEngine.InputModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule">
-      <HintPath>..\..\..\..\..\game\Moding\Valheim Mod\BuzzMod\0libDep\UnityEngine.PhysicsModule.dll</HintPath>
+      <HintPath>c:\game\Moding\Valheim Mod\BuzzMod\0libDep\UnityEngine.PhysicsModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.TextRenderingModule">
-      <HintPath>..\..\..\..\..\game\Moding\Valheim Mod\BuzzMod\0libDep\UnityEngine.TextRenderingModule.dll</HintPath>
+      <HintPath>c:\game\Moding\Valheim Mod\BuzzMod\0libDep\UnityEngine.TextRenderingModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>..\..\..\..\..\game\Moding\Valheim Mod\BuzzMod\0libDep\UnityEngine.UI.dll</HintPath>
+      <HintPath>c:\game\Moding\Valheim Mod\BuzzMod\0libDep\UnityEngine.UI.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
