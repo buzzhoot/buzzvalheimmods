@@ -9,6 +9,27 @@ namespace OdinPlus
     class OdinScore
     {
         public static int score;
+        public static Dictionary<string, string> ItemSellValue = new Dictionary<string, string>();
+        public static void init()
+		{
+			if (Plugin.CFG_ItemSellValue.Value == "") { return; }
+			string[] l1 = Plugin.CFG_ItemSellValue.Value.Split(new char[] { ';' });
+			for (int i = 0; i < l1.Length; i++)
+			{
+				string[] c = l1[i].Split(new char[] { ':' });
+				try
+				{
+					ItemSellValue.Add(c[0], c[1]);
+				}
+				catch (Exception e)
+				{
+
+					DBG.blogWarning("CFG Error,Check Your ItemSellValue");
+					DBG.blogWarning(e);
+				}
+			}
+
+		}
         public static void add(int s, Transform m_head)
         {
             score += s;

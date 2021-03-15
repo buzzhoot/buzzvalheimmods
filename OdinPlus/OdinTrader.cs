@@ -28,7 +28,7 @@ namespace OdinPlus
         private string randomName()
         {
             UnityEngine.Random.InitState(Mathf.FloorToInt(Time.realtimeSinceStartup));
-            var l = Plugin.ItemSellValue;
+            var l = OdinScore.ItemSellValue;
             int i = UnityEngine.Random.Range(0, l.Count);
             return l.ElementAt(i).Key;
         }
@@ -106,11 +106,11 @@ namespace OdinPlus
         {
             var name = item.m_dropPrefab.name;
             int value = 1;
-            if (Plugin.ItemSellValue.ContainsKey(name))
+            if (OdinScore.ItemSellValue.ContainsKey(name))
             {
                 try
                 {
-                    value = int.Parse(Plugin.ItemSellValue[name]);
+                    value = int.Parse(OdinScore.ItemSellValue[name]);
                 }
                 catch (Exception e)
                 {

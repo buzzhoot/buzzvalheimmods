@@ -20,6 +20,7 @@ namespace OdinPlus
 		public static ConfigEntry<KeyboardShortcut> KS_SecondInteractkey;
 		public static ConfigEntry<KeyboardShortcut> KS_debug;
 		public static ConfigEntry<string> CFG_ItemSellValue;
+		public static ConfigEntry<string> CFG_Pets;
 		#endregion
 
 		#region Plugin Var
@@ -35,8 +36,6 @@ namespace OdinPlus
 		//Pet
 		public static GameObject PrefabParent;
 
-		//Dictionary
-		public static Dictionary<string, string> ItemSellValue = new Dictionary<string, string>();
 		#endregion
 
 		#region Mono
@@ -52,7 +51,7 @@ namespace OdinPlus
 		}
 		public void Start()
 		{
-			ReadItemSellValueCFG();
+			OdinScore.init();
 		}
 		public void Update()
 		{
@@ -333,26 +332,6 @@ namespace OdinPlus
 		#endregion
 
 		#region Utilities
-		public static void ReadItemSellValueCFG()
-		{
-			if (CFG_ItemSellValue.Value == "") { return; }
-			string[] l1 = CFG_ItemSellValue.Value.Split(new char[] { ';' });
-			for (int i = 0; i < l1.Count(); i++)
-			{
-				string[] c = l1[i].Split(new char[] { ':' });
-				try
-				{
-					ItemSellValue.Add(c[0], c[1]);
-				}
-				catch (Exception e)
-				{
-
-					DBG.blogWarning("CFG Error,Check Your ItemSellValue");
-					DBG.blogWarning(e);
-				}
-			}
-
-		}
 		public static GameObject CopyChildren(GameObject prefab)
 		{
 			int cc = prefab.transform.childCount;
