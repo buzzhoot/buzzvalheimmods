@@ -19,7 +19,6 @@ namespace OdinPlus
 			zns = instance;
 			PrefabsParent = new GameObject("PetPrefab");
 			PrefabsParent.transform.SetParent(Plugin.PrefabParent.transform);
-
 			string[] l = Plugin.CFG_Pets.Value.Split(new char[] { ',' });
 			foreach (string name in l)
 			{
@@ -30,14 +29,18 @@ namespace OdinPlus
 		{
 			var go = Instantiate(zns.GetPrefab(name), PrefabsParent.transform);
 			go.name = name + "Pet";
-			var tame = go.AddComponent<Tameable>();
+			Tameable tame;
+			if (!go.TryGetComponent<Tameable>(out tame))
+			{
+				tame = go.AddComponent<Tameable>();
+			}
 			go.AddComponent<PetHelper>();
 			var hd = go.GetComponent<Humanoid>();
 			DestroyImmediate(go.GetComponent<CharacterDrop>());
 			hd.m_faction = Character.Faction.Players;
-			if (hd.m_randomArmor.Length>1)
+			if (hd.m_randomArmor.Length > 1)
 			{
-				hd.m_randomSets = hd.m_randomSets.Skip(hd.m_randomArmor.Length-1).ToArray();
+				hd.m_randomSets = hd.m_randomSets.Skip(hd.m_randomArmor.Length - 1).ToArray();
 			}
 			PetList.Add(name, go);
 			return;
@@ -96,14 +99,14 @@ namespace OdinPlus
 				DBG.InfoCT("You can have only one Pet");//trans
 				return;
 			}
-			var ppfb = ZNetScene.instance.GetPrefab(name+"Pet");
+			var ppfb = ZNetScene.instance.GetPrefab(name + "Pet");
 			if (ppfb == null)
 			{
 				DBG.InfoCT("Pet spawned failed cannot find the prefab");
 
 			}
 			petIns = Instantiate(ppfb, Player.m_localPlayer.transform.position + Player.m_localPlayer.transform.forward * 2f + Vector3.up, Quaternion.identity);
-			DBG.InfoCT("You summoned a "+name );//trans
+			DBG.InfoCT("You summoned a " + name);//trans
 		}
 	}
 }

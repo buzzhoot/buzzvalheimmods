@@ -235,11 +235,12 @@ namespace OdinPlus
 		#region Feature
 		public static void init()
 		{
-			OdinPlusParent = new GameObject("OdinPlusParent");
-			OdinPlusParent.SetActive(false);
+			OdinPlusParent = new GameObject("OdinPlus");
 			PrefabParent = new GameObject("OdinPlusPrefabs");
+			PrefabParent.SetActive(false);
             PrefabParent.transform.SetParent(OdinPlusParent.transform);
-			OdinNPCParent = new GameObject("OdinNPCParent");
+			OdinNPCParent = new GameObject("OdinNPCs");
+			OdinNPCParent.SetActive(false);
 			OdinNPCParent.transform.SetParent(OdinPlusParent.transform);
 			DontDestroyOnLoad(OdinPlusParent);
 		}
