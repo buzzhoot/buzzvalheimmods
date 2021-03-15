@@ -48,6 +48,7 @@ namespace OdinPlus
 			KS_SecondInteractkey = base.Config.Bind<KeyboardShortcut>("1Hotkeys", "Second Interact key", new KeyboardShortcut(KeyCode.F));
 			KS_debug = base.Config.Bind<KeyboardShortcut>("1Hotkeys", "debug key", new KeyboardShortcut(KeyCode.F3));
 			Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), null);
+			init();
 			DBG.blogInfo("OdinPlus Loadded");
 		}
 		public void Start()
@@ -89,6 +90,7 @@ namespace OdinPlus
 				//end
 			}
 		}
+		
 		#region Misc
 		[HarmonyPatch(typeof(FejdStartup), "Start")]
 		private static class FejdStartup_Start_Patch
@@ -99,6 +101,7 @@ namespace OdinPlus
 				Pet.initIndicator();
 			}
 		}
+		
 		[HarmonyPatch(typeof(Localization), "SetupLanguage")]
 		public static class MyLocalizationPatch
 		{
@@ -108,6 +111,7 @@ namespace OdinPlus
 				BuzzLocal.UpdateDictinary();
 			}
 		}
+		
 		[HarmonyPatch(typeof(PlayerProfile), "SavePlayerData")]
 		public static class PlayerProfile_SavePlayerData_Patch
 		{
@@ -120,7 +124,8 @@ namespace OdinPlus
 				OdinScore.saveOdinData(player.GetPlayerName());
 			}
 		}
-		[HarmonyPatch(typeof(PlayerProfile), "LoadPlayerData")]
+		
+		[HarmonyPatch(typeof(PlayerProfile), "LoadPlayerData")]//-----------init odin npc
 		private static class Patch_PlayerProfile_LoadPlayerData
 		{
 			private static void Postfix(PlayerProfile __instance)
@@ -131,12 +136,13 @@ namespace OdinPlus
 				if (OdinNPCParent == null)
 				{
 					OdinNPCParent = new GameObject("OdinNPCParent");
-					initOdinPrefab();
+					OdinNPCParent.transform.SetParent(OdinPlusParent.transform);
 				}
-
+				initOdinPrefab();
 			}
 		}
-		[HarmonyPatch(typeof(Raven), "Awake")]
+		
+		[HarmonyPatch(typeof(Raven), "Awake")]//----------Indicator
 		private static class Patch_Raven_Awake
 		{
 			private static void Postfix(Raven __instance)
@@ -151,8 +157,23 @@ namespace OdinPlus
 		{
 			private static void Postfix(ZNetScene __instance)
 			{
-				init();
 				Pet.init(__instance);
+			}
+		}
+
+		[HarmonyPatch(typeof(ZNetScene), "GetPrefab", new Type[] { typeof(string) })]
+		public static class GetPrefab_Prefix_Patch
+		{
+			public static bool Prefix(string name, ref GameObject __result)
+			{
+				GameObject go;
+				if (Pet.GetPrefab(name, out go))
+				{
+					DBG.b();
+					__result = go;
+					return false;
+				}
+				return true;
 			}
 		}
 
@@ -168,7 +189,7 @@ namespace OdinPlus
 					Destroy(OdinNPCParent);
 					return;
 				}
-				Destroy(PrefabParent);
+				//Destroy(PrefabParent);
 			}
 		}
 		#endregion
@@ -176,10 +197,10 @@ namespace OdinPlus
 		[HarmonyPatch(typeof(ObjectDB), "Awake")]
 		private static class Patch_ObjectDB_Awake
 		{
-		private static void Prefix()
-		{
-			Pet.Register();
-		}
+			private static void Prefix()
+			{
+				
+			}
 		}
 		#endregion
 		#endregion
@@ -238,7 +259,7 @@ namespace OdinPlus
 			OdinPlusParent = new GameObject("OdinPlus");
 			PrefabParent = new GameObject("OdinPlusPrefabs");
 			PrefabParent.SetActive(false);
-            PrefabParent.transform.SetParent(OdinPlusParent.transform);
+			PrefabParent.transform.SetParent(OdinPlusParent.transform);
 			OdinNPCParent = new GameObject("OdinNPCs");
 			OdinNPCParent.SetActive(false);
 			OdinNPCParent.transform.SetParent(OdinPlusParent.transform);

@@ -9,11 +9,18 @@ namespace OdinPlus
 {
 	class Pet : MonoBehaviour
 	{
+		#region var
 		private static ZNetScene zns;
 		private static GameObject PrefabsParent;
 		private static Dictionary<string, GameObject> PetList = new Dictionary<string, GameObject>();
 		public static GameObject petIns;
 		public static GameObject Indicator;
+		public static Pet instance;
+		#endregion
+		private void Awake()
+		{
+			instance = this;
+		}
 		public static void init(ZNetScene instance)
 		{
 			zns = instance;
@@ -27,6 +34,10 @@ namespace OdinPlus
 		}
 		private static void CreatePetPrefab(string name)
 		{
+			if(zns.GetPrefab(name)==null){
+				DBG.blogWarning("can't find the prefab zns :" + name);
+				return;
+			}
 			var go = Instantiate(zns.GetPrefab(name), PrefabsParent.transform);
 			go.name = name + "Pet";
 			Tameable tame;
@@ -38,19 +49,22 @@ namespace OdinPlus
 			var hd = go.GetComponent<Humanoid>();
 			DestroyImmediate(go.GetComponent<CharacterDrop>());
 			hd.m_faction = Character.Faction.Players;
-			if (hd.m_randomArmor.Length > 1)
+			if (hd.m_randomSets.Length > 1)
 			{
-				hd.m_randomSets = hd.m_randomSets.Skip(hd.m_randomArmor.Length - 1).ToArray();
+				hd.m_randomSets = hd.m_randomSets.Skip(hd.m_randomSets.Length - 1).ToArray();
 			}
-			PetList.Add(name, go);
+			PetList.Add(name+"Pet", go);			
 			return;
 		}
-		public static void Register()
+		public static bool GetPrefab(string name, out GameObject go)
 		{
-			foreach (var item in PetList)
+			if (PetList.ContainsKey(name))
 			{
-				ObjectDB.instance.m_items.Add(item.Value);
+				go = PetList[name];
+				return true;
 			}
+			go = null;
+			return false;
 		}
 		public static void Clear()
 		{
@@ -102,11 +116,11 @@ namespace OdinPlus
 			var ppfb = ZNetScene.instance.GetPrefab(name + "Pet");
 			if (ppfb == null)
 			{
-				DBG.InfoCT("Pet spawned failed cannot find the prefab");
+				DBG.blogWarning("Pet spawned failed cannot find the prefab");
 
 			}
 			petIns = Instantiate(ppfb, Player.m_localPlayer.transform.position + Player.m_localPlayer.transform.forward * 2f + Vector3.up, Quaternion.identity);
-			DBG.InfoCT("You summoned a " + name);//trans
+			DBG.InfoCT("You summoned a " + name +"pet");//trans
 		}
 	}
 }
