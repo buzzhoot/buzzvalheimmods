@@ -27,7 +27,7 @@ namespace OdinPlus
 		public static ManualLogSource logger;
 		public static string LastCmd;
 		//prefab
-		public static GameObject OdinPlusParent;
+		public static GameObject OdinPlusRoot;
 		public static GameObject OdinPrefab;
 		private static GameObject OdinNPCParent;
 		private static GameObject OdinGuiRoot;
@@ -136,7 +136,7 @@ namespace OdinPlus
 				if (OdinNPCParent == null)
 				{
 					OdinNPCParent = new GameObject("OdinNPCParent");
-					OdinNPCParent.transform.SetParent(OdinPlusParent.transform);
+					OdinNPCParent.transform.SetParent(OdinPlusRoot.transform);
 				}
 				initOdinPrefab();
 			}
@@ -158,10 +158,11 @@ namespace OdinPlus
 			private static void Postfix(ZNetScene __instance)
 			{
 				Pet.init(__instance);
+				Pet.Register();
 			}
 		}
 
-		[HarmonyPatch(typeof(ZNetScene), "GetPrefab", new Type[] { typeof(string) })]
+/* 		[HarmonyPatch(typeof(ZNetScene), "GetPrefab", new Type[] { typeof(string) })]
 		public static class GetPrefab_Prefix_Patch
 		{
 			public static bool Prefix(string name, ref GameObject __result)
@@ -175,7 +176,7 @@ namespace OdinPlus
 				}
 				return true;
 			}
-		}
+		} */
 
 		[HarmonyPatch(typeof(ZNetScene), "Shutdown")]
 		private static class ZNetScene_Shutdown_Patch
@@ -256,14 +257,14 @@ namespace OdinPlus
 		#region Feature
 		public static void init()
 		{
-			OdinPlusParent = new GameObject("OdinPlus");
+			OdinPlusRoot = new GameObject("OdinPlus");
 			PrefabParent = new GameObject("OdinPlusPrefabs");
 			PrefabParent.SetActive(false);
-			PrefabParent.transform.SetParent(OdinPlusParent.transform);
+			PrefabParent.transform.SetParent(OdinPlusRoot.transform);
 			OdinNPCParent = new GameObject("OdinNPCs");
 			OdinNPCParent.SetActive(false);
-			OdinNPCParent.transform.SetParent(OdinPlusParent.transform);
-			DontDestroyOnLoad(OdinPlusParent);
+			OdinNPCParent.transform.SetParent(OdinPlusRoot.transform);
+			DontDestroyOnLoad(OdinPlusRoot);
 		}
 		public static void initOdinPrefab()
 		{

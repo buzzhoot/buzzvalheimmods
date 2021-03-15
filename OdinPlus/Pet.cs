@@ -34,7 +34,8 @@ namespace OdinPlus
 		}
 		private static void CreatePetPrefab(string name)
 		{
-			if(zns.GetPrefab(name)==null){
+			if (zns.GetPrefab(name) == null)
+			{
 				DBG.blogWarning("can't find the prefab zns :" + name);
 				return;
 			}
@@ -53,10 +54,10 @@ namespace OdinPlus
 			{
 				hd.m_randomSets = hd.m_randomSets.Skip(hd.m_randomSets.Length - 1).ToArray();
 			}
-			PetList.Add(name+"Pet", go);			
+			PetList.Add(name + "Pet", go);
 			return;
 		}
-		public static bool GetPrefab(string name, out GameObject go)
+		public static bool GetPrefab(string name, out GameObject go)		
 		{
 			if (PetList.ContainsKey(name))
 			{
@@ -66,17 +67,8 @@ namespace OdinPlus
 			go = null;
 			return false;
 		}
-		public static void Clear()
-		{
-			foreach (var o in PetList)
-			{
-				GameObject.Destroy(o.Value);
-			}
-			petIns = null;
-			PetList.Clear();
-			DBG.blogInfo("PetList Clear");
-		}
-		public static void CmdHelper()
+		#region Helper
+					public static void CmdHelper()
 		{
 			RaycastHit raycastHit;
 			if (petIns != null && Input.GetKeyDown(KeyCode.BackQuote) && Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out raycastHit))
@@ -87,14 +79,14 @@ namespace OdinPlus
 				{
 					Indicator.SetActive(false);
 					Traverse.Create(petIns.GetComponent<MonsterAI>()).Field("m_targetStatic").SetValue(null);
-					DBG.InfoCT("Stop pet attack");
+					DBG.InfoCT("Stop pet attack");//trans
 					return;
 				}
 				Indicator.SetActive(true);
 				Indicator.transform.position = raycastHit.point;
 				ZRoutedRpc.instance.InvokeRoutedRPC(ZRoutedRpc.Everybody, "ChatMessage", new object[] { raycastHit.point, 3, "attack here!", "" });
 				Traverse.Create(petIns.GetComponent<MonsterAI>()).Field("m_targetStatic").SetValue(Indicator.GetComponent<StaticTarget>());
-				DBG.InfoCT("Pet force attack");
+				DBG.InfoCT("Pet force attack");//trans
 				return;
 			}
 		}
@@ -120,7 +112,26 @@ namespace OdinPlus
 
 			}
 			petIns = Instantiate(ppfb, Player.m_localPlayer.transform.position + Player.m_localPlayer.transform.forward * 2f + Vector3.up, Quaternion.identity);
-			DBG.InfoCT("You summoned a " + name +"pet");//trans
+			DBG.InfoCT("You summoned a " + name + "pet");//trans
+		}
+		#endregion
+		public static void Register()
+		{
+			var fd =Traverse.Create(zns).Field<Dictionary<int,GameObject>>("m_namedPrefabs");
+			foreach (var item in PetList)
+			{
+				fd.Value.Add(item.Key.GetStableHashCode(),item.Value);
+			}
+		}
+		public static void Clear()
+		{
+			foreach (var o in PetList)
+			{
+				GameObject.Destroy(o.Value);
+			}
+			petIns = null;
+			PetList.Clear();
+			DBG.blogInfo("PetList Clear");
 		}
 	}
 }

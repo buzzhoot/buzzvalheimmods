@@ -1,0 +1,121 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"todohighlight.keywords": [
+		{
+			"text": "//!",
+			"color": "#000",
+			"border": "0px solid red",
+			"borderRadius": "0px",
+			"isWholeLine": true,
+			"backgroundColor": "#FF2D00"
+		  },
+		  {
+			"text": "//?",
+			"color": "#FFF",
+			"border": "0px solid red",
+			"borderRadius": "0px",
+			"isWholeLine": true,
+			"backgroundColor": "#3498DB"
+		  },
+		  {
+			"text": "TODO",
+			"color": "#000",
+			"border": "0px solid red",
+			"borderRadius": "0px",
+			"isWholeLine": true,
+			"backgroundColor": "#FF8C00"
+		  },
+		  {
+			"text": "//|| ||",
+			"color": "#000",
+			"border": "0px solid red",
+			"borderRadius": "0px",
+			"isWholeLine": true,
+			"backgroundColor": "#FF8C00"
+		  },
+		  {
+			"text": "||X||",
+			"color": "#fff",
+			"border": "0px solid red",
+			"borderRadius": "0px",
+			"isWholeLine": true,
+			"backgroundColor": "#444",
+			"textDecoration": "line-through"
+		  },
+		  {
+			"text": "console.log",
+			"color": "#FFF",
+			"border": "0px solid red",
+			"borderRadius": "0px",
+			"isWholeLine": false,
+			"backgroundColor": "#FF2D00"
+		  },
+		  {
+			"text": "DBG",
+			"color": "#FFF",
+			"border": "0px solid red",
+			"borderRadius": "0px",
+			"isWholeLine": false,
+			"backgroundColor": "#FF2D00"
+		  },
+		  {
+			"text": "//trans",
+			"color": "#FFF",
+			"border": "0px solid red",
+			"borderRadius": "0px",
+			"isWholeLine": true,
+			"backgroundColor": "#070"
+		  },
+		  {
+			"text": "region",
+			"color": "#FFF",
+			"border": "2px #ddd",
+			"borderStyle": "dashed none none solid",
+			"borderRadius": "5px",
+			"isWholeLine": true,
+			"backgroundColor": "#444",
+			"cursor": "pointer",
+			"gutterIconPath": "c:/svg/test.svg",
+			"gutterIconSize": "24px",
+			"height": "64",
+			"fontWeight": "lighter",
+			"fontStyle": "italic",
+			"letterSpacing": "2px"
+		  },
+		  {
+			"text": "endregion",
+			"color": "#FFF",
+			"border": "2px #ddd",
+			"borderStyle": "none none dashed solid",
+			"borderRadius": "5px",
+			"isWholeLine": true,
+			"backgroundColor": "#222",
+			"fontWeight": "lighter",
+			"fontStyle": "italic",
+			"letterSpacing": "5px"
+		  },
+		  {
+			"text": "//--",
+			"textDecoration": "underline",
+			"isWholeLine": true
+		  },
+		  {
+			"text": "//",
+			"color": "#FFF",
+			"border": "0px solid red",
+			"borderRadius": "0px",
+			"isWholeLine": false,
+			"backgroundColor": "#555"
+		}
+	],
+	"settings": {
+		"todohighlight.keywords": [
+
+		
+		]
+	}
+}
