@@ -1,3 +1,3 @@
 *.dll
 OdinPlus/.vs/
-OdinPlus/obj/
+OdinPlus/obj/*

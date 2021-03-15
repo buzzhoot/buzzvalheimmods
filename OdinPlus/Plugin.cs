@@ -43,6 +43,7 @@ namespace OdinPlus
 		{
 			Plugin.logger = base.Logger;
 			CFG_ItemSellValue = base.Config.Bind<string>("Config", "ItemSellValue", "Wood:1;Coins:1");
+			CFG_Pets = base.Config.Bind<string>("Config", "PetList", "Troll,GoblinShaman");
 			//Plugin.nexusID = base.Config.Bind<int>("General", "NexusID", 354, "Nexus mod ID for updates");
 			KS_SecondInteractkey = base.Config.Bind<KeyboardShortcut>("1Hotkeys", "Second Interact key", new KeyboardShortcut(KeyCode.F));
 			KS_debug = base.Config.Bind<KeyboardShortcut>("1Hotkeys", "debug key", new KeyboardShortcut(KeyCode.F3));
@@ -154,35 +155,6 @@ namespace OdinPlus
 				Pet.init(__instance);
 			}
 		}
-		[HarmonyPatch(typeof(ZNetScene), "GetPrefab", new Type[] { typeof(string) })]
-		public static class GetPrefab_Prefix_Patch
-		{
-			public static bool Prefix(string name, ref GameObject __result)
-			{
-				GameObject go;
-				if (Pet.GetPrefab(name, out go))
-				{
-					DBG.b();
-					__result = go;
-					return false;
-				}
-				return true;
-			}
-
-		}
-
-		[HarmonyPatch(typeof(ZNetScene), "RemoveObjects")]
-		private static class Patch_ZNetScene_RemoveObjects
-		{
-			private static void Prefix()
-			{
-				var a = PrefabParent.GetComponentsInChildren<ZNetView>();
-				foreach (var znv in a)
-				{
-					znv.GetZDO().m_tempRemoveEarmark = Time.frameCount;
-				}
-			}
-		}
 
 		[HarmonyPatch(typeof(ZNetScene), "Shutdown")]
 		private static class ZNetScene_Shutdown_Patch
@@ -201,15 +173,14 @@ namespace OdinPlus
 		}
 		#endregion
 		#region ODB
-		[HarmonyPatch(typeof(ObjectDB), "GetItemPrefab", new Type[] { typeof(string) })]
-		private static class Patch_ObjectDB_GetItemPrefab
+		[HarmonyPatch(typeof(ObjectDB), "Awake")]
+		private static class Patch_ObjectDB_Awake
 		{
-			private static bool Prefix(string name, ref GameObject __result)
-			{
-				return true;
-			}
+		private static void Prefix()
+		{
+			Pet.Register();
 		}
-
+		}
 		#endregion
 		#endregion
 
@@ -249,25 +220,13 @@ namespace OdinPlus
 				{
 					inCommand = inCommand.Remove(0, 1);
 				}
-				if (inCommand.StartsWith("bzo"))
-				{
-					OdinPrefab.GetComponent<OdinTrader>().Summon();
-				}
-				if (inCommand == "bzc")
-				{
-
-					//OdinNPCParent.transform.position = new Vector3(0, -500, 0);
-					//DontDestroyOnLoad(OdinNPCParent);
-					//initOdinPrefab();
-					//OdinPrefab.GetComponent<OdinTrader>().Summon();
-				}
 				if (inCommand == "bzd")
 				{
 					Destroy(OdinNPCParent);
 				}
 				if (inCommand == "test")
 				{
-					Pet.SummonHelper();
+					Pet.SummonHelper("Troll");
 				}
 			}
 		}
@@ -297,8 +256,8 @@ namespace OdinPlus
 			c.transform.localScale = new Vector3(1, 2, 1);
 			c.transform.localPosition = Vector3.up;
 			var fire = CopyChildren(pfire);
-			fire.transform.SetParent(OdinNPCParent.transform);
 			var caul = CopyChildren(pcaul);
+			fire.transform.SetParent(OdinNPCParent.transform);
 			caul.transform.SetParent(OdinNPCParent.transform);
 
 
