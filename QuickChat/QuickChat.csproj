@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\steamapps\common\Valheim\BepInEx\scripts\</OutputPath>
+    <OutputPath>c:\game\steamapps\common\Valheim\BepInEx\scripts\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -50,9 +50,6 @@
     <Reference Include="BepInEx">
       <HintPath>..\0libDep\BepInEx.dll</HintPath>
       <Private>False</Private>
-    </Reference>
-    <Reference Include="SkToolboxValheim">
-      <HintPath>..\..\Learning\SkToolboxValheim.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="UnityEngine">
