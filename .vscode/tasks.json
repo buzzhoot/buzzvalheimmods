@@ -60,7 +60,7 @@
 			"type": "shell",
 			"args": [
 				"build",
-				"${workspaceFolder}/AdminTool/AdminToolPlugin.sln",
+				"${workspaceFolder}/AdminTool/AdminTool.sln",
 				"/property:GenerateFullPaths=true",
 				"/consoleloggerparameters:NoSummary"
 			],
