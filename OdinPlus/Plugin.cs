@@ -57,12 +57,12 @@ namespace OdinPlus
 		}
 		public void Update()
 		{
-			CheckPlayerNull();
-			CheckConsole();
+
 		}
 		#endregion
 
-		#region patch
+		#region patch		
+		#region Player and Console
 		[HarmonyPatch(typeof(Player), "Update")]
 		private static class Patch_Player_Update
 		{
@@ -89,7 +89,15 @@ namespace OdinPlus
 				//end
 			}
 		}
-
+		[HarmonyPatch(typeof(Console), "InputText")]
+		private static class Patch_Console_InputText
+		{
+		private static void Prefix()
+		{
+			ProcessCommands(global::Console.instance.m_input.text);
+		}
+		}
+		#endregion
 		#region Misc
 		[HarmonyPatch(typeof(FejdStartup), "Start")]
 		private static class FejdStartup_Start_Patch
@@ -160,23 +168,6 @@ namespace OdinPlus
 				Pet.Register();
 			}
 		}
-
-		/* 		[HarmonyPatch(typeof(ZNetScene), "GetPrefab", new Type[] { typeof(string) })]
-				public static class GetPrefab_Prefix_Patch
-				{
-					public static bool Prefix(string name, ref GameObject __result)
-					{
-						GameObject go;
-						if (Pet.GetPrefab(name, out go))
-						{
-							DBG.b();
-							__result = go;
-							return false;
-						}
-						return true;
-					}
-				} */
-
 		[HarmonyPatch(typeof(ZNetScene), "Shutdown")]
 		private static class ZNetScene_Shutdown_Patch
 		{
@@ -243,7 +234,7 @@ namespace OdinPlus
 				}
 				if (inCommand == "bzd")
 				{
-					Destroy(OdinNPCParent);
+					DBG.blogWarning("SEX");	
 				}
 				if (inCommand == "test")
 				{
