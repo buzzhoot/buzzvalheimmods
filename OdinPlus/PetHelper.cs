@@ -23,9 +23,11 @@ namespace OdinPlus
 			{
 				ZNetScene.instance.Destroy(this.gameObject);
 			}
+			Pet.HelperFocreAttack();
 		}
 		void OnDestroy()
 		{
+			Pet.Indicator.SetActive(false);
 			Pet.petIns = null;
 			DBG.InfoCT(Localization.instance.Localize(this.GetComponent<Humanoid>().m_name+" died"));//add trans
 			

@@ -72,25 +72,24 @@ namespace OdinPlus
 				{
 					return;
 				}
-				if (KS_SecondInteractkey.Value.IsDown())
+				if (KS_SecondInteractkey.Value.IsDown() && __instance.GetHoverObject()!= null&&__instance.GetHoverObject().transform.parent.name==m_odinTrader.name)
 				{
 					m_odinTrader.SwitchSkill();
 				}
-				Pet.CmdHelper();
-
 				#region debug
 				if (KS_debug.Value.IsUp())
 				{
 				}
 				if (Input.GetKeyDown(KeyCode.F4))
 				{
-					Destroy(OdinNPCParent);
+					Pet.SummonHelper("Troll");
+
 				}
 				#endregion
 				//end
 			}
 		}
-		
+
 		#region Misc
 		[HarmonyPatch(typeof(FejdStartup), "Start")]
 		private static class FejdStartup_Start_Patch
@@ -101,7 +100,7 @@ namespace OdinPlus
 				Pet.initIndicator();
 			}
 		}
-		
+
 		[HarmonyPatch(typeof(Localization), "SetupLanguage")]
 		public static class MyLocalizationPatch
 		{
@@ -111,7 +110,7 @@ namespace OdinPlus
 				BuzzLocal.UpdateDictinary();
 			}
 		}
-		
+
 		[HarmonyPatch(typeof(PlayerProfile), "SavePlayerData")]
 		public static class PlayerProfile_SavePlayerData_Patch
 		{
@@ -124,7 +123,7 @@ namespace OdinPlus
 				OdinScore.saveOdinData(player.GetPlayerName());
 			}
 		}
-		
+
 		[HarmonyPatch(typeof(PlayerProfile), "LoadPlayerData")]//-----------init odin npc
 		private static class Patch_PlayerProfile_LoadPlayerData
 		{
@@ -141,7 +140,7 @@ namespace OdinPlus
 				initOdinPrefab();
 			}
 		}
-		
+
 		[HarmonyPatch(typeof(Raven), "Awake")]//----------Indicator
 		private static class Patch_Raven_Awake
 		{
@@ -162,21 +161,21 @@ namespace OdinPlus
 			}
 		}
 
-/* 		[HarmonyPatch(typeof(ZNetScene), "GetPrefab", new Type[] { typeof(string) })]
-		public static class GetPrefab_Prefix_Patch
-		{
-			public static bool Prefix(string name, ref GameObject __result)
-			{
-				GameObject go;
-				if (Pet.GetPrefab(name, out go))
+		/* 		[HarmonyPatch(typeof(ZNetScene), "GetPrefab", new Type[] { typeof(string) })]
+				public static class GetPrefab_Prefix_Patch
 				{
-					DBG.b();
-					__result = go;
-					return false;
-				}
-				return true;
-			}
-		} */
+					public static bool Prefix(string name, ref GameObject __result)
+					{
+						GameObject go;
+						if (Pet.GetPrefab(name, out go))
+						{
+							DBG.b();
+							__result = go;
+							return false;
+						}
+						return true;
+					}
+				} */
 
 		[HarmonyPatch(typeof(ZNetScene), "Shutdown")]
 		private static class ZNetScene_Shutdown_Patch
@@ -200,7 +199,7 @@ namespace OdinPlus
 		{
 			private static void Prefix()
 			{
-				
+
 			}
 		}
 		#endregion
@@ -248,7 +247,7 @@ namespace OdinPlus
 				}
 				if (inCommand == "test")
 				{
-					Pet.SummonHelper("Troll");
+					Destroy(OdinPlusRoot);
 				}
 			}
 		}
@@ -293,7 +292,8 @@ namespace OdinPlus
 			m_odinTrader = odin.AddComponent<OdinTrader>();
 			caul.AddComponent<OdinStore>();
 			Plugin.OdinPrefab = odin;
-			SE.init();
+			OdinNPCParent.SetActive(true);
+			//SE.init();
 		}
 		private static void CreateOdinGui(Transform GuiBase)
 		{

@@ -1,5 +1,6 @@
 
 //=================TODO=============
+//||X||polish helper cmd
 //|| ||Try use mono instead of normal class
 //|| ||new SE test
 //|| ||new Mead test

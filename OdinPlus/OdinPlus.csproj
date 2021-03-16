@@ -43,7 +43,6 @@
     <Compile Include="DBG.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestSE.cs" />
     <Compile Include="Util.cs" />
   </ItemGroup>
   <ItemGroup>

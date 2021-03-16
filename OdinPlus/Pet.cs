@@ -59,21 +59,31 @@ namespace OdinPlus
 			return;
 		}
 		#region Helper
-		public static void CmdHelper()
+		public static void HelperFocreAttack()
 		{
-			RaycastHit raycastHit;
-			if (petIns != null && Input.GetKeyDown(KeyCode.BackQuote) && Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out raycastHit))
+
+			if (Plugin.KS_SecondInteractkey.Value.IsDown())
 			{
+				var __instance = Player.m_localPlayer;
+				Vector3 aimDir = __instance.GetAimDir(Vector3.zero);
+				Ray ray = new Ray(GameCamera.instance.transform.position, GameCamera.instance.transform.forward);
+				int layerMask = Pathfinding.instance.m_layers | Pathfinding.instance.m_waterLayers;
+				RaycastHit raycastHit;
+				Physics.Raycast(ray, out raycastHit, 500f, layerMask);
 				Vector3 point = raycastHit.point;
-				Debug.DrawRay(Player.m_localPlayer.transform.position, point, Color.white);
 				if (Indicator.activeSelf)
 				{
 					Indicator.SetActive(false);
+					// Indicator.transform.SetParent(PrefabsParent.transform);
 					Traverse.Create(petIns.GetComponent<MonsterAI>()).Field("m_targetStatic").SetValue(null);
 					DBG.InfoCT("Stop pet attack");//trans
 					return;
 				}
 				Indicator.SetActive(true);
+				// if (__instance.GetHoverCreature() != null)
+				// {
+				// 	Indicator.transform.SetParent(__instance.GetHoverCreature().transform);
+				// }
 				Indicator.transform.position = raycastHit.point;
 				ZRoutedRpc.instance.InvokeRoutedRPC(ZRoutedRpc.Everybody, "ChatMessage", new object[] { raycastHit.point, 3, "attack here!", "" });
 				Traverse.Create(petIns.GetComponent<MonsterAI>()).Field("m_targetStatic").SetValue(Indicator.GetComponent<StaticTarget>());
