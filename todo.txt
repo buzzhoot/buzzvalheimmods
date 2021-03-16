@@ -1,0 +1,20 @@
+
+//=================TODO=============OdinPlus
+//||X||polish helper cmd
+//||X||Try use mono instead of normal class
+//||X||new SE test
+//||X||new Mead test
+//|| ||Find a better patch point for Regiser//!
+//|| ||Maybe check out the load and also pathc the load quit withou saving for admin tool//?
+//|| ||OdinStoreGui
+//|| ||Wolf container
+//|| ||More Meads
+//|| ||mech try?
+//|| ||Task system
+//|| ||no mobs area FX on odin,and animator
+//============== EndTODO=============
+
+//=================TODO=============Project
+//|| ||Make a new template without Plugin base//
+//|| ||Make a mod let player custom Mead mod //?
+//============== EndTODO=============
