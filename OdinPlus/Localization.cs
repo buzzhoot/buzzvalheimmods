@@ -11,10 +11,16 @@ namespace OdinPlus
         private static Localization lcl;
         public static Dictionary<string, string> t; //= new Dictionary<string, string>();
         private static Dictionary<string, string> english = new Dictionary<string, string>() {
-            {"odinuse","Raise your skill:" },
+            {"odinuse","Raise your skill:"},
+            {"odinse_troll","TrollPet"},
+            {"odinse_troll_tooltip","summon a pet troll"},
+            {"odinmead_troll_name","Troll mead"},
+            {"odinmead_troll_desc","This item will summon a pet"}
         };
         private static Dictionary<string, string> chinese = new Dictionary<string, string>() {
             {"odinuse","升级你的技能：" },
+            {"odinse_troll","宠物巨魔"},
+            {"odinse_troll_tooltip","召唤一只宠物巨魔"}
         };
         public static void init(string lang,Localization l)
         {

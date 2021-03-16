@@ -36,7 +36,6 @@
     <Compile Include="OdinStore.cs" />
     <Compile Include="Pet.cs" />
     <Compile Include="PetHelper.cs" />
-    <Compile Include="SE.cs" />
     <Compile Include="SE_TrollHelper.cs" />
     <Compile Include="Terrain.cs" />
     <Compile Include="OdinTrader.cs" />
@@ -44,6 +43,7 @@
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util.cs" />
+    <Compile Include="OdinSE.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
@@ -96,9 +96,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-   <Content Include="Resources\*.*">
-   </Content>
-</ItemGroup>  
+    <Content Include="Resources\*.*">
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -5,7 +5,16 @@ using System.Text;
 
 namespace OdinPlus
 {
-    class SE_TrollHelper:StatusEffect
-    {
-    }
+	class SE_TrollHelper : StatusEffect
+	{
+		public override void Setup(Character character)
+		{
+			base.Setup(character);
+            Pet.SummonHelper("Troll");
+		}
+		public override void UpdateStatusEffect(float dt)
+		{
+			base.UpdateStatusEffect(dt);
+		}
+	}
 }

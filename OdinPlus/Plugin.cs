@@ -72,9 +72,13 @@ namespace OdinPlus
 				{
 					return;
 				}
-				if (KS_SecondInteractkey.Value.IsDown() && __instance.GetHoverObject()!= null&&__instance.GetHoverObject().transform.parent.name==m_odinTrader.name)
+				if (KS_SecondInteractkey.Value.IsDown() && __instance.GetHoverObject() != null)
 				{
-					m_odinTrader.SwitchSkill();
+					if (__instance.GetHoverObject().transform.parent.name == m_odinTrader.name)
+					{
+						m_odinTrader.SwitchSkill();	
+					}
+					
 				}
 				#region debug
 				if (KS_debug.Value.IsUp())
@@ -92,10 +96,10 @@ namespace OdinPlus
 		[HarmonyPatch(typeof(Console), "InputText")]
 		private static class Patch_Console_InputText
 		{
-		private static void Prefix()
-		{
-			ProcessCommands(global::Console.instance.m_input.text);
-		}
+			private static void Prefix()
+			{
+				ProcessCommands(global::Console.instance.m_input.text);
+			}
 		}
 		#endregion
 		#region Misc
@@ -106,6 +110,9 @@ namespace OdinPlus
 			{
 				//skillIcon = ObjectDB.instance.GetItemPrefab("HelmetOdin").GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0];
 				Pet.initIndicator();
+				OdinSE.init();
+				OdinSE.Register();
+				OdinMeads.init();
 			}
 		}
 
@@ -150,6 +157,21 @@ namespace OdinPlus
 		}
 
 		[HarmonyPatch(typeof(Raven), "Awake")]//----------Indicator
+
+		[HarmonyPatch(typeof(Trader), "Start")]
+		private static class Patch_Trader_Start
+		{
+		private static void Prefix(Trader __instance)
+		{
+			var c =OdinMeads.MeadList[0].GetComponent<ItemDrop>();
+			__instance.m_items.Add(new Trader.TradeItem
+						{
+							m_prefab = c,
+							m_stack = 1,
+							m_price = 1
+						});
+		}
+		}
 		private static class Patch_Raven_Awake
 		{
 			private static void Postfix(Raven __instance)
@@ -159,6 +181,14 @@ namespace OdinPlus
 		}
 		#endregion
 		#region ZnetScene
+		[HarmonyPatch(typeof(ZNetScene), "Awake")]
+		private static class ZNetScene_Awake_Prefix
+		{
+			private static void Prefix(ZNetScene __instance)
+			{
+				OdinMeads.Register(__instance);
+			}
+		}
 		[HarmonyPatch(typeof(ZNetScene), "Awake")]
 		private static class ZNetScene_Awake_Patch
 		{
@@ -188,9 +218,9 @@ namespace OdinPlus
 		[HarmonyPatch(typeof(ObjectDB), "Awake")]
 		private static class Patch_ObjectDB_Awake
 		{
-			private static void Prefix()
+			private static void Postfix(ObjectDB __instance)
 			{
-
+				OdinMeads.Register(__instance);
 			}
 		}
 		#endregion
@@ -234,7 +264,7 @@ namespace OdinPlus
 				}
 				if (inCommand == "bzd")
 				{
-					DBG.blogWarning("SEX");	
+					DBG.blogWarning("SEX");
 				}
 				if (inCommand == "test")
 				{
