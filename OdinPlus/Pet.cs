@@ -59,39 +59,7 @@ namespace OdinPlus
 			return;
 		}
 		#region Helper
-		public static void HelperFocreAttack()
-		{
-
-			if (Plugin.KS_SecondInteractkey.Value.IsDown())
-			{
-				var __instance = Player.m_localPlayer;
-				Vector3 aimDir = __instance.GetAimDir(Vector3.zero);
-				Ray ray = new Ray(GameCamera.instance.transform.position, GameCamera.instance.transform.forward);
-				int layerMask = Pathfinding.instance.m_layers | Pathfinding.instance.m_waterLayers;
-				RaycastHit raycastHit;
-				Physics.Raycast(ray, out raycastHit, 500f, layerMask);
-				Vector3 point = raycastHit.point;
-				if (Indicator.activeSelf)
-				{
-					Indicator.SetActive(false);
-					// Indicator.transform.SetParent(PrefabsParent.transform);
-					Traverse.Create(petIns.GetComponent<MonsterAI>()).Field("m_targetStatic").SetValue(null);
-					DBG.InfoCT("Stop pet attack");//trans
-					return;
-				}
-				Indicator.SetActive(true);
-				// if (__instance.GetHoverCreature() != null)
-				// {
-				// 	Indicator.transform.SetParent(__instance.GetHoverCreature().transform);
-				// }
-				Indicator.transform.position = raycastHit.point;
-				ZRoutedRpc.instance.InvokeRoutedRPC(ZRoutedRpc.Everybody, "ChatMessage", new object[] { raycastHit.point, 3, "attack here!", "" });
-				Traverse.Create(petIns.GetComponent<MonsterAI>()).Field("m_targetStatic").SetValue(Indicator.GetComponent<StaticTarget>());
-				DBG.InfoCT("Pet force attack");//trans
-				return;
-			}
-		}
-		public static void initIndicator()
+				public static void initIndicator()
 		{
 			Indicator = new GameObject("Indicator");
 			DontDestroyOnLoad(Indicator);
@@ -111,7 +79,7 @@ namespace OdinPlus
 			{
 				DBG.blogWarning("Pet spawned failed cannot find the prefab");
 			}
-			petIns = Instantiate(ppfb, Player.m_localPlayer.transform.position + Player.m_localPlayer.transform.forward * 2f + Vector3.up, Quaternion.identity);
+			Instantiate(ppfb, Player.m_localPlayer.transform.position + Player.m_localPlayer.transform.forward * 2f + Vector3.up, Quaternion.identity);
 			DBG.InfoCT("You summoned a " + name + "pet");//trans
 		}
 		#endregion
