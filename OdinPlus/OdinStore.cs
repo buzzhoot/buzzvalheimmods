@@ -8,31 +8,29 @@ namespace OdinPlus
 	class OdinStore : MonoBehaviour, Hoverable, Interactable
 	{
 		#region Var
-		public static OdinStore m_instance;
+		public string TraderName;
+
 		#endregion,
 		#region Mono
 		public void Awake()
 		{
-			m_instance = this;
+
 		}
 		#endregion
 		#region Features
-		#endregion
-		#region Util
+
 		#endregion
 		#region Valheim
 		public string GetHoverText()
 		{
-			//trans
-			string n = "<color=blue><b>Odin's Pot</b></color>";
-			string s = string.Format("\n<color=green><b>Credits:{0}</b></color>", OdinScore.score);
-			string a = "\n[<color=yellow><b>E</b></color>] Raise Your Skill:[<color=green><b>{0}</b></color>]";
-			return (n + s + a);
+			string n = string.Format("\n<color=green><b>Score:{0}</b></color>", TraderName);
+			string u = "\n[<color=yellow><b>$KEY_Use</b></color>] $odin_buy";
+			return Localization.instance.Localize(n + u);
 		}
 		public string GetHoverName()
 		{
 			//trans
-			return "<color=blue><b>Odin's Pot</b></color>";
+			return TraderName;
 		}
 		public bool Interact(Humanoid user, bool hold)
 		{
@@ -40,14 +38,18 @@ namespace OdinPlus
 			{
 				return false;
 			}
-			//trans
-			OdinTrader.Say("Want something magic,Warrior?");
-			//end of interact
+			Say("Want something magic,Warrior?");
 			return true;
 		}
 		public bool UseItem(Humanoid user, ItemDrop.ItemData item)
 		{
 			return false;
+		}
+		#endregion
+		#region Tool
+		public void Say(string text)
+		{
+			Chat.instance.SetNpcText(gameObject, Vector3.up * 1.5f, 60f, 5, TraderName, text, false);
 		}
 		#endregion
 	}

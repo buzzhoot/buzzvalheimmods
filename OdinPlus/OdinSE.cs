@@ -8,29 +8,32 @@ namespace OdinPlus
 {
 	class OdinSE : MonoBehaviour
 	{
-		public static Dictionary<string,StatusEffect> SElist = new Dictionary<string, StatusEffect>();
+		public static Dictionary<string, StatusEffect> SElist = new Dictionary<string, StatusEffect>();
+		public static Dictionary<string, StatusEffect> BuzzList = new Dictionary<string, StatusEffect>();
+		public static Dictionary<string, StatusEffect> ValList = new Dictionary<string, StatusEffect>();
 		public static void init()
 		{
-			Sprite odinicon = ObjectDB.instance.GetItemPrefab("HelmetOdin").GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0];
-			var mt = ObjectDB.instance.GetItemPrefab("MeadTasty");
-			var id = mt.GetComponent<ItemDrop>().m_itemData;
-			SElist.Add("mead_troll",ScriptableObject.CreateInstance<SE_TrollHelper>());
-			foreach (var see in SElist)
-			{
-				var se=see.Value;
-				se.m_icon = odinicon;
-				se.m_name = "$odinse_troll";
-				se.m_tooltip = "$odinse_troll_tooltip";
-				se.m_cooldownIcon = true;
-				se.m_ttl = 30;
-				//id.m_shared.m_consumeStatusEffect = se;
-			}
+			initTroll();
 		}
+		#region Buzz_SE
+		private static void initTroll()
+		{
+			var se = ScriptableObject.CreateInstance<SE_TrollHelper>();
+			se.m_icon = OdinPlus.TrollHeadIcon;
+			se.m_name = "$odin_se_troll";
+			se.m_tooltip = "$odin_se_troll_tooltip";
+			se.m_cooldownIcon = true;
+			se.m_ttl = 30;
+			SElist.Add("mead_troll", ScriptableObject.CreateInstance<SE_TrollHelper>());
+		}
+
+		#endregion
 		public static void Register()
 		{
-            foreach(var se in SElist.Values){
-                ObjectDB.instance.m_StatusEffects.Add(se);
-            }
+			foreach (var se in SElist.Values)
+			{
+				ObjectDB.instance.m_StatusEffects.Add(se);
+			}
 		}
 	}
 }

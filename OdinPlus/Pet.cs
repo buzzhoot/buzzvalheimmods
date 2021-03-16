@@ -25,7 +25,7 @@ namespace OdinPlus
 		{
 			zns = instance;
 			PrefabsParent = new GameObject("PetPrefab");
-			PrefabsParent.transform.SetParent(Plugin.PrefabParent.transform);
+			PrefabsParent.transform.SetParent(OdinPlus.PrefabParent.transform);
 			string[] l = Plugin.CFG_Pets.Value.Split(new char[] { ',' });
 			foreach (string name in l)
 			{

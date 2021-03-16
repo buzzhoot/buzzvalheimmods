@@ -37,7 +37,7 @@ namespace OdinPlus
 
 			//notice:: init here
 			OdinPlusRoot = new GameObject("OdinPlus");
-			OdinPlus.Root.AddComponent<OdinPlus>();
+			OdinPlusRoot.AddComponent<OdinPlus>();
 			DontDestroyOnLoad(OdinPlusRoot);
 			OdinScore.init();
 

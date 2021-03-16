@@ -9,35 +9,36 @@ namespace OdinPlus
 {
 	class OdinMeads : MonoBehaviour
 	{
-		//private static ZNetScene zns;
 		//private static Dictionary<string, GameObject> MeadList = new Dictionary<string, GameObject>()
 		private static GameObject MeadTasty;
 		public static List<GameObject> MeadList = new List<GameObject>();
-		public static List<string> MeadNameList = new List<string>();
-
+		public static List<string> MeadNameList = new List<string> { "mead_troll" };
+		public static Dictionary<string, Sprite> PetMeadList = new Dictionary<string, Sprite> { 
+			{ "mead_troll", OdinPlus.TrollHeadIcon } 
+			};
 		private static GameObject PrefabsParent;
 		public static void init()
 		{
 			PrefabsParent = new GameObject("MeadPrefabs");
-			PrefabsParent.transform.SetParent(Plugin.PrefabParent.transform);
+			PrefabsParent.transform.SetParent(OdinPlus.PrefabParent.transform);
 			PrefabsParent.SetActive(false);
+			
 			var objectDB = ObjectDB.instance;
-			//zns = ZNetScene.instance;
 			MeadTasty = objectDB.GetItemPrefab("MeadTasty");
 
-			MeadNameList.Add("mead_troll");
-			foreach (var m in MeadNameList)
+			foreach (var pet in PetMeadList)
 			{
-				CreateMeadPrefab(m);
+				CreatePetMeadPrefab(pet.Key,pet.Value);
 			}
 		}
-		public static void CreateMeadPrefab(string name)
+		public static void CreatePetMeadPrefab(string name,Sprite icon)
 		{
 			GameObject go = Instantiate(MeadTasty, PrefabsParent.transform);
 			go.name = name;
 			var id = go.GetComponent<ItemDrop>().m_itemData.m_shared;
-			id.m_name = "$odin" + name + "_name";
-			id.m_description = "$odin" + name + "_desc";
+			id.m_name = "$odin_" + name + "_name";
+			id.m_icons[0]=icon;
+			id.m_description = "$odin_" + name + "_desc";
 			id.m_consumeStatusEffect = OdinSE.SElist[name];
 			MeadList.Add(go);
 		}
@@ -46,7 +47,9 @@ namespace OdinPlus
 			foreach (var go in MeadList)
 			{
 				zns.m_prefabs.Add(go);
+
 			}
+			DBG.blogWarning("Register Meads for ZNS");
 		}
 		public static void Register(ObjectDB odb)
 		{
@@ -56,6 +59,7 @@ namespace OdinPlus
 				m_itemByHash.Add(go.name.GetStableHashCode(), go);
 				odb.m_items.Add(go);
 			}
+			DBG.blogWarning("Register Meads for ODB");
 		}
 	}
 }

@@ -1,9 +1,14 @@
 
 //=================TODO=============
 //||X||polish helper cmd
-//|| ||Try use mono instead of normal class
-//|| ||new SE test
-//|| ||new Mead test
+//||X||Try use mono instead of normal class
+//||X||new SE test
+//||X||new Mead test
+//|| ||Find a better patch point for Regiser
+//!!
+//|| ||OdinStoreGui
+//|| ||Wolf container
+//|| ||More Meads
 //|| ||mech try?
 //|| ||Task system
 //|| ||no mobs area FX on odin,and animator

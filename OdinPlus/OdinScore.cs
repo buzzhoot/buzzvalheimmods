@@ -9,7 +9,7 @@ namespace OdinPlus
     class OdinScore
     {
         public static int score;
-        public static Dictionary<string, string> ItemSellValue = new Dictionary<string, string>();
+        public static Dictionary<string, int> ItemSellValue = new Dictionary<string, int>();
         public static void init()
 		{
 			if (Plugin.CFG_ItemSellValue.Value == "") { return; }
@@ -19,7 +19,7 @@ namespace OdinPlus
 				string[] c = l1[i].Split(new char[] { ':' });
 				try
 				{
-					ItemSellValue.Add(c[0], c[1]);
+					ItemSellValue.Add(c[0], int.Parse(c[1]));
 				}
 				catch (Exception e)
 				{
