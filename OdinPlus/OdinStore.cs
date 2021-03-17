@@ -23,7 +23,7 @@ namespace OdinPlus
 		#region Valheim
 		public string GetHoverText()
 		{
-			string n = string.Format("\n<color=green><b>Score:{0}</b></color>", TraderName);
+			string n = string.Format("\n<color=blue><b>{0}</b></color>", TraderName);
 			string u = "\n[<color=yellow><b>$KEY_Use</b></color>] $odin_buy";
 			return Localization.instance.Localize(n + u);
 		}

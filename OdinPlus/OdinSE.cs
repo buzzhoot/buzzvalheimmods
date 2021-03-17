@@ -24,7 +24,7 @@ namespace OdinPlus
 			se.m_tooltip = "$odin_se_troll_tooltip";
 			se.m_cooldownIcon = true;
 			se.m_ttl = 30;
-			SElist.Add("mead_troll", ScriptableObject.CreateInstance<SE_TrollHelper>());
+			SElist.Add("mead_troll",se);
 		}
 
 		#endregion
@@ -34,6 +34,7 @@ namespace OdinPlus
 			{
 				ObjectDB.instance.m_StatusEffects.Add(se);
 			}
+			DBG.blogWarning("Register SE");
 		}
 	}
 }

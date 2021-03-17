@@ -5,20 +5,21 @@ using BepInEx.Configuration;
 using HarmonyLib;
 using BepInEx.Logging;
 using UnityEngine;
-//|| ||may be setup NPC somewhere else
+//||X||may be setup NPC somewhere else 
+//? Up Up UP
 namespace OdinPlus
 {
 
 	public class OdinPlus : MonoBehaviour
 	{
-		#region Obejects
+		#region Obejects var
 		public static GameObject Root;
 		public static GameObject OdinPrefab;
 		public static GameObject OdinNPCParent;
 		public static OdinTrader m_odinTrader;
 		public static GameObject PrefabParent;
 		#endregion
-		#region assets
+		#region assets var
 		public static Sprite OdinHelmetIcon;
 		public static Sprite TrollHeadIcon;
 
@@ -32,11 +33,6 @@ namespace OdinPlus
 			OdinNPCParent = new GameObject("OdinNPCs");
 			OdinNPCParent.SetActive(false);
 			OdinNPCParent.transform.SetParent(Root.transform);
-		}
-		public static void initAssets()
-		{
-			OdinHelmetIcon = ObjectDB.instance.GetItemPrefab("HelmetOdin").GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0];
-			TrollHeadIcon = ObjectDB.instance.GetItemPrefab("TrophyForestTroll").GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0];
 		}
 
 		#region Tool
@@ -57,6 +53,17 @@ namespace OdinPlus
 					Destroy(Plugin.OdinPlusRoot);
 				}
 			}
+		}
+		public static void initAssets()//!Peformance
+		{
+/* 			var splist = Resources.FindObjectsOfTypeAll<Sprite>();
+			foreach (var sp in splist)
+			{
+				if (sp.name == "TrophyForestTroll")	{TrollHeadIcon = sp;}
+				if (sp.name == "HelmetOdin") { OdinHelmetIcon = sp; }
+			} */
+			OdinHelmetIcon = ObjectDB.instance.GetItemPrefab("HelmetOdin").GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0];
+			TrollHeadIcon = ObjectDB.instance.GetItemPrefab("TrophyFrostTroll").GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0];
 		}
 
 		#endregion
@@ -88,8 +95,8 @@ namespace OdinPlus
 			caul.transform.Find("HaveFire").gameObject.SetActive(true);
 			m_odinTrader = odin.AddComponent<OdinTrader>();
 
-			var caulStore=caul.AddComponent<OdinStore>();
-			caulStore.TraderName="$odin_pot_name";
+			var caulStore = caul.AddComponent<OdinStore>();
+			caulStore.TraderName = "$odin_pot_name";
 
 			OdinPrefab = odin;
 			OdinNPCParent.SetActive(true);

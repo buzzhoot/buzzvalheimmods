@@ -13,9 +13,7 @@ namespace OdinPlus
 		private static GameObject MeadTasty;
 		public static List<GameObject> MeadList = new List<GameObject>();
 		public static List<string> MeadNameList = new List<string> { "mead_troll" };
-		public static Dictionary<string, Sprite> PetMeadList = new Dictionary<string, Sprite> { 
-			{ "mead_troll", OdinPlus.TrollHeadIcon } 
-			};
+		public static Dictionary<string, Sprite> PetMeadList = new Dictionary<string, Sprite>();
 		private static GameObject PrefabsParent;
 		public static void init()
 		{
@@ -25,6 +23,7 @@ namespace OdinPlus
 			
 			var objectDB = ObjectDB.instance;
 			MeadTasty = objectDB.GetItemPrefab("MeadTasty");
+			PetMeadList.Add("mead_troll",OdinPlus.TrollHeadIcon);
 
 			foreach (var pet in PetMeadList)
 			{

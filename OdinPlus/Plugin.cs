@@ -23,7 +23,6 @@ namespace OdinPlus
 		public static ConfigEntry<string> CFG_ItemSellValue;
 		public static ConfigEntry<string> CFG_Pets;
 		#endregion
-
 		public static GameObject OdinPlusRoot;
 		private void Awake()
 		{
@@ -46,7 +45,7 @@ namespace OdinPlus
 		}
 
 		#region patch		
-		#region Player and Console
+		#region Player and Console and Fejd
 		[HarmonyPatch(typeof(Player), "Update")]
 		private static class Patch_Player_Update
 		{
@@ -58,7 +57,7 @@ namespace OdinPlus
 				}
 				if (KS_SecondInteractkey.Value.IsDown() && __instance.GetHoverObject() != null)
 				{
-					if (__instance.GetHoverName()=="odin")
+					if (__instance.GetHoverObject().transform.parent.GetComponent<OdinTrader>())
 					{
 						OdinPlus.m_odinTrader.SwitchSkill();
 						return;
@@ -96,7 +95,6 @@ namespace OdinPlus
 				OdinPlus.initAssets();
 				Pet.initIndicator();
 				OdinSE.init();
-				OdinSE.Register();
 				OdinMeads.init();
 			}
 		}
@@ -124,7 +122,7 @@ namespace OdinPlus
 			}
 		}
 
-		[HarmonyPatch(typeof(PlayerProfile), "LoadPlayerData")]//-----------init odin npc
+		[HarmonyPatch(typeof(PlayerProfile), "LoadPlayerData")]//! Change Patch Point
 		private static class Patch_PlayerProfile_LoadPlayerData
 		{
 			private static void Postfix(PlayerProfile __instance)
@@ -142,8 +140,15 @@ namespace OdinPlus
 		}
 
 		[HarmonyPatch(typeof(Raven), "Awake")]//----------Indicator
+		private static class Patch_Raven_Awake
+		{
+			private static void Postfix(Raven __instance)
+			{
+				Instantiate(__instance.m_exclamation, Vector3.zero, Quaternion.identity, Pet.Indicator.transform);
+			}
+		}		
 
-		[HarmonyPatch(typeof(Trader), "Start")]
+		[HarmonyPatch(typeof(Trader), "Start")]//add remove tthis
 		private static class Patch_Trader_Start
 		{
 			private static void Prefix(Trader __instance)
@@ -155,13 +160,6 @@ namespace OdinPlus
 					m_stack = 1,
 					m_price = 1
 				});
-			}
-		}
-		private static class Patch_Raven_Awake
-		{
-			private static void Postfix(Raven __instance)
-			{
-				Instantiate(__instance.m_exclamation, Vector3.zero, Quaternion.identity, Pet.Indicator.transform);
 			}
 		}
 		#endregion
@@ -204,7 +202,9 @@ namespace OdinPlus
 		private static class Patch_ObjectDB_Awake
 		{
 			private static void Postfix(ObjectDB __instance)
-			{
+			{				
+				//OdinPlus.initAssets();
+				OdinSE.Register();
 				OdinMeads.Register(__instance);
 			}
 		}
