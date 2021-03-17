@@ -39,8 +39,6 @@ namespace OdinPlus
 			OdinPlusRoot.AddComponent<OdinPlus>();
 			DontDestroyOnLoad(OdinPlusRoot);
 			OdinScore.init();
-
-
 			DBG.blogInfo("OdinPlus Loadded");
 		}
 
@@ -85,19 +83,24 @@ namespace OdinPlus
 				OdinPlus.ProcessCommands(global::Console.instance.m_input.text);
 			}
 		}
-		#endregion
-		#region Misc
 		[HarmonyPatch(typeof(FejdStartup), "Start")]
 		private static class FejdStartup_Start_Patch
 		{
 			private static void Postfix()
 			{
+				if (Pet.Indicator != null)
+				{
+					return;
+				}
 				OdinPlus.initAssets();
 				Pet.initIndicator();
 				OdinSE.init();
 				OdinMeads.init();
 			}
 		}
+		#endregion
+		#region Misc
+
 
 		[HarmonyPatch(typeof(Localization), "SetupLanguage")]
 		public static class MyLocalizationPatch
@@ -146,7 +149,7 @@ namespace OdinPlus
 			{
 				Instantiate(__instance.m_exclamation, Vector3.zero, Quaternion.identity, Pet.Indicator.transform);
 			}
-		}		
+		}
 
 		[HarmonyPatch(typeof(Trader), "Start")]//add remove tthis
 		private static class Patch_Trader_Start
@@ -202,7 +205,7 @@ namespace OdinPlus
 		private static class Patch_ObjectDB_Awake
 		{
 			private static void Postfix(ObjectDB __instance)
-			{				
+			{
 				//OdinPlus.initAssets();
 				OdinSE.Register();
 				OdinMeads.Register(__instance);

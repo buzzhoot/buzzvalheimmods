@@ -46,7 +46,7 @@ namespace OdinPlus
 				}
 				if (inCommand == "bzd")
 				{
-					DBG.blogWarning("SEX");
+					//!init here
 				}
 				if (inCommand == "test")
 				{
@@ -56,12 +56,12 @@ namespace OdinPlus
 		}
 		public static void initAssets()//!Peformance
 		{
-/* 			var splist = Resources.FindObjectsOfTypeAll<Sprite>();
-			foreach (var sp in splist)
-			{
-				if (sp.name == "TrophyForestTroll")	{TrollHeadIcon = sp;}
-				if (sp.name == "HelmetOdin") { OdinHelmetIcon = sp; }
-			} */
+			/* 			var splist = Resources.FindObjectsOfTypeAll<Sprite>();
+						foreach (var sp in splist)
+						{
+							if (sp.name == "TrophyForestTroll")	{TrollHeadIcon = sp;}
+							if (sp.name == "HelmetOdin") { OdinHelmetIcon = sp; }
+						} */
 			OdinHelmetIcon = ObjectDB.instance.GetItemPrefab("HelmetOdin").GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0];
 			TrollHeadIcon = ObjectDB.instance.GetItemPrefab("TrophyFrostTroll").GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0];
 		}
@@ -94,9 +94,18 @@ namespace OdinPlus
 			fire.transform.Find("_enabled_high").gameObject.SetActive(true);
 			caul.transform.Find("HaveFire").gameObject.SetActive(true);
 			m_odinTrader = odin.AddComponent<OdinTrader>();
-
+			//?init pot
 			var caulStore = caul.AddComponent<OdinStore>();
-			caulStore.TraderName = "$odin_pot_name";
+			caulStore.m_name = "$odin_pot_name";
+			caulStore.m_talkername="$odin";
+			caulStore.m_talker=odin;
+			var tm = OdinMeads.MeadList[0].GetComponent<ItemDrop>();
+			caulStore.m_items.Add(new Trader.TradeItem
+			{
+				m_prefab = tm,
+				m_stack = 1,
+				m_price = 1
+			});
 
 			OdinPrefab = odin;
 			OdinNPCParent.SetActive(true);
