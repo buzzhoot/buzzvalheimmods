@@ -78,7 +78,11 @@ namespace OdinPlus
 		{
 			private static void Postfix(StoreGui __instance, ref int __result)
 			{
-				string name = Traverse.Create(__instance).Field<Trader>("m_trader").Value.m_name;
+				var t =Traverse.Create(__instance).Field<Trader>("m_trader").Value;
+				if (t==null){
+					return;
+				}
+				string name = t.m_name;
 				if (OdinPlus.traderNameList.Contains(name))
 				{
 					__result = OdinScore.score;
@@ -163,7 +167,7 @@ namespace OdinPlus
 		{
 			private static void Postfix()
 			{
-				if (Pet.Indicator != null)
+				if (OdinPlus.isInit)
 				{
 					return;
 				}
@@ -220,23 +224,10 @@ namespace OdinPlus
 			private static void Postfix(Raven __instance)
 			{
 				Instantiate(__instance.m_exclamation, Vector3.zero, Quaternion.identity, Pet.Indicator.transform);
+				DBG.blogWarning("Rave has awaken");
 			}
 		}
-
-		[HarmonyPatch(typeof(Trader), "Start")]//add remove tthis
-		private static class Patch_Trader_Start
-		{
-			private static void Prefix(Trader __instance)
-			{
-				var c = OdinMeads.MeadList[0].GetComponent<ItemDrop>();
-				__instance.m_items.Add(new Trader.TradeItem
-				{
-					m_prefab = c,
-					m_stack = 1,
-					m_price = 1
-				});
-			}
-		}
+		
 		#endregion
 		#region ZnetScene
 		[HarmonyPatch(typeof(ZNetScene), "Awake")]

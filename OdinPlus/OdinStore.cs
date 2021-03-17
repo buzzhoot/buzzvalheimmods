@@ -62,10 +62,10 @@ namespace OdinPlus
 		public static void TweakGui(StoreGui __instance, bool set)
 		{
 			var go = __instance.gameObject;
-			var sell = go.transform.Find("SellPanel");
-			var icon = go.transform.Find("coin icon").GetComponent<Image>();
+			var sell = __instance.m_sellButton.transform.parent.gameObject;
+			var icon = __instance.m_coinText.transform.parent.GetChild(0).GetComponent<Image>();
 			sell.gameObject.SetActive(!set);
-			icon.sprite=!set?OdinPlus.CoinsIcon:OdinPlus.OdinCreditIcon;
+			icon.sprite = !set ? OdinPlus.CoinsIcon : OdinPlus.OdinCreditIcon;
 		}
 
 		#endregion
