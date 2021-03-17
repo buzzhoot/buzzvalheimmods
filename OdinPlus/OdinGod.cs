@@ -6,10 +6,10 @@ using System.Reflection;
 //||X||Sell Value Don't Resolve Here!!!
 namespace OdinPlus
 {
-	public class OdinTrader : MonoBehaviour, Hoverable, Interactable
+	public class OdinGod : MonoBehaviour, Hoverable, Interactable
 	{
 		#region Var
-		public static OdinTrader m_instance;
+		public static OdinGod m_instance;
 		private List<string> slist = new List<string>();
 		private List<Skills.SkillType> stlist = new List<Skills.SkillType>();
 		private string cskill;

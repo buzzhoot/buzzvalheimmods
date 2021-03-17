@@ -29,7 +29,7 @@ namespace OdinPlus
 		public static GameObject Root;
 		public static GameObject OdinPrefab;
 		public static GameObject OdinNPCParent;
-		public static OdinTrader m_odinTrader;
+		public static OdinGod m_OdinGod;
 		public static GameObject PrefabParent;
 		#endregion
 		#region assets var

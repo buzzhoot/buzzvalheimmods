@@ -135,7 +135,7 @@ namespace OdinPlus
 				}
 				if (KS_SecondInteractkey.Value.IsDown() && __instance.GetHoverObject() != null)
 				{
-					if (__instance.GetHoverObject().transform.parent.GetComponent<OdinTrader>())
+					if (__instance.GetHoverObject().transform.parent.GetComponent<OdinGod>())
 					{
 						NpcManager.m_odinGod.SwitchSkill();
 						return;

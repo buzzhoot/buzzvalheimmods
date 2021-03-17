@@ -91,7 +91,7 @@
     <Compile Include="PetHelper.cs" />
     <Compile Include="SE_TrollHelper.cs" />
     <Compile Include="Terrain.cs" />
-    <Compile Include="OdinTrader.cs" />
+    <Compile Include="OdinGod.cs" />
     <Compile Include="DBG.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
