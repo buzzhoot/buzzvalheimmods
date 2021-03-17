@@ -28,13 +28,14 @@ namespace OdinPlus
 			var podin = ZNetScene.instance.GetPrefab("odin");
 			var pfire = ZNetScene.instance.GetPrefab("fire_pit");
 			var pcaul = ZNetScene.instance.GetPrefab("piece_cauldron");
-			var odin = CopyChildren(podin);
-			odin.transform.SetParent(Root.transform);
-			var c = new GameObject("coll");
-			c.AddComponent<CapsuleCollider>();
-			c.transform.SetParent(odin.transform);
-			c.transform.localScale = new Vector3(1, 2, 1);
-			c.transform.localPosition = Vector3.up;
+
+			var odin = Instantiate(podin,Root.transform);
+			DestroyImmediate(odin.GetComponent<ZNetView>());
+			DestroyImmediate(odin.GetComponent<ZSyncTransform>());
+			DestroyImmediate(odin.GetComponent<Odin>());
+			DestroyImmediate(odin.GetComponent<Rigidbody>());
+			m_odinGod = odin.AddComponent<OdinGod>();
+
 			var fire = CopyChildren(pfire);
 			var caul = CopyChildren(pcaul);
 			fire.transform.SetParent(Root.transform);
@@ -43,12 +44,12 @@ namespace OdinPlus
 
 			odin.transform.localPosition = new Vector3(0f, 0, 0f);
 			fire.transform.localPosition = new Vector3(1.5f, 0, -0.5f);
-			caul.transform.localPosition = new Vector3(1.5f, 0, -0.5f);
+			caul.transform.localPosition = new Vector3(1.5f, 0, -0.5f);			
 
 			Destroy(fire.transform.Find("PlayerBase").gameObject);
 			fire.transform.Find("_enabled_high").gameObject.SetActive(true);
 			caul.transform.Find("HaveFire").gameObject.SetActive(true);
-			m_odinGod = odin.AddComponent<OdinGod>();
+			
 			//?init pot
 			m_odinPot = caul.AddComponent<OdinTrader>();
 			m_odinPot.m_name = "$odin_pot_name";

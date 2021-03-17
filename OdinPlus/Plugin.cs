@@ -215,7 +215,7 @@ namespace OdinPlus
 			}
 		}
 
-		[HarmonyPatch(typeof(Raven), "Awake")]//?Indicator And NPC
+		[HarmonyPatch(typeof(Raven), "Awake")]//--Indicator
 		private static class Patch_Raven_Awake
 		{
 			private static void Postfix(Raven __instance)
@@ -257,6 +257,16 @@ namespace OdinPlus
 			}
 		}
 		#endregion
+		#region ZoneSystem
+			[HarmonyPatch(typeof(ZoneSystem), "Awake")]
+			private static class Postfix_ZoneSystem_Awake
+			{
+			private static void Postfix()
+			{
+			
+			}
+			}
+		#endregion ZoneSystem
 		#region ODB
 		[HarmonyPatch(typeof(ObjectDB), "Awake")]
 		private static class Patch_ObjectDB_Awake

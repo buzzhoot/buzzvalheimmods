@@ -44,11 +44,11 @@ namespace OdinPlus
 		#region Mono
 		private void Awake()
 		{
+			m_instance = this;
 			Root = this.gameObject;
 			PrefabParent = new GameObject("OdinPlusPrefabs");
 			PrefabParent.SetActive(false);
-			PrefabParent.transform.SetParent(Root.transform);
-			m_instance = this;
+			PrefabParent.transform.SetParent(Root.transform);			
 		}
 		#endregion Mono
 
@@ -56,9 +56,9 @@ namespace OdinPlus
 		public static void Init()
 		{
 			initAssets();
-			m_instance.gameObject.AddComponent<OdinSE>();
-			m_instance.gameObject.AddComponent<OdinMeads>();
-			m_instance.gameObject.AddComponent<Pet>();
+			Root.AddComponent<OdinSE>();
+			Root.AddComponent<OdinMeads>();
+			Root.AddComponent<Pet>();
 			isInit = true;
 		}
 		public static void PostODB()
@@ -79,13 +79,13 @@ namespace OdinPlus
 		}
 		public static void InitNPC()
 		{
-			m_instance.gameObject.AddComponent<NpcManager>();
+			Root.AddComponent<NpcManager>();
 			isNPCInit=true;
 		}
 		public static void Clear()
 		{
 			Pet.Clear();
-			Destroy(m_instance.gameObject.GetComponent<NpcManager>());
+			Destroy(Root.GetComponent<NpcManager>());
 			isNPCInit=false;
 		}
 		#endregion Patch
@@ -152,13 +152,13 @@ namespace OdinPlus
 			}
 			DBG.blogInfo("Register zns");
 		}
-		public static void OdinPreRegister(Dictionary<string, GameObject> list)
+		public static void OdinPreRegister(Dictionary<string, GameObject> list,string name)
 		{
 			foreach (var item in list)
 			{
 				odbRegList.Add(item.Key.GetStableHashCode(), item.Value);
 			}
-			DBG.blogWarning("Register " + nameof(list) + " for ODB");
+			DBG.blogWarning("Register " + name + " for ODB");
 		}
 		public static void OdinPostRegister(Dictionary<string, GameObject> list)
 		{
@@ -185,10 +185,13 @@ namespace OdinPlus
 		}
 		#endregion Feature
 		#region Debug
-
 		public static void Reset()
-		{
-			Init();
+		{			
+			initAssets();
+			Plugin.OdinPlusRoot.AddComponent<OdinSE>();
+			Plugin.OdinPlusRoot.AddComponent<OdinMeads>();
+			Plugin.OdinPlusRoot.AddComponent<Pet>();
+			isInit = true;
 			PostODB();
 			var m_namedPrefabs = Traverse.Create(ZNetScene.instance).Field<Dictionary<int, GameObject>>("m_namedPrefabs").Value;
 			foreach (var item in odbRegList)
@@ -196,7 +199,6 @@ namespace OdinPlus
 				ZNetScene.instance.m_prefabs.Add(item.Value);
 				m_namedPrefabs.Add(item.Key, item.Value);
 			}
-
 			PostZNS();
 			InitNPC();
 

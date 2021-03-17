@@ -22,7 +22,14 @@ namespace OdinPlus
 			var a = UnityEngine.Random.Range(10, 10);
 			var b = UnityEngine.Random.Range(10, 10);
 			var c = ZoneSystem.instance.GetGroundHeight(new Vector3(a, 500, b));
-			return new Vector3(a, c, b);
+			ZoneSystem.LocationInstance locationInstance;
+			if (ZoneSystem.instance.FindClosestLocation("StartTemple", Vector3.zero, out locationInstance))
+			{
+				var p = locationInstance.m_position + new Vector3(-6, 0.2f, -8);
+				return p;
+			}
+			DBG.blogWarning("Cant Find a point to Spawn Odin use /odin respawn");//notice
+			return new Vector3(a,c,b);
 		}
 		private string randomName()
 		{
@@ -37,7 +44,7 @@ namespace OdinPlus
 		}
 		public void RestTerrian()
 		{
-			//Terrain.ResetTerrain(this.transform.position, 10);
+			Terrain.ResetTerrain(this.transform.position, 10);
 		}
 		#endregion
 		#region Mono
@@ -64,7 +71,7 @@ namespace OdinPlus
 		public bool Summon()
 		{
 			this.transform.parent.localPosition = FindSpawnPoint();
-			//Terrain.Flatten(3.5f, 3.5f, this.transform);
+			Terrain.Flatten(3.5f, 3.5f, this.transform);
 			Terrain.RemoveFlora(4f, this.transform.position);
 			ReadSkill();
 			return true;
@@ -107,7 +114,7 @@ namespace OdinPlus
 			int value = 1;
 			if (!OdinScore.ItemSellValue.ContainsKey(name))
 			{
-                Say("I need Something useful...like " + randomName());
+				Say("I need Something useful...like " + randomName());
 				return false;
 			}
 			value = OdinScore.ItemSellValue[name];

@@ -30,7 +30,7 @@ namespace OdinPlus
 			{
 				CreatePetMeadPrefab(pet.Key, pet.Value);
 			}
-			OdinPlus.OdinPreRegister(MeadPrefabs);
+			OdinPlus.OdinPreRegister(MeadPrefabs,nameof(MeadPrefabs));
 		}
 		public static void CreatePetMeadPrefab(string name, Sprite icon)
 		{
