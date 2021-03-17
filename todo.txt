@@ -9,6 +9,8 @@
 //|| ||OdinStoreGui//!
 //|| ||Reorg the Mead and Pet Structure
 //|| ||Add OdinItem 
+//|| ||Add OdinNPC BaseClass; OdinGod:OdinNPC
+//|| ||Change OdinStore To OdinTrader;
 //|| ||Find a better patch point for Odin to spawn,//!
 //|| ||Maybe check out the load and also patch the load quit withou saving for admin tool//?
 //|| ||RuneStone for spawning?
