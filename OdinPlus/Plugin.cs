@@ -43,6 +43,79 @@ namespace OdinPlus
 		}
 
 		#region patch		
+		#region StoreGui
+		[HarmonyPatch(typeof(StoreGui), "Show")]
+		private static class Prefix_StoreGui_Show
+		{
+			private static void Postfix(StoreGui __instance, Trader trader)
+			{
+				if (OdinPlus.traderNameList.Contains(trader.m_name))
+				{
+					DBG.blogWarning("This is Odin Trader");
+					OdinStore.TweakGui(__instance, true);
+					return;
+				}
+				return;
+			}
+		}
+		[HarmonyPatch(typeof(StoreGui), "Hide")]
+		private static class Prefix_StoreGui_Hide
+		{
+			private static void Prefix(StoreGui __instance)
+			{
+				var trader = Traverse.Create(__instance).Field<Trader>("m_trader").Value;
+				if (OdinPlus.traderNameList.Contains(trader.m_name))
+				{
+					DBG.blogWarning("This is Odin Trader");
+					OdinStore.TweakGui(__instance, false);
+					return;
+				}
+				return;
+			}
+		}
+		[HarmonyPatch(typeof(StoreGui), "GetPlayerCoins")]
+		private static class Postfix_StoreGui_GetPlayerCoins
+		{
+			private static void Postfix(StoreGui __instance, ref int __result)
+			{
+				string name = Traverse.Create(__instance).Field<Trader>("m_trader").Value.m_name;
+				if (OdinPlus.traderNameList.Contains(name))
+				{
+					__result = OdinScore.score;
+					return;
+				}
+			}
+		}
+		[HarmonyPatch(typeof(StoreGui), "BuySelectedItem")]
+		private static class Prefix_StoreGui_BuySelectedItem
+		{
+			private static bool Prefix(StoreGui __instance)
+			{
+				string name = Traverse.Create(__instance).Field<Trader>("m_trader").Value.m_name;
+				if (OdinPlus.traderNameList.Contains(name))
+				{
+					if (__instance.m_selectedItem == null || !__instance.CanAfford(__instance.m_selectedItem))
+					{
+						return false;
+					}
+					int stack = Mathf.Min(__instance.m_selectedItem.m_stack, __instance.m_selectedItem.m_prefab.m_itemData.m_shared.m_maxStackSize);
+					int quality = __instance.m_selectedItem.m_prefab.m_itemData.m_quality;
+					int variant = __instance.m_selectedItem.m_prefab.m_itemData.m_variant;
+					if (Player.m_localPlayer.GetInventory().AddItem(__instance.m_selectedItem.m_prefab.name, stack, quality, variant, 0L, "") != null)
+					{
+						OdinScore.remove(__instance.m_selectedItem.m_price * stack);//?
+						__instance.m_buyEffects.Create(__instance.gameObject.transform.position, Quaternion.identity, null, 1f);
+						Player.m_localPlayer.ShowPickupMessage(__instance.m_selectedItem.m_prefab.m_itemData, __instance.m_selectedItem.m_prefab.m_itemData.m_stack);
+						__instance.FillList();
+						Gogan.LogEvent("Game", "BoughtItem", __instance.m_selectedItem.m_prefab.name, 0L);
+					}
+					return false;
+				}
+				return true;
+			}
+		}
+
+		#endregion
 		#region Player and Console and Fejd
 		[HarmonyPatch(typeof(Player), "Update")]
 		private static class Patch_Player_Update
@@ -65,10 +138,12 @@ namespace OdinPlus
 				#region debug
 				if (KS_debug.Value.IsUp())
 				{
+					OdinPlus.DebugInit();
+					OdinPlus.DebugRegister();
 				}
 				if (Input.GetKeyDown(KeyCode.F4))
 				{
-					Pet.SummonHelper("Troll");
+					Destroy(OdinPlusRoot);
 
 				}
 				#endregion
@@ -92,10 +167,7 @@ namespace OdinPlus
 				{
 					return;
 				}
-				OdinPlus.initAssets();
-				Pet.initIndicator();
-				OdinSE.init();
-				OdinMeads.init();
+				OdinPlus.Init();
 			}
 		}
 		#endregion
@@ -172,7 +244,8 @@ namespace OdinPlus
 		{
 			private static void Prefix(ZNetScene __instance)
 			{
-				OdinMeads.Register(__instance);
+				//add
+				OdinPlus.Regsiter(__instance);
 			}
 		}
 		[HarmonyPatch(typeof(ZNetScene), "Awake")]
@@ -181,7 +254,7 @@ namespace OdinPlus
 			private static void Postfix(ZNetScene __instance)
 			{
 				Pet.init(__instance);
-				Pet.Register();
+				OdinPlus.PostRegister();
 			}
 		}
 		[HarmonyPatch(typeof(ZNetScene), "Shutdown")]
@@ -206,9 +279,7 @@ namespace OdinPlus
 		{
 			private static void Postfix(ObjectDB __instance)
 			{
-				//OdinPlus.initAssets();
-				OdinSE.Register();
-				OdinMeads.Register(__instance);
+				OdinPlus.Regsiter(__instance);
 			}
 		}
 		#endregion

@@ -15,9 +15,9 @@ namespace OdinPlus
 		#region Mono
 		private void Awake()
 		{
-			var td=ZNetScene.instance.GetPrefab("Haldor").GetComponent<Trader>();
-			m_talker=this.gameObject;
-			m_randomStartTradeFX=td.m_randomStartTradeFX;
+			var td = ZNetScene.instance.GetPrefab("Haldor").GetComponent<Trader>();
+			m_talker = this.gameObject;
+			m_randomStartTradeFX = td.m_randomStartTradeFX;
 		}
 		private new void Start() { }
 		private new void Update() { }
@@ -59,14 +59,22 @@ namespace OdinPlus
 		{
 			Chat.instance.SetNpcText(m_talker, Vector3.up * 1.5f, 60f, 5, m_talkername, text, false);
 		}
+		public static void TweakGui(StoreGui __instance, bool set)
+		{
+			var go = __instance.gameObject;
+			var sell = go.transform.Find("SellPanel");
+			var icon = go.transform.Find("coin icon").GetComponent<Image>();
+			sell.gameObject.SetActive(!set);
+			icon.sprite=!set?OdinPlus.CoinsIcon:OdinPlus.OdinCreditIcon;
+		}
 
 		#endregion
 		#region Override
-		private new void Say(List<string> texts, string trigger) {return; }
-		private new void Say(string text, string trigger) {return; }
-		private new void RandomTalk() {return;}
-		private new void OnBought(TradeItem item) {return; }
-		private new void OnSold() {return; }
+		private new void Say(List<string> texts, string trigger) { return; }
+		private new void Say(string text, string trigger) { return; }
+		private new void RandomTalk() { return; }
+		private new void OnBought(TradeItem item) { return; }
+		private new void OnSold() { return; }
 		#endregion
 	}
 }

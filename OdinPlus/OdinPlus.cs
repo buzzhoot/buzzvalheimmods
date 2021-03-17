@@ -12,7 +12,10 @@ namespace OdinPlus
 
 	public class OdinPlus : MonoBehaviour
 	{
-		#region Obejects var
+		#region List
+		public static List<string> traderNameList = new List<string>();
+		#endregion
+		#region Ojects var
 		public static GameObject Root;
 		public static GameObject OdinPrefab;
 		public static GameObject OdinNPCParent;
@@ -20,8 +23,10 @@ namespace OdinPlus
 		public static GameObject PrefabParent;
 		#endregion
 		#region assets var
-		public static Sprite OdinHelmetIcon;
+		public static Sprite OdinCreditIcon;
+		public static Sprite[] OdinMeadsIcon;
 		public static Sprite TrollHeadIcon;
+		public static Sprite CoinsIcon;
 
 		#endregion
 		private void Awake()
@@ -54,6 +59,9 @@ namespace OdinPlus
 				}
 			}
 		}
+
+		#endregion
+		#region Feature
 		public static void initAssets()//!Peformance
 		{
 			/* 			var splist = Resources.FindObjectsOfTypeAll<Sprite>();
@@ -62,12 +70,52 @@ namespace OdinPlus
 							if (sp.name == "TrophyForestTroll")	{TrollHeadIcon = sp;}
 							if (sp.name == "HelmetOdin") { OdinHelmetIcon = sp; }
 						} */
-			OdinHelmetIcon = ObjectDB.instance.GetItemPrefab("HelmetOdin").GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0];
+			OdinCreditIcon = ObjectDB.instance.GetItemPrefab("HelmetOdin").GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0];
+			OdinMeadsIcon.AddItem(OdinCreditIcon);
 			TrollHeadIcon = ObjectDB.instance.GetItemPrefab("TrophyFrostTroll").GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0];
+			CoinsIcon = ObjectDB.instance.GetItemPrefab("Coins").GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0];
 		}
-
-		#endregion
-		#region Feature
+		public static void initPrefabs()
+		{
+			OdinPlus.initAssets();
+			Pet.initIndicator();
+			OdinSE.init();
+			OdinMeads.init();
+		}
+		public static void Regsiter(ZNetScene zns)
+		{
+			OdinMeads.Register(zns);
+		}
+		
+		public static void Regsiter(ObjectDB odb)
+		{
+			OdinSE.Register();
+			OdinMeads.Register(odb);
+		}
+		public static void PostRegister()
+		{
+			Pet.Register();
+		}
+		public static void DebugRegister()
+		{
+			OdinSE.init();
+			PostRegister();
+			OdinMeads.PostRegister();
+			Pet.Register();
+		}
+		public static void Init()
+		{
+			initAssets();
+			initPrefabs();
+			//initNPCs();
+		}
+		public static void DebugInit()
+		{
+			initAssets();
+			initPrefabs();
+			initNPCs();
+			Pet.init(ZNetScene.instance);
+		}
 		public static void initNPCs()
 		{
 			var podin = ZNetScene.instance.GetPrefab("odin");
@@ -97,8 +145,9 @@ namespace OdinPlus
 			//?init pot
 			var caulStore = caul.AddComponent<OdinStore>();
 			caulStore.m_name = "$odin_pot_name";
-			caulStore.m_talkername="$odin";
-			caulStore.m_talker=odin;
+			traderNameList.Add(caulStore.m_name);
+			caulStore.m_talkername = "$odin";
+			caulStore.m_talker = odin;
 			var tm = OdinMeads.MeadList[0].GetComponent<ItemDrop>();
 			caulStore.m_items.Add(new Trader.TradeItem
 			{

@@ -4,8 +4,8 @@
 //||X||Try use mono instead of normal class
 //||X||new SE test
 //||X||new Mead test
-//|| ||inherit public
-//? may juest patch the GUI BuySelectedItem
+//||x||inherit public
+//||X||//? may juest patch the GUI BuySelectedItem
 //|| ||Find a better patch point for Regiser//!
 //|| ||Maybe check out the load and also patch the load quit withou saving for admin tool//?
 //|| ||Check the tame it can change the hover text!//?
