@@ -10,7 +10,7 @@
 //|| ||Reorg the Mead and Pet Structure
 //|| ||Add OdinItem 
 //|| ||Add OdinNPC BaseClass; OdinGod:OdinNPC
-//|| ||Change OdinStore To OdinTrader;
+//||X||Change OdinStore To OdinTrader;
 //||X||Find a better patch point for Odin to spawn,//?
 //||X||Maybe check out the load and also patch the load quit withou saving for admin tool//?
 //||X||RuneStone for spawning?//? Now use ZoneSystem
@@ -22,7 +22,7 @@
 //|| ||DragonEggs
 //|| ||Teleportable Raven
 //|| ||Mountable Dragon
-//|| ||no mobs area FX on odin,and animator
+//|| ||no mobs area FX on odin,and animator,Terrain
 //|| ||Does SE last When you quit game//??
 //============== EndTODO=============
 
