@@ -6,7 +6,7 @@ using System.Reflection;
 //||X||Sell Value Don't Resolve Here!!!
 namespace OdinPlus
 {
-	public class OdinGod : MonoBehaviour, Hoverable, Interactable
+	public class OdinGod : OdinNPC, Hoverable, Interactable
 	{
 		#region Var
 		public static OdinGod m_instance;
@@ -14,7 +14,6 @@ namespace OdinPlus
 		private List<Skills.SkillType> stlist = new List<Skills.SkillType>();
 		private string cskill;
 		private int cskillIndex = 0;
-		private Transform m_head;
 		#endregion
 		#region util
 		private Vector3 FindSpawnPoint()
@@ -61,13 +60,10 @@ namespace OdinPlus
 			m_instance = this;
 			Summon();
 			m_head = this.gameObject.transform.Find("visual/Armature/Hips/Spine0/Spine1/Spine2/Head");
+			m_name="$odingod";
 		}
 		#endregion
 		#region Tool
-		public static void Say(string text)
-		{
-			Chat.instance.SetNpcText(m_instance.gameObject, Vector3.up * 1.5f, 60f, 5, "Odin", text, false);
-		}
 		public bool Summon()
 		{
 			this.transform.parent.localPosition = FindSpawnPoint();
@@ -78,7 +74,7 @@ namespace OdinPlus
 		}
 		#endregion
 		#region valheim
-		public bool Interact(Humanoid user, bool hold)
+		public override bool Interact(Humanoid user, bool hold)
 		{
 			if (hold)
 			{
@@ -95,7 +91,7 @@ namespace OdinPlus
 			Say("I made you stronger,warrior");
 			return true;
 		}
-		public string GetHoverText()
+		public override string GetHoverText()
 		{
 			string n = "<color=blue><b>ODIN</b></color>";
 			string s = string.Format("\n<color=green><b>Score:{0}</b></color>", OdinScore.score);
@@ -104,11 +100,7 @@ namespace OdinPlus
 			string c = "\n[<color=yellow><b>F</b></color>]Switch Skill";
 			return Localization.instance.Localize(n + s + a + b + c);
 		}
-		public string GetHoverName()
-		{
-			return "odin";
-		}
-		public bool UseItem(Humanoid user, ItemDrop.ItemData item)//trans
+		public override bool UseItem(Humanoid user, ItemDrop.ItemData item)//trans
 		{
 			var name = item.m_dropPrefab.name;
 			int value = 1;
