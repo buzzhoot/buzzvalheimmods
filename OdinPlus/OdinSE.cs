@@ -24,7 +24,7 @@ namespace OdinPlus
 			se.m_tooltip = "$odin_se_troll_tooltip";
 			se.m_cooldownIcon = true;
 			se.m_ttl = 300;
-			SElist.Add("mead_troll",se);
+			SElist.Add("scroll_troll",se);
 		}
 
 		#endregion

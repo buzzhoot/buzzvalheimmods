@@ -8,7 +8,7 @@
 //||X||may juest patch the GUI BuySelectedItem
 //||X||OdinStoreGui//
 //|| ||Reorg the Mead and Pet Structure
-//|| ||Add OdinItem 
+//||X||Add OdinItem 
 //||X||Add OdinNPC BaseClass; OdinGod:OdinNPC
 //||X||Change OdinStore To OdinTrader;
 //||X||Find a better patch point for Odin to spawn,//?
