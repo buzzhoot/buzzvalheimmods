@@ -11,7 +11,7 @@ namespace OdinPlus
 		public static Dictionary<string, StatusEffect> SElist = new Dictionary<string, StatusEffect>();
 		public static Dictionary<string, StatusEffect> BuzzList = new Dictionary<string, StatusEffect>();
 		public static Dictionary<string, StatusEffect> ValList = new Dictionary<string, StatusEffect>();
-		public static void init()
+		private void Awake()
 		{
 			initTroll();
 		}
@@ -23,7 +23,7 @@ namespace OdinPlus
 			se.m_name = "$odin_se_troll";
 			se.m_tooltip = "$odin_se_troll_tooltip";
 			se.m_cooldownIcon = true;
-			se.m_ttl = 30;
+			se.m_ttl = 300;
 			SElist.Add("mead_troll",se);
 		}
 
@@ -34,7 +34,7 @@ namespace OdinPlus
 			{
 				ObjectDB.instance.m_StatusEffects.Add(se);
 			}
-			DBG.blogWarning("Register SE");
+			DBG.blogInfo("Register SE");
 		}
 	}
 }

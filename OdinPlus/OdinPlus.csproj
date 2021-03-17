@@ -99,6 +99,8 @@
     <Compile Include="OdinSE.cs" />
     <Compile Include="OdinPlus.cs" />
     <Compile Include="TestClass.cs" />
+    <Compile Include="OdinNPC.cs" />
+    <Compile Include="NpcManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -21,7 +21,7 @@ namespace OdinPlus
 		{
 			var a = UnityEngine.Random.Range(10, 10);
 			var b = UnityEngine.Random.Range(10, 10);
-			var c = ZoneSystem.instance.GetGroundHeight(new Vector3(a, 100, b));
+			var c = ZoneSystem.instance.GetGroundHeight(new Vector3(a, 500, b));
 			return new Vector3(a, c, b);
 		}
 		private string randomName()
@@ -37,7 +37,7 @@ namespace OdinPlus
 		}
 		public void RestTerrian()
 		{
-			Terrain.ResetTerrain(this.transform.position, 10);
+			//Terrain.ResetTerrain(this.transform.position, 10);
 		}
 		#endregion
 		#region Mono
@@ -64,7 +64,7 @@ namespace OdinPlus
 		public bool Summon()
 		{
 			this.transform.parent.localPosition = FindSpawnPoint();
-			Terrain.Flatten(3.5f, 3.5f, this.transform);
+			//Terrain.Flatten(3.5f, 3.5f, this.transform);
 			Terrain.RemoveFlora(4f, this.transform.position);
 			ReadSkill();
 			return true;

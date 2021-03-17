@@ -14,9 +14,9 @@ namespace OdinPlus
 		public static List<GameObject> MeadList = new List<GameObject>();
 		public static List<string> MeadNameList = new List<string> { "mead_troll" };
 		public static Dictionary<string, Sprite> PetMeadList = new Dictionary<string, Sprite>();
-		public static Dictionary<string,GameObject> MeadPrefabs = new Dictionary<string, GameObject>();
+		public static Dictionary<string, GameObject> MeadPrefabs = new Dictionary<string, GameObject>();
 		private static GameObject PrefabsParent;
-		public static void init()
+		private void Awake()
 		{
 			PrefabsParent = new GameObject("MeadPrefabs");
 			PrefabsParent.transform.SetParent(OdinPlus.PrefabParent.transform);
@@ -30,6 +30,7 @@ namespace OdinPlus
 			{
 				CreatePetMeadPrefab(pet.Key, pet.Value);
 			}
+			OdinPlus.OdinPreRegister(MeadPrefabs);
 		}
 		public static void CreatePetMeadPrefab(string name, Sprite icon)
 		{
@@ -41,34 +42,7 @@ namespace OdinPlus
 			id.m_description = "$odin_" + name + "_desc";
 			id.m_consumeStatusEffect = OdinSE.SElist[name];
 			MeadList.Add(go);
-			MeadPrefabs.Add(name,go);
-		}
-		public static void Register(ZNetScene zns)
-		{
-			foreach (var go in MeadList)
-			{
-				zns.m_prefabs.Add(go);
-
-			}
-			DBG.blogWarning("Register Meads for ZNS");
-		}
-		public static void Register(ObjectDB odb)
-		{
-			var m_itemByHash = Traverse.Create(odb).Field<Dictionary<int, GameObject>>("m_itemByHash").Value;
-			foreach (var go in MeadList)
-			{
-				m_itemByHash.Add(go.name.GetStableHashCode(), go);
-				odb.m_items.Add(go);
-			}
-			DBG.blogWarning("Register Meads for ODB");
-		}
-		public static void PostRegister()
-		{
-			var fd = Traverse.Create(ZNetScene.instance).Field<Dictionary<int, GameObject>>("m_namedPrefabs");
-			foreach (var item in MeadPrefabs)
-			{
-				fd.Value.Add(item.Key.GetStableHashCode(), item.Value);
-			}
+			MeadPrefabs.Add(name, go);
 		}
 	}
 }

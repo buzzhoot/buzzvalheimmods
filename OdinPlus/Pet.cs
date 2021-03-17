@@ -15,15 +15,17 @@ namespace OdinPlus
 		private static Dictionary<string, GameObject> PetList = new Dictionary<string, GameObject>();
 		public static GameObject petIns;
 		public static GameObject Indicator;
-		public static Pet instance;
+		public static bool isInit=false;
+		//public static Pet instance;
 		#endregion
 		private void Awake()
 		{
-			instance = this;
+			initIndicator();
 		}
-		public static void init(ZNetScene instance)
+		public static void Init()
 		{
-			zns = instance;
+			
+			zns = ZNetScene.instance;
 			PrefabsParent = new GameObject("PetPrefab");
 			PrefabsParent.transform.SetParent(OdinPlus.PrefabParent.transform);
 			string[] l = Plugin.CFG_Pets.Value.Split(new char[] { ',' });
@@ -31,6 +33,8 @@ namespace OdinPlus
 			{
 				CreatePetPrefab(name);
 			}
+			OdinPlus.OdinPostRegister(PetList);
+			isInit=true;
 		}
 		private static void CreatePetPrefab(string name)
 		{
@@ -59,7 +63,7 @@ namespace OdinPlus
 			return;
 		}
 		#region Helper
-				public static void initIndicator()
+		public static void initIndicator()
 		{
 			Indicator = new GameObject("Indicator");
 			DontDestroyOnLoad(Indicator);
@@ -83,22 +87,9 @@ namespace OdinPlus
 			DBG.InfoCT("You summoned a " + name + "pet");//trans
 		}
 		#endregion
-		public static void Register()
-		{
-			var fd = Traverse.Create(zns).Field<Dictionary<int, GameObject>>("m_namedPrefabs");
-			foreach (var item in PetList)
-			{
-				fd.Value.Add(item.Key.GetStableHashCode(), item.Value);
-			}
-		}
 		public static void Clear()
 		{
-			foreach (var o in PetList)
-			{
-				GameObject.Destroy(o.Value);
-			}
 			petIns = null;
-			PetList.Clear();
 			DBG.blogInfo("PetList Clear");
 		}
 	}

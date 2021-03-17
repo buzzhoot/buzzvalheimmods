@@ -20,6 +20,7 @@ namespace OdinPlus
 		public static ManualLogSource logger;
 		public static ConfigEntry<KeyboardShortcut> KS_SecondInteractkey;
 		public static ConfigEntry<KeyboardShortcut> KS_debug;
+		public static ConfigEntry<KeyboardShortcut> KS_debug2;
 		public static ConfigEntry<string> CFG_ItemSellValue;
 		public static ConfigEntry<string> CFG_Pets;
 		#endregion
@@ -32,6 +33,7 @@ namespace OdinPlus
 			//Plugin.nexusID = base.Config.Bind<int>("General", "NexusID", 354, "Nexus mod ID for updates");
 			KS_SecondInteractkey = base.Config.Bind<KeyboardShortcut>("1Hotkeys", "Second Interact key", new KeyboardShortcut(KeyCode.F));
 			KS_debug = base.Config.Bind<KeyboardShortcut>("1Hotkeys", "debug key", new KeyboardShortcut(KeyCode.F3));
+			KS_debug2 = base.Config.Bind<KeyboardShortcut>("1Hotkeys", "debug key2", new KeyboardShortcut(KeyCode.F4));
 			Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), null);
 
 			//notice:: init here
@@ -98,20 +100,21 @@ namespace OdinPlus
 				string name = Traverse.Create(__instance).Field<Trader>("m_trader").Value.m_name;
 				if (OdinPlus.traderNameList.Contains(name))
 				{
-					if (__instance.m_selectedItem == null || !__instance.CanAfford(__instance.m_selectedItem))
+					var m_selectedItem=Traverse.Create(__instance).Field<Trader.TradeItem>("m_selectedItem").Value;
+					int stack = Mathf.Min(m_selectedItem.m_stack, m_selectedItem.m_prefab.m_itemData.m_shared.m_maxStackSize);
+					if (m_selectedItem == null || (m_selectedItem.m_price * stack-OdinScore.score>0))
 					{
 						return false;
 					}
-					int stack = Mathf.Min(__instance.m_selectedItem.m_stack, __instance.m_selectedItem.m_prefab.m_itemData.m_shared.m_maxStackSize);
-					int quality = __instance.m_selectedItem.m_prefab.m_itemData.m_quality;
-					int variant = __instance.m_selectedItem.m_prefab.m_itemData.m_variant;
-					if (Player.m_localPlayer.GetInventory().AddItem(__instance.m_selectedItem.m_prefab.name, stack, quality, variant, 0L, "") != null)
+					int quality = m_selectedItem.m_prefab.m_itemData.m_quality;
+					int variant = m_selectedItem.m_prefab.m_itemData.m_variant;
+					if (Player.m_localPlayer.GetInventory().AddItem(m_selectedItem.m_prefab.name, stack, quality, variant, 0L, "") != null)
 					{
-						OdinScore.remove(__instance.m_selectedItem.m_price * stack);//?
+						OdinScore.remove(m_selectedItem.m_price * stack);//?
 						__instance.m_buyEffects.Create(__instance.gameObject.transform.position, Quaternion.identity, null, 1f);
-						Player.m_localPlayer.ShowPickupMessage(__instance.m_selectedItem.m_prefab.m_itemData, __instance.m_selectedItem.m_prefab.m_itemData.m_stack);
-						__instance.FillList();
-						Gogan.LogEvent("Game", "BoughtItem", __instance.m_selectedItem.m_prefab.name, 0L);
+						Player.m_localPlayer.ShowPickupMessage(m_selectedItem.m_prefab.m_itemData, m_selectedItem.m_prefab.m_itemData.m_stack);
+						Traverse.Create(__instance).Method("FillList").GetValue();
+						Gogan.LogEvent("Game", "BoughtItem", m_selectedItem.m_prefab.name, 0L);
 					}
 					return false;
 				}
@@ -126,7 +129,7 @@ namespace OdinPlus
 		{
 			private static void Postfix(Player __instance)
 			{
-				if (CheckPlayerNull())//|| OdinPlus.m_odinTrader == null)
+				if (CheckPlayerNull())
 				{
 					return;
 				}
@@ -134,7 +137,7 @@ namespace OdinPlus
 				{
 					if (__instance.GetHoverObject().transform.parent.GetComponent<OdinTrader>())
 					{
-						OdinPlus.m_odinTrader.SwitchSkill();
+						NpcManager.m_odinGod.SwitchSkill();
 						return;
 					}
 
@@ -142,11 +145,11 @@ namespace OdinPlus
 				#region debug
 				if (KS_debug.Value.IsUp())
 				{
-					OdinPlus.DebugInit();
-					OdinPlus.DebugRegister();
+					OdinPlus.Reset();
 				}
-				if (Input.GetKeyDown(KeyCode.F4))
+				if (KS_debug2.Value.IsUp())
 				{
+					OdinPlus.UnRegister();
 					Destroy(OdinPlusRoot);
 
 				}
@@ -201,7 +204,7 @@ namespace OdinPlus
 			}
 		}
 
-		[HarmonyPatch(typeof(PlayerProfile), "LoadPlayerData")]//! Change Patch Point
+		[HarmonyPatch(typeof(PlayerProfile), "LoadPlayerData")]
 		private static class Patch_PlayerProfile_LoadPlayerData
 		{
 			private static void Postfix(PlayerProfile __instance)
@@ -209,21 +212,17 @@ namespace OdinPlus
 				//DBG.blogWarning("loading");
 				if (CheckPlayerNull()) { return; }
 				OdinScore.loadOdinData(Player.m_localPlayer.GetPlayerName());
-				if (OdinPlus.OdinNPCParent == null)
-				{
-					OdinPlus.OdinNPCParent = new GameObject("OdinPlus.OdinNPCParent");
-					OdinPlus.OdinNPCParent.transform.SetParent(OdinPlusRoot.transform);
-				}
-				OdinPlus.initNPCs();
 			}
 		}
 
-		[HarmonyPatch(typeof(Raven), "Awake")]//----------Indicator
+		[HarmonyPatch(typeof(Raven), "Awake")]//?Indicator And NPC
 		private static class Patch_Raven_Awake
 		{
 			private static void Postfix(Raven __instance)
 			{
+				if(OdinPlus.isNPCInit){return;}
 				Instantiate(__instance.m_exclamation, Vector3.zero, Quaternion.identity, Pet.Indicator.transform);
+				OdinPlus.InitNPC();
 				DBG.blogWarning("Rave has awaken");
 			}
 		}
@@ -235,8 +234,8 @@ namespace OdinPlus
 		{
 			private static void Prefix(ZNetScene __instance)
 			{
-				//add
-				OdinPlus.Regsiter(__instance);
+				OdinPlus.PreZNS(__instance);
+				
 			}
 		}
 		[HarmonyPatch(typeof(ZNetScene), "Awake")]
@@ -244,23 +243,17 @@ namespace OdinPlus
 		{
 			private static void Postfix(ZNetScene __instance)
 			{
-				Pet.init(__instance);
-				OdinPlus.PostRegister();
+				//Pet.init(__instance);
+				OdinPlus.PostZNS();
 			}
 		}
 		[HarmonyPatch(typeof(ZNetScene), "Shutdown")]
 		private static class ZNetScene_Shutdown_Patch
 		{
-			private static void Prefix()
+			private static void Postfix()
 			{
-				Pet.Clear();
-				if (!(OdinPlus.OdinNPCParent == null))
-				{
-					OdinPlus.m_odinTrader.RestTerrian();
-					Destroy(OdinPlus.OdinNPCParent);
-					return;
-				}
-				//Destroy(PrefabParent);
+				OdinPlus.UnRegister();				
+				OdinPlus.Clear();
 			}
 		}
 		#endregion
@@ -270,7 +263,7 @@ namespace OdinPlus
 		{
 			private static void Postfix(ObjectDB __instance)
 			{
-				OdinPlus.Regsiter(__instance);
+				OdinPlus.PostODB();
 			}
 		}
 		#endregion
