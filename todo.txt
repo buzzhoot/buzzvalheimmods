@@ -6,18 +6,31 @@
 //||X||new Mead test
 //||x||inherit public
 //||X||//? may juest patch the GUI BuySelectedItem
-//|| ||Find a better patch point for Regiser//!
+//|| ||OdinStoreGui//!
+//|| ||Reorg the Mead and Pet Structure
+//|| ||Add OdinItem 
+//|| ||Find a better patch point for Odin to spawn,//!
 //|| ||Maybe check out the load and also patch the load quit withou saving for admin tool//?
-//|| ||Check the tame it can change the hover text!//?
-//|| ||OdinStoreGui
-//|| ||Wolf container
+//|| ||RuneStone for spawning?
+//|| ||Wolf container//add
 //|| ||More Meads
 //|| ||mech try?
 //|| ||Task system//!Treasure Hunt!!
+//|| ||New Equip Slot Ring
+//|| ||DragonEggs
+//|| ||Teleportable Raven
+//|| ||Mountable Dragon
 //|| ||no mobs area FX on odin,and animator
 //============== EndTODO=============
 
 //=================TODO=============Project
 //|| ||Make a new template without Plugin base//
 //|| ||Make a mod let player custom Mead mod //?
+//============== EndTODO=============
+
+//=================TODO=============Alltameable
+//|| ||Create Prefabs for mini ones
+//|| ||Compability with Vanilla Tameable
+//|| ||Setup Manager
+//|| ||Check the tame it can change the hover text!//?
 //============== EndTODO=============
