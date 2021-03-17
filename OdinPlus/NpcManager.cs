@@ -7,11 +7,13 @@ namespace OdinPlus
 	class NpcManager : MonoBehaviour
 	{
 		public static bool IsInit = false;
-		public static GameObject OdinPrefab;
 		public static GameObject Root;
 		public static OdinGod m_odinGod;
 		public static OdinTrader m_odinPot;
+		public static OdinTrader m_shamanChest;
+		public static OdinTrader m_odinChest;
 
+		#region Main
 		private void Awake()
 		{
 			Init();
@@ -22,49 +24,16 @@ namespace OdinPlus
 		}
 		public static void Init()
 		{
-			Root = new GameObject("OdinNPCs");;
+			Root = new GameObject("OdinNPCs"); ;
 			Root.SetActive(false);
 			Root.transform.SetParent(OdinPlus.Root.transform);
-			var podin = ZNetScene.instance.GetPrefab("odin");
-			var pfire = ZNetScene.instance.GetPrefab("fire_pit");
-			var pcaul = ZNetScene.instance.GetPrefab("piece_cauldron");
 
-			var odin = Instantiate(podin,Root.transform);
-			DestroyImmediate(odin.GetComponent<ZNetView>());
-			DestroyImmediate(odin.GetComponent<ZSyncTransform>());
-			DestroyImmediate(odin.GetComponent<Odin>());
-			DestroyImmediate(odin.GetComponent<Rigidbody>());
-			m_odinGod = odin.AddComponent<OdinGod>();
+			InitOdinGod();
+			InitOdinPot();
+			InitOdinChest();
+			InitShaman();
+			InitMunin();
 
-			var fire = CopyChildren(pfire);
-			var caul = CopyChildren(pcaul);
-			fire.transform.SetParent(Root.transform);
-			caul.transform.SetParent(Root.transform);
-
-
-			odin.transform.localPosition = new Vector3(0f, 0, 0f);
-			fire.transform.localPosition = new Vector3(1.5f, 0, -0.5f);
-			caul.transform.localPosition = new Vector3(1.5f, 0, -0.5f);			
-
-			Destroy(fire.transform.Find("PlayerBase").gameObject);
-			fire.transform.Find("_enabled_high").gameObject.SetActive(true);
-			caul.transform.Find("HaveFire").gameObject.SetActive(true);
-			
-			//?init pot
-			m_odinPot = caul.AddComponent<OdinTrader>();
-			m_odinPot.m_name = "$odin_pot_name";
-			OdinPlus.traderNameList.Add(m_odinPot.m_name);
-			m_odinPot.m_talkername = "$odin";//||X||			
-			m_odinPot.m_talker = odin;
-			var tm = OdinMeads.MeadList[0].GetComponent<ItemDrop>();
-			m_odinPot.m_items.Add(new Trader.TradeItem
-			{
-				m_prefab = tm,
-				m_stack = 1,
-				m_price = 1
-			});
-
-			OdinPrefab = odin;
 			Root.SetActive(true);
 			IsInit = true;
 		}
@@ -75,6 +44,65 @@ namespace OdinPlus
 			Destroy(Root);
 		}
 
+		#endregion Main	
+		#region NPCs
+		private static void InitOdinGod()
+		{
+			var podin = ZNetScene.instance.GetPrefab("odin");
+			var odin = Instantiate(podin, Root.transform);
+
+			DestroyImmediate(odin.GetComponent<ZNetView>());
+			DestroyImmediate(odin.GetComponent<ZSyncTransform>());
+			DestroyImmediate(odin.GetComponent<Odin>());
+			DestroyImmediate(odin.GetComponent<Rigidbody>());
+			m_odinGod = odin.AddComponent<OdinGod>();
+			odin.transform.localPosition = new Vector3(0f, 0, 0f);
+		}
+		private static void InitOdinPot()
+		{
+
+			var pfire = ZNetScene.instance.GetPrefab("fire_pit");
+			var pcaul = ZNetScene.instance.GetPrefab("piece_cauldron");
+			var fire = CopyChildren(pfire);
+			var caul = CopyChildren(pcaul);
+			fire.transform.SetParent(Root.transform);
+			caul.transform.SetParent(Root.transform);
+
+			fire.transform.localPosition = new Vector3(1.5f, 0, -0.5f);
+			caul.transform.localPosition = new Vector3(1.5f, 0, -0.5f);
+
+			Destroy(fire.transform.Find("PlayerBase").gameObject);
+			fire.transform.Find("_enabled_high").gameObject.SetActive(true);
+			caul.transform.Find("HaveFire").gameObject.SetActive(true);
+
+			m_odinPot = caul.AddComponent<OdinTrader>();
+			m_odinPot.m_name = "$odin_pot_name";
+			OdinPlus.traderNameList.Add(m_odinPot.m_name);
+			m_odinPot.m_talker = m_odinGod.gameObject;
+
+			foreach (var item in OdinMeads.MeadList.Values)
+			{
+				m_odinPot.m_items.Add(new Trader.TradeItem
+				{
+					m_prefab = item.GetComponent<ItemDrop>(),
+					m_stack = 1,
+					m_price = 1
+				});
+			}
+		}
+		private static void InitOdinChest()
+		{
+		}
+		private static void InitShaman()
+		{
+
+		}
+		private static void InitMunin()
+		{
+
+		}
+
+#endregion NPCs
 		#region Utilities
 		public static GameObject CopyChildren(GameObject prefab)
 		{
