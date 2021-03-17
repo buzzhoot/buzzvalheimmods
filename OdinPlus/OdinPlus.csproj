@@ -86,7 +86,7 @@
     <Compile Include="OdinMeads.cs" />
     <Compile Include="OdinScore.cs" />
     <Compile Include="Localization.cs" />
-    <Compile Include="OdinStore.cs" />
+    <Compile Include="OdinTrader.cs" />
     <Compile Include="Pet.cs" />
     <Compile Include="PetHelper.cs" />
     <Compile Include="SE_TrollHelper.cs" />

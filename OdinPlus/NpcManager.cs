@@ -10,7 +10,7 @@ namespace OdinPlus
 		public static GameObject OdinPrefab;
 		public static GameObject Root;
 		public static OdinGod m_odinGod;
-		public static OdinStore m_odinPot;
+		public static OdinTrader m_odinPot;
 
 		private void Awake()
 		{
@@ -50,7 +50,7 @@ namespace OdinPlus
 			caul.transform.Find("HaveFire").gameObject.SetActive(true);
 			m_odinGod = odin.AddComponent<OdinGod>();
 			//?init pot
-			m_odinPot = caul.AddComponent<OdinStore>();
+			m_odinPot = caul.AddComponent<OdinTrader>();
 			m_odinPot.m_name = "$odin_pot_name";
 			OdinPlus.traderNameList.Add(m_odinPot.m_name);
 			m_odinPot.m_talkername = "$odin";//||X||			

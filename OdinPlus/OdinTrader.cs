@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace OdinPlus
 {
-	class OdinStore : Trader, Hoverable, Interactable
+	class OdinTrader : Trader, Hoverable, Interactable
 	{
 		#region Var
 		public GameObject m_talker;

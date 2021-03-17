@@ -54,7 +54,7 @@ namespace OdinPlus
 				if (OdinPlus.traderNameList.Contains(trader.m_name))
 				{
 					DBG.blogWarning("This is Odin Trader");
-					OdinStore.TweakGui(__instance, true);
+					OdinTrader.TweakGui(__instance, true);
 					return;
 				}
 				return;
@@ -69,7 +69,7 @@ namespace OdinPlus
 				if (OdinPlus.traderNameList.Contains(trader.m_name))
 				{
 					DBG.blogWarning("This is Odin Trader");
-					OdinStore.TweakGui(__instance, false);
+					OdinTrader.TweakGui(__instance, false);
 					return;
 				}
 				return;
