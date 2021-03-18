@@ -12,7 +12,7 @@ using System.Globalization;
 
 namespace QuickChat
 {
-	[BepInPlugin("buzz.valheim.QuickChat", "QuickChat", "1.0.0")]
+	[BepInPlugin("buzz.valheim.QuickChat", "BuzzQuickChat", "1.0.0")]
 	public class Plugin : BaseUnityPlugin
 	{
 		public static ConfigEntry<int> nexusID;
