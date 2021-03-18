@@ -100,7 +100,28 @@ namespace AllTameable
             }
             return comp as T;
         }
-
+		public static List<T> RemoveList<TU,T>(this List<T> instance,Dictionary<TU,T> other)
+		{
+			foreach (var item in other.Values)
+			{
+				if (instance.Contains(item))
+				{
+					instance.Remove(item);
+				}
+			}
+			return instance;
+		}
+		public static Dictionary<T,TU> RemoveList<T,TU>(this Dictionary<T,TU> instance,Dictionary<T,TU> other)
+		{
+			foreach (var item in other.Keys)
+			{
+				if (instance.ContainsKey(item))
+				{
+					instance.Remove(item);
+				}
+			}
+			return instance;
+		}
         
     }
 }

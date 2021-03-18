@@ -12,7 +12,7 @@ using System.Globalization;
 
 namespace QuickChat
 {
-	[BepInPlugin("buzz.valheim.QuickChat", "BuzzQuickChat", "1.0.0")]
+	[BepInPlugin("buzz.valheim.BuzzQuickChat", "BuzzQuickChat", "1.0.0")]
 	public class Plugin : BaseUnityPlugin
 	{
 		public static ConfigEntry<int> nexusID;
@@ -77,10 +77,10 @@ namespace QuickChat
             {
                 return;
             }
-            if(Chat.instance.m_input.gameObject.activeSelf||global::Console.instance.m_chatWindow.gameObject.activeSelf)
+/*             if(Chat.instance.m_input.gameObject.activeSelf||global::Console.instance.m_chatWindow.gameObject.activeSelf)
             {
                 return;
-            }
+            } */
             if (LastChat)
             {
                 Traverse.Create(Chat.instance).Method("InputText").GetValue();
