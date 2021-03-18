@@ -6,7 +6,7 @@ using System.Reflection;
 //||X||Sell Value Don't Resolve Here!!!
 namespace OdinPlus
 {
-	public class OdinGod : OdinNPC, Hoverable, Interactable
+	public class OdinGod : OdinNPC, Hoverable, Interactable,OdinInteractable
 	{
 		#region Var
 		public static OdinGod m_instance;

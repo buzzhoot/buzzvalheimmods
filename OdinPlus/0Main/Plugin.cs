@@ -133,9 +133,14 @@ namespace OdinPlus
 				}
 				if (KS_SecondInteractkey.Value.IsDown() && __instance.GetHoverObject() != null)
 				{
-					if (__instance.GetHoverObject().GetComponent<OdinNPC>())
+					if (__instance.GetHoverObject().GetComponent<OdinInteractable>()!=null)
 					{
-						__instance.GetHoverObject().GetComponent<OdinNPC>().SecondaryInteract();
+						__instance.GetHoverObject().GetComponent<OdinInteractable>().SecondaryInteract();
+						return;
+					}
+					if (__instance.GetHoverObject().GetComponentInParent<OdinInteractable>()!=null)
+					{
+						__instance.GetHoverObject().GetComponentInParent<OdinInteractable>().SecondaryInteract();
 						return;
 					}
 

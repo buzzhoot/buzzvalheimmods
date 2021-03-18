@@ -8,7 +8,7 @@ using UnityEngine;
 namespace OdinPlus
 {
 
-	public class OdinNPC : MonoBehaviour, Hoverable, Interactable
+	public class OdinNPC : MonoBehaviour, Hoverable, Interactable,OdinInteractable
 	{
 		public string m_name;
 		public Transform m_head;

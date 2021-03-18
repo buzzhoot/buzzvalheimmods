@@ -103,6 +103,7 @@
     <Compile Include="3Items\OdinMeads.cs" />
     <Compile Include="0Main\OdinScore.cs" />
     <Compile Include="0Main\Plugin.cs" />
+    <Compile Include="9Misc\OdinInteractable.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
