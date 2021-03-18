@@ -18,7 +18,7 @@ namespace OdinPlus
 		#endregion Main
 		private void Awake()
 		{
-			OdinMeads.ValMeadsName.Add("jump_mead");
+			OdinMeads.ValMeadsName.Add("exp_mead");
 			initTrollSE();
 			initValSE();
 		}
