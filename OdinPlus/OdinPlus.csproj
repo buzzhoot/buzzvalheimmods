@@ -82,29 +82,27 @@
   <ItemGroup>
     <Content Include="Resources\*.*">
     </Content>
-    <Compile Include="StoreUITweak.cs" />
-    <Compile Include="OdinMeads.cs" />
-    <Compile Include="OdinScore.cs" />
-    <Compile Include="Localization.cs" />
-    <Compile Include="OdinTrader.cs" />
-    <Compile Include="SE_TrollHelper.cs" />
-    <Compile Include="Terrain.cs" />
-    <Compile Include="NPC\OdinGod.cs" />
-    <Compile Include="DBG.cs" />
-    <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Util.cs" />
-    <Compile Include="OdinSE.cs" />
-    <Compile Include="OdinPlus.cs" />
-    <Compile Include="TestClass.cs" />
-    <Compile Include="NPC\NpcManager.cs" />
-    <Compile Include="OdinItem.cs" />
-    <Compile Include="NPC\OdinNPC.cs" />
-    <Compile Include="NPC\OdinShaman.cs" />
-    <Compile Include="NPC\OdinMunin.cs" />
-    <Compile Include="NPC\OdinGoblin.cs" />
-    <Compile Include="PetManager.cs" />
-    <Compile Include="PetTroll.cs" />
+    <Compile Include="2StatusEffects\SE_TrollHelper.cs" />
+    <Compile Include="2StatusEffects\OdinSE.cs" />
+    <Compile Include="1NPC\OdinGoblin.cs" />
+    <Compile Include="1NPC\NpcManager.cs" />
+    <Compile Include="1NPC\OdinGod.cs" />
+    <Compile Include="1NPC\OdinMunin.cs" />
+    <Compile Include="1NPC\OdinNPC.cs" />
+    <Compile Include="1NPC\OdinShaman.cs" />
+    <Compile Include="4Pets\PetManager.cs" />
+    <Compile Include="4Pets\PetTroll.cs" />
+    <Compile Include="9Misc\DBG.cs" />
+    <Compile Include="9Misc\Localization.cs" />
+    <Compile Include="9Misc\Terrain.cs" />
+    <Compile Include="9Misc\Util.cs" />
+    <Compile Include="0Main\OdinPlus.cs" />
+    <Compile Include="1NPC\OdinTrader.cs" />
+    <Compile Include="3Items\OdinItem.cs" />
+    <Compile Include="3Items\OdinMeads.cs" />
+    <Compile Include="0Main\OdinScore.cs" />
+    <Compile Include="0Main\Plugin.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
