@@ -11,39 +11,55 @@ namespace OdinPlus
 	{
 		#region var
 		private static ZNetScene zns;
-		private static GameObject PrefabsParent;
+		private static GameObject Root;
 		private static Dictionary<string, GameObject> PetList = new Dictionary<string, GameObject>();
-		public static GameObject petIns;
+		public static GameObject TrollIns;
 		public static GameObject Indicator;
-		public static bool isInit=false;
+		public static bool isInit = false;
 		//public static Pet instance;
 		#endregion
+		#region Main
 		private void Awake()
 		{
 			initIndicator();
 		}
+		public static void Clear()
+		{
+			TrollIns = null;
+			DBG.blogInfo("PetList Clear");
+		}
 		public static void Init()
 		{
-			
+
 			zns = ZNetScene.instance;
-			PrefabsParent = new GameObject("PetPrefab");
-			PrefabsParent.transform.SetParent(OdinPlus.PrefabParent.transform);
+			Root = new GameObject("PetPrefab");
+			Root.transform.SetParent(OdinPlus.PrefabParent.transform);
+
+			//notice Init Here
+			InitTroll();
+
+			OdinPlus.OdinPostRegister(PetList);
+			isInit = true;
+		}
+		#endregion Main
+
+		#region Troll
+		private static void InitTroll()
+		{
 			string[] l = Plugin.CFG_Pets.Value.Split(new char[] { ',' });
 			foreach (string name in l)
 			{
-				CreatePetPrefab(name);
+				CreateTrollPrefab(name);
 			}
-			OdinPlus.OdinPostRegister(PetList);
-			isInit=true;
 		}
-		private static void CreatePetPrefab(string name)
+		private static void CreateTrollPrefab(string name)
 		{
 			if (zns.GetPrefab(name) == null)
 			{
 				DBG.blogWarning("can't find the prefab zns :" + name);
 				return;
 			}
-			var go = Instantiate(zns.GetPrefab(name), PrefabsParent.transform);
+			var go = Instantiate(zns.GetPrefab(name), Root.transform);
 			go.name = name + "Pet";
 			Tameable tame;
 			if (!go.TryGetComponent<Tameable>(out tame))
@@ -62,7 +78,6 @@ namespace OdinPlus
 			PetList.Add(name + "Pet", go);
 			return;
 		}
-		#region Helper
 		public static void initIndicator()
 		{
 			Indicator = new GameObject("Indicator");
@@ -71,9 +86,9 @@ namespace OdinPlus
 			Indicator.AddComponent<CapsuleCollider>();
 			Indicator.SetActive(false);
 		}
-		public static void SummonHelper(string name)
+		public static void SummonTroll(string name)
 		{
-			if (petIns != null)
+			if (TrollIns != null)
 			{
 				DBG.InfoCT("You can have only one Pet");//trans
 				return;
@@ -87,10 +102,12 @@ namespace OdinPlus
 			DBG.InfoCT("You summoned a " + name + "pet");//trans
 		}
 		#endregion
-		public static void Clear()
+
+		#region Wolf
+		private static void InitWolf()
 		{
-			petIns = null;
-			DBG.blogInfo("PetList Clear");
+			
 		}
+		#endregion Wolf
 	}
 }

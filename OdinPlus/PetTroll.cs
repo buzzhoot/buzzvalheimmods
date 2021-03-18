@@ -11,7 +11,7 @@ namespace OdinPlus
 		private Tameable tame;
 		void Awake()
 		{
-			PetManager.petIns = this.gameObject;
+			PetManager.TrollIns = this.gameObject;
 			tame = this.GetComponent<Tameable>();
 			tame.m_commandable = true;
 			tame.m_fedDuration = 300;
@@ -29,7 +29,7 @@ namespace OdinPlus
 		void OnDestroy()
 		{
 			PetManager.Indicator.SetActive(false);
-			PetManager.petIns = null;
+			PetManager.TrollIns = null;
 			DBG.InfoCT(Localization.instance.Localize(this.GetComponent<Humanoid>().m_name + " died"));//add trans
 
 		}
