@@ -14,7 +14,6 @@
 //||X||Find a better patch point for Odin to spawn,//
 //||X||Maybe check out the load and also patch the load quit withou saving for admin tool//?
 //||X||RuneStone for spawning?//? Now use ZoneSystem
-//|| ||Load Error//!
 //|| ||Wolf container//add
 //|| ||Mead SetupManager//!
 //|| ||More Meads
@@ -26,6 +25,7 @@
 //|| ||Mountable Dragon
 //|| ||no mobs area FX on odin,and animator,Terrain
 //|| ||Does SE last When you quit game//??
+//|| ||Load Error//?Check when will it happen again
 //============== EndTODO=============
 
 //=================TODO=============Project

@@ -91,6 +91,10 @@ namespace OdinPlus
 			Say("I made you stronger,warrior");
 			return true;
 		}
+		public override void SecondaryInteract()
+		{
+			SwitchSkill();
+		}
 		public override string GetHoverText()
 		{
 			string n = "<color=blue><b>ODIN</b></color>";

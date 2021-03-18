@@ -133,9 +133,9 @@ namespace OdinPlus
 				}
 				if (KS_SecondInteractkey.Value.IsDown() && __instance.GetHoverObject() != null)
 				{
-					if (__instance.GetHoverObject().transform.parent.GetComponent<OdinGod>())
+					if (__instance.GetHoverObject().GetComponent<OdinNPC>())
 					{
-						NpcManager.m_odinGod.SwitchSkill();
+						__instance.GetHoverObject().GetComponent<OdinNPC>().SecondaryInteract();
 						return;
 					}
 
