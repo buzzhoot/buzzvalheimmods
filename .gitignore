@@ -1,5 +1,6 @@
 *.dll
-*/.vs/
+*/.vs/*
+.vs/*
 */obj/*
 */bin/*
 OdinPlus/TestClass.cs
