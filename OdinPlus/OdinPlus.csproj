@@ -104,7 +104,6 @@
     <Compile Include="0Main\OdinScore.cs" />
     <Compile Include="0Main\Plugin.cs" />
     <Compile Include="9Misc\OdinInteractable.cs" />
-    <Compile Include="4Pets\WolfContainer.cs" />
     <Compile Include="4Pets\PetWolf.cs" />
     <Compile Include="2StatusEffects\SE_PetWolf.cs" />
   </ItemGroup>
