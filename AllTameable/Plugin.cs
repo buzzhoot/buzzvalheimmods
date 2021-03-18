@@ -225,5 +225,8 @@ namespace AllTameable
 
 
 		#endregion
+		#region SetupManger
+		
+		#endregion SetupManger
 	}
 }
