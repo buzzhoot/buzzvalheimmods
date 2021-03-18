@@ -13,6 +13,7 @@ namespace OdinPlus
 		private static GameObject MeadTasty;
 		public static Dictionary<string, GameObject> MeadList = new Dictionary<string, GameObject>();
 		private static GameObject Root;
+		public static List<string> ValMeadsName=new List<string>();
 		private void Awake()
 		{
 			Root = new GameObject("MeadList");
@@ -22,17 +23,31 @@ namespace OdinPlus
 			var objectDB = ObjectDB.instance;
 			MeadTasty = objectDB.GetItemPrefab("MeadTasty");
 
+			//notice Init Here
+
+			InitValMead();
+
 			OdinPlus.OdinPreRegister(MeadList,nameof(MeadList));
 		}
-		public static void CreatePetMeadPrefab(string name, Sprite icon)
+		
+		public static void InitValMead()
+		{
+			foreach (var item in ValMeadsName)
+			{
+				CreateValMeadPrefab(item);
+			}
+		}
+		public static void CreateValMeadPrefab(string name)
 		{
 			GameObject go = Instantiate(MeadTasty, Root.transform);
 			go.name = name;
 			var id = go.GetComponent<ItemDrop>().m_itemData.m_shared;
 			id.m_name = "$odin_" + name + "_name";
-			id.m_icons[0] = icon;
+			id.m_icons[0] = OdinPlus.OdinMeadsIcon[0];
 			id.m_description = "$odin_" + name + "_desc";
+			
 			id.m_consumeStatusEffect = OdinSE.SElist[name];
+			
 			MeadList.Add(name, go);
 		}
 	}

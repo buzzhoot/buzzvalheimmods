@@ -53,7 +53,6 @@ namespace OdinPlus
 			{
 				if (OdinPlus.traderNameList.Contains(trader.m_name))
 				{
-					DBG.blogWarning("This is Odin Trader");
 					OdinTrader.TweakGui(__instance, true);
 					return;
 				}
@@ -68,7 +67,6 @@ namespace OdinPlus
 				var trader = Traverse.Create(__instance).Field<Trader>("m_trader").Value;
 				if (OdinPlus.traderNameList.Contains(trader.m_name))
 				{
-					DBG.blogWarning("This is Odin Trader");
 					OdinTrader.TweakGui(__instance, false);
 					return;
 				}
@@ -221,7 +219,7 @@ namespace OdinPlus
 			private static void Postfix(Raven __instance)
 			{
 				if(OdinPlus.isNPCInit){return;}
-				Instantiate(__instance.m_exclamation, Vector3.zero, Quaternion.identity, Pet.Indicator.transform);
+				Instantiate(__instance.m_exclamation, Vector3.zero, Quaternion.identity, PetManager.Indicator.transform);
 				OdinPlus.InitNPC();
 				DBG.blogWarning("Rave has awaken");
 			}

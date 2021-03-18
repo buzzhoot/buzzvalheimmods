@@ -11,7 +11,7 @@ namespace OdinPlus
 		private Tameable tame;
 		void Awake()
 		{
-			Pet.petIns = this.gameObject;
+			PetManager.petIns = this.gameObject;
 			tame = this.GetComponent<Tameable>();
 			tame.m_commandable = true;
 			tame.m_fedDuration = 300;
@@ -28,8 +28,8 @@ namespace OdinPlus
 		}
 		void OnDestroy()
 		{
-			Pet.Indicator.SetActive(false);
-			Pet.petIns = null;
+			PetManager.Indicator.SetActive(false);
+			PetManager.petIns = null;
 			DBG.InfoCT(Localization.instance.Localize(this.GetComponent<Humanoid>().m_name + " died"));//add trans
 
 		}
@@ -45,22 +45,22 @@ namespace OdinPlus
 				RaycastHit raycastHit;
 				Physics.Raycast(ray, out raycastHit, 500f, layerMask);
 				Vector3 point = raycastHit.point;
-				if (Pet.Indicator.activeSelf)
+				if (PetManager.Indicator.activeSelf)
 				{
-					Pet.Indicator.SetActive(false);
+					PetManager.Indicator.SetActive(false);
 					// Pet.Indicator.transform.SetParent(PrefabsParent.transform);
 					Traverse.Create(this.GetComponent<MonsterAI>()).Field("m_targetStatic").SetValue(null);
 					DBG.InfoCT("Stop pet attack");//trans
 					return;
 				}
-				Pet.Indicator.SetActive(true);
+				PetManager.Indicator.SetActive(true);
 				// if (__instance.GetHoverCreature() != null)
 				// {
 				// 	Pet.Indicator.transform.SetParent(__instance.GetHoverCreature().transform);
 				// }
-				Pet.Indicator.transform.position = raycastHit.point;
+				PetManager.Indicator.transform.position = raycastHit.point;
 				ZRoutedRpc.instance.InvokeRoutedRPC(ZRoutedRpc.Everybody, "ChatMessage", new object[] { raycastHit.point, 3, "attack here!", "" });
-				Traverse.Create(this.GetComponent<MonsterAI>()).Field("m_targetStatic").SetValue(Pet.Indicator.GetComponent<StaticTarget>());
+				Traverse.Create(this.GetComponent<MonsterAI>()).Field("m_targetStatic").SetValue(PetManager.Indicator.GetComponent<StaticTarget>());
 				DBG.InfoCT("Pet force attack");//trans
 				return;
 			}

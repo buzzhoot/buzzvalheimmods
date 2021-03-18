@@ -10,7 +10,7 @@ namespace OdinPlus
 		public override void Setup(Character character)
 		{
 			base.Setup(character);
-            Pet.SummonHelper("Troll");
+            PetManager.SummonHelper("Troll");
 		}
 		public override void UpdateStatusEffect(float dt)
 		{

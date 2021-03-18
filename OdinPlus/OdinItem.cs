@@ -12,6 +12,8 @@ namespace OdinPlus
 			};
 		public static Dictionary<string, GameObject> ItemList = new Dictionary<string, GameObject>();
 		private static GameObject Root;
+
+		#region Mono
 		private void Awake()
 		{
 			Root = new GameObject("ItemList");
@@ -23,8 +25,9 @@ namespace OdinPlus
 
 			InitPetItem();
 
-			OdinPlus.OdinPreRegister(ItemList,nameof(ItemList));
+			OdinPlus.OdinPreRegister(ItemList, nameof(ItemList));
 		}
+		#endregion Mono
 		#region PetItems
 		private void InitPetItem()
 		{
@@ -37,13 +40,13 @@ namespace OdinPlus
 		{
 			GameObject go = Instantiate(MeadTasty, Root.transform);
 			go.name = name;
-			
+
 			var id = go.GetComponent<ItemDrop>().m_itemData.m_shared;
 			id.m_name = "$odin_" + name + "_name";
 			id.m_icons[0] = icon;
 			id.m_description = "$odin_" + name + "_desc";
 
-			id.m_maxStackSize=1;
+			id.m_maxStackSize = 1;
 			id.m_consumeStatusEffect = OdinSE.SElist[name];
 
 			ItemList.Add(name, go);

@@ -35,7 +35,8 @@ namespace OdinPlus
 		#region assets var
 
 		public static Sprite OdinCreditIcon;
-		public static Sprite[] OdinMeadsIcon;
+		public static List<Sprite> OdinMeadsIcon = new List<Sprite>();
+		public static List<Sprite> OdinSEIcon = new List<Sprite>();
 		public static Sprite TrollHeadIcon;
 		public static Sprite CoinsIcon;
 
@@ -48,7 +49,7 @@ namespace OdinPlus
 			Root = this.gameObject;
 			PrefabParent = new GameObject("OdinPlusPrefabs");
 			PrefabParent.SetActive(false);
-			PrefabParent.transform.SetParent(Root.transform);			
+			PrefabParent.transform.SetParent(Root.transform);
 		}
 		#endregion Mono
 
@@ -58,7 +59,7 @@ namespace OdinPlus
 			initAssets();
 			Root.AddComponent<OdinSE>();
 			Root.AddComponent<OdinMeads>();
-			Root.AddComponent<Pet>();
+			Root.AddComponent<PetManager>();
 			isInit = true;
 		}
 		public static void PostODB()
@@ -71,22 +72,22 @@ namespace OdinPlus
 		}
 		public static void PostZNS()
 		{
-			if (!Pet.isInit)
+			if (!PetManager.isInit)
 			{
-				Pet.Init();
-			}	
+				PetManager.Init();
+			}
 			ValRegister();
 		}
 		public static void InitNPC()
 		{
 			Root.AddComponent<NpcManager>();
-			isNPCInit=true;
+			isNPCInit = true;
 		}
 		public static void Clear()
 		{
-			Pet.Clear();
+			PetManager.Clear();
 			Destroy(Root.GetComponent<NpcManager>());
-			isNPCInit=false;
+			isNPCInit = false;
 		}
 		#endregion Patch
 
@@ -116,7 +117,8 @@ namespace OdinPlus
 		public static void initAssets()
 		{
 			OdinCreditIcon = ObjectDB.instance.GetItemPrefab("HelmetOdin").GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0];
-			OdinMeadsIcon.AddItem(OdinCreditIcon);
+			OdinMeadsIcon.Add(ObjectDB.instance.GetItemPrefab("MeadTasty").GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0]);
+			OdinSEIcon.Add(OdinCreditIcon);
 			TrollHeadIcon = ObjectDB.instance.GetItemPrefab("TrophyFrostTroll").GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0];
 			CoinsIcon = ObjectDB.instance.GetItemPrefab("Coins").GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0];
 		}
@@ -152,7 +154,7 @@ namespace OdinPlus
 			}
 			DBG.blogInfo("Register zns");
 		}
-		public static void OdinPreRegister(Dictionary<string, GameObject> list,string name)
+		public static void OdinPreRegister(Dictionary<string, GameObject> list, string name)
 		{
 			foreach (var item in list)
 			{
@@ -186,11 +188,11 @@ namespace OdinPlus
 		#endregion Feature
 		#region Debug
 		public static void Reset()
-		{			
+		{
 			initAssets();
 			Plugin.OdinPlusRoot.AddComponent<OdinSE>();
 			Plugin.OdinPlusRoot.AddComponent<OdinMeads>();
-			Plugin.OdinPlusRoot.AddComponent<Pet>();
+			Plugin.OdinPlusRoot.AddComponent<PetManager>();
 			isInit = true;
 			PostODB();
 			var m_namedPrefabs = Traverse.Create(ZNetScene.instance).Field<Dictionary<int, GameObject>>("m_namedPrefabs").Value;
