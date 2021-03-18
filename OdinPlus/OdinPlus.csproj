@@ -91,7 +91,7 @@
     <Compile Include="PetHelper.cs" />
     <Compile Include="SE_TrollHelper.cs" />
     <Compile Include="Terrain.cs" />
-    <Compile Include="OdinGod.cs" />
+    <Compile Include="NPC\OdinGod.cs" />
     <Compile Include="DBG.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -99,9 +99,12 @@
     <Compile Include="OdinSE.cs" />
     <Compile Include="OdinPlus.cs" />
     <Compile Include="TestClass.cs" />
-    <Compile Include="OdinNPC.cs" />
-    <Compile Include="NpcManager.cs" />
+    <Compile Include="NPC\NpcManager.cs" />
     <Compile Include="OdinItem.cs" />
+    <Compile Include="NPC\OdinNPC.cs" />
+    <Compile Include="NPC\OdinShaman.cs" />
+    <Compile Include="NPC\OdinMunin.cs" />
+    <Compile Include="NPC\OdinGoblin.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

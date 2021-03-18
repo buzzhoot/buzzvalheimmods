@@ -10,8 +10,11 @@ namespace OdinPlus
 		public static GameObject Root;
 		public static OdinGod m_odinGod;
 		public static OdinTrader m_odinPot;
+/* 		public static OdinTrader m_odinChest;
+		public static OdinShaman m_odinShaman;
 		public static OdinTrader m_shamanChest;
-		public static OdinTrader m_odinChest;
+		public static OdinMunin m_odinMunin;
+		public static OdinGoblin m_odinGoblin; */
 
 		#region Main
 		private void Awake()
@@ -101,8 +104,12 @@ namespace OdinPlus
 		{
 
 		}
+		private static void InitGoblin()
+		{
 
-#endregion NPCs
+		}
+
+		#endregion NPCs
 		#region Utilities
 		public static GameObject CopyChildren(GameObject prefab)
 		{
