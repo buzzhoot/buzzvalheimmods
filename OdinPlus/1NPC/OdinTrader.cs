@@ -68,7 +68,7 @@ namespace OdinPlus
 		}
 
 		#endregion
-		#region Override
+		#region private 
 		private new void Say(List<string> texts, string trigger) { return; }
 		private new void Say(string text, string trigger) { return; }
 		private new void RandomTalk() { return; }
