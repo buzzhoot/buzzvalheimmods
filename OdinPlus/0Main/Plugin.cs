@@ -160,6 +160,7 @@ namespace OdinPlus
 				//end
 			}
 		}
+		
 		[HarmonyPatch(typeof(Console), "InputText")]
 		private static class Patch_Console_InputText
 		{
@@ -168,6 +169,7 @@ namespace OdinPlus
 				OdinPlus.ProcessCommands(global::Console.instance.m_input.text);
 			}
 		}
+		
 		[HarmonyPatch(typeof(FejdStartup), "Start")]
 		private static class FejdStartup_Start_Patch
 		{

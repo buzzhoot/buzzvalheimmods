@@ -170,6 +170,14 @@ namespace OdinPlus
 				znsRegList.Add(item.Key.GetStableHashCode(), item.Value);
 			}
 		}
+				public static void PostRegister(GameObject go)
+		{
+			znsRegList.Add(go.name.GetStableHashCode(), go);
+		}
+		public static void PreRegister(GameObject go)
+		{
+			odbRegList.Add(go.name.GetStableHashCode(), go);
+		}
 
 		public static void UnRegister()
 		{
