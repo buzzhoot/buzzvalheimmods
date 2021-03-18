@@ -34,7 +34,7 @@ namespace OdinPlus
 		#region Buzz_SE
 		private void initTrollSE()
 		{
-			var se = ScriptableObject.CreateInstance<SE_TrollHelper>();
+			var se = ScriptableObject.CreateInstance<SE_PetTroll>();
 			se.m_icon = OdinPlus.TrollHeadIcon;
 			se.m_name = "$odin_se_troll";
 			se.m_tooltip = "$odin_se_troll_tooltip";

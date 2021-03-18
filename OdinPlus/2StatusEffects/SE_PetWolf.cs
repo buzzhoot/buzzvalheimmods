@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace OdinPlus
 {
-	class SE_TrollHelper : StatusEffect
+	class SE_PetWolf : StatusEffect
 	{
 		public override void Setup(Character character)
 		{
 			base.Setup(character);
-            PetManager.SummonTroll("Troll");
+            PetManager.SummonWolf();
 		}
 		public override void UpdateStatusEffect(float dt)
 		{

@@ -16,6 +16,7 @@
 //||X||RuneStone for spawning?//? Now use ZoneSystem
 //|| ||Store name( Patch StoreGui Awake if you cant find the topic)
 //|| ||Wolf container//add
+//|| ||Create Npc Prefab
 //|| ||Mead SetupManager//!
 //|| ||More Meads:big heal stamina tempopry WEIGHT Mining,Double Damege
 //|| ||New SE template :RunSpeed Invisible, 
