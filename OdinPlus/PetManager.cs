@@ -50,7 +50,7 @@ namespace OdinPlus
 			{
 				tame = go.AddComponent<Tameable>();
 			}
-			go.AddComponent<PetHelper>();
+			go.AddComponent<PetTroll>();
 			var hd = go.GetComponent<Humanoid>();
 			DestroyImmediate(go.GetComponent<CharacterDrop>());
 			hd.m_name = hd.m_name + " Pet";//trans

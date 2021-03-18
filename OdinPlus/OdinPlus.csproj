@@ -87,8 +87,6 @@
     <Compile Include="OdinScore.cs" />
     <Compile Include="Localization.cs" />
     <Compile Include="OdinTrader.cs" />
-    <Compile Include="Pet.cs" />
-    <Compile Include="PetHelper.cs" />
     <Compile Include="SE_TrollHelper.cs" />
     <Compile Include="Terrain.cs" />
     <Compile Include="NPC\OdinGod.cs" />
@@ -105,6 +103,8 @@
     <Compile Include="NPC\OdinShaman.cs" />
     <Compile Include="NPC\OdinMunin.cs" />
     <Compile Include="NPC\OdinGoblin.cs" />
+    <Compile Include="PetManager.cs" />
+    <Compile Include="PetTroll.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

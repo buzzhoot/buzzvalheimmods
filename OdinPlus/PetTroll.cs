@@ -6,7 +6,7 @@ using HarmonyLib;
 
 namespace OdinPlus
 {
-	class PetHelper : MonoBehaviour
+	class PetTroll : MonoBehaviour
 	{
 		private Tameable tame;
 		void Awake()
