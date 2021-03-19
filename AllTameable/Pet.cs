@@ -57,6 +57,7 @@ namespace AllTameable
 			tame.m_petEffect = wtame.m_petEffect;
 			tame.m_sootheEffect = wtame.m_sootheEffect;
 			tame.m_petEffect = wtame.m_petEffect;
+
 			tame.m_commandable = tb.commandable;
 			tame.m_tamingTime = tb.tamingTime;
 			tame.m_fedDuration = tb.fedDuration;
@@ -92,7 +93,7 @@ namespace AllTameable
 				Procreation pc;
 				if(!go.TryGetComponent<Procreation>(out pc))
 				{
-					go.AddComponent<Procreation>();
+					pc = go.AddComponent<Procreation>();
 					vanilla = false;
 				}
 				
@@ -101,7 +102,7 @@ namespace AllTameable
 				pc.m_pregnancyDuration = tb.pregnancyDuration;
 				pc.m_partnerCheckRange = 30;
 				pc.m_totalCheckRange = 30;
-				if(vanilla)
+				if(vanilla&&pc.m_offspring!=null)
 				{
 					var gu = pc.m_offspring.GetComponent<Growup>();
 					gu.m_growTime=tb.growTime;
@@ -169,11 +170,13 @@ namespace AllTameable
 			go.name = "HatchingDragonEgg";
 			DestroyImmediate(go.GetComponent<ItemDrop>());
 			//DestroyImmediate(go.GetComponent<Rigidbody>());
-			//go.AddComponent<BaseAI>();
-			//go.AddComponent<Character>();
 			var gu = go.AddComponent<Hatch>();
+			gu.m_name=pfb.GetComponent<ItemDrop>().m_itemData.m_shared.m_name;
 			gu.m_grownPrefab = zns.GetPrefab("Hatchling");
 			gu.m_growTime = Plugin.HatchingTime.Value;
+
+			//?Change Color
+			//go.GetComponent<Renderer>().material.;
 			DragonEgg = go;
 
 			PrefabManager.PostRegister(go);
