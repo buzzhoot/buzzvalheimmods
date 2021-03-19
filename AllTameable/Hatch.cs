@@ -10,7 +10,7 @@ namespace AllTameable
 		//private ZNetView m_nview;
 		public string m_name;
 		private new ZNetView m_nview;
-		private double growStats;
+		private int growStats;
 
 		private new void  Start()
 		{
@@ -23,8 +23,7 @@ namespace AllTameable
 			{
 				return;
 			}
-			growStats=GetTimeSinceSpawned().TotalSeconds/(double)this.m_growTime*100;
-			this.GetComponent<Character>().m_name+=string.Format("\n Hatching Progress:<color=yellow><b>{0}</b></color>%",growStats.ToString());
+			growStats=Mathf.FloorToInt((float)(GetTimeSinceSpawned().TotalSeconds/(double)this.m_growTime*100));
 			if (GetTimeSinceSpawned().TotalSeconds > (double)this.m_growTime)
 			{
 				Tameable component2 = UnityEngine.Object.Instantiate<GameObject>(this.m_grownPrefab, base.transform.position, base.transform.rotation).GetComponent<Tameable>();
@@ -39,8 +38,8 @@ namespace AllTameable
 		public string GetHoverText()
 		{
 			string n = m_name;
-			n +=string.Format("\n Hatching Progress:<color=yellow><b>{0}</b></color>%",growStats.ToString());
-			return n;
+			n +=string.Format("\nHatching Progress:<color=yellow><b>{0}%</b></color>",growStats.ToString());
+			return Localization.instance.Localize(n);
 		}
 		public string GetHoverName()
 		{
