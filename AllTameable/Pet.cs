@@ -28,6 +28,7 @@ namespace AllTameable
 				if (zns.GetPrefab(name) == null)
 				{
 					DBG.blogWarning("Cant find Prefab Check your name : " + name);
+					Plugin.configManager.debugInfo+="  Cant find Prefab Check your name : " + name;
 				}
 				AddTame(zns.GetPrefab(name), obj.Value);
 			}
@@ -38,6 +39,7 @@ namespace AllTameable
 			if (go.GetComponent<MonsterAI>() == null)
 			{
 				DBG.blogWarning(go.name + " can't be added,Remove it in your cfg");
+				Plugin.configManager.debugInfo+=go.name + " can't be added,Remove it in your cfg   ";
 				return;
 			}
 			Tameable tame;
@@ -58,13 +60,19 @@ namespace AllTameable
 			ma.m_consumeSearchInterval = tb.consumeSearchInterval;
 			ma.m_consumeHeal = tb.consumeHeal;
 			ma.m_consumeSearchRange = tb.consumeSearchRange;
-
-			foreach (var itm in tb.consumeItems)
+			var consumeItems=new List<string>();
+			var cis = tb.consumeItems.Split(new char[] { ':' });
+				foreach (var ci in cis)
+				{
+					consumeItems.Add(ci);
+				}
+			foreach (var itm in consumeItems)
 			{
 				var a = ObjectDB.instance.GetItemPrefab(itm);
 				if (a == null)
 				{
 					DBG.blogWarning("Wrong food name :" + itm);
+					Plugin.configManager.debugInfo+="   Wrong food name :" + itm;
 				}
 				else
 				{

@@ -22,34 +22,39 @@ namespace AllTameable
 		public static ConfigEntry<int> nexusID;
 		public static ConfigEntry<string> cfg;
 		public static ManualLogSource logger;
-		public static string LastCmd;
 		#endregion
 		#region Data
-		public class TameTable
+		public class TameTable : ICloneable
 		{
 			//public string name;
-			public bool commandable;
-			public float tamingTime;
-			public float fedDuration;
+			public bool commandable = true;
+			public float tamingTime = 600;
+			public float fedDuration = 300;
 			public float consumeRange = 2;
 			public float consumeSearchInterval = 10;
 			public float consumeHeal = 10;
 			public float consumeSearchRange = 20;
-			public List<string> consumeItems = new List<string>();
+			public string consumeItems = "RawMeat";
 			public bool changeFaction = false;
 			public bool procretion = false;
 			public int maxCreatures = 5;
 			public float pregnancyChance = 0.33f;
 			public float pregnancyDuration = 10f;
 			public float growTime = 60;
+			public object Clone()
+			{
+				return this.MemberwiseClone();
+			}
 		}
 		public static Dictionary<string, TameTable> cfgList = new Dictionary<string, TameTable>();
+		public static TameTable CfgTable = new TameTable();
 		#endregion Data
 		#region plugin
 		public static bool loaded = false;
 		public static GameObject Root;
 		public static PrefabManager prefabManager;
 		public static PetManager petManager;
+		public static ConfigManager configManager;
 		#endregion plugin
 
 		#endregion Var
@@ -63,12 +68,19 @@ namespace AllTameable
 				"Troll,true,1800,600,2,10,10,20,NeckTailGrilled:Honey:CookedMeat,true,true,5,0.33,10,60;GoblinBrute,true,1800,600,2,10,10,20,CookedLoxMeat:Bread,false,false,3,0.99,10,60",
 				"name,commandable,tamingTime,fedDuration,consumeRange,consumeSearchInterval,consumeHeal,consumeSearchRange,consumeItem:consumeItem,changeFaction,procretion,maxCreatures,pregnancyChance,pregnancyDuration,growTime,;next one;...;last one");
 
+			loaded = initCfg();
+
 			Root = new GameObject("AllTameable Root");
 			prefabManager = Root.AddComponent<PrefabManager>();
 			petManager = Root.AddComponent<PetManager>();
+			configManager = Root.AddComponent<ConfigManager>();
+			configManager.obj = CfgTable;
+			configManager.title = "All Tameable Setup " + (loaded ? "Loaded" : "!!Load Fail!!");
 			DontDestroyOnLoad(Root);
 
-			loaded = initCfg();
+
+
+
 			Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), null);
 
 			DBG.blogInfo("AllTameable Loadded");
@@ -183,11 +195,8 @@ namespace AllTameable
 					logger.LogError(e);
 					return false;
 				}
-				var cis = set[8].Split(new char[] { ':' });
-				foreach (var ci in cis)
-				{
-					table.consumeItems.Add(ci);
-				}
+				table.consumeItems = set[8];
+
 				if (set[9] == "true")
 				{
 					table.changeFaction = true;
@@ -225,8 +234,100 @@ namespace AllTameable
 
 
 		#endregion
-		#region SetupManger
-		
-		#endregion SetupManger
+		#region cfgManger
+		public static void CfgMangerAdd()
+		{
+			var name = configManager.CfgName;
+			if (cfgList.ContainsKey(name))
+			{
+				Plugin.configManager.debugInfo = name + "is exsited, use Replace";
+				return;
+			}
+
+			cfg.Value += UnpackTable(name);
+			cfgList.Add(name, (TameTable)CfgTable.Clone());
+
+			Plugin.configManager.debugInfo = configManager.CfgName + " added to the config";
+		}
+		public static void CfgMangerGet()
+		{
+			var name = configManager.CfgName;
+			if (cfgList.ContainsKey(name))
+			{
+				CfgTable = cfgList[name];
+				return;
+			}
+			Plugin.configManager.debugInfo = name + "is not exsit, use Add";
+		}
+		public static void CfgMangerRemove()
+		{
+			var name = configManager.CfgName;
+			if (cfgList.ContainsKey(name))
+			{
+				cfgList.Remove(name);
+				RemoveCfg(name);
+				Plugin.configManager.debugInfo = name + " Removed";
+				return;
+			}
+			Plugin.configManager.debugInfo = name + "is not exsit, use Add";
+		}
+		public static void cfgMangerReplace()
+		{
+			var name = configManager.CfgName;
+			if (cfgList.ContainsKey(name))
+			{
+				cfgList.Remove(name);
+				RemoveCfg(name);
+				cfgList.Add(name,(TameTable)CfgTable.Clone());
+				cfg.Value += UnpackTable(name);
+				Plugin.configManager.debugInfo = name + " Replaced";
+				return;
+			}
+			Plugin.configManager.debugInfo = name + "is not exsit, use Add";
+
+		}
+		private static string UnpackTable(string name)
+		{
+			string l = "";
+			var t = CfgTable;
+			if (cfgList.Count != 0) { l += ";"; }
+			l += name;
+			l += "," + t.commandable.ToString().ToLower();
+			l += "," + t.tamingTime;
+			l += "," + t.fedDuration;
+			l += "," + t.consumeRange;
+			l += "," + t.consumeSearchInterval;
+			l += "," + t.consumeItems;
+			l += "," + t.changeFaction.ToString().ToLower();
+			l += "," + t.procretion.ToString().ToLower();
+			l += "," + t.maxCreatures;
+			l += "," + t.pregnancyChance;
+			l += "," + t.pregnancyDuration;
+			l += "," + t.growTime;
+			return l;
+		}
+		private static bool RemoveCfg(string name)
+		{
+			string s = "";
+			bool result = false;
+			string[] list = cfg.Value.Split(new char[] { ';' });
+			foreach (string tt in list)
+			{
+				string[] set = tt.Split(new char[] { ',' });
+				if (set[0] != name)
+				{
+					s += tt;
+					s += ";";
+				}
+				else
+				{
+					result = true;
+				}
+			}
+			s.Remove(s.Length, 1);
+			cfg.Value = s;
+			return result;
+		}
+		#endregion cfgManger
 	}
 }

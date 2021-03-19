@@ -18,7 +18,7 @@
 //|| ||Wolf container//add
 //|| ||Wolf and troll color//-?
 //|| ||Create Npc Prefab//
-//|| ||Mead SetupManager//!
+//|| ||Mead ConfigManager//!
 //|| ||More Meads:big heal stamina tempopry WEIGHT Mining,Double Damege
 //|| ||New SE template :RunSpeed Invisible, 
 //|| ||Task system//!Treasure Hunt!!
