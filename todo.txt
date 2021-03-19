@@ -14,8 +14,7 @@
 //||X||Find a better patch point for Odin to spawn,//
 //||X||Maybe check out the load and also patch the load quit withou saving for admin tool//?
 //||X||RuneStone for spawning?//? Now use ZoneSystem
-
-//|| ||BOOL PREFIX NEED TO BE FIX//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//||X||BOOL PREFIX NEED TO BE FIX
 //|| ||Store name( Patch StoreGui Awake if you cant find the topic)//-?
 //|| ||Wolf container//add
 //|| ||Wolf and troll color//-?
@@ -40,9 +39,11 @@
 //============== EndTODO=============
 
 //=================TODO=============Alltameable
-//|| ||Create Prefabs for mini ones
-//|| ||Compability with Vanilla Tameable
-//|| ||Setup Manager
+//||X||Create Prefabs for mini ones
+//||X||Compability with Vanilla Tameable
+//||X||Setup Manager
 //||X||Check the tame it can change the hover text!//? Yes Patch BaseClass
+//|| ||Hatching Time
+//|| ||Easter Egg
 //|| ||Rename//?ZDO
 //============== EndTODO=============
