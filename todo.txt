@@ -43,7 +43,7 @@
 //||X||Compability with Vanilla Tameable
 //||X||Setup Manager
 //||X||Check the tame it can change the hover text!//? Yes Patch BaseClass
-//|| ||Hatching Time
-//|| ||Easter Egg
+//||X||Hatching Time
+//||X||Easter Egg
 //|| ||Rename//?ZDO
 //============== EndTODO=============

@@ -14,7 +14,7 @@ using UnityEngine;
 
 namespace AllTameable
 {
-	[BepInPlugin("buzz.valheim.AllTameable", "AllTameable", "2.0.0")]
+	[BepInPlugin("buzz.valheim.AllTameable", "AllTameable", "2.0.1")]
 	class Plugin : BaseUnityPlugin
 	{
 		#region Var
@@ -50,6 +50,8 @@ namespace AllTameable
 		}
 		public static Dictionary<string, TameTable> cfgList = new Dictionary<string, TameTable>();
 		public static TameTable CfgTable;
+		public static List<string> ThxList = new List<string> { "deftesthawk", "buzz","lordbugx"};
+		public static EffectList.EffectData firework = new EffectList.EffectData();
 		#endregion Data
 		#region plugin
 		public static bool loaded = false;
@@ -111,6 +113,8 @@ namespace AllTameable
 			private static void Postfix(ZNetScene __instance)
 			{
 				prefabManager.PostZNS();
+				GetFirework();
+				if (Player.m_localPlayer != null) { SetPlayerSpwanEffect(); }
 			}
 		}
 		[HarmonyPatch(typeof(ZNetScene), "Shutdown")]
@@ -148,8 +152,8 @@ namespace AllTameable
 		[HarmonyPatch(typeof(Fireplace), "UseItem")]
 		private static class Prefix_Fireplace_UseItem
 		{
-			private static bool Prefix(Fireplace __instance, Humanoid user,ItemDrop.ItemData item,ref bool __result)
-			{				
+			private static bool Prefix(Fireplace __instance, Humanoid user, ItemDrop.ItemData item, ref bool __result)
+			{
 				if (!HatchingEgg.Value)
 				{
 					return true;
@@ -159,18 +163,31 @@ namespace AllTameable
 					if (!__instance.IsBurning())
 					{
 						user.Message(MessageHud.MessageType.Center, Localization.instance.Localize("You need to add more fuel before you are hatch the egg"));
-						__result=true;
+						__result = true;
 						return false;
 					}
 					Inventory inventory = user.GetInventory();
 					user.Message(MessageHud.MessageType.Center, Localization.instance.Localize("The egg is hatching"));
 					inventory.RemoveItem(item, 1);
 					var go = Instantiate(ZNetScene.instance.GetPrefab("HatchingDragonEgg"));
-					go.transform.localPosition= user.transform.position+new Vector3(0,2,0);
-					__result=true;
+					go.transform.localPosition = user.transform.position + new Vector3(0, 2, 0);
+					__result = true;
 					return false;
 				}
 				return true;
+			}
+		}
+
+		[HarmonyPatch(typeof(Player), "OnSpawned")]
+		private static class Prefix_Player_SetLocalPlayer
+		{
+			private static void Prefix()
+			{
+				var pname = Player.m_localPlayer.GetPlayerName();
+				if (ThxList.Contains(pname.ToLower()))
+				{
+					SetPlayerSpwanEffect();
+				}
 			}
 		}
 		#endregion Misc
@@ -269,7 +286,21 @@ namespace AllTameable
 		#endregion
 
 		#region Feature
+		private static void GetFirework()
+		{
+			firework.m_prefab = ZNetScene.instance.GetPrefab("fire_pit").GetComponent<Fireplace>().m_fireworks;
+			firework.m_enabled = true;
+		}
+		private static void SetPlayerSpwanEffect()
+		{
 
+			if (Player.m_localPlayer.m_spawnEffects.m_effectPrefabs.Contains(firework))
+			{
+				return;
+			}		
+			Array.Resize(ref Player.m_localPlayer.m_spawnEffects.m_effectPrefabs,1);
+			Player.m_localPlayer.m_spawnEffects.m_effectPrefabs[0]=firework;
+		}
 		#endregion
 
 		#region Utilities
