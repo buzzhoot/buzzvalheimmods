@@ -148,21 +148,25 @@ namespace AllTameable
 		[HarmonyPatch(typeof(Fireplace), "UseItem")]
 		private static class Prefix_Fireplace_UseItem
 		{
-			private static bool Prefix(Fireplace __instance, Humanoid user, ItemDrop.ItemData item,ref bool __result)
-			{
+			private static bool Prefix(Fireplace __instance, Humanoid user,ItemDrop.ItemData item,ref bool __result)
+			{				
 				if (!HatchingEgg.Value)
 				{
 					return true;
 				}
 				if (item.m_dropPrefab.name == "DragonEgg")
 				{
+					if (!__instance.IsBurning())
+					{
+						user.Message(MessageHud.MessageType.Center, Localization.instance.Localize("You need to add more fuel before you are hatch the egg"));
+						__result=true;
+						return false;
+					}
 					Inventory inventory = user.GetInventory();
 					user.Message(MessageHud.MessageType.Center, Localization.instance.Localize("The egg is hatching"));
 					inventory.RemoveItem(item, 1);
 					var go = Instantiate(ZNetScene.instance.GetPrefab("HatchingDragonEgg"));
 					go.transform.localPosition= user.transform.position+new Vector3(0,2,0);
-					//DestroyImmediate(go.GetComponent<Rigidbody>());
-					//go.GetComponent<>()
 					__result=true;
 					return false;
 				}
