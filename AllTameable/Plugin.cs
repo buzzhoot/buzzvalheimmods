@@ -14,40 +14,42 @@ using UnityEngine;
 
 namespace AllTameable
 {
-	[BepInPlugin("buzz.valheim.AllTameable", "AllTameable", "1.2.0")]
+	[BepInPlugin("buzz.valheim.AllTameable", "AllTameable", "2.0.0")]
 	class Plugin : BaseUnityPlugin
 	{
 		#region Var
 		#region Config
 		public static ConfigEntry<int> nexusID;
 		public static ConfigEntry<string> cfg;
+		public static ConfigEntry<bool> HatchingEgg;
+		public static ConfigEntry<int> HatchingTime;
 		public static ManualLogSource logger;
 		#endregion
 		#region Data
 		public class TameTable : ICloneable
 		{
 			//public string name;
-			public bool commandable = true;
-			public float tamingTime = 600;
-			public float fedDuration = 300;
-			public float consumeRange = 2;
-			public float consumeSearchInterval = 10;
-			public float consumeHeal = 10;
-			public float consumeSearchRange = 20;
-			public string consumeItems = "RawMeat";
-			public bool changeFaction = false;
-			public bool procretion = false;
-			public int maxCreatures = 5;
-			public float pregnancyChance = 0.33f;
-			public float pregnancyDuration = 10f;
-			public float growTime = 60;
+			public bool commandable { get; set; } = true;
+			public float tamingTime { get; set; } = 600;
+			public float fedDuration { get; set; } = 300;
+			public float consumeRange { get; set; } = 2;
+			public float consumeSearchInterval { get; set; } = 5;
+			public float consumeHeal { get; set; } = 10;
+			public float consumeSearchRange { get; set; } = 30;
+			public string consumeItems { get; set; } = "RawMeat";
+			public bool changeFaction { get; set; } = true;
+			public bool procretion { get; set; } = true;
+			public int maxCreatures { get; set; } = 5;
+			public float pregnancyChance { get; set; } = 0.33f;
+			public float pregnancyDuration { get; set; } = 10f;
+			public float growTime { get; set; } = 60;
 			public object Clone()
 			{
 				return this.MemberwiseClone();
 			}
 		}
 		public static Dictionary<string, TameTable> cfgList = new Dictionary<string, TameTable>();
-		public static TameTable CfgTable = new TameTable();
+		public static TameTable CfgTable;
 		#endregion Data
 		#region plugin
 		public static bool loaded = false;
@@ -62,24 +64,35 @@ namespace AllTameable
 		#region  Mono
 		private void Awake()
 		{
-			Plugin.logger = base.Logger;
-			Plugin.nexusID = base.Config.Bind<int>("Nexus", "NexusID", 478, "Nexus mod ID for updates");
+			logger = base.Logger;
+			nexusID = base.Config.Bind<int>("Nexus", "NexusID", 478, "Nexus mod ID for updates");
+			HatchingTime = base.Config.Bind<int>("2DragonEgg", "hatching time", 300, "how long will egg become a drake");
+			HatchingEgg = base.Config.Bind<bool>("2DragonEgg", "enable egg hatching", true, "this alse enable tamed drake spawn eggs");
 			cfg = base.Config.Bind<string>("1General", "Settings",
-				"Troll,true,1800,600,2,10,10,20,NeckTailGrilled:Honey:CookedMeat,true,true,5,0.33,10,60;GoblinBrute,true,1800,600,2,10,10,20,CookedLoxMeat:Bread,false,false,3,0.99,10,60",
+				"Hatchling,true,600,300,30,10,300,10,RawMeat,true,true,5,0.33,10,300",
 				"name,commandable,tamingTime,fedDuration,consumeRange,consumeSearchInterval,consumeHeal,consumeSearchRange,consumeItem:consumeItem,changeFaction,procretion,maxCreatures,pregnancyChance,pregnancyDuration,growTime,;next one;...;last one");
 
 			loaded = initCfg();
-
+			CfgTable = new TameTable();
+			string list = "Your list has: ";
+			foreach (var item in cfgList.Keys)
+			{
+				list += item + "  ";
+			}
 			Root = new GameObject("AllTameable Root");
+
 			prefabManager = Root.AddComponent<PrefabManager>();
 			petManager = Root.AddComponent<PetManager>();
-			configManager = Root.AddComponent<ConfigManager>();
+
+			var SM_Root = new GameObject("ConfigManager").transform;
+			SM_Root.SetParent(Plugin.Root.transform);
+			SM_Root.gameObject.SetActive(false);
+			configManager = SM_Root.gameObject.AddComponent<ConfigManager>();
+			configManager.debugInfo = list;
 			configManager.obj = CfgTable;
 			configManager.title = "All Tameable Setup " + (loaded ? "Loaded" : "!!Load Fail!!");
+			//configManager.gameObject.SetActive(false);
 			DontDestroyOnLoad(Root);
-
-
-
 
 			Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), null);
 
@@ -132,6 +145,30 @@ namespace AllTameable
 				InputCMD(global::Console.instance.m_input.text);
 			}
 		}
+		[HarmonyPatch(typeof(Fireplace), "UseItem")]
+		private static class Prefix_Fireplace_UseItem
+		{
+			private static bool Prefix(Fireplace __instance, Humanoid user, ItemDrop.ItemData item,ref bool __result)
+			{
+				if (!HatchingEgg.Value)
+				{
+					return true;
+				}
+				if (item.m_dropPrefab.name == "DragonEgg")
+				{
+					Inventory inventory = user.GetInventory();
+					user.Message(MessageHud.MessageType.Center, Localization.instance.Localize("The egg is hatching"));
+					inventory.RemoveItem(item, 1);
+					var go = Instantiate(ZNetScene.instance.GetPrefab("HatchingDragonEgg"));
+					go.transform.localPosition= user.transform.position+new Vector3(0,2,0);
+					//DestroyImmediate(go.GetComponent<Rigidbody>());
+					//go.GetComponent<>()
+					__result=true;
+					return false;
+				}
+				return true;
+			}
+		}
 		#endregion Misc
 		#endregion
 
@@ -146,7 +183,8 @@ namespace AllTameable
 				}
 				if (cmd == "/buzztame")
 				{
-
+					var go = Plugin.configManager.gameObject;
+					go.SetActive(!go.activeSelf);
 				}
 			}
 		}
@@ -238,6 +276,11 @@ namespace AllTameable
 		public static void CfgMangerAdd()
 		{
 			var name = configManager.CfgName;
+			if (name == "")
+			{
+				Plugin.configManager.debugInfo = "name can't be empty!";
+				return;
+			}
 			if (cfgList.ContainsKey(name))
 			{
 				Plugin.configManager.debugInfo = name + "is exsited, use Replace";
@@ -252,38 +295,60 @@ namespace AllTameable
 		public static void CfgMangerGet()
 		{
 			var name = configManager.CfgName;
-			if (cfgList.ContainsKey(name))
+			if (name == "")
 			{
-				CfgTable = cfgList[name];
+				Plugin.configManager.debugInfo = "name can't be empty!";
 				return;
 			}
-			Plugin.configManager.debugInfo = name + "is not exsit, use Add";
+			if (cfgList.ContainsKey(name))
+			{
+				configManager.obj = (TameTable)cfgList[name].Clone();
+				CfgTable = (TameTable)configManager.obj;
+				Plugin.configManager.debugInfo = name + " is Loaded";
+				return;
+			}
+			Plugin.configManager.debugInfo = name + " is not exsit, use Add";
 		}
 		public static void CfgMangerRemove()
 		{
 			var name = configManager.CfgName;
+			if (name == "")
+			{
+				Plugin.configManager.debugInfo = "name can't be empty!";
+				return;
+			}
 			if (cfgList.ContainsKey(name))
 			{
 				cfgList.Remove(name);
-				RemoveCfg(name);
+				if (cfgList.Count == 0)
+				{
+					cfg.Value = "";
+				}
+				else { RemoveCfg(name); }
+
 				Plugin.configManager.debugInfo = name + " Removed";
 				return;
 			}
-			Plugin.configManager.debugInfo = name + "is not exsit, use Add";
+			Plugin.configManager.debugInfo = name + " is not exsit, use Add";
 		}
 		public static void cfgMangerReplace()
 		{
 			var name = configManager.CfgName;
+			if (name == "")
+			{
+				Plugin.configManager.debugInfo = "name can't be empty!";
+				return;
+			}
 			if (cfgList.ContainsKey(name))
 			{
 				cfgList.Remove(name);
 				RemoveCfg(name);
-				cfgList.Add(name,(TameTable)CfgTable.Clone());
+				cfgList.Add(name, (TameTable)CfgTable.Clone());
 				cfg.Value += UnpackTable(name);
 				Plugin.configManager.debugInfo = name + " Replaced";
 				return;
 			}
-			Plugin.configManager.debugInfo = name + "is not exsit, use Add";
+			Plugin.configManager.debugInfo = name + " is not exsit, use Add";
 
 		}
 		private static string UnpackTable(string name)
@@ -297,6 +362,8 @@ namespace AllTameable
 			l += "," + t.fedDuration;
 			l += "," + t.consumeRange;
 			l += "," + t.consumeSearchInterval;
+			l += "," + t.consumeSearchRange;
+			l += "," + t.consumeHeal;
 			l += "," + t.consumeItems;
 			l += "," + t.changeFaction.ToString().ToLower();
 			l += "," + t.procretion.ToString().ToLower();
@@ -324,7 +391,7 @@ namespace AllTameable
 					result = true;
 				}
 			}
-			s.Remove(s.Length, 1);
+			s = s.Substring(0, s.Length - 1);
 			cfg.Value = s;
 			return result;
 		}

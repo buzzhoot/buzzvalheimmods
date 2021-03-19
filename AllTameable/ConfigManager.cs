@@ -42,9 +42,10 @@ namespace AllTameable
 		#region Mono
 		private void Awake()
 		{
-			Root = new GameObject("ConfigManager").transform;
-			Root.SetParent(Plugin.Root.transform);
-			Root.gameObject.SetActive(false);
+			Root=this.gameObject.transform;
+			//SM_Root = new GameObject("ConfigManager").transform;
+			//SM_Root.SetParent(Plugin.Root.transform);
+			//SM_Root.gameObject.SetActive(false);
 			SetupWindowRect = new Rect(0, 0, width, height);
 		}
 		private void OnGUI()
