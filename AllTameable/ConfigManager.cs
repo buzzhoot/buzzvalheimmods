@@ -34,7 +34,7 @@ namespace AllTameable
 		public string debugInfo;
 		#endregion GUI Settings
 		#region util var
-		BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.GetField | BindingFlags.NonPublic | BindingFlags.Instance;
+		BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.GetProperty | BindingFlags.NonPublic | BindingFlags.Instance;
 
 		#endregion util var
 		#endregion var
@@ -59,33 +59,33 @@ namespace AllTameable
 		#region Tool
 		private void ConstrutGUI()
 		{
-			IEnumerable<FieldInfo> finfos = obj.GetType().GetFields(bindingFlags);
-			foreach (var finfo in finfos)
+			PropertyInfo[] finfos = obj.GetType().GetProperties(bindingFlags);
+			foreach (PropertyInfo finfo in finfos)
 			{
-				if (finfo.FieldType == typeof(bool))
+				if (finfo.PropertyType == typeof(bool))
 				{
 					DrawBoolToogle(finfo);
-					return;
+					//return;
 				}
-				if (finfo.FieldType == typeof(int))
+				if (finfo.PropertyType == typeof(int))
 				{
 					DrawIntField(finfo);
-					return;
+					//return;
 				}
-				if (finfo.FieldType == typeof(float))
+				if (finfo.PropertyType == typeof(float))
 				{
 					DrawFloatField(finfo);
-					return;
+					//return;
 				}
-				if (finfo.FieldType == typeof(string))
+				if (finfo.PropertyType == typeof(string))
 				{
 					DrawStringField(finfo);
-					return;
+					//return;
 				}
 			}
 		}
 		//Gui
-		private void DrawStringField(FieldInfo fieldInfo)
+		private void DrawStringField(PropertyInfo fieldInfo)
 		{
 			string result = (string)fieldInfo.GetValue(obj).ToString();
 			GUILayout.BeginHorizontal();
@@ -94,7 +94,7 @@ namespace AllTameable
 			GUILayout.EndHorizontal();
 			fieldInfo.SetValue(obj, result);
 		}
-		private void DrawIntField(FieldInfo fieldInfo)
+		private void DrawIntField(PropertyInfo fieldInfo)
 		{
 			string result = (string)fieldInfo.GetValue(obj).ToString();
 			GUILayout.BeginHorizontal();
@@ -104,7 +104,7 @@ namespace AllTameable
 			//result = Regex.Replace(result, "[^0-9]", "");
 			fieldInfo.SetValue(obj, int.Parse(result));
 		}
-		private void DrawFloatField(FieldInfo fieldInfo)
+		private void DrawFloatField(PropertyInfo fieldInfo)
 		{
 			string result = (string)fieldInfo.GetValue(obj).ToString();
 			GUILayout.BeginHorizontal();
@@ -113,7 +113,7 @@ namespace AllTameable
 			GUILayout.EndHorizontal();
 			fieldInfo.SetValue(obj, float.Parse(result));
 		}
-		private void DrawBoolToogle(FieldInfo fieldInfo)
+		private void DrawBoolToogle(PropertyInfo fieldInfo)
 		{
 			bool result = (bool)fieldInfo.GetValue(obj);
 			GUILayout.BeginHorizontal();
