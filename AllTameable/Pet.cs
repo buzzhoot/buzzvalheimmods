@@ -81,19 +81,32 @@ namespace AllTameable
 				}
 				else
 				{
-					DBG.blogInfo("add " + itm + " to " + go.name);
+					//--DBG.blogInfo("add " + itm + " to " + go.name);
 					ma.m_consumeItems.Add(a.GetComponent<ItemDrop>());
 				}
 			}
 
 			if (tb.procretion)
 			{
-				var pc = go.AddComponent<Procreation>();
+				bool vanilla = true;
+				Procreation pc;
+				if(!go.TryGetComponent<Procreation>(out pc))
+				{
+					go.AddComponent<Procreation>();
+					vanilla = false;
+				}
+				
 				pc.m_maxCreatures = tb.maxCreatures * 2;
 				pc.m_pregnancyChance = tb.pregnancyChance;
 				pc.m_pregnancyDuration = tb.pregnancyDuration;
 				pc.m_partnerCheckRange = 30;
 				pc.m_totalCheckRange = 30;
+				if(vanilla)
+				{
+					var gu = pc.m_offspring.GetComponent<Growup>();
+					gu.m_growTime=tb.growTime;
+					return;
+				}
 				if (go.name == "Hatchling" && Plugin.HatchingEgg.Value)
 				{
 					pc.m_offspring = DragonEgg;
