@@ -17,6 +17,8 @@ namespace OdinPlus
 			tame.m_fedDuration = 300;
 			tame.Tame();
 			Traverse.Create(tame).Method("ResetFeedingTimer").GetValue();
+			Character character = this.GetComponent<Character>();
+			character.m_onDeath = (Action)Delegate.Combine(new Action(this.OnDestroyed),character.m_onDeath);
 		}
 		void Update()
 		{
@@ -26,7 +28,7 @@ namespace OdinPlus
 			}
 			FocreAttack();
 		}
-		void OnDestroy()
+		void OnDestroyed()
 		{
 			PetManager.Indicator.SetActive(false);
 			PetManager.TrollIns = null;

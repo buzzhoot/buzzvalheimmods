@@ -1,12 +1,13 @@
-
+﻿
 namespace OdinPlus
 {
-	class SE_PetWolf : StatusEffect
+	class SE_SumonPet : StatusEffect
 	{
+		public string PetName;
 		public override void Setup(Character character)
 		{
 			base.Setup(character);
-            PetManager.SummonWolf();
+            PetManager.SummonPet(PetName);
 		}
 		public override void UpdateStatusEffect(float dt)
 		{

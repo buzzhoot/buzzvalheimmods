@@ -83,7 +83,6 @@
     <Content Include="Resources\*.*">
     </Content>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="2StatusEffects\SE_PetTroll.cs" />
     <Compile Include="2StatusEffects\OdinSE.cs" />
     <Compile Include="1NPC\OdinGoblin.cs" />
     <Compile Include="1NPC\NpcManager.cs" />
@@ -105,8 +104,8 @@
     <Compile Include="0Main\Plugin.cs" />
     <Compile Include="9Misc\OdinInteractable.cs" />
     <Compile Include="4Pets\PetWolf.cs" />
-    <Compile Include="2StatusEffects\SE_PetWolf.cs" />
     <Compile Include="9Misc\GameTweaker.cs" />
+    <Compile Include="2StatusEffects\SE_SummonPet.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

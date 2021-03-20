@@ -8,7 +8,8 @@ namespace OdinPlus
 		//private static Dictionary<string, GameObject> MeadList = new Dictionary<string, GameObject>()
 		private static GameObject MeadTasty;
 		public static Dictionary<string, Sprite> PetItemList = new Dictionary<string, Sprite>{
-			{"scroll_troll", OdinPlus.TrollHeadIcon}
+			{"scroll_troll", OdinPlus.TrollHeadIcon},
+			{"scroll_wolf", OdinPlus.WolfHeadIcon}
 			};
 		public static Dictionary<string, GameObject> ItemList = new Dictionary<string, GameObject>();
 		private static GameObject Root;

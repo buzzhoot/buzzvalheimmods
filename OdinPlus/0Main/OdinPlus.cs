@@ -38,6 +38,7 @@ namespace OdinPlus
 		public static List<Sprite> OdinMeadsIcon = new List<Sprite>();
 		public static List<Sprite> OdinSEIcon = new List<Sprite>();
 		public static Sprite TrollHeadIcon;
+		public static Sprite WolfHeadIcon;
 		public static Sprite CoinsIcon;
 
 		#endregion
@@ -121,6 +122,7 @@ namespace OdinPlus
 			OdinMeadsIcon.Add(ObjectDB.instance.GetItemPrefab("MeadTasty").GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0]);
 			OdinSEIcon.Add(OdinCreditIcon);
 			TrollHeadIcon = ObjectDB.instance.GetItemPrefab("TrophyFrostTroll").GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0];
+			WolfHeadIcon = ObjectDB.instance.GetItemPrefab("TrophyWolf").GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0];
 			CoinsIcon = ObjectDB.instance.GetItemPrefab("Coins").GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0];
 		}
 		#endregion Assets

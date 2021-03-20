@@ -20,6 +20,7 @@ namespace OdinPlus
 		{
 			OdinMeads.ValMeadsName.Add("exp_mead");
 			initTrollSE();
+			initWolfSE();
 			initValSE();
 		}
 		public static void Register()
@@ -34,13 +35,25 @@ namespace OdinPlus
 		#region Buzz_SE
 		private void initTrollSE()
 		{
-			var se = ScriptableObject.CreateInstance<SE_PetTroll>();
+			var se = ScriptableObject.CreateInstance<SE_SumonPet>();
 			se.m_icon = OdinPlus.TrollHeadIcon;
 			se.m_name = "$odin_se_troll";
 			se.m_tooltip = "$odin_se_troll_tooltip";
 			se.m_cooldownIcon = true;
 			se.m_ttl = 300;
+			se.PetName="TrollPet";
 			SElist.Add("scroll_troll", se);
+		}
+		private void initWolfSE()
+		{
+			var se = ScriptableObject.CreateInstance<SE_SumonPet>();
+			se.m_icon = OdinPlus.WolfHeadIcon;
+			se.m_name = "$odin_se_wolf";
+			se.m_tooltip = "$odin_se_wolf_tooltip";
+			se.m_cooldownIcon = true;
+			se.m_ttl = 300;
+			se.PetName="WolfPet";
+			SElist.Add("scroll_wolf", se);
 		}
 
 		#endregion
