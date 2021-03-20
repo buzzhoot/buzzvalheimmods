@@ -36,7 +36,7 @@ namespace OdinPlus
 			Vector3 p = Vector3.zero;
 			if (ZoneSystem.instance.FindClosestLocation("StartTemple", Vector3.zero, out locationInstance))
 			{
-				p = locationInstance.m_position + new Vector3(-6, 0.2f, -8);
+				p = locationInstance.m_position + new Vector3(-6, 0.3f, -8);
 			}
 			Root.transform.localPosition = p;
 
@@ -46,9 +46,16 @@ namespace OdinPlus
 			InitShaman();
 			InitMunin();
 
-			Root.transform.localRotation = Quaternion.Euler(new Vector3(0, -42, 0));
 			Root.SetActive(true);
+			
 			IsInit = true;
+		}
+		private void Start() {
+			Root.transform.localRotation= Quaternion.Euler(new Vector3(0, -42, 0));
+		}
+		public static void test()
+		{
+			m_odinShaman.gameObject.transform.Rotate(0, -30, 0);
 		}
 		public static void Clear()
 		{
@@ -64,6 +71,10 @@ namespace OdinPlus
 			terrain = new GameObject("terrain");
 			var tm = terrain.AddComponent<TerrainModifier>();
 			tm.m_paintRadius = 3f;
+			tm.m_level = true;
+			tm.m_levelRadius = 4;
+			tm.m_smooth = true;
+			tm.m_smoothRadius = 4;
 		}
 		private static void InitOdinGod()
 		{
@@ -116,16 +127,13 @@ namespace OdinPlus
 		{
 			var prefab = ZNetScene.instance.GetPrefab("GoblinShaman");
 			var go = Instantiate(prefab, Root.transform);
-			go.transform.localPosition = new Vector3(-1.6f, 0, -0.6f);
-			go.transform.localRotation = Quaternion.Euler(new Vector3(0, -30, 0));
+			go.transform.localPosition = new Vector3(-1.6f, 0, -0.6f);			
 
 			DestroyImmediate(prefab.GetComponent<RandomAnimation>());
 
 			var npc = go.AddComponent<OdinShaman>();
 			npc.m_name = "$odin_shaman";
-			m_odinShaman=npc;
-
-
+			m_odinShaman = npc;
 
 		}
 		private static void InitMunin()
