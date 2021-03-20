@@ -16,7 +16,7 @@ namespace OdinPlus
 		public static bool isInit = false;
 		public static bool isNPCInit = false;
 		public static bool isPetInit = false;
-		public static OdinPlus m_instance;
+		public OdinPlus m_instance;
 		#endregion
 		#region List
 		public static List<string> traderNameList = new List<string>();
@@ -195,7 +195,7 @@ namespace OdinPlus
 		}
 		#endregion Feature
 		#region Debug
-		public static void Reset()
+		public void Reset()
 		{
 			initAssets();
 			Plugin.OdinPlusRoot.AddComponent<OdinSE>();

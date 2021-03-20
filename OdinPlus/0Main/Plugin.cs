@@ -148,7 +148,7 @@ namespace OdinPlus
 				#region debug
 				if (KS_debug.Value.IsUp())
 				{
-					OdinPlus.Reset();
+					OdinPlusRoot.GetComponent<OdinPlus>().m_instance.Reset();
 				}
 				if (KS_debug2.Value.IsUp())
 				{
