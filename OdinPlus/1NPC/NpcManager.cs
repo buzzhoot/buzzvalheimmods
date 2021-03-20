@@ -8,12 +8,11 @@ namespace OdinPlus
 	{
 		public static bool IsInit = false;
 		public static GameObject Root;
-		
 		public static GameObject terrain;
 		public static OdinGod m_odinGod;
 		public static OdinTrader m_odinPot;
+		public static OdinShaman m_odinShaman;
 		/* 		public static OdinTrader m_odinChest;
-				public static OdinShaman m_odinShaman;
 				public static OdinTrader m_shamanChest;
 				public static OdinMunin m_odinMunin;
 				public static OdinGoblin m_odinGoblin; */
@@ -32,10 +31,14 @@ namespace OdinPlus
 			Root = new GameObject("OdinNPCs"); ;
 			Root.SetActive(false);
 			Root.transform.SetParent(OdinPlus.Root.transform);
-			Root.transform.localRotation = Quaternion.Euler(new Vector3(0, -42, 0));
-			Root.transform.localPosition = new Vector3(-6,0.2f,-8);
 
-			
+			ZoneSystem.LocationInstance locationInstance;
+			Vector3 p = Vector3.zero;
+			if (ZoneSystem.instance.FindClosestLocation("StartTemple", Vector3.zero, out locationInstance))
+			{
+				p = locationInstance.m_position + new Vector3(-6, 0.2f, -8);
+			}
+			Root.transform.localPosition = p;
 
 			InitOdinGod();
 			InitOdinPot();
@@ -43,6 +46,7 @@ namespace OdinPlus
 			InitShaman();
 			InitMunin();
 
+			Root.transform.localRotation = Quaternion.Euler(new Vector3(0, -42, 0));
 			Root.SetActive(true);
 			IsInit = true;
 		}
@@ -56,10 +60,10 @@ namespace OdinPlus
 		#endregion Main	
 		#region NPCs
 		private static void InitTerrain()
-		{	
-			terrain= new GameObject("terrain");
-			var tm=terrain.AddComponent<TerrainModifier>();
-			tm.m_paintRadius=2.5f;
+		{
+			terrain = new GameObject("terrain");
+			var tm = terrain.AddComponent<TerrainModifier>();
+			tm.m_paintRadius = 3f;
 		}
 		private static void InitOdinGod()
 		{
@@ -112,15 +116,15 @@ namespace OdinPlus
 		{
 			var prefab = ZNetScene.instance.GetPrefab("GoblinShaman");
 			var go = Instantiate(prefab, Root.transform);
+			go.transform.localPosition = new Vector3(-1.6f, 0, -0.6f);
+			go.transform.localRotation = Quaternion.Euler(new Vector3(0, -30, 0));
 
 			DestroyImmediate(prefab.GetComponent<RandomAnimation>());
 
-			
-			DestroyImmediate(prefab.GetComponent<ZNetView>());
-			DestroyImmediate(prefab.GetComponent<ZSyncAnimation>());
-			DestroyImmediate(prefab.GetComponent<ZSyncTransform>());
-			DestroyImmediate(prefab.GetComponent<Humanoid>());
-			
+			var npc = go.AddComponent<OdinShaman>();
+			npc.m_name = "$odin_shaman";
+			m_odinShaman=npc;
+
 
 
 		}

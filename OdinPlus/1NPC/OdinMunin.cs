@@ -23,7 +23,7 @@ namespace OdinPlus
 		}
 		public override string GetHoverText()
 		{
-			string n = string.Format("<color=blue><b>{0}}/b></color>", m_name);
+			string n = string.Format("<color=blue><b>{0}</b></color>", m_name);
 			n += string.Format("\n<color=green><b>Score:{0}</b></color>", OdinScore.score);
 			return Localization.instance.Localize(n);
 		}

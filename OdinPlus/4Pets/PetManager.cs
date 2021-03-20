@@ -14,7 +14,7 @@ namespace OdinPlus
 		private static GameObject Root;
 		private static Dictionary<string, GameObject> PetList = new Dictionary<string, GameObject>();
 		public static GameObject TrollIns;
-		public static GameObject WolfIns;
+		//public static GameObject WolfIns;
 		public static GameObject Indicator;
 		public static bool isInit = false;
 		//public static Pet instance;
