@@ -16,7 +16,9 @@ namespace OdinPlus
 		public static GameObject TrollIns;
 		//public static GameObject WolfIns;
 		public static GameObject Indicator;
+		public static GameObject excObj;
 		public static bool isInit = false;
+
 		//public static Pet instance;
 		#endregion
 		#region Main
@@ -38,6 +40,7 @@ namespace OdinPlus
 
 			//notice Init Here
 			InitTroll();
+			InitWolf();
 
 			OdinPlus.OdinPostRegister(PetList);
 			isInit = true;
@@ -82,27 +85,12 @@ namespace OdinPlus
 		public static void initIndicator()
 		{
 			Indicator = new GameObject("Indicator");
-			DontDestroyOnLoad(Indicator);
+			Indicator.transform.SetParent(Plugin.OdinPlusRoot.transform);
 			Indicator.AddComponent<StaticTarget>();
 			Indicator.AddComponent<CapsuleCollider>();
 			Indicator.SetActive(false);
 		}
-		public static void SummonTroll(string name)
-		{
-			if (TrollIns != null)
-			{
-				DBG.InfoCT("You can have only one Pet");//trans
-				return;
-			}
-			var ppfb = ZNetScene.instance.GetPrefab(name + "Pet");
-			if (ppfb == null)
-			{
-				DBG.blogWarning("Pet spawned failed cannot find the prefab");
-			}
-			Instantiate(ppfb, Player.m_localPlayer.transform.position + Player.m_localPlayer.transform.forward * 2f + Vector3.up, Quaternion.identity);
-			DBG.InfoCT("You summoned a " + name + "pet");//trans
-		}
-		public static void SummonWolf()//add
+				public static void SummonWolf()//add
 		{
 
 		}
@@ -113,28 +101,57 @@ namespace OdinPlus
 		{
 			var go = Instantiate(zns.GetPrefab("Wolf"), Root.transform);
 			go.name = "WolfPet";
-			var hum=go.GetComponent<Humanoid>();
+			var hum = go.GetComponent<Humanoid>();
 			var mai = go.GetComponent<MonsterAI>();
 			var tame = go.GetComponent<Tameable>();
+			
 			var pw = go.AddComponent<PetWolf>();
 
-			//-- mname
+			hum.m_name += String.Format("\n<color=yellow><b>[{0}]</b></color>$odin_wolf_use", Plugin.KS_SecondInteractkey.Value.MainKey.ToString());
 			//aiTweak
 			//?tame
-			var ctnRoot= new GameObject("fake root");
-			var ctnopen= new GameObject("fake open");
-			var ctnclose= new GameObject("fake close");
-			var ctn = ctnRoot.AddComponent<Container>();
+			var ctnRoot = new GameObject("fake root");
+			var ctnopen = new GameObject("fake open");
+			var ctnclose = new GameObject("fake close");
+
 			ctnRoot.transform.SetParent(go.transform);
-			ctn.m_open=ctnopen;
-			ctn.m_closed=ctnclose;
-			ctn.m_privacy=Container.PrivacySetting.Private;
-			ctn.m_destroyedLootPrefab=zns.GetPrefab("CargoCreate");
-			//ctn.m_defaultItems //addItem Caller
-			//?should add Collider to this,then move it outside world
-			//?should open and close be in the root
-			//-- ctn bkg-width=height=
+			ctnopen.transform.SetParent(go.transform);
+			ctnclose.transform.SetParent(go.transform);
+			ctnRoot.AddComponent<ZNetView>();
+			var ctn = ctnRoot.AddComponent<Container>();
+			
+			ctn.m_open = ctnopen;
+			ctn.m_closed = ctnclose;
+			//ctn.m_privacy = Container.PrivacySetting.Private;
+			var cpre = zns.GetPrefab("CargoCrate").GetComponent<Container>();
+			
+			ctn.m_destroyedLootPrefab = zns.GetPrefab("CargoCrate");
+			//--Defalut Items......Caller
+			ctn.m_bkg = cpre.m_bkg;
+			ctn.m_width = 2;
+			ctn.m_height = 2;
+			ctn.m_name ="WolfPakc";//trans
+			PetList.Add("WolfPet",go);
+
 		}
 		#endregion Wolf
+		public static void SummonTroll(string name)
+		{
+			if (TrollIns != null)
+			{
+				DBG.InfoCT("You can have only one Pet");//trans
+				return;
+			}
+			var ppfb = ZNetScene.instance.GetPrefab(name);
+			Instantiate(ppfb, Player.m_localPlayer.transform.position + Player.m_localPlayer.transform.forward * 2f + Vector3.up, Quaternion.identity);
+			DBG.InfoCT("You summoned a " + name + "pet");//trans
+		}
+
+		#region Feature
+
+		#endregion Feature
+		
+		#region Tool
+		#endregion Tool
 	}
 }
