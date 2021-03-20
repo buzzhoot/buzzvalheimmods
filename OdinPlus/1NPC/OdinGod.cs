@@ -43,7 +43,7 @@ namespace OdinPlus
 		}
 		public void RestTerrian()
 		{
-			Terrain.ResetTerrain(this.transform.position, 10);
+			//Terrain.ResetTerrain(this.transform.position, 10);
 		}
 		#endregion
 		#region Mono
@@ -66,8 +66,8 @@ namespace OdinPlus
 		#region Tool
 		public bool Summon()
 		{
-			this.transform.parent.localPosition = FindSpawnPoint();
-			Terrain.Flatten(3.5f, 3.5f, this.transform);
+			//this.transform.parent.localPosition = FindSpawnPoint();
+			//Terrain.Flatten(3.5f, 3.5f, this.transform);
 			Terrain.RemoveFlora(4f, this.transform.position);
 			ReadSkill();
 			return true;

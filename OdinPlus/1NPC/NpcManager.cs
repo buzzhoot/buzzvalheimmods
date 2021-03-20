@@ -8,13 +8,15 @@ namespace OdinPlus
 	{
 		public static bool IsInit = false;
 		public static GameObject Root;
+		
+		public static GameObject terrain;
 		public static OdinGod m_odinGod;
 		public static OdinTrader m_odinPot;
-/* 		public static OdinTrader m_odinChest;
-		public static OdinShaman m_odinShaman;
-		public static OdinTrader m_shamanChest;
-		public static OdinMunin m_odinMunin;
-		public static OdinGoblin m_odinGoblin; */
+		/* 		public static OdinTrader m_odinChest;
+				public static OdinShaman m_odinShaman;
+				public static OdinTrader m_shamanChest;
+				public static OdinMunin m_odinMunin;
+				public static OdinGoblin m_odinGoblin; */
 
 		#region Main
 		private void Awake()
@@ -30,6 +32,10 @@ namespace OdinPlus
 			Root = new GameObject("OdinNPCs"); ;
 			Root.SetActive(false);
 			Root.transform.SetParent(OdinPlus.Root.transform);
+			Root.transform.localRotation = Quaternion.Euler(new Vector3(0, -42, 0));
+			Root.transform.localPosition = new Vector3(-6,0.2f,-8);
+
+			
 
 			InitOdinGod();
 			InitOdinPot();
@@ -49,6 +55,12 @@ namespace OdinPlus
 
 		#endregion Main	
 		#region NPCs
+		private static void InitTerrain()
+		{	
+			terrain= new GameObject("terrain");
+			var tm=terrain.AddComponent<TerrainModifier>();
+			tm.m_paintRadius=2.5f;
+		}
 		private static void InitOdinGod()
 		{
 			var podin = ZNetScene.instance.GetPrefab("odin");
