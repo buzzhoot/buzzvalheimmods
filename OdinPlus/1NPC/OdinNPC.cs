@@ -26,6 +26,7 @@ namespace OdinPlus
 		}
 		public virtual void SecondaryInteract()
 		{
+
 		}
 		public virtual string GetHoverText()
 		{

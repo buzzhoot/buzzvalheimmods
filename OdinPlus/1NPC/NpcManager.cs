@@ -110,6 +110,18 @@ namespace OdinPlus
 		}
 		private static void InitShaman()
 		{
+			var prefab = ZNetScene.instance.GetPrefab("GoblinShaman");
+			var go = Instantiate(prefab, Root.transform);
+
+			DestroyImmediate(prefab.GetComponent<RandomAnimation>());
+
+			
+			DestroyImmediate(prefab.GetComponent<ZNetView>());
+			DestroyImmediate(prefab.GetComponent<ZSyncAnimation>());
+			DestroyImmediate(prefab.GetComponent<ZSyncTransform>());
+			DestroyImmediate(prefab.GetComponent<Humanoid>());
+			
+
 
 		}
 		private static void InitMunin()
