@@ -60,7 +60,12 @@ namespace OdinPlus
 			m_instance = this;
 			Summon();
 			m_head = this.gameObject.transform.Find("visual/Armature/Hips/Spine0/Spine1/Spine2/Head");
-			m_name="$odingod";
+			m_name="$odin_god";
+		}
+		private void Start() {
+			Debug.LogWarning(this.gameObject.transform.parent.rotation);
+			this.gameObject.transform.parent.Rotate(0,42,0);
+			Debug.LogWarning(this.gameObject.transform.parent.rotation);
 		}
 		#endregion
 		#region Tool
@@ -68,10 +73,11 @@ namespace OdinPlus
 		{
 			//this.transform.parent.localPosition = FindSpawnPoint();
 			//Terrain.Flatten(3.5f, 3.5f, this.transform);
-			Terrain.RemoveFlora(4f, this.transform.position);
+			//Terrain.RemoveFlora(4f, this.transform.position);
 			ReadSkill();
 			return true;
 		}
+		
 		#endregion
 		#region valheim
 		public override bool Interact(Humanoid user, bool hold)

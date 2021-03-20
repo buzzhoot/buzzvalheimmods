@@ -12,6 +12,8 @@ namespace OdinPlus
 		public static OdinGod m_odinGod;
 		public static OdinTrader m_odinPot;
 		public static OdinShaman m_odinShaman;
+
+		public static ZDO PlayerZDO;
 		/* 		public static OdinTrader m_odinChest;
 				public static OdinTrader m_shamanChest;
 				public static OdinMunin m_odinMunin;
@@ -36,10 +38,10 @@ namespace OdinPlus
 			Vector3 p = Vector3.zero;
 			if (ZoneSystem.instance.FindClosestLocation("StartTemple", Vector3.zero, out locationInstance))
 			{
-				p = locationInstance.m_position + new Vector3(-6, 0.3f, -8);
+				p = locationInstance.m_position + new Vector3(-6, 0, -8);
 			}
-			Root.transform.localPosition = p;
-
+			Root.transform.localPosition = p;			
+			InitTerrain();
 			InitOdinGod();
 			InitOdinPot();
 			InitOdinChest();
@@ -47,15 +49,12 @@ namespace OdinPlus
 			InitMunin();
 
 			Root.SetActive(true);
-			
+
 			IsInit = true;
-		}
-		private void Start() {
-			Root.transform.localRotation= Quaternion.Euler(new Vector3(0, -42, 0));
 		}
 		public static void test()
 		{
-			m_odinShaman.gameObject.transform.Rotate(0, -30, 0);
+			m_odinShaman.gameObject.transform.Rotate(0, 30f, 0);
 		}
 		public static void Clear()
 		{
@@ -68,13 +67,31 @@ namespace OdinPlus
 		#region NPCs
 		private static void InitTerrain()
 		{
-			terrain = new GameObject("terrain");
-			var tm = terrain.AddComponent<TerrainModifier>();
-			tm.m_paintRadius = 3f;
-			tm.m_level = true;
-			tm.m_levelRadius = 4;
-			tm.m_smooth = true;
-			tm.m_smoothRadius = 4;
+			if (terrain == null)
+			{
+				terrain = new GameObject("terrain");
+				//terrain.AddComponent<ZNetView>();
+				//terrain.AddComponent<Piece>();
+				var tm = terrain.AddComponent<TerrainModifier>();
+				terrain.gameObject.transform.SetParent(Root.transform);
+				terrain.gameObject.transform.localPosition=new Vector3(0,0,0);
+				tm.m_playerModifiction = false;
+				tm.m_levelOffset = 0.01f;
+
+				tm.m_level = true;
+				tm.m_levelRadius = 8;
+				tm.m_square = false;
+
+				tm.m_smooth = false;
+				
+				tm.m_smoothRadius = 19.98f;
+				tm.m_smoothPower= 3f;
+
+
+				tm.m_paintRadius = 3.5f;
+				tm.m_paintCleared = true;
+				tm.m_paintType=TerrainModifier.PaintType.Dirt;
+			}
 		}
 		private static void InitOdinGod()
 		{
@@ -127,7 +144,7 @@ namespace OdinPlus
 		{
 			var prefab = ZNetScene.instance.GetPrefab("GoblinShaman");
 			var go = Instantiate(prefab, Root.transform);
-			go.transform.localPosition = new Vector3(-1.6f, 0, -0.6f);			
+			go.transform.localPosition = new Vector3(-1.6f, 0, -0.6f);
 
 			DestroyImmediate(prefab.GetComponent<RandomAnimation>());
 

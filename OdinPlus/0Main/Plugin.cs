@@ -23,6 +23,7 @@ namespace OdinPlus
 		public static ConfigEntry<KeyboardShortcut> KS_debug2;
 		public static ConfigEntry<string> CFG_ItemSellValue;
 		public static ConfigEntry<string> CFG_Pets;
+		Harmony _harmony;
 		#endregion
 		public static GameObject OdinPlusRoot;
 		private void Awake()
@@ -34,7 +35,7 @@ namespace OdinPlus
 			KS_SecondInteractkey = base.Config.Bind<KeyboardShortcut>("1Hotkeys", "Second Interact key", new KeyboardShortcut(KeyCode.F));
 			KS_debug = base.Config.Bind<KeyboardShortcut>("1Hotkeys", "debug key", new KeyboardShortcut(KeyCode.F3));
 			KS_debug2 = base.Config.Bind<KeyboardShortcut>("1Hotkeys", "debug key2", new KeyboardShortcut(KeyCode.F4));
-			Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), null);
+			_harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), null);
 
 			//notice:: init here
 			OdinPlusRoot = new GameObject("OdinPlus");
@@ -44,6 +45,10 @@ namespace OdinPlus
 			DBG.blogInfo("OdinPlus Loadded");
 		}
 
+		private void OnDestroy()
+		{
+			if (_harmony != null) _harmony.UnpatchSelf();
+		}
 		#region patch		
 		#region StoreGui
 		[HarmonyPatch(typeof(StoreGui), "Show")]
@@ -78,8 +83,9 @@ namespace OdinPlus
 		{
 			private static void Postfix(StoreGui __instance, ref int __result)
 			{
-				var t =Traverse.Create(__instance).Field<Trader>("m_trader").Value;
-				if (t==null){
+				var t = Traverse.Create(__instance).Field<Trader>("m_trader").Value;
+				if (t == null)
+				{
 					return;
 				}
 				string name = t.m_name;
@@ -98,9 +104,9 @@ namespace OdinPlus
 				string name = Traverse.Create(__instance).Field<Trader>("m_trader").Value.m_name;
 				if (OdinPlus.traderNameList.Contains(name))
 				{
-					var m_selectedItem=Traverse.Create(__instance).Field<Trader.TradeItem>("m_selectedItem").Value;
+					var m_selectedItem = Traverse.Create(__instance).Field<Trader.TradeItem>("m_selectedItem").Value;
 					int stack = Mathf.Min(m_selectedItem.m_stack, m_selectedItem.m_prefab.m_itemData.m_shared.m_maxStackSize);
-					if (m_selectedItem == null || (m_selectedItem.m_price * stack-OdinScore.score>0))
+					if (m_selectedItem == null || (m_selectedItem.m_price * stack - OdinScore.score > 0))
 					{
 						return false;
 					}
@@ -133,12 +139,12 @@ namespace OdinPlus
 				}
 				if (KS_SecondInteractkey.Value.IsDown() && __instance.GetHoverObject() != null)
 				{
-					if (__instance.GetHoverObject().GetComponent<OdinInteractable>()!=null)
+					if (__instance.GetHoverObject().GetComponent<OdinInteractable>() != null)
 					{
 						__instance.GetHoverObject().GetComponent<OdinInteractable>().SecondaryInteract();
 						return;
 					}
-					if (__instance.GetHoverObject().GetComponentInParent<OdinInteractable>()!=null)
+					if (__instance.GetHoverObject().GetComponentInParent<OdinInteractable>() != null)
 					{
 						__instance.GetHoverObject().GetComponentInParent<OdinInteractable>().SecondaryInteract();
 						return;
@@ -148,7 +154,7 @@ namespace OdinPlus
 				#region debug
 				if (KS_debug.Value.IsUp())
 				{
-					OdinPlusRoot.GetComponent<OdinPlus>().m_instance.Reset();
+					OdinPlus.m_instance.Reset();
 				}
 				if (KS_debug2.Value.IsUp())
 				{
@@ -160,7 +166,7 @@ namespace OdinPlus
 				//end
 			}
 		}
-		
+
 		[HarmonyPatch(typeof(Console), "InputText")]
 		private static class Patch_Console_InputText
 		{
@@ -169,7 +175,7 @@ namespace OdinPlus
 				OdinPlus.ProcessCommands(global::Console.instance.m_input.text);
 			}
 		}
-		
+
 		[HarmonyPatch(typeof(FejdStartup), "Start")]
 		private static class FejdStartup_Start_Patch
 		{
@@ -225,13 +231,15 @@ namespace OdinPlus
 		{
 			private static void Postfix(Raven __instance)
 			{
-				if(OdinPlus.isNPCInit){return;}
-				Instantiate(__instance.m_exclamation, Vector3.zero, Quaternion.identity, PetManager.Indicator.transform);
+				if (OdinPlus.isNPCInit) { return; }
+				PetManager.excObj =  Instantiate(__instance.m_exclamation, Vector3.zero, Quaternion.identity, PetManager.Indicator.transform);
+				PetManager.excObj.gameObject.GetComponentInChildren<Renderer>().material.SetColor("_EmissionColor",Color.red);
+				PetManager.excObj.gameObject.GetComponentInChildren<Renderer>().material.color=Color.red;
 				OdinPlus.InitNPC();
-				DBG.blogWarning("Rave has awaken");
+				//DBG.blogWarning("Rave has awaken");
 			}
 		}
-		
+
 		#endregion
 		#region ZnetScene
 		[HarmonyPatch(typeof(ZNetScene), "Awake")]
@@ -240,7 +248,7 @@ namespace OdinPlus
 			private static void Prefix(ZNetScene __instance)
 			{
 				OdinPlus.PreZNS(__instance);
-				
+
 			}
 		}
 		[HarmonyPriority(1000)]
@@ -258,20 +266,20 @@ namespace OdinPlus
 		{
 			private static void Postfix()
 			{
-				OdinPlus.UnRegister();				
+				OdinPlus.UnRegister();
 				OdinPlus.Clear();
 			}
 		}
 		#endregion
 		#region ZoneSystem
-			[HarmonyPatch(typeof(ZoneSystem), "Awake")]
-			private static class Postfix_ZoneSystem_Awake
-			{
+		[HarmonyPatch(typeof(ZoneSystem), "Awake")]
+		private static class Postfix_ZoneSystem_Awake
+		{
 			private static void Postfix()
 			{
-			
+
 			}
-			}
+		}
 		#endregion ZoneSystem
 		#region ODB
 		[HarmonyPatch(typeof(ObjectDB), "Awake")]
@@ -296,6 +304,7 @@ namespace OdinPlus
 			}
 			return false;
 		}
+
 
 		#endregion
 

@@ -6,6 +6,8 @@ namespace OdinPlus
 {
 	class OdinShaman : OdinNPC
 	{
+		public static Dictionary<string, string> ItemList = new Dictionary<string, string>();
+		public static Dictionary<string, string> ValueList = new Dictionary<string, string>();
 		private void Start()
 		{
 			var prefab = this.gameObject;
@@ -23,8 +25,9 @@ namespace OdinPlus
 			var a = Traverse.Create(ZNetScene.instance).Field<Dictionary<ZDO, ZNetView>>("m_instances").Value;
 			a.Remove(zdo);
 			ZDOMan.instance.DestroyZDO(zdo);
-
+			prefab.gameObject.transform.Rotate(0, 30f, 0);
 		}
+		
 		public override bool Interact(Humanoid user, bool hold)
 		{
 			if (hold)
