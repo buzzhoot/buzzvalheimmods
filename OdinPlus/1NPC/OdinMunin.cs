@@ -12,7 +12,7 @@ namespace OdinPlus
 		}
 		private void Start()
 		{
-			gameObject.transform.Rotate(0, -45f, 0);
+			gameObject.transform.Rotate(0, -30f, 0);
 		}
 		public override bool Interact(Humanoid user, bool hold)
 		{

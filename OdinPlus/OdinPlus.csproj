@@ -110,6 +110,8 @@
     <Compile Include="4Pets\PetWolf.cs" />
     <Compile Include="9Misc\GameTweaker.cs" />
     <Compile Include="2StatusEffects\SE_SummonPet.cs" />
+    <Compile Include="5Task\TaskManager.cs" />
+    <Compile Include="5Task\OdinTask.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

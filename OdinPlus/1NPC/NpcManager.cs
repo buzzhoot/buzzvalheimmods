@@ -159,16 +159,17 @@ namespace OdinPlus
 		{
 			var go =Instantiate(RavenPrefab,Root.transform);
 
-			DestroyImmediate(go.transform.Find("exclamation"));
+			DestroyImmediate(go.transform.Find("exclamation").gameObject);
 			DestroyImmediate(go.transform.GetComponentInChildren<Light>());
 			DestroyImmediate(go.GetComponent<Raven>());
 
 			m_odinMunin=go.AddComponent<OdinMunin>();
 
 			var ani = go.GetComponentInChildren<Animator>();
-			ani.SetBool("talk",true);
+			DestroyImmediate(ani);
 
 			go.transform.localPosition = new Vector3(2.7f,0,1.6f);
+			go.AddComponent<OdinMunin>();
 		}
 		private static void InitGoblin()
 		{
