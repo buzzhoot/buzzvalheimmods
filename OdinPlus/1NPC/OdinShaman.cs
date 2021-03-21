@@ -4,10 +4,23 @@ using UnityEngine;
 using HarmonyLib;
 namespace OdinPlus
 {
-	class OdinShaman : OdinNPC
+	class OdinShaman : OdinNPC, Hoverable, Interactable, OdinInteractable
 	{
-		public static Dictionary<string, string> ItemList = new Dictionary<string, string>();
-		public static Dictionary<string, string> ValueList = new Dictionary<string, string>();
+		public static Dictionary<string, GoodsDate> GoodsList = new Dictionary<string, GoodsDate>();
+		public struct GoodsDate
+		{
+			public string Good;
+			public int Value;
+		}
+		#region  Mono
+		private void Awake()
+		{
+			InitGoods();
+			m_name = "$odin_shaman";
+			m_talker = this.gameObject;
+		}
+
+		#endregion  Mono
 		private void Start()
 		{
 			var prefab = this.gameObject;
@@ -27,7 +40,7 @@ namespace OdinPlus
 			ZDOMan.instance.DestroyZDO(zdo);
 			prefab.gameObject.transform.Rotate(0, 30f, 0);
 		}
-		
+
 		public override bool Interact(Humanoid user, bool hold)
 		{
 			if (hold)
@@ -36,7 +49,7 @@ namespace OdinPlus
 			}
 			return true;
 		}
-		public override void SecondaryInteract (Humanoid user)
+		public override void SecondaryInteract(Humanoid user)
 		{
 
 		}
@@ -54,7 +67,32 @@ namespace OdinPlus
 		}
 		public override bool UseItem(Humanoid user, ItemDrop.ItemData item)
 		{
-			return false;
+			var name = item.m_dropPrefab.name;
+			if (GoodsList.ContainsKey(name))
+			{
+				var gd = GoodsList[name];
+				if (item.m_stack >= gd.Value)
+				{
+					var goodItemData = OdinItem.GetItemData(gd.Good);
+					if (user.GetInventory().AddItem(goodItemData))
+					{
+						user.GetInventory().RemoveItem(item, gd.Value);
+						Say(goodItemData.GetTooltip());
+						return true;
+					}
+					DBG.InfoCT("$odin_inventory_full");
+					return true;
+				}
+				Say("$odin_shaman_cantbuy");
+				return true;
+			}
+			Say("Hmm that's something new,can't take that right now");
+			return true;
+		}
+		public static void InitGoods()
+		{
+			GoodsList.Add("TrophyFrostTroll", new GoodsDate { Good = "scroll_troll", Value = 5 });
+			GoodsList.Add("TrophyWolf", new GoodsDate { Good = "scroll_wolf", Value = 5 });
 		}
 	}
 }
