@@ -163,7 +163,7 @@ namespace OdinPlus
 			{
 				odbRegList.Add(item.Key.GetStableHashCode(), item.Value);
 			}
-			DBG.blogWarning("Register " + name + " for ODB");
+			DBG.blogInfo("Register " + name + " for ODB");
 		}
 		public static void OdinPostRegister(Dictionary<string, GameObject> list)
 		{
