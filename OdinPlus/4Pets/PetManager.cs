@@ -38,7 +38,7 @@ namespace OdinPlus
 			Root = new GameObject("PetPrefab");
 			Root.transform.SetParent(OdinPlus.PrefabParent.transform);
 
-			//notice Init Here
+			
 			InitTroll();
 			InitWolf();
 
@@ -77,12 +77,7 @@ namespace OdinPlus
 			hd.m_name = hd.m_name + " Pet";//trans
 			hd.m_faction = Character.Faction.Players;
 
-			var mat = go.GetComponentInChildren<Renderer>().material;
-			mat.SetFloat("_Hue", 0.3f);
-			mat.SetFloat("_Saturation", 0.5f);
-			mat.EnableKeyword("_EMISSION");
-			mat.SetColor("_EmissionColor", Color.HSVToRGB(0.3f, 0.5f, 0.3f));
-			mat.globalIlluminationFlags = MaterialGlobalIlluminationFlags.RealtimeEmissive;
+			SetColor(go);
 
 			if (hd.m_randomSets.Length > 1)
 			{
@@ -109,12 +104,8 @@ namespace OdinPlus
 
 			var pw = go.AddComponent<PetWolf>();
 
-			var mat = go.GetComponentInChildren<Renderer>().material;
-			mat.SetFloat("_Hue", 0.3f);
-			mat.SetFloat("_Saturation", 0.5f);
-			mat.EnableKeyword("_EMISSION");
-			mat.SetColor("_EmissionColor", Color.HSVToRGB(0.3f, 0.5f, 0.3f)*0.1f);
-			mat.globalIlluminationFlags = MaterialGlobalIlluminationFlags.RealtimeEmissive;
+			SetColor(go);
+
 			//Humanoid
 
 			hum.m_name += String.Format("\n<color=yellow><b>[{0}]</b></color>$odin_wolf_use", Plugin.KS_SecondInteractkey.Value.MainKey.ToString());
@@ -132,7 +123,7 @@ namespace OdinPlus
 			ctn.m_width = 2;
 			ctn.m_height = 2;
 			ctn.m_name = "WolfPack";//trans
-			//--ctn.m_destroyedLootPrefab = zns.GetPrefab("CargoCrate");
+			ctn.m_destroyedLootPrefab = zns.GetPrefab("CargoCrate");
 			ctn.m_bkg = zns.GetPrefab("CargoCrate").GetComponent<Container>().m_bkg;
 			PetList.Add(go.name, go);
 
@@ -158,6 +149,16 @@ namespace OdinPlus
 			Indicator.AddComponent<StaticTarget>();
 			Indicator.AddComponent<CapsuleCollider>();
 			Indicator.SetActive(false);
+		}
+		public static void SetColor(GameObject go)
+		{
+			var mat = go.GetComponentInChildren<Renderer>().material;
+			mat.SetFloat("_Hue", 0.3f);
+			mat.SetFloat("_Saturation", 0.5f);
+			mat.EnableKeyword("_EMISSION");
+			mat.SetColor("_EmissionColor", Color.HSVToRGB(0.3f, 0.5f, 0.3f) * 0.1f);
+			mat.globalIlluminationFlags = MaterialGlobalIlluminationFlags.RealtimeEmissive;
+
 		}
 		#endregion Tool
 	}
