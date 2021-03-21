@@ -54,5 +54,11 @@ namespace OdinPlus
 		}
 		#endregion PetItems
 
+		#region Tool
+		public static ItemDrop.ItemData GetItemData(string name)
+		{
+			return ItemList[name].GetComponent<ItemDrop>().m_itemData;
+		}
+		#endregion Tool
 	}
 }
