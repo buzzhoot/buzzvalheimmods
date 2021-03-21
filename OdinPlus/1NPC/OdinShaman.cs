@@ -6,18 +6,20 @@ namespace OdinPlus
 {
 	class OdinShaman : OdinNPC, Hoverable, Interactable, OdinInteractable
 	{
-		public static Dictionary<string, GoodsDate> GoodsList = new Dictionary<string, GoodsDate>();
+		//private static bool isInit = false;
+		public  Dictionary<string, GoodsDate> GoodsList = new Dictionary<string, GoodsDate>();
 		public struct GoodsDate
 		{
 			public string Good;
 			public int Value;
+
 		}
 		#region  Mono
 		private void Awake()
 		{
-			InitGoods();
 			m_name = "$odin_shaman";
 			m_talker = this.gameObject;
+			InitGoods();
 		}
 
 		#endregion  Mono
@@ -89,7 +91,7 @@ namespace OdinPlus
 			Say("Hmm that's something new,can't take that right now");
 			return true;
 		}
-		public static void InitGoods()
+		public  void InitGoods()
 		{
 			GoodsList.Add("TrophyFrostTroll", new GoodsDate { Good = "scroll_troll", Value = 5 });
 			GoodsList.Add("TrophyWolf", new GoodsDate { Good = "scroll_wolf", Value = 5 });
