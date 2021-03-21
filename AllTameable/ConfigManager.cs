@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
+//using System.Text.RegularExpressions;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 //using BepInEx.Configuration;
-//using System.Text.RegularExpressions;
+
 
 namespace AllTameable
 {
@@ -42,7 +43,7 @@ namespace AllTameable
 		#region Mono
 		private void Awake()
 		{
-			Root=this.gameObject.transform;
+			Root = this.gameObject.transform;
 			//SM_Root = new GameObject("ConfigManager").transform;
 			//SM_Root.SetParent(Plugin.Root.transform);
 			//SM_Root.gameObject.SetActive(false);
@@ -102,17 +103,28 @@ namespace AllTameable
 			GUILayout.Label(fieldInfo.Name, GUILayout.Width((width - 50) * 1 / 3));
 			result = GUILayout.TextField(result, GUILayout.Width((width - 50) * 2 / 3));
 			GUILayout.EndHorizontal();
+			result = Single.Parse(result).ToString();
 			//result = Regex.Replace(result, "[^0-9]", "");
-			fieldInfo.SetValue(obj, int.Parse(result));
+			int a;
+			if (int.TryParse(result, out a))
+			{
+				fieldInfo.SetValue(obj, a);
+			}
 		}
 		private void DrawFloatField(PropertyInfo fieldInfo)
 		{
 			string result = (string)fieldInfo.GetValue(obj).ToString();
 			GUILayout.BeginHorizontal();
 			GUILayout.Label(fieldInfo.Name, GUILayout.Width((width - 50) * 1 / 3));
-			result = GUILayout.TextField(result, GUILayout.Width((width - 50) * 2 / 3));
+			if(fieldInfo.Name=="pregnancyChance"){result = GUILayout.TextField(Single.Parse(result).ToString("0.00"), GUILayout.Width((width - 50) * 2 / 3));}
+			else{result = GUILayout.TextField(result, GUILayout.Width((width - 50) * 2 / 3));}
+			
 			GUILayout.EndHorizontal();
-			fieldInfo.SetValue(obj, float.Parse(result));
+			float a;
+			if (float.TryParse(result, out a))
+			{
+				fieldInfo.SetValue(obj, a);
+			}
 		}
 		private void DrawBoolToogle(PropertyInfo fieldInfo)
 		{

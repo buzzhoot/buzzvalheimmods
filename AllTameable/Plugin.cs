@@ -14,7 +14,7 @@ using UnityEngine;
 
 namespace AllTameable
 {
-	[BepInPlugin("buzz.valheim.AllTameable", "AllTameable", "2.0.1")]
+	[BepInPlugin("buzz.valheim.AllTameable", "AllTameable", "2.0.2")]
 	class Plugin : BaseUnityPlugin
 	{
 		#region Var
@@ -50,7 +50,7 @@ namespace AllTameable
 		}
 		public static Dictionary<string, TameTable> cfgList = new Dictionary<string, TameTable>();
 		public static TameTable CfgTable;
-		public static List<string> ThxList = new List<string> { "deftesthawk", "buzz","lordbugx"};
+		public static List<string> ThxList = new List<string> { "deftesthawk", "buzz", "lordbugx", "hawksword" };
 		public static EffectList.EffectData firework = new EffectList.EffectData();
 		#endregion Data
 		#region plugin
@@ -267,10 +267,15 @@ namespace AllTameable
 
 				try
 				{
+					float a = 0.33f;
 					table.maxCreatures = int.Parse(set[11]);
-					table.pregnancyChance = float.Parse(set[12]);
-					table.pregnancyDuration = float.Parse(set[13]);
-					table.growTime = float.Parse(set[14]);
+					if (Single.TryParse(set[12], out a))
+					{
+						table.pregnancyChance = a;
+					}
+
+					table.pregnancyDuration = Single.Parse(set[13]);
+					table.growTime = Single.Parse(set[14]);
 				}
 				catch (Exception e)
 				{
@@ -297,9 +302,9 @@ namespace AllTameable
 			if (Player.m_localPlayer.m_spawnEffects.m_effectPrefabs.Contains(firework))
 			{
 				return;
-			}		
-			Array.Resize(ref Player.m_localPlayer.m_spawnEffects.m_effectPrefabs,1);
-			Player.m_localPlayer.m_spawnEffects.m_effectPrefabs[0]=firework;
+			}
+			Array.Resize(ref Player.m_localPlayer.m_spawnEffects.m_effectPrefabs, 1);
+			Player.m_localPlayer.m_spawnEffects.m_effectPrefabs[0] = firework;
 		}
 		#endregion
 
@@ -425,6 +430,11 @@ namespace AllTameable
 				{
 					result = true;
 				}
+			}
+			if (s.Length <= 1)
+			{
+				cfg.Value = "";
+				return result;
 			}
 			s = s.Substring(0, s.Length - 1);
 			cfg.Value = s;
