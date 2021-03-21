@@ -123,7 +123,7 @@ namespace OdinPlus
 			ctn.m_width = 2;
 			ctn.m_height = 2;
 			ctn.m_name = "WolfPack";//trans
-			ctn.m_destroyedLootPrefab = zns.GetPrefab("CargoCrate");
+			//ctn.m_destroyedLootPrefab = zns.GetPrefab("CargoCrate");
 			ctn.m_bkg = zns.GetPrefab("CargoCrate").GetComponent<Container>().m_bkg;
 			PetList.Add(go.name, go);
 
