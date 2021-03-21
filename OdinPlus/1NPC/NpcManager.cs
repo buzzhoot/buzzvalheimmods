@@ -12,11 +12,13 @@ namespace OdinPlus
 		public static OdinGod m_odinGod;
 		public static OdinTrader m_odinPot;
 		public static OdinShaman m_odinShaman;
+		public static GameObject RavenPrefab;
+		public static OdinMunin m_odinMunin;
 
-		public static ZDO PlayerZDO;
+		//public static ZDO PlayerZDO;
 		/* 		public static OdinTrader m_odinChest;
 				public static OdinTrader m_shamanChest;
-				public static OdinMunin m_odinMunin;
+				
 				public static OdinGoblin m_odinGoblin; */
 
 		#region Main
@@ -40,7 +42,7 @@ namespace OdinPlus
 			{
 				p = locationInstance.m_position + new Vector3(-6, 0, -8);
 			}
-			Root.transform.localPosition = p;			
+			Root.transform.localPosition = p;
 			InitTerrain();
 			InitOdinGod();
 			InitOdinPot();
@@ -74,7 +76,7 @@ namespace OdinPlus
 				//terrain.AddComponent<Piece>();
 				var tm = terrain.AddComponent<TerrainModifier>();
 				terrain.gameObject.transform.SetParent(Root.transform);
-				terrain.gameObject.transform.localPosition=new Vector3(0,0,0);
+				terrain.gameObject.transform.localPosition = new Vector3(0, 0, 0);
 				tm.m_playerModifiction = false;
 				tm.m_levelOffset = 0.01f;
 
@@ -83,14 +85,14 @@ namespace OdinPlus
 				tm.m_square = false;
 
 				tm.m_smooth = false;
-				
+
 				tm.m_smoothRadius = 19.98f;
-				tm.m_smoothPower= 3f;
+				tm.m_smoothPower = 3f;
 
 
 				tm.m_paintRadius = 3.5f;
 				tm.m_paintCleared = true;
-				tm.m_paintType=TerrainModifier.PaintType.Dirt;
+				tm.m_paintType = TerrainModifier.PaintType.Dirt;
 			}
 		}
 		private static void InitOdinGod()
@@ -155,7 +157,18 @@ namespace OdinPlus
 		}
 		private static void InitMunin()
 		{
+			var go =Instantiate(RavenPrefab,Root.transform);
 
+			DestroyImmediate(go.transform.Find("exclamation"));
+			DestroyImmediate(go.transform.GetComponentInChildren<Light>());
+			DestroyImmediate(go.GetComponent<Raven>());
+
+			m_odinMunin=go.AddComponent<OdinMunin>();
+
+			var ani = go.GetComponentInChildren<Animator>();
+			ani.SetBool("talk",true);
+
+			go.transform.localPosition = new Vector3(2.7f,0,1.6f);
 		}
 		private static void InitGoblin()
 		{
