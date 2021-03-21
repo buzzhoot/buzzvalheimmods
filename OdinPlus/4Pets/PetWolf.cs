@@ -7,25 +7,37 @@ namespace OdinPlus
 {
 	public class PetWolf : MonoBehaviour, OdinInteractable
 	{
-		public Container container;
+		private Container container;
 		private Tameable tame;
 		private Inventory m_inventory;
 		private Humanoid m_hum;
 		private void Awake()
 		{
-			PetManager.WolfIns= this.gameObject;
+			PetManager.WolfIns = this.gameObject;
+			container = this.GetComponent<Container>();
+
 			Character character = this.GetComponent<Character>();
-			character.m_onDeath = (Action)Delegate.Combine(new Action(this.OnDestroyed), character.m_onDeath);
+			character.m_onDeath = (Action)Delegate.Combine(character.m_onDeath, new Action(this.OnDestroyed));
+
 			tame = this.GetComponent<Tameable>();
 			tame.Tame();
 			tame.m_fedDuration = 600;
-			m_inventory=Traverse.Create(container).Field<Inventory>("m_inventory").Value;
-			m_hum=this.GetComponent<Humanoid>();
+
+
+			m_hum = this.GetComponent<Humanoid>();
 		}
-		public static void Teleport() { }
+		private void Start()
+		{
+			m_inventory = Traverse.Create(container).Field<Inventory>("m_inventory").Value;
+		}
+		public void Teleport() { }
 		private void OnDestroyed()
 		{
 			//?Action a =  (Action)Traverse.Create(container).Field<Action>("OnDestryod").Value;
+			if (m_inventory.SlotsUsedPercentage() == 0)
+			{
+				return;
+			}
 			List<ItemDrop.ItemData> allItems = m_inventory.GetAllItems();
 			int num = 1;
 			foreach (ItemDrop.ItemData item in allItems)
@@ -36,9 +48,21 @@ namespace OdinPlus
 				num++;
 			}
 		}
-		private void Update() {
-			var weight =Traverse.Create(m_inventory).Field<float>("m_totalWeight").Value;
-			m_hum.ChangeSpeed(300/(weight+0.0001f)*2);//trans
+		private void Update()
+		{
+			var weight = Traverse.Create(m_inventory).Field<float>("m_totalWeight").Value;
+			//Debug.LogWarning(weight);
+			if (weight > 0)
+			{
+				if (weight >= 300)
+				{
+					m_hum.ChangeSpeed(0.5f);
+					return;
+				}
+				m_hum.ChangeSpeed((300 - weight) / 300 * 1.5f + 0.5f);
+				return;
+			}
+			m_hum.ChangeSpeed(2);
 		}
 		public void SecondaryInteract(Humanoid user)
 		{

@@ -73,8 +73,17 @@ namespace OdinPlus
 			go.AddComponent<PetTroll>();
 			var hd = go.GetComponent<Humanoid>();
 			DestroyImmediate(go.GetComponent<CharacterDrop>());
+
 			hd.m_name = hd.m_name + " Pet";//trans
 			hd.m_faction = Character.Faction.Players;
+
+			var mat = go.GetComponentInChildren<Renderer>().material;
+			mat.SetFloat("_Hue", 0.3f);
+			mat.SetFloat("_Saturation", 0.5f);
+			mat.EnableKeyword("_EMISSION");
+			mat.SetColor("_EmissionColor", Color.HSVToRGB(0.3f, 0.5f, 0.3f));
+			mat.globalIlluminationFlags = MaterialGlobalIlluminationFlags.RealtimeEmissive;
+
 			if (hd.m_randomSets.Length > 1)
 			{
 				hd.m_randomSets = hd.m_randomSets.Skip(hd.m_randomSets.Length - 1).ToArray();
@@ -103,7 +112,11 @@ namespace OdinPlus
 			var mat = go.GetComponentInChildren<Renderer>().material;
 			mat.SetFloat("_Hue", 0.3f);
 			mat.SetFloat("_Saturation", 0.5f);
+			mat.EnableKeyword("_EMISSION");
+			mat.SetColor("_EmissionColor", Color.HSVToRGB(0.3f, 0.5f, 0.3f)*0.1f);
+			mat.globalIlluminationFlags = MaterialGlobalIlluminationFlags.RealtimeEmissive;
 			//Humanoid
+
 			hum.m_name += String.Format("\n<color=yellow><b>[{0}]</b></color>$odin_wolf_use", Plugin.KS_SecondInteractkey.Value.MainKey.ToString());
 			hum.m_faction = Character.Faction.Players;
 			//hum.SetLevel(4);
@@ -115,11 +128,11 @@ namespace OdinPlus
 			mai.m_hearRange = 3;
 			//Container
 			var ctn = go.AddComponent<Container>();
-			pw.container = ctn;
+			//pw.container = ctn;
 			ctn.m_width = 2;
 			ctn.m_height = 2;
 			ctn.m_name = "WolfPack";//trans
-									//--ctn.m_destroyedLootPrefab = zns.GetPrefab("CargoCrate");
+			//--ctn.m_destroyedLootPrefab = zns.GetPrefab("CargoCrate");
 			ctn.m_bkg = zns.GetPrefab("CargoCrate").GetComponent<Container>().m_bkg;
 			PetList.Add(go.name, go);
 
