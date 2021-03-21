@@ -99,20 +99,21 @@ namespace OdinPlus
 			DestroyImmediate(go.GetComponent<CharacterDrop>());
 
 			var pw = go.AddComponent<PetWolf>();
-			go.GetComponentInChildren<Renderer>().material.color=new Color(0.3f,0.3f,0.3f);
 
+			var mat = go.GetComponentInChildren<Renderer>().material;
+			mat.color=new Color(0.3f,0.3f,0.3f);
+			//Humanoid
 			hum.m_name += String.Format("\n<color=yellow><b>[{0}]</b></color>$odin_wolf_use", Plugin.KS_SecondInteractkey.Value.MainKey.ToString());
 			hum.m_faction = Character.Faction.Players;
-
+			//hum.SetLevel(4);
+			//Ai Tweak
 			mai.m_randomMoveInterval = 10000;
 			mai.m_randomCircleInterval = 10000;
 			mai.m_alertRange = 3;
 			mai.m_viewRange = 3;
 			mai.m_hearRange = 3;
-			//?AI TWEAK TO stay;
-
+			//Container
 			var ctn = go.AddComponent<Container>();
-
 			pw.container = ctn;
 			ctn.m_width = 2;
 			ctn.m_height = 2;
@@ -128,7 +129,8 @@ namespace OdinPlus
 		public static void SummonPet(string name)
 		{
 			var ppfb = ZNetScene.instance.GetPrefab(name);
-			Instantiate(ppfb, Player.m_localPlayer.transform.position + Player.m_localPlayer.transform.forward * 2f + Vector3.up, Quaternion.identity);
+			var go = Instantiate(ppfb, Player.m_localPlayer.transform.position + Player.m_localPlayer.transform.forward * 2f + Vector3.up, Quaternion.identity);
+			go.GetComponent<Character>().SetLevel(4);
 			DBG.InfoCT("You summoned a " + name );//trans
 		}
 
