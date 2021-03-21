@@ -13,7 +13,6 @@ namespace OdinPlus
 		private static GameObject MeadTasty;
 		public static Dictionary<string, GameObject> MeadList = new Dictionary<string, GameObject>();
 		private static GameObject Root;
-		public static List<string> ValMeadsName=new List<string>();
 		private void Awake()
 		{
 			Root = new GameObject("MeadList");
@@ -32,7 +31,7 @@ namespace OdinPlus
 		
 		public static void InitValMead()
 		{
-			foreach (var item in ValMeadsName)
+			foreach (var item in OdinSE.ValDataList.Keys)
 			{
 				CreateValMeadPrefab(item);
 			}
