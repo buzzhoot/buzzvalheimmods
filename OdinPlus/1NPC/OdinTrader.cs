@@ -43,9 +43,8 @@ namespace OdinPlus
 			}
 			Say("Want something magic,Warrior?");
 			StoreGui.instance.Show(this);
-			m_randomStartTradeFX.Create(m_talker.transform.position, Quaternion.identity, null, 1f);
-			m_randomStartTradeFX.Create(this.transform.position, Quaternion.identity, null, 1f);
-			//test.testdebg();
+			//m_randomStartTradeFX.Create(m_talker.transform.position, Quaternion.identity, null, 1f);
+			//m_randomStartTradeFX.Create(this.transform.position, Quaternion.identity, null, 1f);
 			return true;
 		}
 		public new bool UseItem(Humanoid user, ItemDrop.ItemData item)
