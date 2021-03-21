@@ -12,9 +12,10 @@ namespace OdinPlus
 	{
 		public string m_name;
 		public Transform m_head;
+		public GameObject m_talker;
 		public virtual void Say(string text)
 		{
-			Chat.instance.SetNpcText(this.gameObject, Vector3.up * 1.5f, 60f, 5, "Odin", text, false);
+			Chat.instance.SetNpcText(m_talker, Vector3.up * 1.5f, 60f, 5, m_name, text, false);
 		}
 		public virtual bool Interact(Humanoid user, bool hold)
 		{

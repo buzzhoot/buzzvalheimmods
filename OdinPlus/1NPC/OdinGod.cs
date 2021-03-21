@@ -6,7 +6,7 @@ using System.Reflection;
 //||X||Sell Value Don't Resolve Here!!!
 namespace OdinPlus
 {
-	public class OdinGod : OdinNPC, Hoverable, Interactable,OdinInteractable
+	public class OdinGod : OdinNPC, Hoverable, Interactable, OdinInteractable
 	{
 		#region Var
 		public static OdinGod m_instance;
@@ -28,7 +28,7 @@ namespace OdinPlus
 				return p;
 			}
 			DBG.blogWarning("Cant Find a point to Spawn Odin use /odin respawn");//notice
-			return new Vector3(a,c,b);
+			return new Vector3(a, c, b);
 		}
 		private string randomName()
 		{
@@ -47,25 +47,28 @@ namespace OdinPlus
 		}
 		#endregion
 		#region Mono
-		private void OnDestroy()
-		{
-			RestTerrian();
-			if (m_instance == this)
-			{
-				m_instance = null;
-			}
-		}
+
 		private void Awake()
 		{
 			m_instance = this;
 			Summon();
 			m_head = this.gameObject.transform.Find("visual/Armature/Hips/Spine0/Spine1/Spine2/Head");
-			m_name="$odin_god";
+			m_name = "$odin_god";
+			m_talker=this.gameObject;
 		}
-		private void Start() {
+		private void Start()
+		{
 			Debug.LogWarning(this.gameObject.transform.parent.rotation);
-			this.gameObject.transform.parent.Rotate(0,42,0);
+			this.gameObject.transform.parent.Rotate(0, 42, 0);
 			Debug.LogWarning(this.gameObject.transform.parent.rotation);
+		}
+		private void OnDestroy()
+		{
+			//RestTerrian();
+			if (m_instance == this)
+			{
+				m_instance = null;
+			}
 		}
 		#endregion
 		#region Tool
@@ -77,7 +80,7 @@ namespace OdinPlus
 			ReadSkill();
 			return true;
 		}
-		
+
 		#endregion
 		#region valheim
 		public override bool Interact(Humanoid user, bool hold)
@@ -97,7 +100,7 @@ namespace OdinPlus
 			Say("I made you stronger,warrior");
 			return true;
 		}
-		public override void SecondaryInteract (Humanoid user)
+		public override void SecondaryInteract(Humanoid user)
 		{
 			SwitchSkill();
 		}
