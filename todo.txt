@@ -16,10 +16,11 @@
 //||X||RuneStone for spawning?//? Now use ZoneSystem
 //||X||BOOL PREFIX NEED TO BE FIX
 //|| ||Store name( Patch StoreGui Awake if you cant find the topic)//-?
-//|| ||Wolf container//add
-//|| ||Wolf and troll color//-?
-//|| ||Create Npc Prefab//
-//|| ||Mead ConfigManager//!
+//||X||Wolf container//add
+//||X||Wolf and troll color//-?
+//||X||Create Npc Prefab//
+//|| ||PET ZDO REGISTER TO PLAYER//!
+//|| ||Mead ConfigManager//?
 //|| ||More Meads:big heal stamina tempopry WEIGHT Mining,Double Damege
 //|| ||New SE template :RunSpeed Invisible, 
 //|| ||Task system//!Treasure Hunt!!
@@ -30,7 +31,7 @@
 //|| ||Mountable Dragon
 //|| ||no mobs area FX on odin,and animator,Terrain
 //|| ||Does SE last When you quit game//??
-//|| ||Load Error//?Check when will it happen again
+//||X||Load Error//Check when will it happen again
 //============== EndTODO=============
 
 //=================TODO=============Project
