@@ -40,9 +40,9 @@ namespace OdinPlus
 			var weight =Traverse.Create(m_inventory).Field<float>("m_totalWeight").Value;
 			m_hum.ChangeSpeed(300/(weight+0.0001f)*2);//trans
 		}
-		public void SecondaryInteract()
+		public void SecondaryInteract(Humanoid user)
 		{
-			container.Interact(Player.m_localPlayer, false);
+			container.Interact(user, false);
 		}
 	}
 }

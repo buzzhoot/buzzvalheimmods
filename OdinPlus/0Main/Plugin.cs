@@ -141,12 +141,12 @@ namespace OdinPlus
 				{
 					if (__instance.GetHoverObject().GetComponent<OdinInteractable>() != null)
 					{
-						__instance.GetHoverObject().GetComponent<OdinInteractable>().SecondaryInteract();
+						__instance.GetHoverObject().GetComponent<OdinInteractable>().SecondaryInteract(__instance);
 						return;
 					}
 					if (__instance.GetHoverObject().GetComponentInParent<OdinInteractable>() != null)
 					{
-						__instance.GetHoverObject().GetComponentInParent<OdinInteractable>().SecondaryInteract();
+						__instance.GetHoverObject().GetComponentInParent<OdinInteractable>().SecondaryInteract(__instance);
 						return;
 					}
 

@@ -17,7 +17,7 @@ namespace OdinPlus
 			}
 			return true;
 		}
-		public override void SecondaryInteract()
+		public override void SecondaryInteract (Humanoid user)
 		{
 
 		}

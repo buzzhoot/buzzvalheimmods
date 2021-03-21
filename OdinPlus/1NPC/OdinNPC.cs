@@ -24,7 +24,7 @@ namespace OdinPlus
 			}
 			return true;
 		}
-		public virtual void SecondaryInteract()
+		public virtual void SecondaryInteract (Humanoid user)
 		{
 
 		}

@@ -97,7 +97,7 @@ namespace OdinPlus
 			Say("I made you stronger,warrior");
 			return true;
 		}
-		public override void SecondaryInteract()
+		public override void SecondaryInteract (Humanoid user)
 		{
 			SwitchSkill();
 		}
