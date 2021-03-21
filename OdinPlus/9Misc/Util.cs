@@ -7,6 +7,8 @@ namespace OdinPlus
 {
 	public static class Util
 	{
+
+		#region LoadResource
 		public static Dictionary<string, Texture2D> cachedTextures = new Dictionary<string, Texture2D>();
 		private static Sprite LoadCustomTexture(String image)
 		{
@@ -34,6 +36,18 @@ namespace OdinPlus
 			}
 			return result;
 		}
+
+		public static byte[] GetResource(Assembly asm, string ResourceName)
+		{
+			Stream manifestResourceStream = asm.GetManifestResourceStream(ResourceName);
+			byte[] array = new byte[manifestResourceStream.Length];
+			manifestResourceStream.Read(array, 0, (int)manifestResourceStream.Length);
+			return array;
+		}
+		#endregion LoadResource
+		#region Reflection
+
+		#endregion Reflection
 		public static object InvokePrivate(object instance, string name, object[] args = null)
 		{
 			MethodInfo method = instance.GetType().GetMethod(name, BindingFlags.NonPublic | BindingFlags.Instance);
@@ -73,7 +87,7 @@ namespace OdinPlus
 			var.SetValue(instance, value);
 		}
 
-		public static List<T> RemoveList<TU,T>(this List<T> instance,Dictionary<TU,T> other)
+		public static List<T> RemoveList<TU, T>(this List<T> instance, Dictionary<TU, T> other)
 		{
 			foreach (var item in other.Values)
 			{
@@ -84,7 +98,7 @@ namespace OdinPlus
 			}
 			return instance;
 		}
-		public static Dictionary<T,TU> RemoveList<T,TU>(this Dictionary<T,TU> instance,Dictionary<T,TU> other)
+		public static Dictionary<T, TU> RemoveList<T, TU>(this Dictionary<T, TU> instance, Dictionary<T, TU> other)
 		{
 			foreach (var item in other.Keys)
 			{
