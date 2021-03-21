@@ -101,7 +101,8 @@ namespace OdinPlus
 			var pw = go.AddComponent<PetWolf>();
 
 			var mat = go.GetComponentInChildren<Renderer>().material;
-			mat.color=new Color(0.3f,0.3f,0.3f);
+			mat.SetFloat("_Hue", 0.3f);
+			mat.SetFloat("_Saturation", 0.5f);
 			//Humanoid
 			hum.m_name += String.Format("\n<color=yellow><b>[{0}]</b></color>$odin_wolf_use", Plugin.KS_SecondInteractkey.Value.MainKey.ToString());
 			hum.m_faction = Character.Faction.Players;
@@ -118,7 +119,7 @@ namespace OdinPlus
 			ctn.m_width = 2;
 			ctn.m_height = 2;
 			ctn.m_name = "WolfPack";//trans
-			//--ctn.m_destroyedLootPrefab = zns.GetPrefab("CargoCrate");
+									//--ctn.m_destroyedLootPrefab = zns.GetPrefab("CargoCrate");
 			ctn.m_bkg = zns.GetPrefab("CargoCrate").GetComponent<Container>().m_bkg;
 			PetList.Add(go.name, go);
 
@@ -131,7 +132,7 @@ namespace OdinPlus
 			var ppfb = ZNetScene.instance.GetPrefab(name);
 			var go = Instantiate(ppfb, Player.m_localPlayer.transform.position + Player.m_localPlayer.transform.forward * 2f + Vector3.up, Quaternion.identity);
 			go.GetComponent<Character>().SetLevel(4);
-			DBG.InfoCT("You summoned a " + name );//trans
+			DBG.InfoCT("You summoned a " + name);//trans
 		}
 
 		#endregion Feature
