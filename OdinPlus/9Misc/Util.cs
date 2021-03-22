@@ -46,7 +46,7 @@ namespace OdinPlus
 		}
 		#endregion LoadResource
 		#region Reflection
-public static object InvokePrivate(object instance, string name, object[] args = null)
+		public static object InvokePrivate(object instance, string name, object[] args = null)
 		{
 			MethodInfo method = instance.GetType().GetMethod(name, BindingFlags.NonPublic | BindingFlags.Instance);
 
@@ -108,13 +108,26 @@ public static object InvokePrivate(object instance, string name, object[] args =
 			return instance;
 		}
 		#endregion Reflection
-		
+
+		#region  game
+		public static float RollDice(this float val)
+		{
+			UnityEngine.Random.InitState((int)Time.time);
+			return val*UnityEngine.Random.value;
+		}
+		public static int RollDice(this int val)
+		{
+			UnityEngine.Random.InitState((int)Time.time);
+			return Mathf.FloorToInt(val*UnityEngine.Random.value);
+		}
 		public static Vector3 GetRandomLocation(this Vector3 pos)
 		{
 			float seed = Time.time;
 			UnityEngine.Random.InitState((int)seed);
-			return pos+new Vector3(UnityEngine.Random.value,0,UnityEngine.Random.value)*50;
+			return pos + new Vector3(UnityEngine.Random.value, 0, UnityEngine.Random.value) * 50;
 		}
+		#endregion  game
+
 	}
 }
 
