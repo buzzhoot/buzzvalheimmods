@@ -118,7 +118,7 @@ namespace OdinPlus
 		public static int RollDice(this int val)
 		{
 			UnityEngine.Random.InitState((int)Time.time);
-			return Mathf.FloorToInt(val*UnityEngine.Random.value);
+			return (int)(val*UnityEngine.Random.value);
 		}
 		public static int RollDice(this int val,int max)
 		{
