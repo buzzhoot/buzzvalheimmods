@@ -9,8 +9,8 @@ namespace OdinPlus
 		private static GameObject MeadTasty;
 		private static GameObject TrophyGoblinShaman;
 		public static Dictionary<string, Sprite> PetItemList = new Dictionary<string, Sprite>{
-			{"scroll_troll", OdinPlus.TrollHeadIcon},
-			{"scroll_wolf", OdinPlus.WolfHeadIcon}
+			{"ScrolTroll", OdinPlus.TrollHeadIcon},
+			{"ScrollWolf", OdinPlus.WolfHeadIcon}
 			};
 		public static Dictionary<string, GameObject> ItemList = new Dictionary<string, GameObject>();
 		private static GameObject Root;
@@ -53,6 +53,9 @@ namespace OdinPlus
 			id.m_maxStackSize = 1;
 			id.m_consumeStatusEffect = OdinSE.SElist[name];
 
+			go.GetComponent<ItemDrop>().m_itemData.m_quality=4;
+			id.m_maxQuality = 4;
+
 			ItemList.Add(name, go);
 		}
 		#endregion PetItems
@@ -60,8 +63,8 @@ namespace OdinPlus
 		#region Legacy
 		private static void InitLegacy()
 		{
-			string name = "odin_lgeacy";
-			GameObject go = Instantiate(TrophyGoblinShaman,Root.transform);
+			string name = "OdinLegacy";
+			GameObject go = Instantiate(TrophyGoblinShaman, Root.transform);
 			go.name = "OdinLegacy";
 			var id = go.GetComponent<ItemDrop>().m_itemData.m_shared;
 			id.m_name = "$odin_" + name + "_name";
@@ -69,7 +72,7 @@ namespace OdinPlus
 			id.m_description = "$odin_" + name + "_desc";
 
 			id.m_maxStackSize = 1;
-			id.m_maxQuality=4;
+			id.m_maxQuality = 4;
 		}
 
 		#endregion Legacy

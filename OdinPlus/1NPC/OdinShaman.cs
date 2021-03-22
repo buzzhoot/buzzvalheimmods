@@ -94,8 +94,8 @@ namespace OdinPlus
 		}
 		public  void InitGoods()
 		{
-			GoodsList.Add("TrophyFrostTroll", new GoodsDate { Good = "scroll_troll", Value = 5 });
-			GoodsList.Add("TrophyWolf", new GoodsDate { Good = "scroll_wolf", Value = 5 });
+			GoodsList.Add("TrophyFrostTroll", new GoodsDate { Good = "ScrolTroll", Value = 5 });
+			GoodsList.Add("TrophyWolf", new GoodsDate { Good = "ScrollWolf", Value = 5 });
 		}
 	}
 }
