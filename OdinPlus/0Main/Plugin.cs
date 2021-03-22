@@ -30,7 +30,7 @@ namespace OdinPlus
 		private void Awake()
 		{
 			Plugin.logger = base.Logger;
-			CFG_ItemSellValue = base.Config.Bind<string>("Config", "ItemSellValue", "Wood:1;Coins:1");
+			CFG_ItemSellValue = base.Config.Bind<string>("Config", "ItemSellValue", "Coins:1;OdinLegacy:20");
 			CFG_Pets = base.Config.Bind<string>("Config", "PetList", "Troll,GoblinShaman");
 			//Plugin.nexusID = base.Config.Bind<int>("General", "NexusID", 354, "Nexus mod ID for updates");
 			KS_SecondInteractkey = base.Config.Bind<KeyboardShortcut>("1Hotkeys", "Second Interact key", new KeyboardShortcut(KeyCode.F));

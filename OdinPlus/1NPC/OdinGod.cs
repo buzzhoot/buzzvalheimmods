@@ -123,7 +123,7 @@ namespace OdinPlus
 				return false;
 			}
 			value = OdinScore.ItemSellValue[name];
-			OdinScore.add(value * item.m_stack, m_head);
+			OdinScore.add(value * item.m_stack*item.m_quality, m_head);
 			user.GetInventory().RemoveItem(item.m_shared.m_name, item.m_stack);
 			Say("Nice,bring back more");
 			return true;
