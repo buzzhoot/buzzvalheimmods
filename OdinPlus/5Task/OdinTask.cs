@@ -18,7 +18,7 @@ namespace OdinPlus
 	{
 		#region Var
 		#region internal
-		protected Vector3 m_location;
+		protected Vector3 m_position;
 		protected float m_range;
 		protected TaskManager.TaskType m_type;
 		protected bool m_targetClear = false;
@@ -43,7 +43,7 @@ namespace OdinPlus
 		{
 			if (!m_discovered)
 			{
-				m_discovered = ZoneSystem.instance.IsZoneLoaded(m_location);
+				m_discovered = ZoneSystem.instance.IsZoneLoaded(m_position);
 			}
 		}
 		#endregion Mono
@@ -62,7 +62,7 @@ namespace OdinPlus
 			{
 				"OdinMission",
 				Minimap.PinType.Icon0,
-				m_location.GetRandomLocation()
+				m_position.GetRandomLocation()
 			});
 		}
 		public virtual void Giveup()
@@ -130,7 +130,7 @@ namespace OdinPlus
 			{
 				return false;
 			}
-			return Utils.DistanceXZ(position, m_location) < m_range;
+			return Utils.DistanceXZ(position, m_position) < m_range;
 		}
 		public bool IsPlayerInsideArea()
 		{
