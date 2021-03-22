@@ -21,7 +21,7 @@ namespace OdinPlus
 			container = this.GetComponent<Container>();
 
 			Character character = this.GetComponent<Character>();
-			character.m_onDeath = (Action)Delegate.Combine(character.m_onDeath, new Action(this.OnDestroyed));
+			character.m_onDeath = (Action)Delegate.Combine(new Action(this.OnDeath),character.m_onDeath);
 
 			tame = this.GetComponent<Tameable>();
 			tame.Tame();
@@ -34,7 +34,6 @@ namespace OdinPlus
 		{
 			m_inventory = Traverse.Create(container).Field<Inventory>("m_inventory").Value;
 		}
-
 		private void Update()
 		{
 			var weight = Traverse.Create(m_inventory).Field<float>("m_totalWeight").Value;
@@ -61,7 +60,7 @@ namespace OdinPlus
 		{
 			this.transform.position = Player.m_localPlayer.transform.forward * 2f + Vector3.up;
 		}
-		private void OnDestroyed()
+		private void OnDeath()
 		{
 			if (m_inventory.SlotsUsedPercentage() == 0)
 			{
@@ -76,8 +75,8 @@ namespace OdinPlus
 				ItemDrop.DropItem(item, 0, position, rotation);
 				num++;
 			}
-			m_inventory.RemoveAll();
-			Traverse.Create(container).Method("Save").GetValue();
+			//m_inventory.RemoveAll();
+			//Traverse.Create(container).Method("Save").GetValue();
 		}
 
 		#endregion Feature
