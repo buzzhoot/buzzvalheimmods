@@ -113,30 +113,42 @@ namespace OdinPlus
 		public static float RollDice(this float val)
 		{
 			UnityEngine.Random.InitState((int)Time.time);
-			return val*UnityEngine.Random.value;
+			return val * UnityEngine.Random.value;
 		}
 		public static int RollDice(this int val)
 		{
 			UnityEngine.Random.InitState((int)Time.time);
-			return (int)(val*UnityEngine.Random.value);
+			return (int)Mathf.Round(val * UnityEngine.Random.value);
 		}
-		public static int RollDice(this int val,int max)
+		public static int RollDice(this int val, int max)
 		{
 			UnityEngine.Random.InitState((int)Time.time);
-			return (int)(UnityEngine.Random.Range(val,max));
+			return (int)(UnityEngine.Random.Range(val, max));
 		}
-		public static float RollDice(this float val,float max)
+		public static float RollDice(this float val, float max)
 		{
 			UnityEngine.Random.InitState((int)Time.time);
-			return (UnityEngine.Random.Range(val,max));
+			return (UnityEngine.Random.Range(val, max));
 		}
-		
+
 		//5d6 大失败！！！！！
-		public static Vector3 GetRandomLocation(this Vector3 pos,float range)
+		public static Vector3 GetRandomLocation(this Vector3 pos, float range)
 		{
 			float seed = Time.time;
 			UnityEngine.Random.InitState((int)seed);
 			return pos + new Vector3(UnityEngine.Random.value, 0, UnityEngine.Random.value) * range;
+		}
+		public static GameObject FindObject(this GameObject parent, string name)
+		{
+			Component[] trs =parent.GetComponentsInChildren(typeof(Transform), true);
+			foreach (Transform t in trs)
+			{
+				if (t.name == name)
+				{
+					return t.gameObject;
+				}
+			}
+			return null;
 		}
 		#endregion  game
 

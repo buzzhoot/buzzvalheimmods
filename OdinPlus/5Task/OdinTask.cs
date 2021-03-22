@@ -26,10 +26,14 @@ namespace OdinPlus
 		protected bool m_finished = false;
 		protected bool m_pause = false;
 		protected bool m_discovered = false;
+		protected bool m_isLoaded;
+		protected bool m_isInit;
+		protected ZoneSystem.LocationInstance location;
 		#endregion internal
 		#region in
 		public int Key;
 		public int Level;
+		public bool isMain;
 		#endregion in
 		#region out
 		public string HintTarget;
@@ -43,7 +47,7 @@ namespace OdinPlus
 		{
 			if (!m_discovered)
 			{
-				m_discovered = ZoneSystem.instance.IsZoneLoaded(m_position);
+				m_discovered = ZoneSystem.instance.IsZoneLoaded(location.m_position);
 			}
 		}
 		#endregion Mono
@@ -54,16 +58,13 @@ namespace OdinPlus
 			m_start = true;
 			SetLocation();
 			SetRange();
+			SetPosition();
 			SetPin();
 		}
 		public virtual void SetPin()
 		{
-			ZRoutedRpc.instance.InvokeRoutedRPC(ZRoutedRpc.Everybody, "DiscoverLocationRespons", new object[]
-			{
-				"OdinMission",
-				Minimap.PinType.Icon0,
-				m_position.GetRandomLocation()
-			});
+			Minimap.instance.DiscoverLocation(m_position, Minimap.PinType.Icon3, "Odin Quest");
+			Chat.instance.SendPing(m_position);
 		}
 		public virtual void Giveup()
 		{
@@ -85,9 +86,13 @@ namespace OdinPlus
 		{
 
 		}
+		protected virtual void SetPosition()
+		{
+			m_position=location.m_position.GetRandomLocation(m_range);
+		}
 		protected virtual void SetRange()
 		{
-
+			m_range=60;
 		}
 		protected virtual void Clear()
 		{
