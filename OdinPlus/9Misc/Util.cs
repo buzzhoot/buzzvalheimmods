@@ -46,9 +46,7 @@ namespace OdinPlus
 		}
 		#endregion LoadResource
 		#region Reflection
-
-		#endregion Reflection
-		public static object InvokePrivate(object instance, string name, object[] args = null)
+public static object InvokePrivate(object instance, string name, object[] args = null)
 		{
 			MethodInfo method = instance.GetType().GetMethod(name, BindingFlags.NonPublic | BindingFlags.Instance);
 
@@ -109,7 +107,14 @@ namespace OdinPlus
 			}
 			return instance;
 		}
+		#endregion Reflection
+		
+		public static Vector3 GetRandomLocation(this Vector3 pos)
+		{
+			float seed = Time.time;
+			UnityEngine.Random.InitState((int)seed);
+			return pos+new Vector3(UnityEngine.Random.value,0,UnityEngine.Random.value)*50;
+		}
 	}
-
 }
 

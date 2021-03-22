@@ -1,23 +1,40 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
+using System.Linq;
+using HarmonyLib;
 using UnityEngine;
+
+
+/* Game.instance.DiscoverClosestLocation("Vendor_BlackForest", Player.m_localPlayer.transform.position, "Merchant", 8);
+Minimap.PinData pinData = Enumerable.First<Minimap.PinData>((List<Minimap.PinData>)Traverse.Create(Minimap.instance).Field("m_pins").GetValue(), (Minimap.PinData p) => p.m_type == Minimap.PinType.None && p.m_name == "");
+ */
+
 
 namespace OdinPlus
 {
 
-	public class OdinTask
+	public class OdinTask : MonoBehaviour
 	{
 		#region Var
 		protected Vector3 m_location;
 		protected float m_range;
 		protected TaskManager.TaskType m_type;
+		protected bool m_targetClear = false;
 		protected bool m_start = false;
 		protected bool m_finished = false;
-		protected bool m_pause=false;
+		protected bool m_pause = false;
+		protected bool m_discovered = false;
 		#endregion Var
 
 		#region Mono
-
+		protected virtual void Update()
+		{
+			if (!m_discovered)
+			{
+				m_discovered = ZoneSystem.instance.IsZoneLoaded(m_location);
+			}
+		}
 		#endregion Mono
 
 		#region Feature
@@ -27,19 +44,19 @@ namespace OdinPlus
 			SetLocation();
 			SetRange();
 			SetPin();
-
 		}
 		public virtual void SetPin()
 		{
-
-		}
-		public virtual void Clear()
-		{
-
+			ZRoutedRpc.instance.InvokeRoutedRPC(ZRoutedRpc.Everybody, "DiscoverLocationRespons", new object[]
+			{
+				"OdinMission",
+				Minimap.PinType.Icon0,
+				m_location.GetRandomLocation()
+			});
 		}
 		public virtual void Giveup()
 		{
-
+			Clear();
 		}
 		public virtual void Finish()
 		{
@@ -48,7 +65,7 @@ namespace OdinPlus
 		}
 		public virtual void Pause()
 		{
-			m_pause=!m_pause;
+			m_pause = !m_pause;
 		}
 		#endregion Feature
 
@@ -58,6 +75,10 @@ namespace OdinPlus
 
 		}
 		protected virtual void SetRange()
+		{
+
+		}
+		protected virtual void Clear()
 		{
 
 		}
@@ -75,6 +96,14 @@ namespace OdinPlus
 		public bool IsPause()
 		{
 			return m_pause;
+		}
+		public bool IsDiscovered()
+		{
+			return m_discovered;
+		}
+		public void ClearTarget()
+		{
+			m_targetClear = true;
 		}
 		public void SetTaskType(TaskManager.TaskType t)
 		{
@@ -103,7 +132,9 @@ namespace OdinPlus
 			}
 			return false;
 		}
-
 		#endregion Tool
+		
+		#region Static Tool
+		#endregion Static Tool
 	}
 }
