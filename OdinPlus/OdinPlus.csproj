@@ -78,14 +78,16 @@
       <HintPath>..\0libDep\UnityEngine.AnimationModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="UnityEngine.ImageConversionModule">
+      <HintPath>..\0libDep\UnityEngine.ImageConversionModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>..\0libDep\UnityEngine.UI.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\*.*">
-    </Content>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="2StatusEffects\OdinSE.cs" />
     <Compile Include="1NPC\OdinGoblin.cs" />
@@ -113,6 +115,7 @@
     <Compile Include="5Task\TaskManager.cs" />
     <Compile Include="5Task\OdinTask.cs" />
     <Compile Include="5Task\TreasureTask.cs" />
+    <EmbeddedResource Include="Resources\OdinLegacy.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
