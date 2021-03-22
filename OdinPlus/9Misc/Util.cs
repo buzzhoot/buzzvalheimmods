@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using UnityEngine;
+using System.Linq;
 namespace OdinPlus
 {
 	public static class Util
@@ -43,6 +44,34 @@ namespace OdinPlus
 			byte[] array = new byte[manifestResourceStream.Length];
 			manifestResourceStream.Read(array, 0, (int)manifestResourceStream.Length);
 			return array;
+		}
+		public static Texture2D LoadTextureRaw(byte[] file)
+		{
+			bool flag = Enumerable.Count<byte>(file) > 0;
+			if (flag)
+			{
+				Texture2D texture2D = new Texture2D(2, 2);
+				bool flag2 = ImageConversion.LoadImage(texture2D, file);
+				if (flag2)
+				{
+					return texture2D;
+				}
+			}
+			return null;
+		}
+		public static Sprite LoadSpriteFromTexture(this Sprite spi,Texture2D SpriteTexture, float PixelsPerUnit = 100f)
+		{
+			bool flag = SpriteTexture;
+			Sprite result;
+			if (flag)
+			{
+				result = Sprite.Create(SpriteTexture, new Rect(0f, 0f, (float)SpriteTexture.width, (float)SpriteTexture.height), new Vector2(0f, 0f), PixelsPerUnit);
+			}
+			else
+			{
+				result = null;
+			}
+			return result;
 		}
 		#endregion LoadResource
 		#region Reflection
