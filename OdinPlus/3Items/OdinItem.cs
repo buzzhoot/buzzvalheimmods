@@ -7,6 +7,7 @@ namespace OdinPlus
 	{
 		//private static Dictionary<string, GameObject> MeadList = new Dictionary<string, GameObject>()
 		private static GameObject MeadTasty;
+		private static GameObject TrophyGoblinShaman;
 		public static Dictionary<string, Sprite> PetItemList = new Dictionary<string, Sprite>{
 			{"scroll_troll", OdinPlus.TrollHeadIcon},
 			{"scroll_wolf", OdinPlus.WolfHeadIcon}
@@ -23,10 +24,12 @@ namespace OdinPlus
 
 			var objectDB = ObjectDB.instance;
 			MeadTasty = objectDB.GetItemPrefab("MeadTasty");
+			TrophyGoblinShaman = objectDB.GetItemPrefab("TrophyGoblinShaman");
 
 			InitPetItem();
 
 			OdinPlus.OdinPreRegister(ItemList, nameof(ItemList));
+
 		}
 		#endregion Mono
 		#region PetItems
@@ -53,6 +56,23 @@ namespace OdinPlus
 			ItemList.Add(name, go);
 		}
 		#endregion PetItems
+
+		#region Legacy
+		private static void InitLegacy()
+		{
+			string name = "odin_lgeacy";
+			GameObject go = Instantiate(TrophyGoblinShaman,Root.transform);
+			go.name = "OdinLegacy";
+			var id = go.GetComponent<ItemDrop>().m_itemData.m_shared;
+			id.m_name = "$odin_" + name + "_name";
+			id.m_icons[0] = OdinPlus.OdinLegacyIcon;
+			id.m_description = "$odin_" + name + "_desc";
+
+			id.m_maxStackSize = 1;
+			id.m_maxQuality=4;
+		}
+
+		#endregion Legacy
 
 		#region Tool
 		public static ItemDrop.ItemData GetItemData(string name)
