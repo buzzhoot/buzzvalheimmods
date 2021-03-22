@@ -22,7 +22,7 @@ namespace OdinPlus
 			{
 				Tutorial.instance.m_texts.Add(tutorialText);
 			}
-			Player.m_localPlayer.ShowTutorial(tutorialText.m_name, true);
+			Player.m_localPlayer.ShowTutorial(tutorialText.m_name, false);
 			return tutorialText;
 		}
 	
