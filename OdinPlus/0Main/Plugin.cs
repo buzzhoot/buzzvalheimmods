@@ -8,6 +8,7 @@ using BepInEx.Configuration;
 using HarmonyLib;
 using BepInEx.Logging;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Globalization;
 using UnityEngine.UI;
 namespace OdinPlus
@@ -198,7 +199,7 @@ namespace OdinPlus
 				PetManager.excObj.gameObject.GetComponentInChildren<Renderer>().material.SetColor("_EmissionColor", Color.red);
 				PetManager.excObj.gameObject.GetComponentInChildren<Renderer>().material.color = Color.red;
 
-				NpcManager.RavenPrefab=__instance.gameObject;
+				NpcManager.RavenPrefab = __instance.gameObject;
 
 				OdinPlus.InitNPC();
 			}
@@ -311,6 +312,40 @@ namespace OdinPlus
 
 		#endregion
 
+		#region Debug
+		private static bool isLoaded;
+		private static ZoneSystem.LocationInstance loc;
+		public static void TestA()
+		{
+			bool find = ZoneSystem.instance.FindClosestLocation("WoodHouse1", Player.m_localPlayer.transform.position, out loc);
+			Minimap.instance.DiscoverLocation(loc.m_position, Minimap.PinType.Icon3, "Odin Quest");
+			Chat.instance.SendPing(loc.m_position);
+			Debug.LogWarning("Find loc:" + find);
+
+		}
+		public static void TestB()
+		{
+			finds();
+		}
+		private void Update()
+		{
+			//finds();
+		}
+		private static void finds()
+		{
+			var a =Resources.FindObjectsOfTypeAll<GameObject>();
+			string s = "";
+			foreach (var item in a)
+			{
+				if(item.name=="Beehive"&&item.scene.name=="locations")
+				{
+					s+=(char)34+item.transform.parent.name+(char)34+",";
+				}
+			}
+			Debug.LogWarning(s);
+		}
+
+		#endregion Debug
 	}
 
 }

@@ -102,13 +102,13 @@ namespace OdinPlus
 				{
 					inCommand = inCommand.Remove(0, 1);
 				}
-				if (inCommand == "bzd")
+				if (inCommand == "testa")
 				{
-					//!init here
+					Plugin.TestA();
 				}
-				if (inCommand == "test")
+				if (inCommand == "testb")
 				{
-					Destroy(Plugin.OdinPlusRoot);
+					Plugin.TestB();
 				}
 			}
 		}
