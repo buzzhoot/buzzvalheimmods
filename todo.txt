@@ -19,6 +19,9 @@
 //||X||Wolf container//add
 //||X||Wolf and troll color//-?
 //||X||Create Npc Prefab//
+//|| ||Test Discover will trigger how many time?
+//|| ||isInit isCleared for task.
+//|| ||MainTask SideTask
 //|| ||PET ZDO REGISTER TO PLAYER//!
 //|| ||Mead ConfigManager//?
 //|| ||More Meads:big heal stamina tempopry WEIGHT Mining,Double Damege
@@ -29,6 +32,7 @@
 //|| ||DragonEggs
 //|| ||Teleportable Raven
 //|| ||Mountable Dragon
+//|| ||BackPack;
 //|| ||no mobs area FX on odin,and animator,Terrain
 //|| ||Does SE last When you quit game//??
 //||X||Load Error//Check when will it happen again
