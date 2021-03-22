@@ -21,7 +21,7 @@ namespace OdinPlus
 
 		#region Mono
 		
-		private void Update()
+		private void Awake()
 		{
 			Root= new GameObject("TaskRoot");
 			Root.transform.SetParent(OdinPlus.Root.transform);
@@ -70,10 +70,12 @@ namespace OdinPlus
 		}
 		private static void CreateTask(TaskType t)
 		{
+			var go = new GameObject("Task");
+					go.transform.SetParent(Root.transform);
 			switch (t)
 			{
 				case TaskType.Treasure:
-					CurrentTask=Root.AddComponent<TreasureTask>();
+					CurrentTask=go.AddComponent<TreasureTask>();
 					break;
 				case TaskType.Hunt:
 					break;

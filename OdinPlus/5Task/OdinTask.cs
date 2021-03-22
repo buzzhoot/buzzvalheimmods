@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Reflection;
 using System.Linq;
 using HarmonyLib;
@@ -17,6 +18,16 @@ namespace OdinPlus
 	public class OdinTask : MonoBehaviour
 	{
 		#region Var
+		#region Data
+		protected string[] m_tier0 = new string[0];
+		protected string[] m_tier1 = new string[0];
+		protected string[] m_tier2 = new string[0];
+		protected string[] m_tier3 = new string[0];
+		protected string[] m_tier4 = new string[0];
+		protected List<string[]> locList = new List<string[]>();
+		protected string locName;
+		protected GameObject root;
+		#endregion Data
 		#region internal
 		protected Vector3 m_position;
 		protected float m_range;
@@ -26,9 +37,9 @@ namespace OdinPlus
 		protected bool m_finished = false;
 		protected bool m_pause = false;
 		protected bool m_discovered = false;
-		protected bool m_isLoaded;
-		protected bool m_isInit;
+		protected bool m_isInit = false;
 		protected ZoneSystem.LocationInstance location;
+		protected Action Init;
 		#endregion internal
 		#region in
 		public int Key;
@@ -43,36 +54,40 @@ namespace OdinPlus
 		#endregion Var
 
 		#region Mono
-		protected virtual void Update()
+		private void Update()
 		{
+			if (!m_isInit)
+			{
+				Init();
+				return;
+			}
 			if (!m_discovered)
 			{
-				m_discovered = ZoneSystem.instance.IsZoneLoaded(location.m_position);
+				m_discovered = isLoaded();
+			}
+			if (isLoaded())
+			{
+				if (IsDiscovered())
+				{
+					Discovery();
+				}
+				CheckTarget();
+			}
+			if (IsFinsih())
+			{
+				Clear();
 			}
 		}
 		#endregion Mono
 
 		#region Feature
-		public virtual void Begin()
-		{
-			m_start = true;
-			SetLocation();
-			SetRange();
-			SetPosition();
-			SetPin();
-		}
-		public virtual void SetPin()
-		{
-			Minimap.instance.DiscoverLocation(m_position, Minimap.PinType.Icon3, "Odin Quest");
-			Chat.instance.SendPing(m_position);
-		}
+
 		public virtual void Giveup()
 		{
 			Clear();
 		}
 		public virtual void Finish()
 		{
-			Clear();
 			m_finished = true;
 		}
 		public virtual void Pause()
@@ -82,21 +97,74 @@ namespace OdinPlus
 		#endregion Feature
 
 		#region internal Feature
+		protected virtual void Begin()
+		{
+			locList = new List<string[]> { m_tier0, m_tier1, m_tier2, m_tier3, m_tier4 };
+			switch (Key)
+			{
+
+				case 0:
+					Init = new Action(InitTire0);
+					break;
+				case 1:
+					Init = new Action(InitTire1);
+					break;
+				case 2:
+					Init = new Action(InitTire2);
+					break;
+				case 3:
+					Init = new Action(InitTire3);
+					break;
+				case 4:
+					Init = new Action(InitTire4);
+					break;
+			}
+			m_start = true;
+			SetLocation();
+			SetRange();
+			SetPosition();
+			SetPin();
+			MessageHud.instance.ShowBiomeFoundMsg(isMain ? "Main" : "Side" + " Quest Start", true);
+		}
 		protected virtual void SetLocation()
 		{
-
+			var list = locList[Key];
+			int ind = list.Length.RollDice();
+			string locName = list[ind];
+			ZoneSystem.instance.FindClosestLocation(locName, Game.instance.GetPlayerProfile().GetCustomSpawnPoint(), out location);
+			root = location.m_location.m_location.gameObject;
+			locName = Regex.Replace(locName, @"[\d-]", string.Empty);
 		}
+		protected virtual void InitTire0() { }
+		protected virtual void InitTire1() { }
+		protected virtual void InitTire2() { }
+		protected virtual void InitTire3() { }
+		protected virtual void InitTire4() { }
 		protected virtual void SetPosition()
 		{
-			m_position=location.m_position.GetRandomLocation(m_range);
+			m_position = location.m_position.GetRandomLocation(m_range);
 		}
 		protected virtual void SetRange()
 		{
-			m_range=60;
+			m_range = 30.RollDice();
+		}
+		public virtual void SetPin()
+		{
+			Minimap.instance.DiscoverLocation(m_position, Minimap.PinType.Icon3, "Odin Quest");
+			Chat.instance.SendPing(m_position);
+		}
+		protected virtual void Discovery()
+		{
+			Tweakers.SendRavenMessage("Quest Name",HintTarget);
+		}
+		protected virtual void CheckTarget()
+		{
+
 		}
 		protected virtual void Clear()
 		{
-
+			MessageHud.instance.ShowBiomeFoundMsg(isMain ? "Main" : "Side" + " Quest Clear", true);
+			Destroy(gameObject);
 		}
 		#endregion internal Feature
 
@@ -120,6 +188,10 @@ namespace OdinPlus
 		public void ClearTarget()
 		{
 			m_targetClear = true;
+		}
+		public bool isLoaded()
+		{
+			return ZoneSystem.instance.IsZoneLoaded(location.m_position);
 		}
 		public void SetTaskType(TaskManager.TaskType t)
 		{
