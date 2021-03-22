@@ -17,6 +17,7 @@ namespace OdinPlus
 	public class OdinTask : MonoBehaviour
 	{
 		#region Var
+		#region internal
 		protected Vector3 m_location;
 		protected float m_range;
 		protected TaskManager.TaskType m_type;
@@ -25,6 +26,16 @@ namespace OdinPlus
 		protected bool m_finished = false;
 		protected bool m_pause = false;
 		protected bool m_discovered = false;
+		#endregion internal
+		#region in
+		public int Key;
+		public int Level;
+		#endregion in
+		#region out
+		public string HintTarget;
+		public string HintStart;
+		public ItemDrop.ItemData Reward;
+		#endregion out
 		#endregion Var
 
 		#region Mono
@@ -133,7 +144,7 @@ namespace OdinPlus
 			return false;
 		}
 		#endregion Tool
-		
+
 		#region Static Tool
 		#endregion Static Tool
 	}
