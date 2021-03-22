@@ -25,7 +25,8 @@ namespace OdinPlus
 			var objectDB = ObjectDB.instance;
 			MeadTasty = objectDB.GetItemPrefab("MeadTasty");
 			TrophyGoblinShaman = objectDB.GetItemPrefab("TrophyGoblinShaman");
-
+			
+			InitLegacy();
 			InitPetItem();
 
 			OdinPlus.OdinPreRegister(ItemList, nameof(ItemList));
@@ -73,6 +74,8 @@ namespace OdinPlus
 
 			id.m_maxStackSize = 1;
 			id.m_maxQuality = 4;
+			
+			ItemList.Add(name, go);
 		}
 
 		#endregion Legacy
