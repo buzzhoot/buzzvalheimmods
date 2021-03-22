@@ -63,6 +63,7 @@ namespace OdinPlus
 			Root.AddComponent<OdinMeads>();
 			Root.AddComponent<OdinItem>();
 			Root.AddComponent<PetManager>();
+			Root.AddComponent<TaskManager>();
 			isInit = true;
 		}
 		public static void PostODB()
