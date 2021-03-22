@@ -120,6 +120,18 @@ namespace OdinPlus
 			UnityEngine.Random.InitState((int)Time.time);
 			return Mathf.FloorToInt(val*UnityEngine.Random.value);
 		}
+		public static int RollDice(this int val,int max)
+		{
+			UnityEngine.Random.InitState((int)Time.time);
+			return (int)(UnityEngine.Random.Range(val,max));
+		}
+		public static float RollDice(this float val,float max)
+		{
+			UnityEngine.Random.InitState((int)Time.time);
+			return (UnityEngine.Random.Range(val,max));
+		}
+		
+		//5d6 大失败！！！！！
 		public static Vector3 GetRandomLocation(this Vector3 pos)
 		{
 			float seed = Time.time;
