@@ -132,11 +132,11 @@ namespace OdinPlus
 		}
 		
 		//5d6 大失败！！！！！
-		public static Vector3 GetRandomLocation(this Vector3 pos)
+		public static Vector3 GetRandomLocation(this Vector3 pos,float range)
 		{
 			float seed = Time.time;
 			UnityEngine.Random.InitState((int)seed);
-			return pos + new Vector3(UnityEngine.Random.value, 0, UnityEngine.Random.value) * 50;
+			return pos + new Vector3(UnityEngine.Random.value, 0, UnityEngine.Random.value) * range;
 		}
 		#endregion  game
 
