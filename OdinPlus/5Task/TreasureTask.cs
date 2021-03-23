@@ -9,7 +9,8 @@ namespace OdinPlus
 	{
 		#region  var
 		private GameObject Chest;
-		protected Inventory inv;
+		private Inventory inv;
+		private Container ctn;
 		#endregion  var
 		#region Main
 		private void Awake()
@@ -19,6 +20,11 @@ namespace OdinPlus
 			m_tier2 = new string[] { "WoodHouse11", "WoodHouse6", "WoodHouse3", "WoodHouse4", "WoodHouse1" };
 			m_tier3 = new string[] { "WoodHouse11", "WoodHouse6", "WoodHouse3", "WoodHouse4", "WoodHouse1" };
 			m_tier4 = new string[] { "WoodHouse11", "WoodHouse6", "WoodHouse3", "WoodHouse4", "WoodHouse1" };
+			Reward = Instantiate(ObjectDB.instance.GetItemPrefab("OdinLegacy"), OdinPlus.PrefabParent.transform);
+			Reward.name="OdinLegacy";
+			var lgc = Reward.GetComponent<ItemDrop>().m_itemData;
+			lgc.m_quality = Key + 1;
+
 			base.Begin();
 		}
 		#endregion Main
@@ -31,9 +37,12 @@ namespace OdinPlus
 		}
 		protected override void InitTire0()
 		{
+			if (!isLoaded())
+			{
+				return;
+			}
 			if (isMain)
 			{
-
 				if (location.m_placed)
 				{
 					CheckHive();
@@ -46,7 +55,7 @@ namespace OdinPlus
 		}
 		protected override void Discovery()
 		{
-			HintTarget = "Looks like you are close to the chest,look around find a <color=yellow><b>[{0}]</b></color>";
+			HintTarget = string.Format("Looks like you are close to the chest,look around find a <color=yellow><b>[{0}]</b></color>", locName);
 			base.Discovery();
 		}
 		#endregion Override Init
@@ -54,23 +63,36 @@ namespace OdinPlus
 		#region Tool
 		private void AddChest()
 		{
-			Chest = Instantiate(ZNetScene.instance.GetPrefab("Chest"), root.transform);
-			Chest.transform.localPosition = new Vector3(0, -1.5f, 0);
-			var stg = Chest.AddComponent<SnapToGround>();
+			if (ctn != null)
+			{
+				SetupInv();
+				return;
+			}
+			Chest = Instantiate(ZNetScene.instance.GetPrefab("Chest"),OdinPlus.PrefabParent.transform);
+			Chest.name = "Chest" + Id;
+			Chest.transform.localPosition = new Vector3(2.RollDice(), -1.5f, 2.RollDice()) + location.m_position;
 			DestroyImmediate(Chest.GetComponent<Rigidbody>());
-			stg.m_offset = -1.5f;
-			var ctn = Chest.GetComponent<Container>();
-			inv = Traverse.Create(ctn).Field<Inventory>("m_inventory").Value;
-			var lgc = ObjectDB.instance.GetItemPrefab("OdinLegacy").GetComponent<ItemDrop>().m_itemData;
-			lgc.m_quality = Key;
-			inv.AddItem(lgc);
-			m_isInit = true;
+			ctn = Chest.GetComponent<Container>();
+			ctn.m_defaultItems.m_drops.Add(new DropTable.DropData { m_item = Reward, m_stackMax = 1, m_stackMin = 1, m_weight = 1 });
+			Chest.transform.SetParent(ZNetScene.instance.transform);
+			return;
+
+		}
+		private void SetupInv()
+		{
+			inv = ctn.GetInventory();
+			if (inv == null) { return; }
+			if (inv.NrOfItems()!=0)
+			{
+				m_isInit = true;
+				return;
+			}
 		}
 		private void CheckHive()
 		{
 			if (root.transform.Find("Beehive") == null)
 			{
-				var go = Instantiate(ZNetScene.instance.GetPrefab("Beehive"), root.transform);
+				var go = Instantiate(ZNetScene.instance.GetPrefab("Beehive"));
 				if (root.FindObject("Beehive") != null)
 				{
 					go.transform.localPosition = root.FindObject("Beehive").transform.localPosition;
@@ -86,13 +108,23 @@ namespace OdinPlus
 		#region Override tail
 		protected override void CheckTarget()
 		{
-			if (inv.HaveItem("OdinLegacy")) { return; }
+			if (Chest == null)
+			{
+				FindChest();
+			}
+			if (inv.NrOfItems()!=0) { return; }
 			Finish();
 		}
 		protected override void Clear()
 		{
 			ZNetScene.instance.Destroy(Chest);
+			if (Reward != null) { DestroyImmediate(Reward); }
 			base.Clear();
+		}
+		private void FindChest()
+		{
+			Chest = GameObject.Find("Chest" + Id);
+			inv = Chest.GetComponent<Container>().GetInventory();
 		}
 		#endregion Override
 	}

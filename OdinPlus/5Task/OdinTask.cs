@@ -25,8 +25,9 @@ namespace OdinPlus
 		protected string[] m_tier3 = new string[0];
 		protected string[] m_tier4 = new string[0];
 		protected List<string[]> locList = new List<string[]>();
-		protected string locName;
+		public string locName;
 		protected GameObject root;
+		
 		#endregion Data
 		#region internal
 		protected Vector3 m_position;
@@ -40,6 +41,7 @@ namespace OdinPlus
 		protected bool m_isInit = false;
 		protected ZoneSystem.LocationInstance location;
 		protected Action Init;
+		protected bool m_finded;
 		#endregion internal
 		#region in
 		public int Key;
@@ -49,7 +51,8 @@ namespace OdinPlus
 		#region out
 		public string HintTarget;
 		public string HintStart;
-		public ItemDrop.ItemData Reward;
+		public GameObject Reward;
+		public int Id;
 		#endregion out
 		#endregion Var
 
@@ -64,13 +67,11 @@ namespace OdinPlus
 			if (!m_discovered)
 			{
 				m_discovered = isLoaded();
+				Discovery();
+				return;
 			}
-			if (isLoaded())
+			if (isLoaded()&&!IsFinsih())
 			{
-				if (IsDiscovered())
-				{
-					Discovery();
-				}
 				CheckTarget();
 			}
 			if (IsFinsih())
@@ -88,6 +89,8 @@ namespace OdinPlus
 		}
 		public virtual void Finish()
 		{
+			MessageHud.instance.ShowBiomeFoundMsg(isMain ? "Main" : "Side" + " Quest Clear", true);
+			Minimap.instance.RemovePin(m_position,3);
 			m_finished = true;
 		}
 		public virtual void Pause()
@@ -99,6 +102,8 @@ namespace OdinPlus
 		#region internal Feature
 		protected virtual void Begin()
 		{
+			Key=TaskManager.GameKey;
+			Level=TaskManager.Level;
 			locList = new List<string[]> { m_tier0, m_tier1, m_tier2, m_tier3, m_tier4 };
 			switch (Key)
 			{
@@ -130,9 +135,10 @@ namespace OdinPlus
 		{
 			var list = locList[Key];
 			int ind = list.Length.RollDice();
-			string locName = list[ind];
-			ZoneSystem.instance.FindClosestLocation(locName, Game.instance.GetPlayerProfile().GetCustomSpawnPoint(), out location);
-			root = location.m_location.m_location.gameObject;
+			locName = list[ind];
+			m_finded = ZoneSystem.instance.FindClosestLocation(locName, Game.instance.GetPlayerProfile().GetCustomSpawnPoint(), out location);
+			root = location.m_location.m_prefab.gameObject;
+			Id=location.m_location.m_hash;
 			locName = Regex.Replace(locName, @"[\d-]", string.Empty);
 		}
 		protected virtual void InitTire0() { }
@@ -146,7 +152,7 @@ namespace OdinPlus
 		}
 		protected virtual void SetRange()
 		{
-			m_range = 30.RollDice();
+			m_range = 100.RollDice();
 		}
 		public virtual void SetPin()
 		{
@@ -163,7 +169,7 @@ namespace OdinPlus
 		}
 		protected virtual void Clear()
 		{
-			MessageHud.instance.ShowBiomeFoundMsg(isMain ? "Main" : "Side" + " Quest Clear", true);
+			
 			Destroy(gameObject);
 		}
 		#endregion internal Feature

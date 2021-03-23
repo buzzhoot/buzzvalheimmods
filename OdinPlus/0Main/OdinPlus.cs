@@ -208,6 +208,7 @@ namespace OdinPlus
 			Plugin.OdinPlusRoot.AddComponent<OdinMeads>();
 			Plugin.OdinPlusRoot.AddComponent<OdinItem>();
 			Plugin.OdinPlusRoot.AddComponent<PetManager>();
+			Plugin.OdinPlusRoot.AddComponent<TaskManager>();
 			isInit = true;
 			PostODB();
 			var m_namedPrefabs = Traverse.Create(ZNetScene.instance).Field<Dictionary<int, GameObject>>("m_namedPrefabs").Value;
@@ -217,6 +218,7 @@ namespace OdinPlus
 				m_namedPrefabs.Add(item.Key, item.Value);
 			}
 			PostZNS();
+			NpcManager.RavenPrefab=Tutorial.instance.m_ravenPrefab.transform.Find("Munin").gameObject;
 			InitNPC();
 
 		}

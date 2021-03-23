@@ -313,23 +313,13 @@ namespace OdinPlus
 		#endregion
 
 		#region Debug
-		private static bool isLoaded;
-		private static ZoneSystem.LocationInstance loc;
 		public static void TestA()
 		{
-			bool find = ZoneSystem.instance.FindClosestLocation("WoodHouse1", Player.m_localPlayer.transform.position, out loc);
-			Minimap.instance.DiscoverLocation(loc.m_position, Minimap.PinType.Icon3, "Odin Quest");
-			Chat.instance.SendPing(loc.m_position);
-			Debug.LogWarning("Find loc:" + find);
-
+			TaskManager.CreateRandomTask();
 		}
 		public static void TestB()
 		{
 			finds();
-		}
-		private void Update()
-		{
-			//finds();
 		}
 		private static void finds()
 		{

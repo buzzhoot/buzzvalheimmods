@@ -12,6 +12,7 @@ namespace OdinPlus
 		#endregion Data
 		#region Out
 		public static OdinTask CurrentTask;
+		public static int GameKey;
 		#endregion Out
 		#region in
 			public static GameObject Root;
@@ -41,6 +42,7 @@ namespace OdinPlus
 			{
 				if (keys.Contains(item)) { result += 1; }
 			}
+			GameKey=result;
 			return result;
 		}
 		#endregion Tool
@@ -54,7 +56,6 @@ namespace OdinPlus
 			{
 				case 0:
 					CreateTask(TaskType.Treasure);
-					SetTaskLevel(Level);
 					break;
 				case 1:
 					break;
@@ -71,7 +72,7 @@ namespace OdinPlus
 		private static void CreateTask(TaskType t)
 		{
 			var go = new GameObject("Task");
-					go.transform.SetParent(Root.transform);
+			go.transform.SetParent(Root.transform);
 			switch (t)
 			{
 				case TaskType.Treasure:
@@ -95,10 +96,6 @@ namespace OdinPlus
 		}
 		#endregion Feature
 		#region internalTool
-		private static void SetTaskLevel(int level)
-		{
-			CurrentTask.Level=level;
-		}
 		#endregion internalTool
 		#region save&Load
 
