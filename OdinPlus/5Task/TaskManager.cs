@@ -13,6 +13,7 @@ namespace OdinPlus
 		#region Out
 		public static OdinTask CurrentTask;
 		public static int GameKey;
+		public static bool isMain;
 		#endregion Out
 		#region in
 			public static GameObject Root;
