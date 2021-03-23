@@ -57,10 +57,10 @@ namespace OdinPlus
 		}
 		public static void saveOdinData(string name)
 		{
-			//save
+			#region Save
 			Data.Tasks = TaskManager.Save();
 			Data.score = score;
-
+			#endregion Save
 
 			string file = Path.Combine(Application.persistentDataPath, (name + ".odinplus"));
 			if (File.Exists(@file))
@@ -68,13 +68,11 @@ namespace OdinPlus
 				//add Backup
 			}
 			FileStream fileStream = new FileStream(@file, FileMode.Create, FileAccess.Write);
-			/*             BinaryWriter binaryWriter = new BinaryWriter(fileStream);
-						binaryWriter.Write(Data);
-						binaryWriter.Flush();
-						binaryWriter.Close(); */
+
 			IFormatter formatter = new BinaryFormatter();
 			formatter.Serialize(fileStream, Data);
 			fileStream.Close();
+            DBG.blogWarning("OdinDataSaved:" + name);
 		}
 		public static void loadOdinData(string name)
 		{
@@ -82,22 +80,21 @@ namespace OdinPlus
 			if (File.Exists(@file))
 			{
 				FileStream fileStream = new FileStream(@file, FileMode.Open, FileAccess.Read);
-				//BinaryReader binaryReader = new BinaryReader(fileStream);
+
 				IFormatter formatter = new BinaryFormatter();
 				Data = (DataTable)formatter.Deserialize(fileStream);
 				fileStream.Close();
 
-				//load
+				#region Load
 				score = Data.score;
 				TaskManager.Load(Data.Tasks);
-
-
-				DBG.blogWarning("OdinDataLoaded:" + score);
+				#endregion Load
+				DBG.blogWarning("OdinDataLoaded:" + name);
 				return;
 			}
 			else
 			{
-				DBG.blogWarning("Profile not exists");
+				DBG.blogWarning("Profile not exists:"+name);
 			}
 		}
 	}

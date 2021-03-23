@@ -155,7 +155,7 @@ namespace OdinPlus
 			foreach (var item in data)
 			{
 				var go = new GameObject("Task" + i);
-				go.transform.parent = Root.transform;8a
+				go.transform.parent = Root.transform;
 
 				switch (item.m_type)
 				{
