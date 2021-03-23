@@ -224,7 +224,7 @@ namespace OdinPlus
 			}
 		}
 
-		[HarmonyPatch(typeof(PlayerProfile), "Save")]
+		[HarmonyPatch(typeof(PlayerProfile), "SavePlayerToDisk")]
 		public static class PlayerProfile_SavePlayerData_Patch
 		{
 			public static void Prefix(PlayerProfile __instance)
@@ -237,10 +237,10 @@ namespace OdinPlus
 			}
 		}
 
-		[HarmonyPatch(typeof(PlayerProfile), "Load")]
+		[HarmonyPatch(typeof(PlayerProfile), "LoadPlayerFromDisk")]
 		private static class Patch_PlayerProfile_LoadPlayerData
 		{
-			private static void Postfix(PlayerProfile __instance)
+			private static void Postfix()
 			{
 				if (CheckPlayerNull()) { return; }
 				OdinData.loadOdinData(Player.m_localPlayer.GetPlayerName() + "_" + ZNet.instance.GetWorldName());
