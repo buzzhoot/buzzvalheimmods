@@ -102,8 +102,8 @@ namespace OdinPlus
 		}
 		public override string GetHoverText()
 		{
-			string n = "<color=blue><b>ODIN</b></color>";
-			string s = string.Format("\n<color=green><b>Score:{0}</b></color>", OdinData.score);
+			string n = "<color=lightblue><b>ODIN</b></color>";
+			string s = string.Format("\n<color=lightblue><b>Score:{0}</b></color>", OdinData.score);
 			string a = string.Format("\n[<color=yellow><b>$KEY_Use</b></color>] $odin_use[<color=green><b>{0}</b></color>]", cskill);
 			string b = "\n[<color=yellow><b>1-8</b></color>]Offer your gifts";
 			string c = "\n[<color=yellow><b>F</b></color>]Switch Skill";
