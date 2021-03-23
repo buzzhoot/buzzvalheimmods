@@ -27,7 +27,7 @@ namespace OdinPlus
 		#region InternalConfig
 		public static int RaiseCost = 10;
 		public static int RaiseFactor = 50;
- 
+
 		#endregion InternalConfig
 		Harmony _harmony;
 		#endregion
@@ -224,7 +224,7 @@ namespace OdinPlus
 			}
 		}
 
-		[HarmonyPatch(typeof(PlayerProfile), "SavePlayerData")]
+		[HarmonyPatch(typeof(PlayerProfile), "Save")]
 		public static class PlayerProfile_SavePlayerData_Patch
 		{
 			public static void Postfix(PlayerProfile __instance, Player player)
@@ -233,20 +233,17 @@ namespace OdinPlus
 				{
 					return;
 				}
-				OdinData.saveOdinData(player.GetPlayerName());
-				Debug.Log(ZNet.instance.GetWorldName());
+				OdinData.saveOdinData(Player.m_localPlayer.GetPlayerName() + "_" + ZNet.instance.GetWorldName());
 			}
 		}
 
-		[HarmonyPatch(typeof(PlayerProfile), "LoadPlayerData")]
+		[HarmonyPatch(typeof(PlayerProfile), "Load")]
 		private static class Patch_PlayerProfile_LoadPlayerData
 		{
 			private static void Postfix(PlayerProfile __instance)
 			{
-				//DBG.blogWarning("loading");
 				if (CheckPlayerNull()) { return; }
-				OdinData.loadOdinData(Player.m_localPlayer.GetPlayerName());
-				Debug.Log(ZNet.instance.GetWorldName());
+				OdinData.loadOdinData(Player.m_localPlayer.GetPlayerName() + "_" + ZNet.instance.GetWorldName());
 			}
 		}
 
@@ -287,11 +284,11 @@ namespace OdinPlus
 		private static class Postfix_ZoneSystem_Awake
 		{
 			private static void Postfix()
-			{	
+			{
 				OdinPlus.PostZone();
 			}
 		}
-		
+
 		#endregion ZoneSystem
 		#region ODB
 		[HarmonyPatch(typeof(ObjectDB), "Awake")]
