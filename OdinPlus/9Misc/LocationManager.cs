@@ -14,9 +14,7 @@ namespace OdinPlus
 		private void Awake()
 		{
 			BlackList=OdinData.Data.BlackList;
-			Debug.LogWarning("Time Loading:"+Time.time);
 			GetValLocation();
-			Debug.LogWarning("Time Loaded:"+Time.time);
 			RemoveBlackList();
 		}
 

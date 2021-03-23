@@ -239,7 +239,7 @@ namespace OdinPlus
 		#endregion Tool
 
 		#region save load
-		public bool Load(TaskManager.TaskDataTable dat)
+		public bool Load(OdinData.TaskDataTable dat)
 		{
 			laoding = true;
 			taskName = dat.taskName;
@@ -273,9 +273,9 @@ namespace OdinPlus
 			DestroyImmediate(this.gameObject);
 			return false;
 		}
-		public TaskManager.TaskDataTable Save()
+		public OdinData.TaskDataTable Save()
 		{
-			var dat = new TaskManager.TaskDataTable()
+			var dat = new OdinData.TaskDataTable()
 			{
 				taskName = this.taskName,
 

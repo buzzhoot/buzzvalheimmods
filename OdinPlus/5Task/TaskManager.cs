@@ -49,7 +49,7 @@ namespace OdinPlus
 			GameKey = result;
 			return result;
 		}
-		
+
 		#endregion Tool
 
 		#region Feature
@@ -106,34 +106,25 @@ namespace OdinPlus
 		#region internalTool
 		#endregion internalTool
 		#region save&Load
-		[Serializable]
-		public class TaskDataTable
+		public static List<OdinData.TaskDataTable> Save()
 		{
-			public TaskType m_type = TaskType.Treasure;
-			public string taskName;
-			public int Key;
-			public int Level;
-			public string Id;
-			public bool isMain = false;
-			public bool m_pause = false;
-			public bool m_isInit = false;
-			public bool m_discovered = false;
-			public bool m_finished = false;
-			public bool m_isClear = false;
-
-		}
-
-		public static List<TaskManager.TaskDataTable> Save()
-		{
-			var data = new List<TaskManager.TaskDataTable>();
+			if (Root.GetComponentsInChildren<OdinTask>() == null)
+			{
+				return null;
+			}
+			var data = new List<OdinData.TaskDataTable>();
 			foreach (var item in Root.GetComponentsInChildren<OdinTask>())
 			{
 				data.Add(item.Save());
 			}
 			return data;
 		}
-		public static void Load(List<TaskManager.TaskDataTable> data)
+		public static void Load(List<OdinData.TaskDataTable> data)
 		{
+			if (data == null)
+			{
+				return;
+			}
 			Root.SetActive(false);
 			int i = 0;
 			int e = 0;

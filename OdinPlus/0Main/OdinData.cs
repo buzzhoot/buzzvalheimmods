@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using HarmonyLib;
 using UnityEngine;
 using System.Runtime.Serialization;
@@ -8,18 +9,69 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace OdinPlus
 {
-	class OdinData
+	public class OdinData:MonoBehaviour
 	{
 		public static int score;
 		public static Dictionary<string, int> ItemSellValue = new Dictionary<string, int>();
 		[Serializable]
-		public class DataTable
+		public class DataTable : SerializationBinder
 		{
 			public int score = 0;
 			public bool hasWolf = false;
 			public bool hasTroll = false;
 			public List<string> BlackList = new List<string>();
-			public List<TaskManager.TaskDataTable> Tasks;
+			public List<OdinData.TaskDataTable> Tasks=null;
+			public override Type BindToType(string assemblyName, string typeName)
+			{
+				Type tyType = null;
+				string sShortAssemblyName = assemblyName.Split(',')[0];
+
+				Assembly[] ayAssemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+				foreach (Assembly ayAssembly in ayAssemblies)
+				{
+					if (sShortAssemblyName == ayAssembly.FullName.Split(',')[0])
+					{
+						tyType = ayAssembly.GetType(typeName);
+						break;
+					}
+				}
+				return tyType;
+
+			}
+		}
+		[Serializable]
+		public class TaskDataTable : SerializationBinder
+		{
+			public TaskManager.TaskType m_type = TaskManager.TaskType.Treasure;
+			public string taskName;
+			public int Key;
+			public int Level;
+			public string Id;
+			public bool isMain = false;
+			public bool m_pause = false;
+			public bool m_isInit = false;
+			public bool m_discovered = false;
+			public bool m_finished = false;
+			public bool m_isClear = false;
+			public override Type BindToType(string assemblyName, string typeName)
+			{
+				Type tyType = null;
+				string sShortAssemblyName = assemblyName.Split(',')[0];
+
+				Assembly[] ayAssemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+				foreach (Assembly ayAssembly in ayAssemblies)
+				{
+					if (sShortAssemblyName == ayAssembly.FullName.Split(',')[0])
+					{
+						tyType = ayAssembly.GetType(typeName);
+						break;
+					}
+				}
+				return tyType;
+			}
+
 		}
 		public static DataTable Data = new DataTable();
 		public static void init()
@@ -69,10 +121,11 @@ namespace OdinPlus
 			}
 			FileStream fileStream = new FileStream(@file, FileMode.Create, FileAccess.Write);
 
-			IFormatter formatter = new BinaryFormatter();
+			BinaryFormatter formatter = new BinaryFormatter();
+			formatter.Binder = new DataTable();
 			formatter.Serialize(fileStream, Data);
 			fileStream.Close();
-            DBG.blogWarning("OdinDataSaved:" + name);
+			DBG.blogWarning("OdinDataSaved:" + name);
 		}
 		public static void loadOdinData(string name)
 		{
@@ -81,7 +134,8 @@ namespace OdinPlus
 			{
 				FileStream fileStream = new FileStream(@file, FileMode.Open, FileAccess.Read);
 
-				IFormatter formatter = new BinaryFormatter();
+				BinaryFormatter formatter = new BinaryFormatter();
+				formatter.Binder = new DataTable();
 				Data = (DataTable)formatter.Deserialize(fileStream);
 				fileStream.Close();
 
@@ -89,13 +143,13 @@ namespace OdinPlus
 				score = Data.score;
 				TaskManager.Load(Data.Tasks);
 				#endregion Load
-				OdinPlus.isLoaded=true;
+				OdinPlus.isLoaded = true;
 				DBG.blogWarning("OdinDataLoaded:" + name);
 				return;
 			}
 			else
 			{
-				DBG.blogWarning("Profile not exists:"+name);
+				DBG.blogWarning("Profile not exists:" + name);
 			}
 		}
 	}
