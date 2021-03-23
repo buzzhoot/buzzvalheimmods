@@ -33,7 +33,7 @@ namespace OdinPlus
 		private string randomName()
 		{
 			UnityEngine.Random.InitState(Mathf.FloorToInt(Time.realtimeSinceStartup));
-			var l = OdinScore.ItemSellValue;
+			var l = OdinData.ItemSellValue;
 			int i = UnityEngine.Random.Range(0, l.Count);
 			return l.ElementAt(i).Key;
 		}
@@ -91,7 +91,7 @@ namespace OdinPlus
 			}
 			//Say("Greeting,Warrior?");
 			//user.GetSkills().CheatRaiseSkill(cskill,1);
-			if (!OdinScore.remove(15))//---------------------cfg
+			if (!OdinData.RemoveScore(15))//---------------------cfg
 			{
 				Say("Hard work is the only way to get reward");
 				return false;
@@ -107,7 +107,7 @@ namespace OdinPlus
 		public override string GetHoverText()
 		{
 			string n = "<color=blue><b>ODIN</b></color>";
-			string s = string.Format("\n<color=green><b>Score:{0}</b></color>", OdinScore.score);
+			string s = string.Format("\n<color=green><b>Score:{0}</b></color>", OdinData.score);
 			string a = string.Format("\n[<color=yellow><b>$KEY_Use</b></color>] $odin_use[<color=green><b>{0}</b></color>]", cskill);
 			string b = "\n[<color=yellow><b>1-8</b></color>]Offer your gifts";
 			string c = "\n[<color=yellow><b>F</b></color>]Switch Skill";
@@ -117,13 +117,13 @@ namespace OdinPlus
 		{
 			var name = item.m_dropPrefab.name;
 			int value = 1;
-			if (!OdinScore.ItemSellValue.ContainsKey(name))
+			if (!OdinData.ItemSellValue.ContainsKey(name))
 			{
 				Say("I need Something useful...like " + randomName());
 				return false;
 			}
-			value = OdinScore.ItemSellValue[name];
-			OdinScore.add(value * item.m_stack*item.m_quality, m_head);
+			value = OdinData.ItemSellValue[name];
+			OdinData.AddScore(value * item.m_stack*item.m_quality, m_head);
 			user.GetInventory().RemoveItem(item.m_shared.m_name, item.m_stack);
 			Say("Nice,bring back more");
 			return true;

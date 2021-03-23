@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace OdinPlus
 {
-    class OdinScore
+    class OdinData
     {
         public static int score;
         public static Dictionary<string, int> ItemSellValue = new Dictionary<string, int>();
@@ -30,13 +30,13 @@ namespace OdinPlus
 			}
 
 		}
-        public static void add(int s, Transform m_head)
+        public static void AddScore(int s, Transform m_head)
         {
             score += s;
             //Transform m_head = Traverse.Create(Player.m_localPlayer).Field("m_head").GetValue<Transform>();
             Player.m_localPlayer.m_skillLevelupEffects.Create(m_head.position, m_head.rotation, m_head, 1f);
         }
-        public static bool remove(int s)
+        public static bool RemoveScore(int s)
         {
             if (score-s<0)
             {
@@ -47,16 +47,14 @@ namespace OdinPlus
         }
         public static void saveOdinData(string name)
         {
-            string file = Path.Combine(Application.persistentDataPath,(name + ".odinplus"));
-            //string file = Application.persistentDataPath + "/OdinPlus/" + name + ".";
-            //string file = @"c:/odin.dat";            
+            string file = Path.Combine(Application.persistentDataPath,(name + ".odinplus"));            
             if (File.Exists(@file))
             {
-                //File.Delete(@file);
+                //add Backup
             }
             FileStream fileStream = new FileStream(@file, FileMode.Create);
             BinaryWriter binaryWriter = new BinaryWriter(fileStream);
-            binaryWriter.Write(OdinScore.score);
+            binaryWriter.Write(OdinData.score);
             binaryWriter.Flush();
             binaryWriter.Close();
             fileStream.Close();
@@ -64,13 +62,12 @@ namespace OdinPlus
         public static void loadOdinData(string name)
         {
             string file = Path.Combine(Application.persistentDataPath, (name + ".odinplus"));
-            //string file = @"c:/odin.dat";
             if (File.Exists(@file))
             {
                 FileStream fileStream = new FileStream(@file, FileMode.Open);
                 BinaryReader binaryReader = new BinaryReader(fileStream);
                 score = binaryReader.ReadInt32();
-                DBG.blogWarning("OdinScoreLoaded:"+score);
+                DBG.blogWarning("OdinDataLoaded:"+score);
                 fileStream.Close();
                 return;
             }

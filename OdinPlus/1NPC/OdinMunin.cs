@@ -29,7 +29,7 @@ namespace OdinPlus
 		public override string GetHoverText()
 		{
 			string n = string.Format("<color=blue><b>{0}</b></color>", m_name);
-			n += string.Format("\n<color=green><b>Score:{0}</b></color>", OdinScore.score);
+			n += string.Format("\n<color=green><b>Score:{0}</b></color>", OdinData.score);
 			n +=  "\n[<color=yellow><b>$KEY_Use</b></color>] $odin_munin_use";
 			n += String.Format("\n<color=yellow><b>[{0}]</b></color>$odin_munin_2use", Plugin.KS_SecondInteractkey.Value.MainKey.ToString());
 			return Localization.instance.Localize(n);

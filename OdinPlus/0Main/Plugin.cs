@@ -42,7 +42,7 @@ namespace OdinPlus
 			OdinPlusRoot = new GameObject("OdinPlus");
 			OdinPlusRoot.AddComponent<OdinPlus>();
 			DontDestroyOnLoad(OdinPlusRoot);
-			OdinScore.init();
+			OdinData.init();
 			DBG.blogInfo("OdinPlus Loadded");
 		}
 
@@ -92,7 +92,7 @@ namespace OdinPlus
 				string name = t.m_name;
 				if (OdinPlus.traderNameList.Contains(name))
 				{
-					__result = OdinScore.score;
+					__result = OdinData.score;
 					return;
 				}
 			}
@@ -107,7 +107,7 @@ namespace OdinPlus
 				{
 					var m_selectedItem = Traverse.Create(__instance).Field<Trader.TradeItem>("m_selectedItem").Value;
 					int stack = Mathf.Min(m_selectedItem.m_stack, m_selectedItem.m_prefab.m_itemData.m_shared.m_maxStackSize);
-					if (m_selectedItem == null || (m_selectedItem.m_price * stack - OdinScore.score > 0))
+					if (m_selectedItem == null || (m_selectedItem.m_price * stack - OdinData.score > 0))
 					{
 						return false;
 					}
@@ -115,7 +115,7 @@ namespace OdinPlus
 					int variant = m_selectedItem.m_prefab.m_itemData.m_variant;
 					if (Player.m_localPlayer.GetInventory().AddItem(m_selectedItem.m_prefab.name, stack, quality, variant, 0L, "") != null)
 					{
-						OdinScore.remove(m_selectedItem.m_price * stack);//?
+						OdinData.RemoveScore(m_selectedItem.m_price * stack);//?
 						__instance.m_buyEffects.Create(__instance.gameObject.transform.position, Quaternion.identity, null, 1f);
 						Player.m_localPlayer.ShowPickupMessage(m_selectedItem.m_prefab.m_itemData, m_selectedItem.m_prefab.m_itemData.m_stack);
 						Traverse.Create(__instance).Method("FillList").GetValue();
@@ -228,7 +228,8 @@ namespace OdinPlus
 				{
 					return;
 				}
-				OdinScore.saveOdinData(player.GetPlayerName());
+				OdinData.saveOdinData(player.GetPlayerName());
+				Debug.Log(ZNet.instance.GetWorldName());
 			}
 		}
 
@@ -239,7 +240,8 @@ namespace OdinPlus
 			{
 				//DBG.blogWarning("loading");
 				if (CheckPlayerNull()) { return; }
-				OdinScore.loadOdinData(Player.m_localPlayer.GetPlayerName());
+				OdinData.loadOdinData(Player.m_localPlayer.GetPlayerName());
+				Debug.Log(ZNet.instance.GetWorldName());
 			}
 		}
 
