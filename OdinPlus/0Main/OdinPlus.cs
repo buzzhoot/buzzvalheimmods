@@ -221,6 +221,7 @@ namespace OdinPlus
 			Plugin.OdinPlusRoot.AddComponent<OdinItem>();
 			Plugin.OdinPlusRoot.AddComponent<PetManager>();
 			Plugin.OdinPlusRoot.AddComponent<TaskManager>();
+			Root.AddComponent<LocationManager>();
 			isInit = true;
 			PostODB();
 			var m_namedPrefabs = Traverse.Create(ZNetScene.instance).Field<Dictionary<int, GameObject>>("m_namedPrefabs").Value;

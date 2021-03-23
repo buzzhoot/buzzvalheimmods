@@ -123,27 +123,32 @@ namespace OdinPlus
 					Init = new Action(InitTire4);
 					break;
 			}
-			SetLocation();
+			if (!SetLocation())
+			{
+				return;
+			}
 			SetRange(30.RollDice(30 + Level * 30));
 			SetPosition();
 			SetPin();
 			MessageHud.instance.ShowBiomeFoundMsg(isMain ? "Main" : "Side" + " Quest: " + taskName + " Start", true);
 		}
-		protected virtual void SetLocation()
+		protected virtual bool SetLocation()
 		{
 			var list = locList[Key];
 			int ind = list.Length.RollDice();
-			locName = location.m_location.m_prefabName;
+			locName = list[ind];
 			if (LocationManager.FindClosestLocation(locName, Game.instance.GetPlayerProfile().GetCustomSpawnPoint(), out Id, out location))
 			{
 				root = location.m_location.m_prefab.gameObject;
 				gameObject.name = "Task";
 				SetLocName();
-				return;
+				SetTaskName();
+				return true;
 			}
 			DBG.InfoCT("Something Went Wrong,Try again");
 			DBG.blogWarning(string.Format("Cannot Place Task :  {0} {1}", GetTaskType(), locName));
 			DestroyImmediate(this.gameObject);
+			return false;
 		}
 		protected virtual void InitTire0() { }
 		protected virtual void InitTire1() { }

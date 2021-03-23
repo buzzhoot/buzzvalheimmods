@@ -109,6 +109,7 @@ namespace OdinPlus
 		}
 		public static void saveOdinData(string name)
 		{
+			//return;
 			#region Save
 			Data.Tasks = TaskManager.Save();
 			Data.score = score;
@@ -129,6 +130,7 @@ namespace OdinPlus
 		}
 		public static void loadOdinData(string name)
 		{
+			//return;
 			string file = Path.Combine(Application.persistentDataPath, (name + ".odinplus"));
 			if (File.Exists(@file))
 			{
