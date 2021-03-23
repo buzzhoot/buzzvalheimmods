@@ -12,6 +12,7 @@ namespace OdinPlus
 		private Inventory inv;
 		private Container ctn;
 		#endregion  var
+		
 		#region Main
 		private void Awake()
 		{
@@ -20,11 +21,7 @@ namespace OdinPlus
 			m_tier2 = new string[] { "WoodHouse11", "WoodHouse6", "WoodHouse3", "WoodHouse4", "WoodHouse1" };
 			m_tier3 = new string[] { "WoodHouse11", "WoodHouse6", "WoodHouse3", "WoodHouse4", "WoodHouse1" };
 			m_tier4 = new string[] { "WoodHouse11", "WoodHouse6", "WoodHouse3", "WoodHouse4", "WoodHouse1" };
-			Reward = Instantiate(ObjectDB.instance.GetItemPrefab("OdinLegacy"), OdinPlus.PrefabParent.transform);
-			Reward.name="OdinLegacy";
-			var lgc = Reward.GetComponent<ItemDrop>().m_itemData;
-			lgc.m_quality = Key + 1;
-
+			Reward = OdinPlus.PrefabParent.transform.Find("OdinLegacy"+(Key+1).ToString()).gameObject;
 			base.Begin();
 		}
 		#endregion Main

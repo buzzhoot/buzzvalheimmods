@@ -16,17 +16,23 @@ namespace OdinPlus
 		public static bool isMain;
 		#endregion Out
 		#region in
-			public static GameObject Root;
-			public static int Level;
+		public static GameObject Root;
+		public static int Level;
 		#endregion interal
+		#region Internal
+		private bool isPrefabed = false;
+		private Transform PrefabRoot;
+		#endregion Internal
 		#endregion  var
 
 		#region Mono
-		
+
 		private void Awake()
 		{
-			Root= new GameObject("TaskRoot");
+			Root = new GameObject("TaskRoot");
 			Root.transform.SetParent(OdinPlus.Root.transform);
+			PrefabRoot=OdinPlus.PrefabParent.transform;
+			CreatePrefab();
 		}
 		#endregion Mono
 
@@ -43,8 +49,21 @@ namespace OdinPlus
 			{
 				if (keys.Contains(item)) { result += 1; }
 			}
-			GameKey=result;
+			GameKey = result;
 			return result;
+		}
+		private void CreatePrefab()
+		{
+			if(isPrefabed){return;}
+
+			for (int i = 1; i < 6; i++)
+			{
+				var go = Instantiate(ObjectDB.instance.GetItemPrefab("OdinLegacy"), PrefabRoot);
+				go.name = "OdinLegacy"+i;
+				var lgc = go.GetComponent<ItemDrop>().m_itemData;
+				lgc.m_quality = i;
+			}
+			isPrefabed=true;
 		}
 		#endregion Tool
 
@@ -77,7 +96,7 @@ namespace OdinPlus
 			switch (t)
 			{
 				case TaskType.Treasure:
-					CurrentTask=go.AddComponent<TreasureTask>();
+					CurrentTask = go.AddComponent<TreasureTask>();
 					break;
 				case TaskType.Hunt:
 					break;
@@ -99,7 +118,15 @@ namespace OdinPlus
 		#region internalTool
 		#endregion internalTool
 		#region save&Load
-
+		[Serializable]
+		public struct TaskDataTable
+		{
+			public bool isMain;
+			public bool isInit;
+			public bool isDiscovery;
+			public bool isClear;
+			public int Id;
+		}
 		#endregion save&Load
 	}
 }
