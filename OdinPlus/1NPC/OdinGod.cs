@@ -35,7 +35,7 @@ namespace OdinPlus
 			UnityEngine.Random.InitState(Mathf.FloorToInt(Time.realtimeSinceStartup));
 			var l = OdinData.ItemSellValue;
 			int i = UnityEngine.Random.Range(0, l.Count);
-			return l.ElementAt(i).Key;
+			return l.ElementAt(i).Key.GetTransName();
 		}
 		public static bool IsInstantiated()
 		{
@@ -75,8 +75,6 @@ namespace OdinPlus
 		public bool Summon()
 		{
 			//this.transform.parent.localPosition = FindSpawnPoint();
-			//Terrain.Flatten(3.5f, 3.5f, this.transform);
-			//Terrain.RemoveFlora(4f, this.transform.position);
 			ReadSkill();
 			return true;
 		}
@@ -89,14 +87,12 @@ namespace OdinPlus
 			{
 				return false;
 			}
-			//Say("Greeting,Warrior?");
-			//user.GetSkills().CheatRaiseSkill(cskill,1);
-			if (!OdinData.RemoveScore(15))//---------------------cfg
+			if (!OdinData.RemoveScore(Plugin.RaiseCost))
 			{
 				Say("Hard work is the only way to get reward");
 				return false;
 			}
-			user.GetSkills().RaiseSkill(stlist[cskillIndex], 50f);//---------------------cfg
+			user.GetSkills().RaiseSkill(stlist[cskillIndex], Plugin.RaiseFactor);
 			Say("I made you stronger,warrior");
 			return true;
 		}
