@@ -176,7 +176,7 @@ namespace OdinPlus
 				znsRegList.Add(item.Key.GetStableHashCode(), item.Value);
 			}
 		}
-				public static void PostRegister(GameObject go)
+		public static void PostRegister(GameObject go)
 		{
 			znsRegList.Add(go.name.GetStableHashCode(), go);
 		}
@@ -218,7 +218,7 @@ namespace OdinPlus
 				m_namedPrefabs.Add(item.Key, item.Value);
 			}
 			PostZNS();
-			NpcManager.RavenPrefab=Tutorial.instance.m_ravenPrefab.transform.Find("Munin").gameObject;
+			NpcManager.RavenPrefab = Tutorial.instance.m_ravenPrefab.transform.Find("Munin").gameObject;
 			InitNPC();
 
 		}

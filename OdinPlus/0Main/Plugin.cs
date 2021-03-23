@@ -286,9 +286,9 @@ namespace OdinPlus
 		[HarmonyPatch(typeof(ZoneSystem), "Awake")]
 		private static class Postfix_ZoneSystem_Awake
 		{
-			private static void Postfix()
-			{
-
+			private static void Postfix(ZoneSystem __instance)
+			{	
+				__instance.gameObject.AddComponent<LocationManager>();
 			}
 		}
 		#endregion ZoneSystem

@@ -5,7 +5,7 @@ using HarmonyLib;
 
 namespace OdinPlus
 {
-	internal class LocationManager
+	internal class LocationManager:MonoBehaviour
 	{
 		private static Dictionary<Vector2i, ZoneSystem.LocationInstance> m_locationInstances;
 		public static List<string> BlackList = new List<string>();
