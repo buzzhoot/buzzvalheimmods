@@ -22,10 +22,10 @@ namespace OdinPlus
 		#region Init
 		public static void GetValLocation()
 		{
-			var a = Traverse.Create(ZoneSystem.instance).Field<Dictionary<Vector2i, ZoneSystem.LocationInstance>>("m_locationInstances").Value;
+			Dictionary<Vector2i, ZoneSystem.LocationInstance> a = Traverse.Create(ZoneSystem.instance).Field<Dictionary<Vector2i, ZoneSystem.LocationInstance>>("m_locationInstances").Value;
 			foreach (var item in a)
 			{
-				m_locationInstances.AddItem(item);
+				m_locationInstances.Add(item.Key,item.Value);
 			}
 		}
 		public static void RemoveBlackList()
