@@ -31,7 +31,7 @@ namespace OdinPlus
 		{
 			Root = new GameObject("TaskRoot");
 			Root.transform.SetParent(OdinPlus.Root.transform);
-			PrefabRoot=OdinPlus.PrefabParent.transform;
+			PrefabRoot = OdinPlus.PrefabParent.transform;
 			CreatePrefab();
 		}
 		#endregion Mono
@@ -54,16 +54,16 @@ namespace OdinPlus
 		}
 		private void CreatePrefab()
 		{
-			if(isPrefabed){return;}
+			if (isPrefabed) { return; }
 
 			for (int i = 1; i < 6; i++)
 			{
 				var go = Instantiate(ObjectDB.instance.GetItemPrefab("OdinLegacy"), PrefabRoot);
-				go.name = "OdinLegacy"+i;
+				go.name = "OdinLegacy" + i;
 				var lgc = go.GetComponent<ItemDrop>().m_itemData;
 				lgc.m_quality = i;
 			}
-			isPrefabed=true;
+			isPrefabed = true;
 		}
 		#endregion Tool
 
@@ -110,23 +110,76 @@ namespace OdinPlus
 		{
 
 		}
-		public static void FinishTask()
-		{
-			CurrentTask.Finish();
-		}
 		#endregion Feature
 		#region internalTool
 		#endregion internalTool
 		#region save&Load
 		[Serializable]
-		public struct TaskDataTable
+		public class TaskDataTable
 		{
-			public bool isMain;
-			public bool isInit;
-			public bool isDiscovery;
-			public bool isClear;
-			public int Id;
+			public TaskType m_type = TaskType.Treasure;
+			public string taskName;
+			public int Key;
+			public int Level;
+			public string Id;
+			public bool isMain = false;
+			public bool m_pause = false;
+			public bool m_isInit = false;
+			public bool m_discovered = false;
+			public bool m_finished = false;
+			public bool m_isClear = false;
+
 		}
-		#endregion save&Load
+
+		public static List<TaskManager.TaskDataTable> Save()
+		{
+			var data = new List<TaskManager.TaskDataTable>();
+			foreach (var item in Root.GetComponentsInChildren<OdinTask>())
+			{
+				data.Add(item.Save());
+			}
+			return data;
+		}
+		public static void Load(List<TaskManager.TaskDataTable> data)
+		{
+			Root.SetActive(false);
+			int i = 0;
+			int e = 0;
+			foreach (var item in data)
+			{
+				var go = new GameObject("Task" + i);
+				go.transform.parent = Root.transform;
+
+				switch (item.m_type)
+				{
+					case TaskType.Treasure:
+						go.AddComponent<TreasureTask>();
+						break;
+					case TaskType.Hunt:
+						break;
+					case TaskType.Dungeon:
+						break;
+					case TaskType.Search:
+						break;
+				}
+				if (go.GetComponent<OdinTask>().Load(item))
+				{
+					i++;
+				}
+				else
+				{
+					e++;
+				}
+			}
+			if (e != 0)
+			{
+				var s = e + " Quest Load failed";
+				DBG.blogWarning(s);
+				DBG.InfoCT(s);
+			}
+			Root.SetActive(true);
+			DBG.blogInfo("Loaded Task Count: " + i);
+			#endregion save&Load
+		}
 	}
 }

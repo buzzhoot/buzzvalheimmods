@@ -27,21 +27,25 @@ namespace OdinPlus
 		protected List<string[]> locList = new List<string[]>();
 		public string locName;
 		protected GameObject root;
-		
+
 		#endregion Data
 		#region internal
 		protected Vector3 m_position;
 		protected float m_range;
-		protected TaskManager.TaskType m_type;
-		protected bool m_targetClear = false;
-		protected bool m_start = false;
-		protected bool m_finished = false;
-		protected bool m_pause = false;
-		protected bool m_discovered = false;
-		protected bool m_isInit = false;
-		protected ZoneSystem.LocationInstance location;
 		protected Action Init;
-		protected bool m_finded;
+		protected bool laoding = false;
+		#region Real Data
+		public TaskManager.TaskType m_type;
+		public string taskName;
+		public string Id;
+		protected bool m_pause = false;
+		protected bool m_isInit = false;
+		protected bool m_discovered = false;
+		protected bool m_finished = false;
+		protected bool m_isClear = false;
+		protected ZoneSystem.LocationInstance location;
+		#endregion Real Data
+
 		#endregion internal
 		#region in
 		public int Key;
@@ -52,7 +56,6 @@ namespace OdinPlus
 		public string HintTarget;
 		public string HintStart;
 		public GameObject Reward;
-		public int Id;
 		#endregion out
 		#endregion Var
 
@@ -70,11 +73,11 @@ namespace OdinPlus
 				Discovery();
 				return;
 			}
-			if (isLoaded()&&!IsFinsih())
+			if (isLoaded() && !IsFinsih())
 			{
 				CheckTarget();
 			}
-			if (IsFinsih())
+			if (IsFinsih() && !m_isClear)
 			{
 				Clear();
 			}
@@ -87,12 +90,7 @@ namespace OdinPlus
 		{
 			Clear();
 		}
-		public virtual void Finish()
-		{
-			MessageHud.instance.ShowBiomeFoundMsg(isMain ? "Main" : "Side" + " Quest Clear", true);
-			Minimap.instance.RemovePin(m_position,3);
-			m_finished = true;
-		}
+
 		public virtual void Pause()
 		{
 			m_pause = !m_pause;
@@ -102,9 +100,9 @@ namespace OdinPlus
 		#region internal Feature
 		protected virtual void Begin()
 		{
-			Key=TaskManager.GameKey;
-			Level=TaskManager.Level;
-			isMain=TaskManager.isMain;
+			Key = TaskManager.GameKey;
+			Level = TaskManager.Level;
+			isMain = TaskManager.isMain;
 			locList = new List<string[]> { m_tier0, m_tier1, m_tier2, m_tier3, m_tier4 };
 			switch (Key)
 			{
@@ -125,64 +123,82 @@ namespace OdinPlus
 					Init = new Action(InitTire4);
 					break;
 			}
-			m_start = true;
 			SetLocation();
-			SetRange();
+			SetRange(30.RollDice(30 + Level * 30));
 			SetPosition();
 			SetPin();
-			MessageHud.instance.ShowBiomeFoundMsg(isMain ? "Main" : "Side" + " Quest Start", true);
+			MessageHud.instance.ShowBiomeFoundMsg(isMain ? "Main" : "Side" + " Quest: " + taskName + " Start", true);
 		}
 		protected virtual void SetLocation()
 		{
 			var list = locList[Key];
 			int ind = list.Length.RollDice();
-			locName = list[ind];
-			m_finded = ZoneSystem.instance.FindClosestLocation(locName, Game.instance.GetPlayerProfile().GetCustomSpawnPoint(), out location);
-			root = location.m_location.m_prefab.gameObject;
-			Id=location.m_location.m_hash;
-			locName = Regex.Replace(locName, @"[\d-]", string.Empty);
+			locName = location.m_location.m_prefabName;
+			if (LocationManager.FindClosestLocation(locName, Game.instance.GetPlayerProfile().GetCustomSpawnPoint(), out Id, out location))
+			{
+				root = location.m_location.m_prefab.gameObject;
+				gameObject.name = "Task";
+				SetLocName();
+				return;
+			}
+			DBG.InfoCT("Something Went Wrong,Try again");
+			DBG.blogWarning(string.Format("Cannot Place Task :  {0} {1}", GetTaskType(), locName));
+			DestroyImmediate(this.gameObject);
 		}
 		protected virtual void InitTire0() { }
 		protected virtual void InitTire1() { }
 		protected virtual void InitTire2() { }
 		protected virtual void InitTire3() { }
 		protected virtual void InitTire4() { }
-		protected virtual void SetPosition()
+		private void SetPin()
 		{
-			m_position = location.m_position.GetRandomLocation(m_range);
-		}
-		protected virtual void SetRange()
-		{
-			m_range = 100.RollDice();
-		}
-		public virtual void SetPin()
-		{
-			Minimap.instance.DiscoverLocation(m_position, Minimap.PinType.Icon3, "Odin Quest");
-			Chat.instance.SendPing(m_position);
+			Minimap.instance.DiscoverLocation(m_position, Minimap.PinType.Icon3, isMain ? "Main" : "Side" + " Quest: " + taskName);
+
 		}
 		protected virtual void Discovery()
 		{
-			Tweakers.SendRavenMessage("Quest Name",HintTarget);
+			Tweakers.SendRavenMessage(isMain ? "Main" : "Side" + " Quest: " + taskName, HintTarget);
 		}
-		protected virtual void CheckTarget()
+		protected virtual void CheckTarget() { }
+		protected virtual void Finish()
 		{
-
+			MessageHud.instance.ShowBiomeFoundMsg(isMain ? "Main" : "Side" + " Quest: " + taskName + " Clear", true);
+			Minimap.instance.RemovePin(m_position, 3);
+			m_finished = true;
 		}
 		protected virtual void Clear()
 		{
-			
+			m_isClear = true;
 			Destroy(gameObject);
 		}
+		private void SetLocName()
+		{
+			locName = Regex.Replace(locName, @"[\d-]", string.Empty);
+		}
+		private void SetTaskName()
+		{
+			taskName = locName + " " + GetTaskType().ToString();
+		}
+		private void SetPosition()
+		{
+			m_position = location.m_position.GetRandomLocation(m_range);
+		}
+
+
 		#endregion internal Feature
 
 		#region Tool
+		public void SetRange(int range)
+		{
+			m_range = range.RollDice();
+		}
+		public void SendPing()
+		{
+			Chat.instance.SendPing(m_position);
+		}
 		public bool IsFinsih()
 		{
 			return m_finished;
-		}
-		public bool IsStarted()
-		{
-			return m_start;
 		}
 		public bool IsPause()
 		{
@@ -192,22 +208,15 @@ namespace OdinPlus
 		{
 			return m_discovered;
 		}
-		public void ClearTarget()
-		{
-			m_targetClear = true;
-		}
 		public bool isLoaded()
 		{
 			return ZoneSystem.instance.IsZoneLoaded(location.m_position);
-		}
-		public void SetTaskType(TaskManager.TaskType t)
-		{
-			m_type = t;
 		}
 		public TaskManager.TaskType GetTaskType()
 		{
 			return m_type;
 		}
+
 		public bool isInsideArea(Vector3 position)
 		{
 			if (position.y > 3000f)
@@ -229,6 +238,69 @@ namespace OdinPlus
 		}
 		#endregion Tool
 
+		#region save load
+		public bool Load(TaskManager.TaskDataTable dat)
+		{
+			laoding = true;
+			taskName = dat.taskName;
+
+			Key = dat.Key;
+
+			Level = dat.Level;
+
+			m_type = dat.m_type;
+
+			isMain = dat.isMain;
+
+			m_isInit = dat.m_isInit;
+
+			m_pause = dat.m_pause;
+
+			m_discovered = dat.m_discovered;
+
+			m_finished = dat.m_finished;
+
+			m_isClear = dat.m_isClear;
+
+			Id = dat.Id;
+			if (LocationManager.GetLocationInstance(Id, out location))
+			{
+				locName = location.m_location.m_prefabName;
+				SetLocName();
+				SetTaskName();
+				return true;
+			}
+			DestroyImmediate(this.gameObject);
+			return false;
+		}
+		public TaskManager.TaskDataTable Save()
+		{
+			var dat = new TaskManager.TaskDataTable()
+			{
+				taskName = this.taskName,
+
+				Key = this.Key,
+
+				Level = this.Level,
+
+				m_type = this.m_type,
+
+				isMain = this.isMain,
+
+				m_isInit = this.m_isInit,
+
+				m_pause = this.m_pause,
+
+				m_discovered = this.m_discovered,
+
+				m_finished = this.m_finished,
+
+				m_isClear = this.m_isClear
+			};
+			return dat;
+		}
+
+		#endregion save load
 		#region Static Tool
 		#endregion Static Tool
 	}

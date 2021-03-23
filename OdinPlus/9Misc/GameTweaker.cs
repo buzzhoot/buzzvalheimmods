@@ -33,12 +33,13 @@ namespace OdinPlus
 		{
 			return Localization.instance.Localize(str);
 		}
-		public static string DepakVector2i(this string str, Vector2i v2i)
+		public static string DepakVector2i(Vector2i v2i)
 		{
 			return v2i.x.ToString() + "_" + v2i.y.ToString();
 		}
-		public static Vector2i Pak(this Vector2i val, string str)
+		public static Vector2i Pak(string str)
 		{
+			Vector2i val;
 			string[] a = str.Split(new char[] { '_' });
 			val.x = int.Parse(a[0]);
 			val.y = int.Parse(a[1]);
