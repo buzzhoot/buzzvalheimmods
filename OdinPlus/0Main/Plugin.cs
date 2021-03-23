@@ -47,7 +47,6 @@ namespace OdinPlus
 			OdinPlusRoot = new GameObject("OdinPlus");
 			OdinPlusRoot.AddComponent<OdinPlus>();
 			DontDestroyOnLoad(OdinPlusRoot);
-			OdinData.init();
 			DBG.blogInfo("OdinPlus Loadded");
 		}
 

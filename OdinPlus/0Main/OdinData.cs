@@ -9,7 +9,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace OdinPlus
 {
-	public class OdinData:MonoBehaviour
+	public class OdinData : MonoBehaviour
 	{
 		public static int score;
 		public static Dictionary<string, int> ItemSellValue = new Dictionary<string, int>();
@@ -20,7 +20,7 @@ namespace OdinPlus
 			public bool hasWolf = false;
 			public bool hasTroll = false;
 			public List<string> BlackList = new List<string>();
-			public List<OdinData.TaskDataTable> Tasks=null;
+			public List<OdinData.TaskDataTable> Tasks = null;
 			public override Type BindToType(string assemblyName, string typeName)
 			{
 				Type tyType = null;
@@ -73,9 +73,10 @@ namespace OdinPlus
 			}
 
 		}
-		public static DataTable Data = new DataTable();
-		public static void init()
+		public static DataTable Data;
+		private void Awake()
 		{
+			Data = new DataTable();
 			if (Plugin.CFG_ItemSellValue.Value == "") { return; }
 			string[] l1 = Plugin.CFG_ItemSellValue.Value.Split(new char[] { ';' });
 			for (int i = 0; i < l1.Length; i++)
@@ -91,7 +92,6 @@ namespace OdinPlus
 					DBG.blogWarning(e);
 				}
 			}
-
 		}
 		public static void AddScore(int s, Transform m_head)
 		{

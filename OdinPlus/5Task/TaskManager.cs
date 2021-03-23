@@ -108,21 +108,26 @@ namespace OdinPlus
 		#region save&Load
 		public static List<OdinData.TaskDataTable> Save()
 		{
-			if (Root.GetComponentsInChildren<OdinTask>() == null)
+			if (Root.transform.childCount==0)
 			{
+				DBG.blogInfo("Load:Task is null");
 				return null;
 			}
 			var data = new List<OdinData.TaskDataTable>();
+			int i = 0;
 			foreach (var item in Root.GetComponentsInChildren<OdinTask>())
 			{
 				data.Add(item.Save());
+				i++;
 			}
+			DBG.blogInfo("Task saved:"+i);
 			return data;
 		}
 		public static void Load(List<OdinData.TaskDataTable> data)
 		{
 			if (data == null)
 			{
+				DBG.blogInfo("Load:Task is null");
 				return;
 			}
 			Root.SetActive(false);

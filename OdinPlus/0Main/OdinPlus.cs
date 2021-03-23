@@ -54,6 +54,7 @@ namespace OdinPlus
 			PrefabParent = new GameObject("OdinPlusPrefabs");
 			PrefabParent.SetActive(false);
 			PrefabParent.transform.SetParent(Root.transform);
+			Root.AddComponent<OdinData>();
 		}
 		#endregion Mono
 
