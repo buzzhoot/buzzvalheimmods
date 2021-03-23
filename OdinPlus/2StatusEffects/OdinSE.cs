@@ -93,7 +93,7 @@ namespace OdinPlus
 			se.m_staminaRegenMultiplier = data.m_staminaRegenMultiplier = 1f;
 			se.m_raiseSkill = data.m_raiseSkill;
 			se.m_raiseSkillModifier = data.m_raiseSkillModifier;
-			//?se.m_mods = new List<HitData.DamageModPair>() = data.m_mods = new List<HitData.DamageModPair>();
+			//se.m_mods = new List<HitData.DamageModPair>() = data.m_mods = new List<HitData.DamageModPair>();
 			se.m_modifyAttackSkill = data.m_modifyAttackSkill;
 			se.m_damageModifier = data.m_damageModifier = 1f;
 			se.m_noiseModifier = data.m_noiseModifier;

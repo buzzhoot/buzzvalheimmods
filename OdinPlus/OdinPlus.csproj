@@ -109,7 +109,6 @@
     <Compile Include="1NPC\OdinTrader.cs" />
     <Compile Include="3Items\OdinItem.cs" />
     <Compile Include="3Items\OdinMeads.cs" />
-    <Compile Include="0Main\OdinScore.cs" />
     <Compile Include="0Main\Plugin.cs" />
     <Compile Include="9Misc\OdinInteractable.cs" />
     <Compile Include="4Pets\PetWolf.cs" />
@@ -119,6 +118,7 @@
     <Compile Include="5Task\OdinTask.cs" />
     <Compile Include="5Task\TreasureTask.cs" />
     <EmbeddedResource Include="Resources\OdinLegacy.png" />
+    <Compile Include="0Main\OdinData.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
