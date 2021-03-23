@@ -19,9 +19,10 @@
 //||X||Wolf container//add
 //||X||Wolf and troll color//-?
 //||X||Create Npc Prefab//
-//|| ||Test Discover will trigger how many time?
-//|| ||isInit isCleared for task.
-//|| ||MainTask SideTask
+//||X||Test Discover will trigger how many time?
+//||X||isInit isCleared for task.
+//||X||MainTask SideTask
+//|| ||add black list to remove Project
 //|| ||PET ZDO REGISTER TO PLAYER//!
 //|| ||Mead ConfigManager//?
 //|| ||More Meads:big heal stamina tempopry WEIGHT Mining,Double Damege
