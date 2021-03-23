@@ -110,6 +110,13 @@ namespace OdinPlus
 		{
 
 		}
+		public static void Clear()
+		{
+			foreach (Transform t in Root.GetComponentsInChildren<Transform>())
+			{
+				Destroy(t);
+			}
+		}
 		#endregion Feature
 		#region internalTool
 		#endregion internalTool
@@ -148,7 +155,7 @@ namespace OdinPlus
 			foreach (var item in data)
 			{
 				var go = new GameObject("Task" + i);
-				go.transform.parent = Root.transform;
+				go.transform.parent = Root.transform;8a
 
 				switch (item.m_type)
 				{

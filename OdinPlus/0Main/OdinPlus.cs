@@ -94,7 +94,7 @@ namespace OdinPlus
 		public static void Clear()
 		{
 			PetManager.Clear();
-			
+			TaskManager.Clear();
 			Destroy(Root.GetComponent<NpcManager>());
 			Destroy(Root.GetComponent<LocationManager>());
 			isNPCInit = false;
