@@ -227,7 +227,7 @@ namespace OdinPlus
 		[HarmonyPatch(typeof(PlayerProfile), "Save")]
 		public static class PlayerProfile_SavePlayerData_Patch
 		{
-			public static void Postfix(PlayerProfile __instance, Player player)
+			public static void Prefix(PlayerProfile __instance)
 			{
 				if (CheckPlayerNull())
 				{
