@@ -24,6 +24,11 @@ namespace OdinPlus
 		public static ConfigEntry<KeyboardShortcut> KS_debug2;
 		public static ConfigEntry<string> CFG_ItemSellValue;
 		public static ConfigEntry<string> CFG_Pets;
+		#region InternalConfig
+		public static int RaiseCost = 10;
+		public static int RaiseFactor = 50;
+ 
+		#endregion InternalConfig
 		Harmony _harmony;
 		#endregion
 		public static GameObject OdinPlusRoot;
@@ -325,13 +330,13 @@ namespace OdinPlus
 		}
 		private static void finds()
 		{
-			var a =Resources.FindObjectsOfTypeAll<GameObject>();
+			var a = Resources.FindObjectsOfTypeAll<GameObject>();
 			string s = "";
 			foreach (var item in a)
 			{
-				if(item.name=="Beehive"&&item.scene.name=="locations")
+				if (item.name == "Beehive" && item.scene.name == "locations")
 				{
-					s+=(char)34+item.transform.parent.name+(char)34+",";
+					s += (char)34 + item.transform.parent.name + (char)34 + ",";
 				}
 			}
 			Debug.LogWarning(s);
