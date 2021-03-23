@@ -82,6 +82,10 @@ namespace OdinPlus
 			}
 			ValRegister();
 		}
+		public static void PostZone()
+		{
+			Root.AddComponent<LocationManager>();
+		}
 		public static void InitNPC()
 		{
 			Root.AddComponent<NpcManager>();
@@ -90,7 +94,9 @@ namespace OdinPlus
 		public static void Clear()
 		{
 			PetManager.Clear();
+			
 			Destroy(Root.GetComponent<NpcManager>());
+			Destroy(Root.GetComponent<LocationManager>());
 			isNPCInit = false;
 		}
 		#endregion Patch
