@@ -237,12 +237,12 @@ namespace OdinPlus
 			}
 		}
 
-		[HarmonyPatch(typeof(PlayerProfile), "LoadPlayerFromDisk")]
+		[HarmonyPatch(typeof(PlayerProfile), "LoadPlayerData")]
 		private static class Patch_PlayerProfile_LoadPlayerData
 		{
 			private static void Postfix()
 			{
-				if (CheckPlayerNull()) { return; }
+				if (CheckPlayerNull()||OdinPlus.isLoaded) { return; }
 				OdinData.loadOdinData(Player.m_localPlayer.GetPlayerName() + "_" + ZNet.instance.GetWorldName());
 			}
 		}

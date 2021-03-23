@@ -16,6 +16,8 @@ namespace OdinPlus
 		public static bool isInit = false;
 		public static bool isNPCInit = false;
 		public static bool isPetInit = false;
+		public static bool isRegistered=false;
+		public static bool isLoaded=false;
 		public static OdinPlus m_instance;
 		#endregion
 		#region List
@@ -164,6 +166,7 @@ namespace OdinPlus
 				ZNetScene.instance.m_prefabs.Add(item.Value);
 				m_namedPrefabs.Add(item.Key, item.Value);
 			}
+			isRegistered=true;
 			DBG.blogInfo("Register zns");
 		}
 		public static void OdinPreRegister(Dictionary<string, GameObject> list, string name)
@@ -203,6 +206,8 @@ namespace OdinPlus
 			m_namedPrefabs.RemoveList<int, GameObject>(odbRegList);
 			zns.m_prefabs.RemoveList<int, GameObject>(znsRegList);
 			m_namedPrefabs.RemoveList<int, GameObject>(znsRegList);
+			isRegistered=false;
+			isLoaded=false;
 			DBG.blogWarning("UnRegister all list");
 		}
 		#endregion Feature

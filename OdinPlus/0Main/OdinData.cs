@@ -89,6 +89,7 @@ namespace OdinPlus
 				score = Data.score;
 				TaskManager.Load(Data.Tasks);
 				#endregion Load
+				OdinPlus.isLoaded=true;
 				DBG.blogWarning("OdinDataLoaded:" + name);
 				return;
 			}
