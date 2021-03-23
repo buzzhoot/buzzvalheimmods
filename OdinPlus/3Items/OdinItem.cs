@@ -55,7 +55,7 @@ namespace OdinPlus
 			id.m_consumeStatusEffect = OdinSE.SElist[name];
 
 			go.GetComponent<ItemDrop>().m_itemData.m_quality=4;
-			id.m_maxQuality = 4;
+			id.m_maxQuality = 5;
 
 			ItemList.Add(name, go);
 		}
@@ -71,6 +71,7 @@ namespace OdinPlus
 			id.m_name = "$odin_" + name + "_name";
 			id.m_icons[0] = OdinPlus.OdinLegacyIcon;
 			id.m_description = "$odin_" + name + "_desc";
+			id.m_itemType=ItemDrop.ItemData.ItemType.None;
 
 			id.m_maxStackSize = 1;
 			id.m_maxQuality = 4;
