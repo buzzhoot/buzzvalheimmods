@@ -76,7 +76,19 @@ namespace OdinPlus
 			id.m_maxStackSize = 1;
 			id.m_maxQuality = 4;
 			
+			CreateReward(go);
+
 			ItemList.Add(name, go);
+		}
+		private static void CreateReward(GameObject pgo)
+		{
+			for (int i = 1; i < 6; i++)
+			{
+				var go = Instantiate(pgo, Root.transform);
+				go.name = "OdinLegacy" + i;
+				var lgc = go.GetComponent<ItemDrop>().m_itemData;
+				lgc.m_quality = i;
+			}
 		}
 
 		#endregion Legacy

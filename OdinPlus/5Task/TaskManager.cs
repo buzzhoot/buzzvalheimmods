@@ -20,8 +20,7 @@ namespace OdinPlus
 		public static int Level;
 		#endregion interal
 		#region Internal
-		private bool isPrefabed = false;
-		private Transform PrefabRoot;
+		
 		#endregion Internal
 		#endregion  var
 
@@ -31,8 +30,6 @@ namespace OdinPlus
 		{
 			Root = new GameObject("TaskRoot");
 			Root.transform.SetParent(OdinPlus.Root.transform);
-			PrefabRoot = OdinPlus.PrefabParent.transform;
-			CreatePrefab();
 		}
 		#endregion Mono
 
@@ -52,19 +49,7 @@ namespace OdinPlus
 			GameKey = result;
 			return result;
 		}
-		private void CreatePrefab()
-		{
-			if (isPrefabed) { return; }
-
-			for (int i = 1; i < 6; i++)
-			{
-				var go = Instantiate(ObjectDB.instance.GetItemPrefab("OdinLegacy"), PrefabRoot);
-				go.name = "OdinLegacy" + i;
-				var lgc = go.GetComponent<ItemDrop>().m_itemData;
-				lgc.m_quality = i;
-			}
-			isPrefabed = true;
-		}
+		
 		#endregion Tool
 
 		#region Feature
