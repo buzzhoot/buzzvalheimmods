@@ -20,7 +20,7 @@ namespace OdinPlus
 		public static int Level;
 		#endregion interal
 		#region Internal
-		
+
 		#endregion Internal
 		#endregion  var
 
@@ -99,7 +99,7 @@ namespace OdinPlus
 		{
 			foreach (Transform t in Root.GetComponentsInChildren<Transform>())
 			{
-				Destroy(t);
+				Destroy(t.gameObject);
 			}
 		}
 		#endregion Feature
