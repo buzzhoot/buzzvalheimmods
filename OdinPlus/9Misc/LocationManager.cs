@@ -7,7 +7,7 @@ namespace OdinPlus
 {
 	internal class LocationManager:MonoBehaviour
 	{
-		private static Dictionary<Vector2i, ZoneSystem.LocationInstance> m_locationInstances;
+		private static Dictionary<Vector2i, ZoneSystem.LocationInstance> m_locationInstances = new Dictionary<Vector2i, ZoneSystem.LocationInstance>();
 		public static List<string> BlackList = new List<string>();
 
 		#region Mono
@@ -22,7 +22,7 @@ namespace OdinPlus
 		#region Init
 		public static void GetValLocation()
 		{
-			Dictionary<Vector2i, ZoneSystem.LocationInstance> a = Traverse.Create(ZoneSystem.instance).Field<Dictionary<Vector2i, ZoneSystem.LocationInstance>>("m_locationInstances").Value;
+			var a = Traverse.Create(ZoneSystem.instance).Field<Dictionary<Vector2i, ZoneSystem.LocationInstance>>("m_locationInstances").Value;
 			foreach (var item in a)
 			{
 				m_locationInstances.Add(item.Key,item.Value);

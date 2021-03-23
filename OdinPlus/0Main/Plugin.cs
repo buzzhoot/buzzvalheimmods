@@ -279,8 +279,8 @@ namespace OdinPlus
 		}
 		#endregion
 		#region ZoneSystem
-		[HarmonyPatch(typeof(ZoneSystem), "Awake")]
-		private static class Postfix_ZoneSystem_Awake
+		[HarmonyPatch(typeof(ZoneSystem), "Start")]
+		private static class Postfix_ZoneSystem_Start
 		{
 			private static void Postfix()
 			{
