@@ -13,7 +13,7 @@ namespace OdinPlus
 			{"ScrollWolf", OdinPlus.WolfHeadIcon}
 			};
 		public static Dictionary<string, GameObject> ItemList = new Dictionary<string, GameObject>();
-		private static GameObject Root;
+		public static GameObject Root;
 
 		#region Mono
 		private void Awake()

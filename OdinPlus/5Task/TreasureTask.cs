@@ -21,7 +21,7 @@ namespace OdinPlus
 			m_tier2 = new string[] { "WoodHouse11", "WoodHouse6", "WoodHouse3", "WoodHouse4", "WoodHouse1" };
 			m_tier3 = new string[] { "WoodHouse11", "WoodHouse6", "WoodHouse3", "WoodHouse4", "WoodHouse1" };
 			m_tier4 = new string[] { "WoodHouse11", "WoodHouse6", "WoodHouse3", "WoodHouse4", "WoodHouse1" };
-			Reward = OdinPlus.PrefabParent.transform.Find("OdinLegacy" + (Key + 1).ToString()).gameObject;
+			Reward = OdinItem.Root.transform.Find("OdinLegacy" + (Key + 1).ToString()).gameObject;
 			if (laoding)
 			{
 				return;
