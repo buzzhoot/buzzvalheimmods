@@ -11,8 +11,8 @@ namespace OdinPlus
 {
 	public class OdinData : MonoBehaviour
 	{
-		public static int score;
-		public static Dictionary<string, int> ItemSellValue = new Dictionary<string, int>();
+		#region Var
+		#region serialization
 		[Serializable]
 		public class DataTable : SerializationBinder
 		{
@@ -73,9 +73,23 @@ namespace OdinPlus
 			}
 
 		}
+
+		#endregion serialization
+		#region interl
+		public static int score;
+		public static Dictionary<string, int> ItemSellValue = new Dictionary<string, int>();
 		public static DataTable Data;
+		#endregion interl
+
+		#endregion Var
+
+		#region Mono
 		private void Awake()
 		{
+			if (Plugin.CFG_disableSave.Value)
+			{
+				score = 1000;
+			}
 			Data = new DataTable();
 			if (Plugin.CFG_ItemSellValue.Value == "") { return; }
 			string[] l1 = Plugin.CFG_ItemSellValue.Value.Split(new char[] { ';' });
@@ -93,6 +107,9 @@ namespace OdinPlus
 				}
 			}
 		}
+		#endregion Mono
+
+		#region Score
 		public static void AddScore(int s, Transform m_head)
 		{
 			score += s;
@@ -107,14 +124,20 @@ namespace OdinPlus
 			score -= s;
 			return true;
 		}
+		#endregion Score
+		#region Save And Load
 		public static void saveOdinData(string name)
 		{
-			//return;
+			if (Plugin.CFG_disableSave.Value)
+			{
+				return;
+			}
 			#region Save
 			Data.Tasks = TaskManager.Save();
 			Data.score = score;
 			#endregion Save
 
+			#region Serialize
 			string file = Path.Combine(Application.persistentDataPath, (name + ".odinplus"));
 			if (File.Exists(@file))
 			{
@@ -126,33 +149,39 @@ namespace OdinPlus
 			formatter.Binder = new DataTable();
 			formatter.Serialize(fileStream, Data);
 			fileStream.Close();
+			#endregion Serialize
+
 			DBG.blogWarning("OdinDataSaved:" + name);
 		}
 		public static void loadOdinData(string name)
 		{
-			//return;
-			string file = Path.Combine(Application.persistentDataPath, (name + ".odinplus"));
-			if (File.Exists(@file))
+			if (Plugin.CFG_disableSave.Value)
 			{
-				FileStream fileStream = new FileStream(@file, FileMode.Open, FileAccess.Read);
-
-				BinaryFormatter formatter = new BinaryFormatter();
-				formatter.Binder = new DataTable();
-				Data = (DataTable)formatter.Deserialize(fileStream);
-				fileStream.Close();
-
-				#region Load
-				score = Data.score;
-				TaskManager.Load(Data.Tasks);
-				#endregion Load
-				OdinPlus.isLoaded = true;
-				DBG.blogWarning("OdinDataLoaded:" + name);
 				return;
 			}
-			else
+			#region Serial
+			string file = Path.Combine(Application.persistentDataPath, (name + ".odinplus"));
+			if (!File.Exists(@file))
 			{
 				DBG.blogWarning("Profile not exists:" + name);
+				return;
 			}
+			FileStream fileStream = new FileStream(@file, FileMode.Open, FileAccess.Read);
+			BinaryFormatter formatter = new BinaryFormatter();
+			formatter.Binder = new DataTable();
+			Data = (DataTable)formatter.Deserialize(fileStream);
+			fileStream.Close();
+			#endregion Serial
+
+			#region Load
+			score = Data.score;
+			TaskManager.Load(Data.Tasks);
+			#endregion Load
+			
+			OdinPlus.isLoaded = true;
+			DBG.blogWarning("OdinDataLoaded:" + name);
 		}
+		#endregion Save And Load
+
 	}
 }

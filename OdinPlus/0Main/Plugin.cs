@@ -24,6 +24,7 @@ namespace OdinPlus
 		public static ConfigEntry<KeyboardShortcut> KS_debug2;
 		public static ConfigEntry<string> CFG_ItemSellValue;
 		public static ConfigEntry<string> CFG_Pets;
+		public static ConfigEntry<bool> CFG_disableSave;
 		#region InternalConfig
 		public static int RaiseCost = 10;
 		public static int RaiseFactor = 50;
@@ -41,6 +42,7 @@ namespace OdinPlus
 			KS_SecondInteractkey = base.Config.Bind<KeyboardShortcut>("1Hotkeys", "Second Interact key", new KeyboardShortcut(KeyCode.F));
 			KS_debug = base.Config.Bind<KeyboardShortcut>("1Hotkeys", "debug key", new KeyboardShortcut(KeyCode.F3));
 			KS_debug2 = base.Config.Bind<KeyboardShortcut>("1Hotkeys", "debug key2", new KeyboardShortcut(KeyCode.F4));
+			CFG_disableSave = base.Config.Bind<bool>("2debug", "disable saving", false);
 			_harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), null);
 
 			//notice:: init here
