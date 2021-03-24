@@ -90,6 +90,7 @@ namespace OdinPlus
 		public static void PostZone()
 		{
 			Root.AddComponent<LocationManager>();
+			OdinPlus.InitNPC();
 		}
 		public static void InitNPC()
 		{

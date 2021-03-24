@@ -195,21 +195,6 @@ namespace OdinPlus
 				OdinPlus.Init();
 			}
 		}
-		[HarmonyPatch(typeof(Raven), "Awake")]
-		private static class Patch_Raven_Awake
-		{
-			private static void Postfix(Raven __instance)
-			{
-				if (OdinPlus.isNPCInit) { return; }
-				PetManager.excObj = Instantiate(__instance.m_exclamation, Vector3.zero, Quaternion.identity, PetManager.Indicator.transform);
-				PetManager.excObj.gameObject.GetComponentInChildren<Renderer>().material.SetColor("_EmissionColor", Color.red);
-				PetManager.excObj.gameObject.GetComponentInChildren<Renderer>().material.color = Color.red;
-
-				NpcManager.RavenPrefab = __instance.gameObject;
-
-				OdinPlus.InitNPC();
-			}
-		}
 
 		#endregion
 		#region Misc

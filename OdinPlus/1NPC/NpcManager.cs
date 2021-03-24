@@ -24,6 +24,13 @@ namespace OdinPlus
 		#region Main
 		private void Awake()
 		{
+			RavenPrefab = Tutorial.instance.m_ravenPrefab.transform.Find("Munin").gameObject;
+			if (PetManager.excObj == null)
+			{
+				PetManager.excObj = Instantiate(RavenPrefab.GetComponentInChildren<Raven>().m_exclamation, Vector3.zero, Quaternion.identity, PetManager.Indicator.transform);
+				PetManager.excObj.gameObject.GetComponentInChildren<Renderer>().material.SetColor("_EmissionColor", Color.red);
+				PetManager.excObj.gameObject.GetComponentInChildren<Renderer>().material.color = Color.red;
+			}
 			Init();
 		}
 		private void OnDestroy()
@@ -157,18 +164,18 @@ namespace OdinPlus
 		}
 		private static void InitMunin()
 		{
-			var go =Instantiate(RavenPrefab,Root.transform);
+			var go = Instantiate(RavenPrefab, Root.transform);
 
 			DestroyImmediate(go.transform.Find("exclamation").gameObject);
 			DestroyImmediate(go.transform.GetComponentInChildren<Light>());
 			DestroyImmediate(go.GetComponent<Raven>());
 
-			m_odinMunin=go.AddComponent<OdinMunin>();
+			m_odinMunin = go.AddComponent<OdinMunin>();
 
 			var ani = go.GetComponentInChildren<Animator>();
 			DestroyImmediate(ani);
 
-			go.transform.localPosition = new Vector3(2.7f,0,1.6f);
+			go.transform.localPosition = new Vector3(2.7f, 0, 1.6f);
 			go.AddComponent<OdinMunin>();
 		}
 		private static void InitGoblin()
