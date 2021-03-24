@@ -72,7 +72,7 @@ namespace OdinPlus
 			}
 			Chest = Instantiate(ZNetScene.instance.GetPrefab("Chest"), OdinPlus.PrefabParent.transform);
 			Chest.name = "Chest" + Id;
-			Chest.transform.localPosition = new Vector3(2.RollDice(), -1.5f, 2.RollDice()) + location.m_position;
+			Chest.transform.localPosition = new Vector3(4f.RollDice(), -1.5f, 4f.RollDice()) + location.m_position;
 			DestroyImmediate(Chest.GetComponent<Rigidbody>());
 			ctn = Chest.GetComponent<Container>();
 			ctn.m_defaultItems.m_drops.Add(new DropTable.DropData { m_item = Reward, m_stackMax = 1, m_stackMin = 1, m_weight = 1 });

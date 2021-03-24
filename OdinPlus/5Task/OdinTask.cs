@@ -143,6 +143,7 @@ namespace OdinPlus
 				gameObject.name = "Task";
 				SetLocName();
 				SetTaskName();
+				LocationManager.Remove(Id);
 				return true;
 			}
 			DBG.InfoCT("Something Went Wrong,Try again");
@@ -270,10 +271,31 @@ namespace OdinPlus
 			Id = dat.Id;
 			if (LocationManager.GetLocationInstance(Id, out location))
 			{
+				root = location.m_location.m_prefab.gameObject;
 				locName = location.m_location.m_prefabName;
 				SetLocName();
 				SetTaskName();
+				switch (Key)
+			{
+
+				case 0:
+					Init = new Action(InitTire0);
+					break;
+				case 1:
+					Init = new Action(InitTire1);
+					break;
+				case 2:
+					Init = new Action(InitTire2);
+					break;
+				case 3:
+					Init = new Action(InitTire3);
+					break;
+				case 4:
+					Init = new Action(InitTire4);
+					break;
+			}
 				return true;
+
 			}
 			DestroyImmediate(this.gameObject);
 			return false;
@@ -300,7 +322,8 @@ namespace OdinPlus
 
 				m_finished = this.m_finished,
 
-				m_isClear = this.m_isClear
+				m_isClear = this.m_isClear,
+				Id = this.Id
 			};
 			return dat;
 		}

@@ -15,7 +15,7 @@ namespace OdinPlus
 		{
 			BlackList = OdinData.Data.BlackList;
 			GetValLocation();
-			RemoveBlackList();
+			
 		}
 
 		#endregion Mono

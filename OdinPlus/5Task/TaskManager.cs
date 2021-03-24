@@ -137,11 +137,11 @@ namespace OdinPlus
 			{
 				var go = new GameObject("Task" + i);
 				go.transform.parent = Root.transform;
-
+				OdinTask component=null;
 				switch (item.m_type)
 				{
 					case TaskType.Treasure:
-						go.AddComponent<TreasureTask>();
+						component = go.AddComponent<TreasureTask>();
 						break;
 					case TaskType.Hunt:
 						break;
@@ -150,7 +150,7 @@ namespace OdinPlus
 					case TaskType.Search:
 						break;
 				}
-				if (go.GetComponent<OdinTask>().Load(item))
+				if (component.Load(item))
 				{
 					i++;
 				}
@@ -167,6 +167,7 @@ namespace OdinPlus
 			}
 			Root.SetActive(true);
 			DBG.blogInfo("Loaded Task Count: " + i);
+			LocationManager.RemoveBlackList();
 			#endregion save&Load
 		}
 	}

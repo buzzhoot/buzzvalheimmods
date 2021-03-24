@@ -44,16 +44,16 @@ namespace OdinPlus
 		public class TaskDataTable : SerializationBinder
 		{
 			public TaskManager.TaskType m_type = TaskManager.TaskType.Treasure;
-			public string taskName;
-			public int Key;
-			public int Level;
-			public string Id;
+			public string taskName="";
+			public int Key=0;
+			public int Level=1;			
 			public bool isMain = false;
 			public bool m_pause = false;
 			public bool m_isInit = false;
 			public bool m_discovered = false;
 			public bool m_finished = false;
 			public bool m_isClear = false;
+			public string Id="0_0";
 			public override Type BindToType(string assemblyName, string typeName)
 			{
 				Type tyType = null;

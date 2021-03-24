@@ -22,7 +22,8 @@
 //||X||Test Discover will trigger how many time?
 //||X||isInit isCleared for task.
 //||X||MainTask SideTask
-//|| ||add black list to remove Project//!
+//|| ||add black list to remove Project//!!
+//|| ||chest to a prefab
 //|| ||Task add to log
 //|| ||PET ZDO REGISTER TO PLAYER//!
 //|| ||Mead ConfigManager//?
