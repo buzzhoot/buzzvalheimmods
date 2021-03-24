@@ -132,6 +132,7 @@ namespace OdinPlus
 		{
 			if (Plugin.CFG_disableSave.Value)
 			{
+				OdinPlus.isLoaded=true;
 				return;
 			}
 			#region Save
@@ -159,12 +160,14 @@ namespace OdinPlus
 		{
 			if (Plugin.CFG_disableSave.Value)
 			{
+				OdinPlus.isLoaded=true;
 				return;
 			}
 			#region Serial
 			string file = Path.Combine(Application.persistentDataPath, (name + ".odinplus"));
 			if (!File.Exists(@file))
 			{
+				OdinPlus.isLoaded=true;
 				DBG.blogWarning("Profile not exists:" + name);
 				return;
 			}
