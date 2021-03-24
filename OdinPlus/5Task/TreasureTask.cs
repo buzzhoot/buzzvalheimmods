@@ -13,11 +13,14 @@ namespace OdinPlus
 		#region Main
 		private void Awake()
 		{
-			m_tier0 = new string[] { "WoodHouse11", "WoodHouse6", "WoodHouse3", "WoodHouse4", "WoodHouse1" };
-			m_tier1 = new string[] { "WoodHouse11", "WoodHouse6", "WoodHouse3", "WoodHouse4", "WoodHouse1" };
-			m_tier2 = new string[] { "WoodHouse11", "WoodHouse6", "WoodHouse3", "WoodHouse4", "WoodHouse1" };
-			m_tier3 = new string[] { "WoodHouse11", "WoodHouse6", "WoodHouse3", "WoodHouse4", "WoodHouse1" };
-			m_tier4 = new string[] { "WoodHouse11", "WoodHouse6", "WoodHouse3", "WoodHouse4", "WoodHouse1" };
+			if (isMain)
+			{
+				m_tier0 = new string[] { "WoodHouse11", "WoodHouse6", "WoodHouse3", "WoodHouse4" };
+			}
+			else
+			m_tier0 = new string[] { "WoodHouse11", "WoodHouse6", "WoodHouse3", "WoodHouse4","WoodHouse6","WoodHouse7","WoodHouse8","WoodHouse9" };
+			m_tier1 = new string[] { "WoodHouse3", "WoodHouse4","Ruin2","Ruins1","ShipSetting01","Runestone_Boars","Runestone_Meadows","Runestone_Greydwarfs","Runestone_BlackForest"};
+			m_tier2 = new string[] { "SwampRuinX", "SwampRuinY","SwampHut5","SwampHut1","SwampHut2","SwampHut3","SwampHut4","Runestone_Draugr"};
 			if (laoding)
 			{
 				return;
@@ -62,19 +65,19 @@ namespace OdinPlus
 		private void AddChest()
 		{
 			Reward = Instantiate(ZNetScene.instance.GetPrefab("LegacyChest" + (Key + 1).ToString()));
-			float y  = - 1.5f;
-			float x  = 4f;
-			float z  = 3.999f;
-			if (Key==0)
+			float y = -1.5f;
+			float x = 4f;
+			float z = 3.999f;
+			if (Key == 0)
 			{
 				y = 0;
 				x = 2f;
 				z = 1.999f;
 			}
 			Reward.transform.localPosition = new Vector3(x.RollDice(), y, z.RollDice()) + location.m_position;
-			Reward.GetComponent<LegacyChest>().ID=this.Id;
-			m_isInit=true;
-			DBG.blogWarning("Placed LegacyChest at : "+Reward.transform.localPosition);
+			Reward.GetComponent<LegacyChest>().ID = this.Id;
+			m_isInit = true;
+			DBG.blogWarning("Placed LegacyChest at : " + Reward.transform.localPosition);
 			return;
 		}
 		private void CheckHive()
