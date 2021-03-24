@@ -22,12 +22,13 @@
 //||X||Test Discover will trigger how many time?
 //||X||isInit isCleared for task.
 //||X||MainTask SideTask
-//|| ||add black list to remove Project
+//|| ||add black list to remove Project//!
+//|| ||Task add to log
 //|| ||PET ZDO REGISTER TO PLAYER//!
 //|| ||Mead ConfigManager//?
 //|| ||More Meads:big heal stamina tempopry WEIGHT Mining,Double Damege
 //|| ||New SE template :RunSpeed Invisible, 
-//|| ||Task system//!Treasure Hunt!!
+//||X||Task system
 //|| ||mech try?
 //|| ||New Equip Slot Ring and Backpack
 //|| ||DragonEggs
