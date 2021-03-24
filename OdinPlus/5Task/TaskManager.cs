@@ -98,7 +98,11 @@ namespace OdinPlus
 		{
 			foreach (Transform t in Root.GetComponentsInChildren<Transform>())
 			{
-				Destroy(t.gameObject);
+				if (t.gameObject != Root)
+				{
+					Destroy(t.gameObject);
+				}
+
 			}
 		}
 		#endregion Feature
@@ -107,7 +111,7 @@ namespace OdinPlus
 		#region save&Load
 		public static List<OdinData.TaskDataTable> Save()
 		{
-			if (Root.transform.childCount==0)
+			if (Root.transform.childCount == 0)
 			{
 				DBG.blogInfo("Load:Task is null");
 				return null;
@@ -119,7 +123,7 @@ namespace OdinPlus
 				data.Add(item.Save());
 				i++;
 			}
-			DBG.blogInfo("Task saved:"+i);
+			DBG.blogInfo("Task saved:" + i);
 			return data;
 		}
 		public static void Load(List<OdinData.TaskDataTable> data)
@@ -136,7 +140,7 @@ namespace OdinPlus
 			{
 				var go = new GameObject("Task" + item.Id);
 				go.transform.parent = Root.transform;
-				OdinTask component=null;
+				OdinTask component = null;
 				switch (item.m_type)
 				{
 					case TaskType.Treasure:
