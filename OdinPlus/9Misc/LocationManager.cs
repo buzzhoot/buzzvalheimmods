@@ -5,7 +5,7 @@ using HarmonyLib;
 
 namespace OdinPlus
 {
-	internal class LocationManager:MonoBehaviour
+	internal class LocationManager : MonoBehaviour
 	{
 		private static Dictionary<Vector2i, ZoneSystem.LocationInstance> m_locationInstances = new Dictionary<Vector2i, ZoneSystem.LocationInstance>();
 		public static List<string> BlackList = new List<string>();
@@ -13,7 +13,7 @@ namespace OdinPlus
 		#region Mono
 		private void Awake()
 		{
-			BlackList=OdinData.Data.BlackList;
+			BlackList = OdinData.Data.BlackList;
 			GetValLocation();
 			RemoveBlackList();
 		}
@@ -25,7 +25,7 @@ namespace OdinPlus
 			var a = Traverse.Create(ZoneSystem.instance).Field<Dictionary<Vector2i, ZoneSystem.LocationInstance>>("m_locationInstances").Value;
 			foreach (var item in a)
 			{
-				m_locationInstances.Add(item.Key,item.Value);
+				m_locationInstances.Add(item.Key, item.Value);
 			}
 		}
 		public static void RemoveBlackList()
@@ -35,13 +35,14 @@ namespace OdinPlus
 				m_locationInstances.Remove(Tweakers.Pak(item));
 			}
 		}
+		public static void Clear()
+		{
+			m_locationInstances.Clear();
+			BlackList.Clear();
+		}
 		#endregion Init
+
 		#region Feature
-
-		#endregion Feature
-
-
-
 		public static void Remove(string id)
 		{
 			BlackList.Add(id);
@@ -79,5 +80,7 @@ namespace OdinPlus
 			}
 			return result;
 		}
+		#endregion Feature
+
 	}
 }
