@@ -172,7 +172,7 @@ namespace OdinPlus
 		public virtual void Finish()
 		{
 			MessageHud.instance.ShowBiomeFoundMsg(isMain ? "Main" : "Side" +  "Quest "+m_index+" : " + taskName + " Clear", true);
-			Minimap.instance.RemovePin(m_position, 3);
+			Minimap.instance.RemovePin(m_position, 10);
 			m_finished = true;
 		}
 		protected virtual void Clear()
