@@ -8,9 +8,6 @@ namespace OdinPlus
 	public class TreasureTask : OdinTask
 	{
 		#region  var
-		private GameObject Chest;
-		private Inventory inv;
-		private Container ctn;
 		#endregion  var
 
 		#region Main
@@ -21,7 +18,6 @@ namespace OdinPlus
 			m_tier2 = new string[] { "WoodHouse11", "WoodHouse6", "WoodHouse3", "WoodHouse4", "WoodHouse1" };
 			m_tier3 = new string[] { "WoodHouse11", "WoodHouse6", "WoodHouse3", "WoodHouse4", "WoodHouse1" };
 			m_tier4 = new string[] { "WoodHouse11", "WoodHouse6", "WoodHouse3", "WoodHouse4", "WoodHouse1" };
-			Reward = OdinItem.Root.transform.Find("OdinLegacy" + (Key + 1).ToString()).gameObject;
 			if (laoding)
 			{
 				return;
@@ -65,29 +61,14 @@ namespace OdinPlus
 		#region Tool
 		private void AddChest()
 		{
-			if (ctn != null)
+			Reward = Instantiate(ZNetScene.instance.GetPrefab("OdinChest" + (Key + 1).ToString()));
+			float y  = - 1.5f;
+			if (Key==0)
 			{
-				SetupInv();
-				return;
+				y = 0;
 			}
-			Chest = Instantiate(ZNetScene.instance.GetPrefab("Chest"), OdinPlus.PrefabParent.transform);
-			Chest.name = "Chest" + Id;
-			Chest.transform.localPosition = new Vector3(4f.RollDice(), -1.5f, 4f.RollDice()) + location.m_position;
-			DestroyImmediate(Chest.GetComponent<Rigidbody>());
-			ctn = Chest.GetComponent<Container>();
-			ctn.m_defaultItems.m_drops.Add(new DropTable.DropData { m_item = Reward, m_stackMax = 1, m_stackMin = 1, m_weight = 1 });
-			Chest.transform.SetParent(ZNetScene.instance.transform);
+			Reward.transform.localPosition = new Vector3(4f.RollDice(), y, 4f.RollDice()) + location.m_position;
 			return;
-		}
-		private void SetupInv()
-		{
-			inv = ctn.GetInventory();
-			if (inv == null) { return; }
-			if (inv.NrOfItems() != 0)
-			{
-				m_isInit = true;
-				return;
-			}
 		}
 		private void CheckHive()
 		{
@@ -107,33 +88,7 @@ namespace OdinPlus
 		#endregion Tool
 
 		#region Override tail
-		protected override void CheckTarget()
-		{
-			if (Chest == null)
-			{
-				FindChest();
-			}
-			if (inv.NrOfItems() != 0) { return; }
-			Finish();
-		}
-		protected override void Clear()
-		{
-			if (!isLoaded())
-			{
-				return;
-			}
-			if (Chest == null)
-			{
-				FindChest();
-			}
-			ZNetScene.instance.Destroy(Chest);
-			base.Clear();
-		}
-		private void FindChest()
-		{
-			Chest = GameObject.Find("Chest" + Id);
-			inv = Chest.GetComponent<Container>().GetInventory();
-		}
+
 		#endregion Override
 	}
 }

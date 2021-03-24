@@ -166,7 +166,7 @@ namespace OdinPlus
 			Tweakers.SendRavenMessage(isMain ? "Main" : "Side" + " Quest: " + taskName, HintTarget);
 		}
 		protected virtual void CheckTarget() { }
-		protected virtual void Finish()
+		public virtual void Finish()
 		{
 			MessageHud.instance.ShowBiomeFoundMsg(isMain ? "Main" : "Side" + " Quest: " + taskName + " Clear", true);
 			Minimap.instance.RemovePin(m_position, 3);

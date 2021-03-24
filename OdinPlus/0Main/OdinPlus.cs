@@ -16,8 +16,8 @@ namespace OdinPlus
 		public static bool isInit = false;
 		public static bool isNPCInit = false;
 		public static bool isPetInit = false;
-		public static bool isRegistered=false;
-		public static bool isLoaded=false;
+		public static bool isRegistered = false;
+		public static bool isLoaded = false;
 		public static OdinPlus m_instance;
 		#endregion
 		#region List
@@ -29,9 +29,6 @@ namespace OdinPlus
 		#endregion
 		#region Ojects var
 		public static GameObject Root;
-		public static GameObject OdinPrefab;
-		public static GameObject OdinNPCParent;
-		public static OdinGod m_OdinGod;
 		public static GameObject PrefabParent;
 		#endregion
 		#region assets var
@@ -66,6 +63,7 @@ namespace OdinPlus
 			Root.AddComponent<OdinMeads>();
 			Root.AddComponent<OdinItem>();
 			Root.AddComponent<PetManager>();
+			Root.AddComponent<PrefabManager>();
 			Root.AddComponent<TaskManager>();
 			isInit = true;
 		}
@@ -82,6 +80,10 @@ namespace OdinPlus
 			if (!PetManager.isInit)
 			{
 				PetManager.Init();
+			}
+			if (!PrefabManager.isInit)
+			{
+				PrefabManager.Init();
 			}
 			ValRegister();
 		}
@@ -123,7 +125,7 @@ namespace OdinPlus
 				}
 			}
 		}
-
+		
 		#endregion Tool
 
 		#region Assets
@@ -167,7 +169,7 @@ namespace OdinPlus
 				ZNetScene.instance.m_prefabs.Add(item.Value);
 				m_namedPrefabs.Add(item.Key, item.Value);
 			}
-			isRegistered=true;
+			isRegistered = true;
 			DBG.blogInfo("Register zns");
 		}
 		public static void OdinPreRegister(Dictionary<string, GameObject> list, string name)
@@ -207,8 +209,8 @@ namespace OdinPlus
 			m_namedPrefabs.RemoveList<int, GameObject>(odbRegList);
 			zns.m_prefabs.RemoveList<int, GameObject>(znsRegList);
 			m_namedPrefabs.RemoveList<int, GameObject>(znsRegList);
-			isRegistered=false;
-			isLoaded=false;
+			isRegistered = false;
+			isLoaded = false;
 			DBG.blogWarning("UnRegister all list");
 		}
 		#endregion Feature

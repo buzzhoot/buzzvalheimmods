@@ -12,24 +12,25 @@ namespace OdinPlus
 			{"ScrolTroll", OdinPlus.TrollHeadIcon},
 			{"ScrollWolf", OdinPlus.WolfHeadIcon}
 			};
-		public static Dictionary<string, GameObject> ItemList = new Dictionary<string, GameObject>();
+		public static Dictionary<string, GameObject> ObjectList = new Dictionary<string, GameObject>();
+		
 		public static GameObject Root;
 
 		#region Mono
 		private void Awake()
 		{
-			Root = new GameObject("ItemList");
+			Root = new GameObject("ObjectList");
 			Root.transform.SetParent(OdinPlus.PrefabParent.transform);
 			Root.SetActive(false);
 
 			var objectDB = ObjectDB.instance;
 			MeadTasty = objectDB.GetItemPrefab("MeadTasty");
 			TrophyGoblinShaman = objectDB.GetItemPrefab("TrophyGoblinShaman");
-			
+
 			InitLegacy();
 			InitPetItem();
 
-			OdinPlus.OdinPreRegister(ItemList, nameof(ItemList));
+			OdinPlus.OdinPreRegister(ObjectList, nameof(ObjectList));
 
 		}
 		#endregion Mono
@@ -54,10 +55,10 @@ namespace OdinPlus
 			id.m_maxStackSize = 1;
 			id.m_consumeStatusEffect = OdinSE.SElist[name];
 
-			go.GetComponent<ItemDrop>().m_itemData.m_quality=4;
+			go.GetComponent<ItemDrop>().m_itemData.m_quality = 4;
 			id.m_maxQuality = 5;
 
-			ItemList.Add(name, go);
+			ObjectList.Add(name, go);
 		}
 		#endregion PetItems
 
@@ -71,24 +72,12 @@ namespace OdinPlus
 			id.m_name = "$odin_" + name + "_name";
 			id.m_icons[0] = OdinPlus.OdinLegacyIcon;
 			id.m_description = "$odin_" + name + "_desc";
-			id.m_itemType=ItemDrop.ItemData.ItemType.None;
+			id.m_itemType = ItemDrop.ItemData.ItemType.None;
 
 			id.m_maxStackSize = 1;
 			id.m_maxQuality = 4;
-			
-			CreateReward(go);
 
-			ItemList.Add(name, go);
-		}
-		private static void CreateReward(GameObject pgo)
-		{
-			for (int i = 1; i < 6; i++)
-			{
-				var go = Instantiate(pgo, Root.transform);
-				go.name = "OdinLegacy" + i;
-				var lgc = go.GetComponent<ItemDrop>().m_itemData;
-				lgc.m_quality = i;
-			}
+			ObjectList.Add(name, go);
 		}
 
 		#endregion Legacy
@@ -96,8 +85,13 @@ namespace OdinPlus
 		#region Tool
 		public static ItemDrop.ItemData GetItemData(string name)
 		{
-			return ItemList[name].GetComponent<ItemDrop>().m_itemData;
+			return ObjectList[name].GetComponent<ItemDrop>().m_itemData;
 		}
+		public static GameObject GetObject(string name)
+		{
+			return ObjectList[name];
+		}
+
 		#endregion Tool
 	}
 }
