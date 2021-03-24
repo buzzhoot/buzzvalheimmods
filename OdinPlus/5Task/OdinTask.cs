@@ -128,11 +128,11 @@ namespace OdinPlus
 			{
 				return;
 			}
-			Tweakers.SendRavenMessage(isMain ? "Main" : "Side" +  "Quest "+m_index+" : " + taskName, HintStart);
+			Tweakers.SendRavenMessage((isMain ? "Main" : "Side" )+  "Quest "+m_index+" : " + taskName, HintStart);
 			SetRange(30.RollDice(30 + Level * 30));
 			SetPosition();
 			SetPin();
-			MessageHud.instance.ShowBiomeFoundMsg(isMain ? "Main" : "Side" + " Quest "+m_index+" : " + taskName + " Start", true);
+			MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : "Side" )+ " Quest "+m_index+" : " + taskName + " Start", true);
 		}
 		protected virtual bool SetLocation()
 		{
@@ -162,16 +162,16 @@ namespace OdinPlus
 		protected virtual void InitTire4() { }
 		private void SetPin()
 		{
-			Minimap.instance.DiscoverLocation(m_position, Minimap.PinType.Icon3, isMain ? "Main" : "Side" +  "Quest "+m_index+" : " + taskName);
+			Minimap.instance.DiscoverLocation(m_position, Minimap.PinType.Icon3, (isMain ? "Main" : "Side") +  "Quest "+m_index+" : " + taskName);
 		}
 		protected virtual void Discovery()
 		{
-			Tweakers.SendRavenMessage(isMain ? "Main" : "Side" +  "Quest "+m_index+" : " + taskName, HintTarget);
+			Tweakers.SendRavenMessage((isMain ? "Main" : "Side") +  "Quest "+m_index+" : " + taskName, HintTarget);
 		}
 		protected virtual void CheckTarget() { }
 		public virtual void Finish()
 		{
-			MessageHud.instance.ShowBiomeFoundMsg(isMain ? "Main" : "Side" +  "Quest "+m_index+" : " + taskName + " Clear", true);
+			MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : "Side") +  "Quest "+m_index+" : " + taskName + " Clear", true);
 			Minimap.instance.RemovePin(m_position, 10);
 			m_finished = true;
 		}
