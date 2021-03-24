@@ -63,11 +63,15 @@ namespace OdinPlus
 		{
 			Reward = Instantiate(ZNetScene.instance.GetPrefab("OdinChest" + (Key + 1).ToString()));
 			float y  = - 1.5f;
+			float x  = 4f;
+			float z  = 3.999f;
 			if (Key==0)
 			{
 				y = 0;
+				x = 2f;
+				z = 1.999f;
 			}
-			Reward.transform.localPosition = new Vector3(4f.RollDice(), y, 4f.RollDice()) + location.m_position;
+			Reward.transform.localPosition = new Vector3(x.RollDice(), y, z.RollDice()) + location.m_position;
 			m_isInit=true;
 			return;
 		}
