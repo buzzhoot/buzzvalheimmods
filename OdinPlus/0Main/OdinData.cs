@@ -181,6 +181,7 @@ namespace OdinPlus
 			#region Load
 			score = Data.score;
 			TaskManager.Load(Data.Tasks);
+			LocationManager.BlackList=Data.BlackList;
 			LocationManager.RemoveBlackList();
 			#endregion Load
 			

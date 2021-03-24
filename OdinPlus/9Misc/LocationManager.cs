@@ -15,7 +15,10 @@ namespace OdinPlus
 		{
 			BlackList = OdinData.Data.BlackList;
 			GetValLocation();
-			
+		}
+		private void OnDestroy() {
+			m_locationInstances.Clear();
+			BlackList.Clear();
 		}
 
 		#endregion Mono
@@ -37,8 +40,6 @@ namespace OdinPlus
 		}
 		public static void Clear()
 		{
-			m_locationInstances.Clear();
-			BlackList.Clear();
 		}
 		#endregion Init
 

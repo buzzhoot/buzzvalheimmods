@@ -101,8 +101,8 @@ namespace OdinPlus
 		{
 			PetManager.Clear();
 			TaskManager.Clear();
-			LocationManager.Clear();
 			Destroy(Root.GetComponent<NpcManager>());
+			Destroy(Root.GetComponent<LocationManager>());
 			isNPCInit = false;
 		}
 		#endregion Patch
