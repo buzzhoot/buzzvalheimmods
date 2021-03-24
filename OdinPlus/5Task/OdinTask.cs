@@ -163,7 +163,6 @@ namespace OdinPlus
 		private void SetPin()
 		{
 			Minimap.instance.DiscoverLocation(m_position, Minimap.PinType.Icon3, isMain ? "Main" : "Side" +  "Quest "+m_index+" : " + taskName);
-
 		}
 		protected virtual void Discovery()
 		{
@@ -191,7 +190,8 @@ namespace OdinPlus
 		}
 		private void SetPosition()
 		{
-			m_position = location.m_position.GetRandomLocation(m_range);
+			m_position = location.m_position;
+			m_position.GetRandomLocation(m_range);
 		}
 
 
