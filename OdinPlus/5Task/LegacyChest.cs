@@ -9,8 +9,8 @@ namespace OdinPlus
 		private Container m_container;
 		private ZNetView m_nview;
 		public string ID = "";
-		private GameObject m_task;
-		private void Awake()
+		private Transform m_task;
+		private void Start()
 		{
 			m_nview = gameObject.GetComponent<ZNetView>();
 			m_container = gameObject.GetComponent<Container>();
@@ -23,19 +23,27 @@ namespace OdinPlus
 				ID = m_nview.GetZDO().GetString("TaskID");
 			}
 		}
-		private void Start()
-		{
-			m_task = TaskManager.Root.FindObject("Task" + ID);
-		}
 		private void Update()
 		{
-			if (m_task == null)
+			if (!OdinPlus.isLoaded)
 			{
+				return;
+			}
+			m_task = TaskManager.Root.transform.Find("Task" + ID);
+			if (m_task == null)//Decide whether the task is given up
+			{
+				DBG.blogInfo("Cant find task,Destroy");
 				m_container.GetInventory().RemoveAll();
 				ZNetScene.instance.Destroy(gameObject);
+				return;
+			}
+			if (m_container.GetInventory() == null)
+			{
+				return;
 			}
 			if (m_container.GetInventory().NrOfItems() == 0)
 			{
+				DBG.blogInfo("Task Finish,Destroy");
 				ZNetScene.instance.Destroy(gameObject);
 				m_task.GetComponent<OdinTask>().Finish();
 			}
