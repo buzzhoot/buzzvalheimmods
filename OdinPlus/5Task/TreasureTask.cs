@@ -61,7 +61,7 @@ namespace OdinPlus
 		#region Tool
 		private void AddChest()
 		{
-			Reward = Instantiate(ZNetScene.instance.GetPrefab("OdinChest" + (Key + 1).ToString()));
+			Reward = Instantiate(ZNetScene.instance.GetPrefab("LegacyChest" + (Key + 1).ToString()));
 			float y  = - 1.5f;
 			float x  = 4f;
 			float z  = 3.999f;
@@ -72,8 +72,9 @@ namespace OdinPlus
 				z = 1.999f;
 			}
 			Reward.transform.localPosition = new Vector3(x.RollDice(), y, z.RollDice()) + location.m_position;
+			Reward.GetComponent<LegacyChest>().ID=this.Id;
 			m_isInit=true;
-			DBG.blogWarning("Placed Odinchest at : "+Reward.transform.localPosition);
+			DBG.blogWarning("Placed LegacyChest at : "+Reward.transform.localPosition);
 			return;
 		}
 		private void CheckHive()

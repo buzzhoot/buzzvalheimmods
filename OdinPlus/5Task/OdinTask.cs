@@ -25,8 +25,9 @@ namespace OdinPlus
 		protected string[] m_tier3 = new string[0];
 		protected string[] m_tier4 = new string[0];
 		protected List<string[]> locList = new List<string[]>();
-		public string locName;
 		protected GameObject root;
+		public string locName;
+		public int m_index;
 
 		#endregion Data
 		#region internal
@@ -127,10 +128,11 @@ namespace OdinPlus
 			{
 				return;
 			}
+			Tweakers.SendRavenMessage(isMain ? "Main" : "Side" +  "Quest "+m_index+" : " + taskName, HintStart);
 			SetRange(30.RollDice(30 + Level * 30));
 			SetPosition();
 			SetPin();
-			MessageHud.instance.ShowBiomeFoundMsg(isMain ? "Main" : "Side" + " Quest: " + taskName + " Start", true);
+			MessageHud.instance.ShowBiomeFoundMsg(isMain ? "Main" : "Side" + " Quest "+m_index+" : " + taskName + " Start", true);
 		}
 		protected virtual bool SetLocation()
 		{
@@ -140,10 +142,12 @@ namespace OdinPlus
 			if (LocationManager.FindClosestLocation(locName, Game.instance.GetPlayerProfile().GetCustomSpawnPoint(), out Id, out location))
 			{
 				root = location.m_location.m_prefab.gameObject;
-				gameObject.name = "Task"+Id;
+				gameObject.name = "Task" + Id;
 				SetLocName();
 				SetTaskName();
 				LocationManager.Remove(Id);
+				OdinData.Data.TaskCount++;
+				m_index=OdinData.Data.TaskCount;
 				return true;
 			}
 			DBG.InfoCT("Something Went Wrong,Try again");
@@ -158,17 +162,17 @@ namespace OdinPlus
 		protected virtual void InitTire4() { }
 		private void SetPin()
 		{
-			Minimap.instance.DiscoverLocation(m_position, Minimap.PinType.Icon3, isMain ? "Main" : "Side" + " Quest: " + taskName);
+			Minimap.instance.DiscoverLocation(m_position, Minimap.PinType.Icon3, isMain ? "Main" : "Side" +  "Quest "+m_index+" : " + taskName);
 
 		}
 		protected virtual void Discovery()
 		{
-			Tweakers.SendRavenMessage(isMain ? "Main" : "Side" + " Quest: " + taskName, HintTarget);
+			Tweakers.SendRavenMessage(isMain ? "Main" : "Side" +  "Quest "+m_index+" : " + taskName, HintTarget);
 		}
 		protected virtual void CheckTarget() { }
 		public virtual void Finish()
 		{
-			MessageHud.instance.ShowBiomeFoundMsg(isMain ? "Main" : "Side" + " Quest: " + taskName + " Clear", true);
+			MessageHud.instance.ShowBiomeFoundMsg(isMain ? "Main" : "Side" +  "Quest "+m_index+" : " + taskName + " Clear", true);
 			Minimap.instance.RemovePin(m_position, 3);
 			m_finished = true;
 		}
@@ -250,6 +254,8 @@ namespace OdinPlus
 			laoding = true;
 			taskName = dat.taskName;
 
+			m_index = dat.m_index;
+
 			Key = dat.Key;
 
 			Level = dat.Level;
@@ -276,24 +282,24 @@ namespace OdinPlus
 				SetLocName();
 				SetTaskName();
 				switch (Key)
-			{
+				{
 
-				case 0:
-					Init = new Action(InitTire0);
-					break;
-				case 1:
-					Init = new Action(InitTire1);
-					break;
-				case 2:
-					Init = new Action(InitTire2);
-					break;
-				case 3:
-					Init = new Action(InitTire3);
-					break;
-				case 4:
-					Init = new Action(InitTire4);
-					break;
-			}
+					case 0:
+						Init = new Action(InitTire0);
+						break;
+					case 1:
+						Init = new Action(InitTire1);
+						break;
+					case 2:
+						Init = new Action(InitTire2);
+						break;
+					case 3:
+						Init = new Action(InitTire3);
+						break;
+					case 4:
+						Init = new Action(InitTire4);
+						break;
+				}
 				return true;
 
 			}
@@ -305,6 +311,8 @@ namespace OdinPlus
 			var dat = new OdinData.TaskDataTable()
 			{
 				taskName = this.taskName,
+
+				m_index = this.m_index,
 
 				Key = this.Key,
 

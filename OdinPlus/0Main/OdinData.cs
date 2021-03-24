@@ -21,6 +21,7 @@ namespace OdinPlus
 			public bool hasTroll = false;
 			public List<string> BlackList = new List<string>();
 			public List<OdinData.TaskDataTable> Tasks = null;
+			public int TaskCount = 0;
 			public override Type BindToType(string assemblyName, string typeName)
 			{
 				Type tyType = null;
@@ -45,6 +46,7 @@ namespace OdinPlus
 		{
 			public TaskManager.TaskType m_type = TaskManager.TaskType.Treasure;
 			public string taskName="";
+			public int m_index;
 			public int Key=0;
 			public int Level=1;			
 			public bool isMain = false;

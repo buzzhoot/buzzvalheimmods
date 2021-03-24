@@ -11,7 +11,6 @@ namespace OdinPlus
 		private static string[] RefKeys = { "defeated_eikthyr", "defeated_gdking", "defeated_bonemass", "defeated_moder", "defeated_goblinking" };
 		#endregion Data
 		#region Out
-		public static OdinTask CurrentTask;
 		public static int GameKey;
 		public static bool isMain;
 		#endregion Out
@@ -36,7 +35,7 @@ namespace OdinPlus
 		#region Tool
 		public bool HasTask()
 		{
-			return !(CurrentTask == null);
+			return !(Root.transform.childCount == 0);
 		}
 		public static int CheckKey()
 		{
@@ -81,7 +80,7 @@ namespace OdinPlus
 			switch (t)
 			{
 				case TaskType.Treasure:
-					CurrentTask = go.AddComponent<TreasureTask>();
+					go.AddComponent<TreasureTask>();
 					break;
 				case TaskType.Hunt:
 					break;
