@@ -74,8 +74,9 @@ namespace OdinPlus
 			id.m_description = "$odin_" + name + "_desc";
 			id.m_itemType = ItemDrop.ItemData.ItemType.None;
 
-			id.m_maxStackSize = 1;
+			id.m_maxStackSize = 10;
 			id.m_maxQuality = 4;
+
 			ObjectList.Add(name, go);
 
 		}

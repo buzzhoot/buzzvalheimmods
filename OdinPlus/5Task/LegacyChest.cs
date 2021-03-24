@@ -14,7 +14,7 @@ namespace OdinPlus
 		{
 			m_nview = gameObject.GetComponent<ZNetView>();
 			m_container = gameObject.GetComponent<Container>();
-			if (ID != null)
+			if (ID != "")
 			{
 				m_nview.GetZDO().Set("TaskID", ID);
 			}
@@ -32,7 +32,7 @@ namespace OdinPlus
 			m_task = TaskManager.Root.transform.Find("Task" + ID);
 			if (m_task == null)//Decide whether the task is given up
 			{
-				DBG.blogInfo("Cant find task,Destroy");
+				DBG.blogInfo("Cant find task,Destroy"+ID);
 				m_container.GetInventory().RemoveAll();
 				ZNetScene.instance.Destroy(gameObject);
 				return;
@@ -45,7 +45,7 @@ namespace OdinPlus
 			{
 				DBG.blogInfo("Task Finish,Destroy");
 				ZNetScene.instance.Destroy(gameObject);
-				Instantiate(ZNetScene.instance.GetPrefab("fx_raven_despawn"),gameObject.transform.position,Quaternion.identity);
+				Instantiate(NpcManager.RavenPrefab.GetComponent<Raven>().m_despawnEffect.m_effectPrefabs[0].m_prefab,gameObject.transform.position,Quaternion.identity);
 				m_task.GetComponent<OdinTask>().Finish();
 			}
 		}

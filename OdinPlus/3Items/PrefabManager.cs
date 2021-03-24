@@ -40,11 +40,8 @@ namespace OdinPlus
 		{
 			for (int i = 1; i < 6; i++)
 			{
-				var go = Instantiate(OdinItem.GetObject("OdinLegacy"), Root.transform);
-				go.name = ("OidnLegacy");
-				var lgc = go.GetComponent<ItemDrop>().m_itemData;
-				lgc.m_quality = i;
-				GameObject Chest = Instantiate(ZNetScene.instance.GetPrefab("Chest"), OdinPlus.PrefabParent.transform);
+				var go =ZNetScene.instance.GetPrefab("OdinLegacy");
+				GameObject Chest = Instantiate(ZNetScene.instance.GetPrefab("Chest"), Root.transform);
 				Chest.name = "LegacyChest" + i;
 
 				DestroyImmediate(Chest.GetComponent<Rigidbody>());
@@ -58,7 +55,7 @@ namespace OdinPlus
 				ctn.m_name = "LegacyChest";
 				ctn.m_width = 1;
 				ctn.m_height = 1;
-				ctn.m_defaultItems.m_drops.Add(new DropTable.DropData { m_item = go, m_stackMax = 1, m_stackMin = 1, m_weight = 1 });
+				ctn.m_defaultItems.m_drops.Add(new DropTable.DropData { m_item = go, m_stackMax = i, m_stackMin = i, m_weight = 1 });
 
 				PrefabList.Add(Chest.name, Chest);
 			}
