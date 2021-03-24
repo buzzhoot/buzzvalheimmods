@@ -191,7 +191,7 @@ namespace OdinPlus
 		private void SetPosition()
 		{
 			m_position = location.m_position;
-			m_position.GetRandomLocation(m_range);
+			m_position=m_position.GetRandomLocation(m_range);
 		}
 
 
