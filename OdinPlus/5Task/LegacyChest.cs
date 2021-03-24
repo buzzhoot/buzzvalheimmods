@@ -45,6 +45,7 @@ namespace OdinPlus
 			{
 				DBG.blogInfo("Task Finish,Destroy");
 				ZNetScene.instance.Destroy(gameObject);
+				Instantiate(ZNetScene.instance.GetPrefab("fx_raven_despawn"),gameObject.transform.position,Quaternion.identity);
 				m_task.GetComponent<OdinTask>().Finish();
 			}
 		}

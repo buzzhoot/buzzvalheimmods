@@ -50,10 +50,14 @@ namespace OdinPlus
 				DestroyImmediate(Chest.GetComponent<Rigidbody>());
 				var ctn = Chest.GetComponent<Container>();
 				Chest.AddComponent<LegacyChest>();
+				var mat = Chest.GetComponentInChildren<Renderer>().material;
+
+				mat.SetFloat("_Hue", 0.3f);
+				mat.SetFloat("_Saturation", 0.5f);
 
 				ctn.m_name = "LegacyChest";
-				ctn.m_width=1;
-				ctn.m_height=1;
+				ctn.m_width = 1;
+				ctn.m_height = 1;
 				ctn.m_defaultItems.m_drops.Add(new DropTable.DropData { m_item = go, m_stackMax = 1, m_stackMin = 1, m_weight = 1 });
 
 				PrefabList.Add(Chest.name, Chest);
