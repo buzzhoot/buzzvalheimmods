@@ -76,8 +76,8 @@ namespace OdinPlus
 
 			id.m_maxStackSize = 1;
 			id.m_maxQuality = 4;
-
 			ObjectList.Add(name, go);
+
 		}
 
 		#endregion Legacy
