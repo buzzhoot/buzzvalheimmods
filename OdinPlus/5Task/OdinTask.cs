@@ -175,7 +175,7 @@ namespace OdinPlus
 			Minimap.instance.RemovePin(m_position, 10);
 			m_finished = true;
 		}
-		protected virtual void Clear()
+		public virtual void Clear()
 		{
 			m_isClear = true;
 			Destroy(gameObject);

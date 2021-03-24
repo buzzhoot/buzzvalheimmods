@@ -47,6 +47,7 @@ namespace OdinPlus
 				ZNetScene.instance.Destroy(gameObject);
 				Instantiate(NpcManager.RavenPrefab.GetComponent<Raven>().m_despawnEffect.m_effectPrefabs[0].m_prefab,gameObject.transform.position,Quaternion.identity);
 				m_task.GetComponent<OdinTask>().Finish();
+				m_task.GetComponent<OdinTask>().Clear();
 			}
 		}
 	}
