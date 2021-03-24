@@ -73,6 +73,7 @@ namespace OdinPlus
 			}
 			Reward.transform.localPosition = new Vector3(x.RollDice(), y, z.RollDice()) + location.m_position;
 			m_isInit=true;
+			DBG.blogWarning("Placed Odinchest at : "+Reward.transform.localPosition);
 			return;
 		}
 		private void CheckHive()
