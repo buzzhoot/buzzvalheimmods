@@ -45,6 +45,35 @@ namespace OdinPlus
 			val.y = int.Parse(a[1]);
 			return val;
 		}
+		public static bool HasObject(string name, Vector3 pos, float range = 10)
+		{
+			Collider[] array = Physics.OverlapBox(pos, new Vector3(range, range, range));
+			if (array ==null)
+			{
+				return false;
+			}
+			foreach (var item in array)
+			{
+				var s = item.gameObject;
+				if (s.name == name)
+				{
+					return true;
+				}
+				var f = s.transform.parent;
+				if (f == null) { break; }
+				if (f.name == name)
+				{
+					return true;
+				}
+				var g = f.transform.parent;
+				if (g == null) { break; }
+				if (g.name == name)
+				{
+					return true;
+				}
+			}
+			return false;
+		}
 	}
 
 }

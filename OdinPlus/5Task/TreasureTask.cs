@@ -49,7 +49,7 @@ namespace OdinPlus
 					CheckHive();
 					return;
 				}
-				m_isInit = false;
+				LocationManager.GetLocationInstance(Id,out location);
 				return;
 			}
 			AddChest();
@@ -82,13 +82,12 @@ namespace OdinPlus
 		}
 		private void CheckHive()
 		{
-			if (root.transform.Find("Beehive") == null)
+			if (!Tweakers.HasObject("Beehive",location.m_position))
 			{
 				var go = Instantiate(ZNetScene.instance.GetPrefab("Beehive"));
-				if (root.FindObject("Beehive") != null)
-				{
-					go.transform.localPosition = root.FindObject("Beehive").transform.localPosition;
-				}
+
+				go.transform.localPosition = root.FindObject("Beehive").transform.localPosition+location.m_position;
+				DBG.blogWarning("placed beehive at:" + go.transform.localPosition);
 				AddChest();
 				return;
 			}
