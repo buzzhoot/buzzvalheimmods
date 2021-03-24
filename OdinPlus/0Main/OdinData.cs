@@ -46,7 +46,7 @@ namespace OdinPlus
 		{
 			public TaskManager.TaskType m_type = TaskManager.TaskType.Treasure;
 			public string taskName="";
-			public int m_index;
+			public int m_index=0;
 			public int Key=0;
 			public int Level=1;			
 			public bool isMain = false;
@@ -181,6 +181,7 @@ namespace OdinPlus
 			#region Load
 			score = Data.score;
 			TaskManager.Load(Data.Tasks);
+			LocationManager.RemoveBlackList();
 			#endregion Load
 			
 			OdinPlus.isLoaded = true;

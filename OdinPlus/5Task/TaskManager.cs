@@ -170,7 +170,7 @@ namespace OdinPlus
 			}
 			Root.SetActive(true);
 			DBG.blogInfo("Loaded Task Count: " + i);
-			LocationManager.RemoveBlackList();
+			
 			#endregion save&Load
 		}
 	}
