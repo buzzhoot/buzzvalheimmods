@@ -117,11 +117,11 @@
     <Compile Include="5Task\TaskManager.cs" />
     <Compile Include="5Task\OdinTask.cs" />
     <Compile Include="5Task\TreasureTask.cs" />
-    <EmbeddedResource Include="Resources\OdinLegacy.png" />
     <Compile Include="0Main\OdinData.cs" />
     <Compile Include="9Misc\LocationManager.cs" />
-    <Compile Include="3Items\OdinPrefab.cs" />
     <Compile Include="5Task\LegacyChest.cs" />
+    <Compile Include="3Items\PrefabManager.cs" />
+    <EmbeddedResource Include="Resources\OdinLegacy.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

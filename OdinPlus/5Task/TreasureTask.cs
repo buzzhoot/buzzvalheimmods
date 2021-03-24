@@ -68,6 +68,7 @@ namespace OdinPlus
 				y = 0;
 			}
 			Reward.transform.localPosition = new Vector3(4f.RollDice(), y, 4f.RollDice()) + location.m_position;
+			m_isInit=true;
 			return;
 		}
 		private void CheckHive()
