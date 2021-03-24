@@ -14,16 +14,17 @@ namespace OdinPlus
 		private void Awake()
 		{
 			BlackList = OdinData.Data.BlackList;
-			GetValLocation();
+			GetValDictionary();
 		}
-		private void OnDestroy() {
+		private void OnDestroy()
+		{
 			m_locationInstances.Clear();
 			BlackList.Clear();
 		}
 
 		#endregion Mono
 		#region Init
-		public static void GetValLocation()
+		public static void GetValDictionary()
 		{
 			var a = Traverse.Create(ZoneSystem.instance).Field<Dictionary<Vector2i, ZoneSystem.LocationInstance>>("m_locationInstances").Value;
 			foreach (var item in a)
@@ -52,20 +53,20 @@ namespace OdinPlus
 
 		public static bool GetLocationInstance(string id, out ZoneSystem.LocationInstance li)
 		{
+			var a = Traverse.Create(ZoneSystem.instance).Field<Dictionary<Vector2i, ZoneSystem.LocationInstance>>("m_locationInstances").Value;
 			var key = Tweakers.Pak(id);
-			if (m_locationInstances.ContainsKey(key))
+			if (a.ContainsKey(key))
 			{
-				li = m_locationInstances[key];
+				li = a[key];
 				return true;
 			}
 			li = default(ZoneSystem.LocationInstance);
 			return false;
 		}
-		public static bool FindClosestLocation(string name, Vector3 point, out string id, out ZoneSystem.LocationInstance closest)
+		public static bool FindClosestLocation(string name, Vector3 point, out string id)
 		{
 
 			float num = 999999f;
-			closest = default(ZoneSystem.LocationInstance);
 			id = "0_0";
 			bool result = false;
 			foreach (var item in m_locationInstances)
@@ -74,7 +75,6 @@ namespace OdinPlus
 				if (item.Value.m_location.m_prefabName == name && num2 < num)
 				{
 					num = num2;
-					closest = item.Value;
 					id = Tweakers.DepakVector2i(item.Key);
 					result = true;
 				}

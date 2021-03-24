@@ -139,8 +139,9 @@ namespace OdinPlus
 			var list = locList[Key];
 			int ind = list.Length.RollDice();
 			locName = list[ind];
-			if (LocationManager.FindClosestLocation(locName, Game.instance.GetPlayerProfile().GetCustomSpawnPoint(), out Id, out location))
+			if (LocationManager.FindClosestLocation(locName, Game.instance.GetPlayerProfile().GetCustomSpawnPoint(), out Id))
 			{
+				LocationManager.GetLocationInstance(Id,out location);
 				root = location.m_location.m_prefab.gameObject;
 				gameObject.name = "Task" + Id;
 				SetLocName();
