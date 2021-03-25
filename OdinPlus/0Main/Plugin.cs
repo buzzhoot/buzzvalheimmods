@@ -238,13 +238,13 @@ namespace OdinPlus
 		[HarmonyPatch(typeof(Tameable), "GetHoverText")]
 		private static class Postfix_Tameable_GetHoverText
 		{
-		private static void Postfix(Tameable __instance,ref string __result)
-		{
-			if (__instance.gameObject.GetComponent<Character>().m_name=="$odin_wolf_name")
+			private static void Postfix(Tameable __instance, ref string __result)
 			{
-				__result+=String.Format("\n<color=yellow><b>[{0}]</b></color>$odin_wolf_use", Plugin.KS_SecondInteractkey.Value.MainKey.ToString());
+				if (__instance.gameObject.GetComponent<Character>().m_name == "$odin_wolf_name")
+				{
+					__result += String.Format("\n<color=yellow><b>[{0}]</b></color>$odin_wolf_use", Plugin.KS_SecondInteractkey.Value.MainKey.ToString());
+				}
 			}
-		}
 		}
 
 
@@ -324,7 +324,7 @@ namespace OdinPlus
 		}
 		public static void TestB()
 		{
-			findLocPrefab();
+			findLoc();
 		}
 		private static void finds()
 		{
@@ -341,11 +341,11 @@ namespace OdinPlus
 		}
 		private static void findLocPrefab()
 		{
-			var a =ZoneSystem.instance.m_locations;
-			int i=0;
+			var a = ZoneSystem.instance.m_locations;
+			int i = 0;
 			foreach (var b in a)
 			{
-				if (b.m_prefabName=="Vendor_BlackForest")
+				if (b.m_prefabName == "Vendor_BlackForest")
 				{
 					Debug.LogWarning(i);
 					return;
@@ -353,7 +353,15 @@ namespace OdinPlus
 				i++;
 			}
 		}
+		private static ZoneSystem.LocationInstance dbginsa;
+		private static void findLoc()
+		{
+			Game.instance.DiscoverClosestLocation("Crypt4", Player.m_localPlayer.transform.position, "test", 1);
+			Minimap.PinData pinData = Enumerable.First<Minimap.PinData>((List<Minimap.PinData>)Traverse.Create(Minimap.instance).Field("m_pins").GetValue(), (Minimap.PinData p) => p.m_type == Minimap.PinType.None && p.m_name == "");
+			ZoneSystem.instance.FindClosestLocation("Crypt4", Player.m_localPlayer.transform.position,out dbginsa);
+		}
 
+		//Crypt4
 		#endregion Debug
 	}
 
