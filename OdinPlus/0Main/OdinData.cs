@@ -22,6 +22,7 @@ namespace OdinPlus
 			public List<string> BlackList = new List<string>();
 			public List<OdinData.TaskDataTable> Tasks = null;
 			public int TaskCount = 0;
+			public Dictionary<ItemDrop.ItemData, int> SearchTaskList = new Dictionary<ItemDrop.ItemData, int>();
 			public override Type BindToType(string assemblyName, string typeName)
 			{
 				Type tyType = null;
@@ -45,17 +46,17 @@ namespace OdinPlus
 		public class TaskDataTable : SerializationBinder
 		{
 			public TaskManager.TaskType m_type = TaskManager.TaskType.Treasure;
-			public string taskName="";
-			public int m_index=0;
-			public int Key=0;
-			public int Level=1;			
+			public string taskName = "";
+			public int m_index = 0;
+			public int Key = 0;
+			public int Level = 1;
 			public bool isMain = false;
 			public bool m_pause = false;
 			public bool m_isInit = false;
 			public bool m_discovered = false;
 			public bool m_finished = false;
 			public bool m_isClear = false;
-			public string Id="0_0";
+			public string Id = "0_0";
 			public override Type BindToType(string assemblyName, string typeName)
 			{
 				Type tyType = null;
@@ -132,7 +133,7 @@ namespace OdinPlus
 		{
 			if (Plugin.CFG_disableSave.Value)
 			{
-				OdinPlus.isLoaded=true;
+				OdinPlus.isLoaded = true;
 				return;
 			}
 			#region Save
@@ -160,14 +161,14 @@ namespace OdinPlus
 		{
 			if (Plugin.CFG_disableSave.Value)
 			{
-				OdinPlus.isLoaded=true;
+				OdinPlus.isLoaded = true;
 				return;
 			}
 			#region Serial
 			string file = Path.Combine(Application.persistentDataPath, (name + ".odinplus"));
 			if (!File.Exists(@file))
 			{
-				OdinPlus.isLoaded=true;
+				OdinPlus.isLoaded = true;
 				DBG.blogWarning("Profile not exists:" + name);
 				return;
 			}
@@ -181,10 +182,10 @@ namespace OdinPlus
 			#region Load
 			score = Data.score;
 			TaskManager.Load(Data.Tasks);
-			LocationManager.BlackList=Data.BlackList;
+			LocationManager.BlackList = Data.BlackList;
 			LocationManager.RemoveBlackList();
 			#endregion Load
-			
+
 			OdinPlus.isLoaded = true;
 			DBG.blogWarning("OdinDataLoaded:" + name);
 		}
