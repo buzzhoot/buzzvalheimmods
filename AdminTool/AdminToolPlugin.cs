@@ -80,7 +80,7 @@ namespace AdminTool
 			{
 				if (LastCMD != string.Empty)
 				{
-					ProcessCommands(LastCMD);
+					InputCMD(LastCMD);
 				}
 			}
 		}
@@ -120,7 +120,7 @@ namespace AdminTool
                 string text = global::Console.instance.m_input.text;
                 consoleLastMessage= text;
 				consoleHistory.Add(consoleLastMessage);
-				ProcessCommands(consoleLastMessage);
+				InputCMD(consoleLastMessage);
 				LastCMD = consoleLastMessage;
 				consoleLastMessage = string.Empty;
 			}
@@ -166,7 +166,7 @@ namespace AdminTool
 			}
 			return false;
 		}
-		public static void ProcessCommands(string inCommand)
+		public static void InputCMD(string inCommand)
 		{
 			if (inCommand.Length > 0)
 

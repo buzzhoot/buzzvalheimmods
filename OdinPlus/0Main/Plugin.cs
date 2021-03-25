@@ -182,7 +182,7 @@ namespace OdinPlus
 		{
 			private static void Prefix()
 			{
-				OdinPlus.ProcessCommands(global::Console.instance.m_input.text);
+				OdinPlus.InputCMD(global::Console.instance.m_input.text);
 			}
 		}
 

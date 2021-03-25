@@ -108,19 +108,19 @@ namespace OdinPlus
 		#endregion Patch
 
 		#region Tool
-		public static void ProcessCommands(string inCommand)
+		public static void InputCMD(string CMD)
 		{
-			if (inCommand.Length > 0)
+			if (CMD.Length > 0)
 			{
-				if (inCommand.StartsWith(" "))
+				if (CMD.StartsWith(" "))
 				{
-					inCommand = inCommand.Remove(0, 1);
+					CMD = CMD.Remove(0, 1);
 				}
-				if (inCommand == "testa")
+				if (CMD == "testa")
 				{
 					Plugin.TestA();
 				}
-				if (inCommand == "testb")
+				if (CMD == "testb")
 				{
 					Plugin.TestB();
 				}
@@ -197,7 +197,6 @@ namespace OdinPlus
 		{
 			odbRegList.Add(go.name.GetStableHashCode(), go);
 		}
-
 		public static void UnRegister()
 		{
 			var odb = ObjectDB.instance;
