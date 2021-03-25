@@ -13,6 +13,10 @@ namespace OdinPlus
 		#region Main
 		private void Awake()
 		{
+			if (loading)
+			{
+				return;
+			}
 			if (!TaskManager.isMain)
 			{
 				m_tier0 = new string[] { "WoodHouse11", "WoodHouse6", "WoodHouse3", "WoodHouse4", "WoodHouse6", "WoodHouse7", "WoodHouse8", "WoodHouse9" };
@@ -23,13 +27,10 @@ namespace OdinPlus
 			}
 			else
 			{
-				m_tier0 = new string[] { "WoodHouse2", "WoodHouse10"};
+				m_tier0 = new string[] { "WoodHouse2", "WoodHouse10" };
 			}
 
-			if (loading)
-			{
-				return;
-			}
+
 			base.Begin();
 		}
 		#endregion Main
@@ -91,9 +92,9 @@ namespace OdinPlus
 			}
 			AddChest();
 		}
-			
 
-		
+
+
 		protected override void Discovery()
 		{
 			HintTarget = string.Format("Looks like you are close to the chest,look around find a <color=yellow><b>[{0}]</b></color>", locName);
@@ -127,7 +128,7 @@ namespace OdinPlus
 				var go = Instantiate(ZNetScene.instance.GetPrefab("Beehive"));
 
 				//go.transform.localPosition = root.FindObject("Beehive").transform.localPosition + location.m_position;
-				go.transform.localPosition =location.m_position;
+				go.transform.localPosition = location.m_position;
 				DBG.blogWarning("placed beehive at:" + go.transform.localPosition);
 				AddChest();
 				return;
