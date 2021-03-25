@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
+using HarmonyLib;
 namespace OdinPlus
 {
 	public static class Tweakers
@@ -12,7 +13,7 @@ namespace OdinPlus
 			humanoid.m_speed = speed;
 			return humanoid;
 		}
-		public static Tutorial.TutorialText TaskHintHugin(string messageName, string messageText)
+		public static void TaskHintHugin(string messageName, string messageText)
 		{
 			Tutorial.TutorialText tutorialText = new Tutorial.TutorialText
 			{
@@ -21,15 +22,16 @@ namespace OdinPlus
 				m_text = messageText,
 				m_topic = "Quest Hint"
 			};
-			if (!Tutorial.instance.m_texts.Contains(tutorialText))
+			HuginSays(tutorialText.m_name, tutorialText.m_topic, tutorialText.m_text, tutorialText.m_label);
+			var m_knownTexts = Traverse.Create(Player.m_localPlayer).Field<Dictionary<string, string>>("m_knownTexts").Value;
+			if (m_knownTexts.ContainsKey(tutorialText.m_topic))
 			{
-				Tutorial.instance.m_texts.Add(tutorialText);
+				m_knownTexts[tutorialText.m_topic] = messageName+"\n"+tutorialText.m_text+"\n\n"+m_knownTexts[tutorialText.m_topic];
+				return;
 			}
-			Tutorial.instance.ShowText(tutorialText.m_name, true);
-			Tutorial.instance.m_texts.Remove(tutorialText);
-			return tutorialText;
+			m_knownTexts.Add(tutorialText.m_topic, messageName+"\n"+tutorialText.m_text);
 		}
-		public static Tutorial.TutorialText TaskTopicHugin(string messageName, string messageText)
+		public static void TaskTopicHugin(string messageName, string messageText)
 		{
 			Tutorial.TutorialText tutorialText = new Tutorial.TutorialText
 			{
@@ -38,14 +40,25 @@ namespace OdinPlus
 				m_text = messageText,
 				m_topic = "Quest List"
 			};
-			if (!Tutorial.instance.m_texts.Contains(tutorialText))
+			HuginSays(tutorialText.m_name, tutorialText.m_topic, tutorialText.m_text, tutorialText.m_label);
+			var m_knownTexts = Traverse.Create(Player.m_localPlayer).Field<Dictionary<string, string>>("m_knownTexts").Value;
+			if (m_knownTexts.ContainsKey(tutorialText.m_topic))
 			{
-				Tutorial.instance.m_texts.Add(tutorialText);
+				m_knownTexts[tutorialText.m_topic] = tutorialText.m_text;
+				return;
 			}
-			Tutorial.instance.ShowText(tutorialText.m_name, true);
-			Tutorial.instance.m_texts.Remove(tutorialText);
-			return tutorialText;
-			
+			m_knownTexts.Add(tutorialText.m_topic, tutorialText.m_text);
+			return;
+
+		}
+		public static void HuginSays(string key, string topic, string text, string label)
+		{
+			//Traverse.Create(Tutorial.instance).Method("SpawnRaven", new object[]{ key,topic,text,label}).GetValue();
+			if (!Raven.IsInstantiated())
+			{
+				UnityEngine.Object.Instantiate<GameObject>(Tutorial.instance.m_ravenPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);
+			}
+			Raven.AddTempText(key, topic, text, label, false);
 		}
 		public static string GetTransName(this string str)
 		{
@@ -70,7 +83,7 @@ namespace OdinPlus
 		public static bool HasObject(string name, Vector3 pos, float range = 10)
 		{
 			Collider[] array = Physics.OverlapBox(pos, new Vector3(range, range, range));
-			if (array ==null)
+			if (array == null)
 			{
 				return false;
 			}

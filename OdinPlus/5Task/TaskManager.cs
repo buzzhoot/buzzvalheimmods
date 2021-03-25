@@ -55,12 +55,12 @@ namespace OdinPlus
 		}
 		public static void PrintTaskList()
 		{
-			string n = "Quest List";
+			string n = "";
 			foreach (var task in Root.GetComponentsInChildren<OdinTask>())
 			{
 				n += task.PrintData();
 			}
-			Tweakers.TaskTopicHugin("QuestList", n);
+			Tweakers.TaskTopicHugin("Quest List", n);
 		}
 
 		#endregion Tool

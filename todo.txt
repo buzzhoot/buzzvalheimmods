@@ -29,8 +29,9 @@
 //||X||add black list to remove
 //||X||chest to a prefab
 //|| ||Task add to log//!!Text Dialog
-//|| ||PET ZDO REGISTER TO PLAYER//!!Awake prefab REGISTER
+//|| ||PET position REGISTER TO PLAYER//!!Awake prefab REGISTER pet name
 //|| ||Search Task and Dungeon and Hunt;
+//|| ||Meads Icon
 //|| ||Localizaotion
 -----------------
 //|| ||mech try?
@@ -48,6 +49,8 @@
 //|| ||Make a new template without Plugin base//
 //|| ||Make a mod let player custom Mead mod //?
 //|| ||Buzz Kitchen//notice
+//|| ||TopFirst
+//|| ||Inventory
 //============== EndTODO=============
 
 //=================TODO=============Alltameable
