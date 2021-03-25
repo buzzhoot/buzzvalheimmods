@@ -23,6 +23,7 @@ namespace OdinPlus
 		}
 
 		#endregion Mono
+
 		#region Init
 		public static void GetValDictionary()
 		{
@@ -83,5 +84,25 @@ namespace OdinPlus
 		}
 		#endregion Feature
 
+		#region Tool
+		public static GameObject FindDungeon(Vector3 pos)
+		{
+			var loc = Location.GetLocation(pos);
+			if (loc == null)
+			{
+				return null;
+			}
+			var dunPos = loc.transform.Find("ExteriorGateway").transform.position;
+			Collider[] array = Physics.OverlapBox(pos, new Vector3(20, 20, 20));
+			foreach (var item in array)
+			{
+				var c = item.GetComponentInParent<DungeonGenerator>();
+				if (c.enabled == true)
+				{
+					return c.gameObject;
+				}
+			}
+			return null;
+8			#endregion Tool
+		}
 	}
-}
