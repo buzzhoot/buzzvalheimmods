@@ -25,10 +25,11 @@ namespace OdinPlus
 			//notice Init Here
 
 			InitValMead();
+			InitBuzzMead();
 
-			OdinPlus.OdinPreRegister(MeadList,nameof(MeadList));
+			OdinPlus.OdinPreRegister(MeadList, nameof(MeadList));
 		}
-		
+
 		public static void InitValMead()
 		{
 			foreach (var item in OdinSE.ValDataList.Keys)
@@ -44,10 +45,17 @@ namespace OdinPlus
 			id.m_name = "$odin_" + name + "_name";
 			id.m_icons[0] = OdinPlus.OdinMeadsIcon[0];
 			id.m_description = "$odin_" + name + "_desc";
-			
+
 			id.m_consumeStatusEffect = OdinSE.SElist[name];
-			
+
 			MeadList.Add(name, go);
+		}
+		public static void InitBuzzMead()
+		{
+			foreach (var item in OdinSE.BuzzList.Keys)
+			{
+				CreateValMeadPrefab(item);
+			}
 		}
 	}
 }

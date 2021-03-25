@@ -10,7 +10,6 @@ namespace OdinPlus
 	{
 		public static Dictionary<string, StatusEffect> SElist = new Dictionary<string, StatusEffect>();
 		public static Dictionary<string, StatusEffect> BuzzList = new Dictionary<string, StatusEffect>();
-
 		public static Dictionary<string, StatusEffect> ValList = new Dictionary<string, StatusEffect>();
 		public static Dictionary<string, SEData> ValDataList = new Dictionary<string, SEData>();
 
@@ -19,6 +18,8 @@ namespace OdinPlus
 		{
 			SetupValSE();
 
+
+			initBuzzSE();
 			initTrollSE();
 			initWolfSE();
 			initValSE();
@@ -59,6 +60,29 @@ namespace OdinPlus
 			se.PetName = "WolfPet";
 			SElist.Add("ScrollWolf", se);
 		}
+		#region Buzz_SE
+		private void initBuzzSE()
+		{
+			CreateBuzzSE("SpeedMeadsL");
+		}
+		private void CreateBuzzSE(string name)
+		{
+			var se = ScriptableObject.CreateInstance<Se_Buzz>();
+			se.name = name;
+			se.m_icon = OdinPlus.OdinSEIcon[0];
+			se.m_name = "$odin_se_" + name;
+			se.m_tooltip = "$odin_" + name + "_tooltip";
+
+			se.m_ttl = 300;
+			se.speedModifier = 1.5f;
+			SElist.Add(name, se);
+			BuzzList.Add(name, se);
+		}
+		private void SetupBuzzSE()
+		{
+			//notice
+		}
+		#endregion Buzz_SE
 
 		#endregion
 
