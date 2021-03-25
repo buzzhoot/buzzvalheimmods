@@ -40,6 +40,7 @@ namespace OdinPlus
 				return;
 			}
 			TaskManager.CreateRandomTask();
+			Say("Wait for Hugin,he will tell you");
 			timer = 300f;//add
 		}
 		private void GiveUpTask()
@@ -86,6 +87,7 @@ namespace OdinPlus
 					if (TaskManager.HasTask())
 					{
 						TaskManager.PrintTaskList();
+						Say("Wait for Hugin,he will tell you something");
 						break;
 					}
 					Say("You don't have any Quest");
@@ -105,9 +107,8 @@ namespace OdinPlus
 		public override string GetHoverText()
 		{
 			string n = string.Format("<color=lightblue><b>{0}</b></color>", m_name);
-			n += string.Format("\n<color=green><b>Credits:{0}</b></color>", OdinData.score);
-			n += string.Format("\n<color=green><b>Current Quest Level:{0}</b></color>", TaskManager.Level);
-			n += string.Format("\nYou have <color=green><b>{0}</b></color> Tasks", TaskManager.Count());
+			n += string.Format("\n<color=lightblue><b>Current Quest Level:{0}</b></color>", TaskManager.Level);
+			n += string.Format("\nYou have <color=lightblue><b>{0}</b></color> Tasks", TaskManager.Count());
 			n += "\n[<color=yellow><b>$KEY_Use</b></color>]" + currentChoice;
 			n += String.Format("\n<color=yellow><b>[{0}]</b></color>Switch Choice", Plugin.KS_SecondInteractkey.Value.MainKey.ToString());
 			return Localization.instance.Localize(n);
@@ -132,7 +133,7 @@ namespace OdinPlus
 				int num;
 				if (int.TryParse(text, out num))
 				{
-					if (!TaskManager.GiveUpTask(num - 1))
+					if (!TaskManager.GiveUpTask(num))
 					{
 						DBG.InfoCT("You don't have Quest " + num);
 						return;

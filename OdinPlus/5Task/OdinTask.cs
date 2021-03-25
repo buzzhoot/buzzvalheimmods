@@ -342,7 +342,7 @@ namespace OdinPlus
 		#region  Tool
 		public string PrintData()
 		{
-			return "/n"+(isMain ? "Main" : "Side") + " Quest " + m_index + " : " + taskName;
+			return "\n"+(isMain ? "Main" : "Side") + " Quest " + m_index + " : " + taskName;
 		}
 		#endregion  Tool
 	}
