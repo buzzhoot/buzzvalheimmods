@@ -33,6 +33,7 @@ namespace OdinPlus
 		Harmony _harmony;
 		#endregion
 		public static GameObject OdinPlusRoot;
+		#region Mono
 		private void Awake()
 		{
 			Plugin.logger = base.Logger;
@@ -56,6 +57,8 @@ namespace OdinPlus
 		{
 			if (_harmony != null) _harmony.UnpatchSelf();
 		}
+		#endregion Mono
+		
 		#region patch		
 		#region StoreGui
 		[HarmonyPatch(typeof(StoreGui), "Show")]
@@ -228,7 +231,7 @@ namespace OdinPlus
 		{
 			private static void Postfix()
 			{
-				if (CheckPlayerNull()||OdinPlus.isLoaded) { return; }
+				if (CheckPlayerNull() || OdinPlus.isLoaded) { return; }
 				OdinData.loadOdinData(Player.m_localPlayer.GetPlayerName() + "_" + ZNet.instance.GetWorldName());
 			}
 		}

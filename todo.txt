@@ -4,7 +4,7 @@
 //||X||Try use mono instead of normal class
 //||X||new SE test
 //||X||new Mead test
-//||X||inherit public//?
+//||X||inherit public//
 //||X||may juest patch the GUI BuySelectedItem
 //||X||OdinStoreGui//
 //||X||Reorg the Mead and Pet Structure
@@ -12,27 +12,30 @@
 //||X||Add OdinNPC BaseClass; OdinGod:OdinNPC
 //||X||Change OdinStore To OdinTrader;
 //||X||Find a better patch point for Odin to spawn,//
-//||X||Maybe check out the load and also patch the load quit withou saving for admin tool//?
-//||X||RuneStone for spawning?//? Now use ZoneSystem
+//||X||Maybe check out the load and also patch the load quit withou saving for admin tool//!
+//||X||RuneStone for spawning?//Now use ZoneSystem
 //||X||BOOL PREFIX NEED TO BE FIX
-//|| ||Store name( Patch StoreGui Awake if you cant find the topic)//-?
-//||X||Wolf container//add
-//||X||Wolf and troll color//-?
+//||X||Store name( Patch StoreGui Awake if you cant find the topic)
+//||X||Wolf container//
+//||X||Wolf and troll color//
 //||X||Create Npc Prefab//
 //||X||Test Discover will trigger how many time?
 //||X||isInit isCleared for task.
 //||X||MainTask SideTask
-//|| ||add black list to remove Project//!!
-//|| ||chest to a prefab
-//|| ||Task add to log
-//|| ||PET ZDO REGISTER TO PLAYER//!
-//|| ||Mead ConfigManager//?
-//|| ||More Meads:big heal stamina tempopry WEIGHT Mining,Double Damege
-//|| ||New SE template :RunSpeed Invisible, 
+//||X||Mead ConfigManager//-?
+//||X||More Meads:big heal stamina tempopry WEIGHT Mining,Double Damege
+//||X||New SE template :RunSpeed Invisible, 
 //||X||Task system
+//||X||add black list to remove
+//||X||chest to a prefab
+//|| ||Task add to log//!!Text Dialog
+//|| ||PET ZDO REGISTER TO PLAYER//!!Awake prefab REGISTER
+//|| ||Search Task and Dungeon and Hunt;
+//|| ||Localizaotion
+-----------------
 //|| ||mech try?
 //|| ||New Equip Slot Ring and Backpack
-//|| ||DragonEggs
+//||X||DragonEggs
 //|| ||Teleportable Raven
 //|| ||Mountable Dragon
 //|| ||BackPack;
@@ -44,6 +47,7 @@
 //=================TODO=============Project
 //|| ||Make a new template without Plugin base//
 //|| ||Make a mod let player custom Mead mod //?
+//|| ||Buzz Kitchen//notice
 //============== EndTODO=============
 
 //=================TODO=============Alltameable
