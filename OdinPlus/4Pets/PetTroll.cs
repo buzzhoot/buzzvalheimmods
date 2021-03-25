@@ -32,8 +32,7 @@ namespace OdinPlus
 		{
 			PetManager.Indicator.SetActive(false);
 			PetManager.TrollIns = null;
-			DBG.InfoCT(Localization.instance.Localize(this.GetComponent<Humanoid>().m_name + " died"));//add trans
-
+			DBG.InfoCT(Localization.instance.Localize(this.GetComponent<Humanoid>().m_name + " died"));//trans
 		}
 		private void OnDestroy()
 		{

@@ -114,9 +114,9 @@ namespace OdinPlus
 			//Ai Tweak
 			mai.m_randomMoveInterval = 10000;
 			mai.m_randomCircleInterval = 10000;
-			mai.m_alertRange = 3;
-			mai.m_viewRange = 3;
-			mai.m_hearRange = 3;
+			mai.m_alertRange = 30;
+			mai.m_viewRange = 30;
+			mai.m_hearRange = 30;
 			//Container
 			var ctn = go.AddComponent<Container>();
 			//pw.container = ctn;
