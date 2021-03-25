@@ -27,7 +27,7 @@ namespace OdinPlus
 		#region Valheim
 		public new string GetHoverText()
 		{
-			string n = string.Format("\n<color=blue><b>{0}</b></color>", m_name);
+			string n = string.Format("\n<color=lightblue><b>{0}</b></color>", m_name);
 			string u = "\n[<color=yellow><b>$KEY_Use</b></color>] $odin_buy";
 			return Localization.instance.Localize(n + u);
 		}
@@ -64,6 +64,7 @@ namespace OdinPlus
 			var icon = __instance.m_coinText.transform.parent.GetChild(0).GetComponent<Image>();
 			sell.gameObject.SetActive(!set);
 			icon.sprite = !set ? OdinPlus.CoinsIcon : OdinPlus.OdinCreditIcon;
+			GameObject.Find("_GameMain/GUI/PixelFix/IngameGui/Store_Screen/Store/topic").GetComponent<Text>().text=set?"$store_topic":"OdinStore";
 		}
 
 		#endregion
