@@ -89,7 +89,7 @@ namespace OdinPlus
 
 		public virtual void Giveup()
 		{
-			MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : "Side") + " Quest " + m_index + " : " + taskName + " Giveup", true);
+			MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : "Side") + " Quest " + m_index + " \n " + taskName + "\nGive up", true);
 			RemovePin();
 			Clear();
 		}
@@ -134,7 +134,7 @@ namespace OdinPlus
 			SetRange(30.RollDice(30 + Level * 30));
 			SetPosition();
 			SetPin();
-			MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : "Side") + " Quest " + m_index + " : " + taskName + " Start", true);
+			MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : "Side") + " Quest " + m_index + "\n" + taskName + "\nStart", true);
 		}
 		protected virtual bool SetLocation()
 		{
@@ -174,7 +174,7 @@ namespace OdinPlus
 		protected virtual void CheckTarget() { }
 		public virtual void Finish()
 		{
-			MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : "Side") + "Quest " + m_index + " : " + taskName + " Clear", true);
+			MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : "Side") + "Quest " + m_index + "\n" + taskName + "\nClear", true);
 			RemovePin();
 			OdinMunin.ResetTimer();
 			m_finished = true;

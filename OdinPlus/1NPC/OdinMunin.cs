@@ -63,7 +63,9 @@ namespace OdinPlus
 				n = Localization.instance.Localize(n);
 				TextInput.instance.RequestText(new TR_Giveup(), n, 3);
 				ResetTimer();
+				return;
 			}
+			Say("You don't have any Quest");
 		}
 		private void ChangeLevel()
 		{
