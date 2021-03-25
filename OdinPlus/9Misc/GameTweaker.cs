@@ -20,7 +20,7 @@ namespace OdinPlus
 				m_label = "Quest Hints",
 				m_name = messageName + DateTimeOffset.Now.Millisecond + DateTimeOffset.Now.Day + DateTimeOffset.Now.Hour + DateTimeOffset.Now.Minute,
 				m_text = messageText,
-				m_topic = "Quest Hint"
+				m_topic = "Quest Hints"
 			};
 			HuginSays(tutorialText.m_name, tutorialText.m_topic, tutorialText.m_text, tutorialText.m_label);
 			var m_knownTexts = Traverse.Create(Player.m_localPlayer).Field<Dictionary<string, string>>("m_knownTexts").Value;

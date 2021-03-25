@@ -7,8 +7,8 @@ namespace OdinPlus
 	public class SearchTask : OdinTask
 	{
 		private string[] m_targetList;
-		private List<string[]> m_itemList;
-		private ItemDrop.ItemData m_item;
+		private List<string[]> m_itemList=new List<string[]>();
+		private string m_item;
 		private int m_count;
 		private void Awake()
 		{
@@ -18,7 +18,7 @@ namespace OdinPlus
 			}
 			m_type = TaskManager.TaskType.Search;
 
-			m_tier0 = new string[] { "LeatherScraps:20", "Mushroom:20", "CookedMeat:20", "Raspberry:20", "Stone:50", "Wood:50", "DearHide:15", "Resin:20" };
+			m_tier0 = new string[] { "LeatherScraps:20", "Mushroom:20", "CookedMeat:20", "Raspberry:20", "Stone:50", "Wood:50", "DeerHide:15","Resin:20" };
 			m_tier1 = new string[] { "TrollHide:10", "Coins:100", "Resin:50", "BoneFragments:20", "GlowingMushroom:20", "Blueberries:20", "HardAntler:1" };
 			m_tier2 = new string[] { "Guck:30", "Ooze:10", "SurtlingCore:20", "ElderBuck:50", "Amber:20", "AmberPearl:20", "Resin:100" };
 			m_tier3 = new string[] { "Guck:50", "Ooze:20", "SurtlingCore:30", "ElderBuck:50", "DragonEgg:1", "WolfFang:20", "WolfPelt:10", "Resin:100" };
@@ -36,11 +36,11 @@ namespace OdinPlus
 		}
 		private bool PickItem()
 		{
-			var l1 = new Dictionary<ItemDrop.ItemData, int>();
+			var l1 = new Dictionary<string, int>();
 			foreach (var item in m_itemList[Key])
 			{
 				var a1 = item.Split(new char[] { ':' });
-				l1.Add(Tweakers.GetItemData(a1[0]), int.Parse(a1[1]));
+				l1.Add(a1[0], int.Parse(a1[1]));
 			}
 			foreach (var item in OdinData.Data.SearchTaskList.Keys)
 			{
@@ -53,7 +53,7 @@ namespace OdinPlus
 			{
 				return false;
 			}
-			int ind = l1.Count;
+			int ind = l1.Count.RollDice();
 			m_item = l1.ElementAt(ind).Key;
 			m_count = l1.ElementAt(ind).Value * Level;
 			return true;
@@ -70,16 +70,17 @@ namespace OdinPlus
 				DestroyImmediate(this.gameObject);
 				return;
 			}
-			HintTarget = String.Format("Find [<color=yellow><b>{0} {1}</b></color>] for Munin,he'll give you something nice ", m_count, m_item.m_shared.m_name);
-			taskName = m_item.m_shared.m_name + " Search";
+			var item  = Tweakers.GetItemData(m_item);
+			HintTarget = String.Format("Find [<color=yellow><b>{0} {1}</b></color>] for Munin,he'll give you something nice ", m_count, item.m_shared.m_name);
+			taskName = item.m_shared.m_name + " Search";
 
 			OdinData.Data.TaskCount++;
 			m_index = OdinData.Data.TaskCount;
 
-			Id = m_item.m_dropPrefab.name;
+			Id = m_item;
 			gameObject.name = "Task" + Id;
 			OdinData.Data.SearchTaskList.Add(m_item, m_count);
-
+			
 			MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : "Side") + " Quest " + m_index + " : " + taskName + " Start", true);
 			Tweakers.TaskHintHugin((isMain ? "Main" : "Side") + "Quest " + m_index + " : " + taskName, HintTarget);
 			m_isInit = true;
@@ -88,16 +89,16 @@ namespace OdinPlus
 		{
 			MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : "Side") + " Quest " + m_index + " : " + taskName + " Clear", true);
 
-			OdinData.Data.SearchTaskList.Remove(Tweakers.GetItemData(Id));
+			OdinData.Data.SearchTaskList.Remove(Id);
 			OdinMunin.Reward(Key,Level);
 			base.Clear();
 		}
 		public override void Clear()
 		{
-			OdinData.Data.SearchTaskList.Remove(Tweakers.GetItemData(Id));
+			OdinData.Data.SearchTaskList.Remove(Id);
 			base.Clear();
 		}
-		public static bool CanOffer(ItemDrop.ItemData item)
+		public static bool CanOffer(string item)
 		{
 			if (OdinData.Data.SearchTaskList.ContainsKey(item))
 			{
@@ -105,14 +106,15 @@ namespace OdinPlus
 			}
 			return false;
 		}
-		public static bool CanFinish(ItemDrop.ItemData item)
+		public static bool CanFinish(string item)
 		{
 			var inv = Player.m_localPlayer.GetInventory();
-			var count = OdinData.Data.SearchTaskList[item];
-			if (inv.CountItems(item.m_dropPrefab.name) >= count)
+			int count = OdinData.Data.SearchTaskList[item];
+			Debug.LogWarning(count);
+			if (inv.CountItems(Tweakers.GetItemData(item).m_shared.m_name) >= count)
 			{
 				inv.RemoveItem(item, count);
-				var t = TaskManager.Root.transform.Find("Task" + item.m_dropPrefab.name);
+				var t = TaskManager.Root.transform.Find("Task" + item);
 				t.gameObject.GetComponent<SearchTask>().Finish();
 				return true;
 			}

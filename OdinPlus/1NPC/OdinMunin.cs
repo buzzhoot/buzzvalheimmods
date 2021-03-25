@@ -42,7 +42,7 @@ namespace OdinPlus
 			if (timer > 0)
 			{
 				var n=string.Format("<color=yellow><b>{0}</b></color>",Mathf.CeilToInt(timer));
-				Say("My brother is finding Quest for you, wait for"+n);
+				Say("My brother is finding Quest for you, wait for "+n);
 				return;
 			}
 			if (TaskManager.Root.transform.childCount >= 10)
@@ -131,13 +131,14 @@ namespace OdinPlus
 		}
 		public override bool UseItem(Humanoid user, ItemDrop.ItemData item)
 		{
-			if (!SearchTask.CanOffer(item))
+			if (!SearchTask.CanOffer(item.m_dropPrefab.name))
 			{
 				return false;
 			}
-			if (SearchTask.CanFinish(item))
+			if (SearchTask.CanFinish(item.m_dropPrefab.name))
 			{
 				Say("Nice!");
+				return true;
 			}
 			Say("Not eoungh...bring more!");
 			return true;

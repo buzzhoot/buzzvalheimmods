@@ -22,7 +22,7 @@ namespace OdinPlus
 			public List<string> BlackList = new List<string>();
 			public List<OdinData.TaskDataTable> Tasks = null;
 			public int TaskCount = 0;
-			public Dictionary<ItemDrop.ItemData, int> SearchTaskList = new Dictionary<ItemDrop.ItemData, int>();
+			public Dictionary<string, int> SearchTaskList = new Dictionary<string, int>();
 			public override Type BindToType(string assemblyName, string typeName)
 			{
 				Type tyType = null;

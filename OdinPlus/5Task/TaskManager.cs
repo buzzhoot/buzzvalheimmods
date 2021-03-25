@@ -73,7 +73,7 @@ namespace OdinPlus
 			switch (CheckKey())
 			{
 				case 0:
-					CreateTask(TaskType.Treasure);
+					CreateTask(TaskType.Search);
 					break;
 				case 1:
 					CreateTask(TaskType.Treasure);
@@ -103,6 +103,7 @@ namespace OdinPlus
 				case TaskType.Dungeon:
 					break;
 				case TaskType.Search:
+					go.AddComponent<SearchTask>();
 					break;
 			}
 		}

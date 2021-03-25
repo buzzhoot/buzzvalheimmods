@@ -187,6 +187,7 @@ namespace OdinPlus
 		private void SetLocName()
 		{
 			locName = Regex.Replace(locName, @"[\d-]", string.Empty);
+			locName = Regex.Replace(locName, @"[_]", "");
 		}
 		private void SetTaskName()
 		{
