@@ -90,6 +90,7 @@ namespace OdinPlus
 		public virtual void Giveup()
 		{
 			MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : "Side") + " Quest " + m_index + " : " + taskName + " Giveup", true);
+			RemovePin();
 			Clear();
 		}
 
@@ -129,7 +130,7 @@ namespace OdinPlus
 			{
 				return;
 			}
-			Tweakers.SendRavenMessage((isMain ? "Main" : "Side") + "Quest " + m_index + " : " + taskName, HintStart);
+			Tweakers.TaskHintHugin((isMain ? "Main" : "Side") + "Quest " + m_index + " : " + taskName, HintStart);
 			SetRange(30.RollDice(30 + Level * 30));
 			SetPosition();
 			SetPin();
@@ -168,13 +169,13 @@ namespace OdinPlus
 		}
 		protected virtual void Discovery()
 		{
-			Tweakers.SendRavenMessage((isMain ? "Main" : "Side") + "Quest " + m_index + " : " + taskName, HintTarget);
+			Tweakers.TaskHintHugin((isMain ? "Main" : "Side") + "Quest " + m_index + " : " + taskName, HintTarget);
 		}
 		protected virtual void CheckTarget() { }
 		public virtual void Finish()
 		{
 			MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : "Side") + "Quest " + m_index + " : " + taskName + " Clear", true);
-			Minimap.instance.RemovePin(m_position, 10);
+			RemovePin();
 			m_finished = true;
 		}
 		public virtual void Clear()
@@ -194,6 +195,10 @@ namespace OdinPlus
 		{
 			m_position = location.m_position;
 			m_position = m_position.GetRandomLocation(m_range);
+		}
+		private void RemovePin()
+		{
+			Minimap.instance.RemovePin(m_position, 10);
 		}
 
 
@@ -268,6 +273,8 @@ namespace OdinPlus
 
 			m_isInit = dat.m_isInit;
 
+			m_position = dat.m_position;
+
 			m_pause = dat.m_pause;
 
 			m_discovered = dat.m_discovered;
@@ -325,6 +332,8 @@ namespace OdinPlus
 				isMain = this.isMain,
 
 				m_isInit = this.m_isInit,
+				
+				m_position = this.m_position,
 
 				m_pause = this.m_pause,
 
@@ -342,7 +351,9 @@ namespace OdinPlus
 		#region  Tool
 		public string PrintData()
 		{
-			return "\n"+(isMain ? "Main" : "Side") + " Quest " + m_index + " : " + taskName;
+			string n = "\n" + (isMain ? "Main" : "Side");
+			n += String.Format(" Quest <color=yellow><b>[{0}]</b></color> : {1}", m_index, taskName);
+			return n;
 		}
 		#endregion  Tool
 	}

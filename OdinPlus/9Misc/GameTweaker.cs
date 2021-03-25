@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using UnityEngine;
 namespace OdinPlus
 {
@@ -9,21 +12,40 @@ namespace OdinPlus
 			humanoid.m_speed = speed;
 			return humanoid;
 		}
-		public static Tutorial.TutorialText SendRavenMessage(string messageName, string messageText)
+		public static Tutorial.TutorialText TaskHintHugin(string messageName, string messageText)
 		{
 			Tutorial.TutorialText tutorialText = new Tutorial.TutorialText
 			{
-				m_label = "OdinQuest",
-				m_name = messageName,
+				m_label = "Quest Hints",
+				m_name = messageName+DateTimeOffset.Now.Millisecond+DateTimeOffset.Now.Day+DateTimeOffset.Now.Hour+DateTimeOffset.Now.Minute,
 				m_text = messageText,
-				m_topic = "Quest Hints"
+				m_topic = "Quest Hint"
 			};
 			if (!Tutorial.instance.m_texts.Contains(tutorialText))
 			{
 				Tutorial.instance.m_texts.Add(tutorialText);
 			}
-			Player.m_localPlayer.ShowTutorial(tutorialText.m_name, true);
+			Tutorial.instance.ShowText(tutorialText.m_name, true);
+			Tutorial.instance.m_texts.Remove(tutorialText);
 			return tutorialText;
+		}
+		public static Tutorial.TutorialText TaskTopicHugin(string messageName, string messageText)
+		{
+			Tutorial.TutorialText tutorialText = new Tutorial.TutorialText
+			{
+				m_label = "Quest List",
+				m_name = messageName+DateTimeOffset.Now.Millisecond+DateTimeOffset.Now.Day+DateTimeOffset.Now.Hour+DateTimeOffset.Now.Minute,
+				m_text = messageText,
+				m_topic = "Quest List"
+			};
+			if (!Tutorial.instance.m_texts.Contains(tutorialText))
+			{
+				Tutorial.instance.m_texts.Add(tutorialText);
+			}
+			Tutorial.instance.ShowText(tutorialText.m_name, true);
+			Tutorial.instance.m_texts.Remove(tutorialText);
+			return tutorialText;
+			
 		}
 		public static string GetTransName(this string str)
 		{

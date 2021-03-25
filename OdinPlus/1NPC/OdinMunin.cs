@@ -58,6 +58,7 @@ namespace OdinPlus
 			if (TaskManager.Level == TaskManager.MaxLevel)
 			{
 				TaskManager.Level = 1;
+				return;
 			}
 			TaskManager.Level++;
 		}

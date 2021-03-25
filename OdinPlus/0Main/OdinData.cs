@@ -53,6 +53,7 @@ namespace OdinPlus
 			public bool isMain = false;
 			public bool m_pause = false;
 			public bool m_isInit = false;
+			public Vector3 m_position = Vector3.zero;
 			public bool m_discovered = false;
 			public bool m_finished = false;
 			public bool m_isClear = false;
