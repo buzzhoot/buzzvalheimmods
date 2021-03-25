@@ -18,7 +18,7 @@ namespace OdinPlus
 			tame.Tame();
 			Traverse.Create(tame).Method("ResetFeedingTimer").GetValue();
 			Character character = this.GetComponent<Character>();
-			character.m_onDeath = (Action)Delegate.Combine(new Action(this.OnDestroyed),character.m_onDeath);
+			character.m_onDeath = (Action)Delegate.Combine(new Action(this.OnDestroyed), character.m_onDeath);
 		}
 		void Update()
 		{
@@ -34,6 +34,10 @@ namespace OdinPlus
 			PetManager.TrollIns = null;
 			DBG.InfoCT(Localization.instance.Localize(this.GetComponent<Humanoid>().m_name + " died"));//add trans
 
+		}
+		private void OnDestroy()
+		{
+			PetManager.Indicator.SetActive(false);
 		}
 		public void FocreAttack()
 		{

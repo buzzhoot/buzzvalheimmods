@@ -108,7 +108,7 @@ namespace OdinPlus
 
 			//Humanoid
 
-			hum.m_name += String.Format("\n<color=yellow><b>[{0}]</b></color>$odin_wolf_use", Plugin.KS_SecondInteractkey.Value.MainKey.ToString());
+			hum.m_name = "$odin_wolf_name";
 			hum.m_faction = Character.Faction.Players;
 			//hum.SetLevel(4);
 			//Ai Tweak

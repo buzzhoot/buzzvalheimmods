@@ -78,7 +78,6 @@ namespace OdinPlus
 			//m_inventory.RemoveAll();
 			//Traverse.Create(container).Method("Save").GetValue();
 		}
-
 		#endregion Feature
 
 	}

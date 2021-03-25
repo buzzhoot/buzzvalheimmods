@@ -16,10 +16,9 @@ namespace OdinPlus
 		public static OdinMunin m_odinMunin;
 
 		//public static ZDO PlayerZDO;
-		/* 		public static OdinTrader m_odinChest;
-				public static OdinTrader m_shamanChest;
-				
-				public static OdinGoblin m_odinGoblin; */
+		/* public static OdinTrader m_odinChest;
+		public static OdinTrader m_shamanChest;
+		public static OdinGoblin m_odinGoblin; */
 
 		#region Main
 		private void Awake()
@@ -50,6 +49,7 @@ namespace OdinPlus
 				p = locationInstance.m_position + new Vector3(-6, 0, -8);
 			}
 			Root.transform.localPosition = p;
+
 			InitTerrain();
 			InitOdinGod();
 			InitOdinPot();
@@ -58,6 +58,10 @@ namespace OdinPlus
 			InitMunin();
 
 			Root.SetActive(true);
+
+			var pfab = ZoneSystem.instance.m_locations[85].m_prefab.transform.Find("ForceField");
+			var nmz = Instantiate(pfab, Root.transform);
+			nmz.transform.localScale = Vector3.one * 10;
 
 			IsInit = true;
 		}
@@ -88,12 +92,12 @@ namespace OdinPlus
 				tm.m_levelOffset = 0.01f;
 
 				tm.m_level = true;
-				tm.m_levelRadius = 8;
+				tm.m_levelRadius = 4f;
 				tm.m_square = false;
 
 				tm.m_smooth = false;
 
-				tm.m_smoothRadius = 19.98f;
+				tm.m_smoothRadius = 9.5f;
 				tm.m_smoothPower = 3f;
 
 
@@ -106,11 +110,19 @@ namespace OdinPlus
 		{
 			var podin = ZNetScene.instance.GetPrefab("odin");
 			var odin = Instantiate(podin, Root.transform);
+			var ani = odin.GetComponentInChildren<Animator>();
 
 			DestroyImmediate(odin.GetComponent<ZNetView>());
 			DestroyImmediate(odin.GetComponent<ZSyncTransform>());
 			DestroyImmediate(odin.GetComponent<Odin>());
 			DestroyImmediate(odin.GetComponent<Rigidbody>());
+
+			//ani.runtimeAnimatorController=ZNetScene.instance.GetPrefab("Haldor").GetComponentInChildren<Animator>().runtimeAnimatorController;
+			//var stf = odin.transform.Find("staff");
+			//var hand = odin.transform.Find("RightHand");
+			//stf.SetParent(hand);
+
+
 			m_odinGod = odin.AddComponent<OdinGod>();
 			odin.transform.localPosition = new Vector3(0f, 0, 0f);
 		}
@@ -172,11 +184,10 @@ namespace OdinPlus
 
 			m_odinMunin = go.AddComponent<OdinMunin>();
 
-			var ani = go.GetComponentInChildren<Animator>();
-			DestroyImmediate(ani);
+			//var ani = go.GetComponentInChildren<Animator>();
+			//DestroyImmediate(ani);
 
 			go.transform.localPosition = new Vector3(2.7f, 0, 1.6f);
-			go.AddComponent<OdinMunin>();
 		}
 		private static void InitGoblin()
 		{

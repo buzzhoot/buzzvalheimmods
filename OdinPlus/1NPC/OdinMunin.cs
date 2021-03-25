@@ -9,15 +9,20 @@ namespace OdinPlus
 		private int index = 0;
 		private string currentChoice;
 		private float timer = 0f;
+		private Animator m_animator;
 		private void Awake()
 		{
 			this.m_name = "$odin.munin";
 			this.m_talker = this.gameObject;
 			currentChoice = choice[index];
+			m_animator= this.GetComponentInChildren<Animator>();
 		}
 		private void Start()
 		{
 			gameObject.transform.Rotate(0, -30f, 0);
+			this.m_animator.SetTrigger("teleportin");
+			this.m_animator.SetTrigger("talk");
+			
 		}
 		private void Update()
 		{

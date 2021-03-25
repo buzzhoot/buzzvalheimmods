@@ -28,8 +28,8 @@
 //||X||Task system
 //||X||add black list to remove
 //||X||chest to a prefab
-//|| ||Task add to log//!!Text Dialog
-//|| ||PET position REGISTER TO PLAYER//!!Awake prefab REGISTER pet name
+//||X||Task add to log/
+//||X||PET position REGISTER TO PLAYER//!!Awake prefab REGISTER pet name
 //|| ||Search Task and Dungeon and Hunt;
 //|| ||Meads Icon
 //|| ||Localizaotion
@@ -40,7 +40,7 @@
 //|| ||Teleportable Raven
 //|| ||Mountable Dragon
 //|| ||BackPack;
-//|| ||no mobs area FX on odin,and animator,Terrain
+//||X||no mobs area FX on odin,and animator,Terrain
 //|| ||Does SE last When you quit game//??
 //||X||Load Error//Check when will it happen again
 //============== EndTODO=============

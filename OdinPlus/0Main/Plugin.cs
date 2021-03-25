@@ -58,7 +58,7 @@ namespace OdinPlus
 			if (_harmony != null) _harmony.UnpatchSelf();
 		}
 		#endregion Mono
-		
+
 		#region patch		
 		#region StoreGui
 		[HarmonyPatch(typeof(StoreGui), "Show")]
@@ -235,6 +235,17 @@ namespace OdinPlus
 				OdinData.loadOdinData(Player.m_localPlayer.GetPlayerName() + "_" + ZNet.instance.GetWorldName());
 			}
 		}
+		[HarmonyPatch(typeof(Tameable), "GetHoverText")]
+		private static class Postfix_Tameable_GetHoverText
+		{
+		private static void Postfix(Tameable __instance,ref string __result)
+		{
+			if (__instance.gameObject.GetComponent<Character>().m_name=="$odin_wolf_name")
+			{
+				__result+=String.Format("\n<color=yellow><b>[{0}]</b></color>$odin_wolf_use", Plugin.KS_SecondInteractkey.Value.MainKey.ToString());
+			}
+		}
+		}
 
 
 		#endregion
@@ -313,7 +324,7 @@ namespace OdinPlus
 		}
 		public static void TestB()
 		{
-			finds();
+			findLocPrefab();
 		}
 		private static void finds()
 		{
@@ -327,6 +338,20 @@ namespace OdinPlus
 				}
 			}
 			Debug.LogWarning(s);
+		}
+		private static void findLocPrefab()
+		{
+			var a =ZoneSystem.instance.m_locations;
+			int i=0;
+			foreach (var b in a)
+			{
+				if (b.m_prefabName=="Vendor_BlackForest")
+				{
+					Debug.LogWarning(i);
+					return;
+				}
+				i++;
+			}
 		}
 
 		#endregion Debug
