@@ -89,7 +89,7 @@ namespace OdinPlus
 					break;
 			}
 		}
-		private static void CreateTask(TaskType t)
+		public static void CreateTask(TaskType t)
 		{
 			var go = new GameObject("Task");
 			go.transform.SetParent(Root.transform);
@@ -99,8 +99,10 @@ namespace OdinPlus
 					go.AddComponent<TreasureTask>();
 					break;
 				case TaskType.Hunt:
+					go.AddComponent<HuntTask>();
 					break;
 				case TaskType.Dungeon:
+					go.AddComponent<DungeonTask>();
 					break;
 				case TaskType.Search:
 					go.AddComponent<SearchTask>();

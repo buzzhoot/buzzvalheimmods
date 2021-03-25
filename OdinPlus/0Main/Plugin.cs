@@ -320,7 +320,7 @@ namespace OdinPlus
 		#region Debug
 		public static void TestA()
 		{
-			TaskManager.CreateRandomTask();
+			TaskManager.CreateTask(TaskManager.TaskType.Dungeon);
 		}
 		public static void TestB()
 		{
