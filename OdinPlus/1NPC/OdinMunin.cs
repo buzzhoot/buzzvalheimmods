@@ -5,7 +5,7 @@ namespace OdinPlus
 {
 	class OdinMunin : OdinNPC
 	{
-		private string[] choice = new string[] { "Accept Side Quest", "Give up Quest", "Change Quest Level" };
+		private string[] choice = new string[] { "Accept Side Quest", "Give up Quest", "Change Quest Level", "Show me QuestList" };
 		private int index = 0;
 		private string currentChoice;
 		private float timer = 0f;
@@ -46,19 +46,21 @@ namespace OdinPlus
 		{
 			if (TaskManager.HasTask())
 			{
-				string n = string.Format("Which Quest you want to give up?[1-{0}]", TaskManager.Count());
+				//string n = string.Format("Which Quest you want to give up?", TaskManager.Count());
+				string n = "Which Quest you want to give up?";
 				n = Localization.instance.Localize(n);
-				TextInput.instance.RequestText(new TR_Giveup(), n, 2);
+				TextInput.instance.RequestText(new TR_Giveup(), n, 3);
 			}
 		}
 		private void ChangeLevel()
 		{
-			if (TaskManager.Level==TaskManager.MaxLevel)
+			if (TaskManager.Level == TaskManager.MaxLevel)
 			{
-				TaskManager.Level=1;
+				TaskManager.Level = 1;
 			}
 			TaskManager.Level++;
 		}
+		
 		#endregion Feature
 		#region Val
 
@@ -80,6 +82,14 @@ namespace OdinPlus
 				case 2:
 					ChangeLevel();
 					break;
+				case 3:
+					if (TaskManager.HasTask())
+					{
+						TaskManager.PrintTaskList();
+						break;
+					}
+					Say("You don't have any Quest");
+					break;
 			}
 			return true;
 		}
@@ -98,8 +108,8 @@ namespace OdinPlus
 			n += string.Format("\n<color=green><b>Credits:{0}</b></color>", OdinData.score);
 			n += string.Format("\n<color=green><b>Current Quest Level:{0}</b></color>", TaskManager.Level);
 			n += string.Format("\nYou have <color=green><b>{0}</b></color> Tasks", TaskManager.Count());
-			n += "\n[<color=yellow><b>$KEY_Use</b></color>] $odin_munin_use";
-			n += String.Format("\n<color=yellow><b>[{0}]</b></color>$odin_munin_2use", Plugin.KS_SecondInteractkey.Value.MainKey.ToString());
+			n += "\n[<color=yellow><b>$KEY_Use</b></color>]" + currentChoice;
+			n += String.Format("\n<color=yellow><b>[{0}]</b></color>Switch Choice", Plugin.KS_SecondInteractkey.Value.MainKey.ToString());
 			return Localization.instance.Localize(n);
 		}
 		public override string GetHoverName()
@@ -125,6 +135,7 @@ namespace OdinPlus
 					if (!TaskManager.GiveUpTask(num - 1))
 					{
 						DBG.InfoCT("You don't have Quest " + num);
+						return;
 					}
 				}
 				DBG.InfoCT("Wrong Input");

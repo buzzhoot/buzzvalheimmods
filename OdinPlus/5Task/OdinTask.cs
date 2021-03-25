@@ -51,7 +51,7 @@ namespace OdinPlus
 		#region in
 		public int Key;
 		public int Level;
-		public bool isMain=false;
+		public bool isMain = false;
 		#endregion in
 		#region out
 		public string HintTarget;
@@ -89,7 +89,7 @@ namespace OdinPlus
 
 		public virtual void Giveup()
 		{
-			MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : "Side" )+ " Quest "+m_index+" : " + taskName + " Giveup", true);
+			MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : "Side") + " Quest " + m_index + " : " + taskName + " Giveup", true);
 			Clear();
 		}
 
@@ -104,7 +104,7 @@ namespace OdinPlus
 		{
 			Key = TaskManager.GameKey;
 			Level = TaskManager.Level;
-			isMain=TaskManager.isMain;
+			isMain = TaskManager.isMain;
 			locList = new List<string[]> { m_tier0, m_tier1, m_tier2, m_tier3, m_tier4 };
 			switch (Key)
 			{
@@ -129,11 +129,11 @@ namespace OdinPlus
 			{
 				return;
 			}
-			Tweakers.SendRavenMessage((isMain ? "Main" : "Side" )+  "Quest "+m_index+" : " + taskName, HintStart);
+			Tweakers.SendRavenMessage((isMain ? "Main" : "Side") + "Quest " + m_index + " : " + taskName, HintStart);
 			SetRange(30.RollDice(30 + Level * 30));
 			SetPosition();
 			SetPin();
-			MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : "Side" )+ " Quest "+m_index+" : " + taskName + " Start", true);
+			MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : "Side") + " Quest " + m_index + " : " + taskName + " Start", true);
 		}
 		protected virtual bool SetLocation()
 		{
@@ -142,14 +142,14 @@ namespace OdinPlus
 			locName = list[ind];
 			if (LocationManager.FindClosestLocation(locName, Game.instance.GetPlayerProfile().GetCustomSpawnPoint(), out Id))
 			{
-				LocationManager.GetLocationInstance(Id,out location);
+				LocationManager.GetLocationInstance(Id, out location);
 				root = location.m_location.m_prefab.gameObject;
 				gameObject.name = "Task" + Id;
 				SetLocName();
 				SetTaskName();
 				LocationManager.Remove(Id);
 				OdinData.Data.TaskCount++;
-				m_index=OdinData.Data.TaskCount;
+				m_index = OdinData.Data.TaskCount;
 				return true;
 			}
 			DBG.InfoCT("Something Went Wrong,Try again");
@@ -164,16 +164,16 @@ namespace OdinPlus
 		protected virtual void InitTire4() { }
 		private void SetPin()
 		{
-			Minimap.instance.DiscoverLocation(m_position, Minimap.PinType.Icon3, (isMain ? "Main" : "Side") +  "Quest "+m_index+" : " + taskName);
+			Minimap.instance.DiscoverLocation(m_position, Minimap.PinType.Icon3, (isMain ? "Main" : "Side") + "Quest " + m_index + " : " + taskName);
 		}
 		protected virtual void Discovery()
 		{
-			Tweakers.SendRavenMessage((isMain ? "Main" : "Side") +  "Quest "+m_index+" : " + taskName, HintTarget);
+			Tweakers.SendRavenMessage((isMain ? "Main" : "Side") + "Quest " + m_index + " : " + taskName, HintTarget);
 		}
 		protected virtual void CheckTarget() { }
 		public virtual void Finish()
 		{
-			MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : "Side") +  "Quest "+m_index+" : " + taskName + " Clear", true);
+			MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : "Side") + "Quest " + m_index + " : " + taskName + " Clear", true);
 			Minimap.instance.RemovePin(m_position, 10);
 			m_finished = true;
 		}
@@ -193,7 +193,7 @@ namespace OdinPlus
 		private void SetPosition()
 		{
 			m_position = location.m_position;
-			m_position=m_position.GetRandomLocation(m_range);
+			m_position = m_position.GetRandomLocation(m_range);
 		}
 
 
@@ -339,7 +339,11 @@ namespace OdinPlus
 		}
 
 		#endregion save load
-		#region Static Tool
-		#endregion Static Tool
+		#region  Tool
+		public string PrintData()
+		{
+			return "/n"+(isMain ? "Main" : "Side") + " Quest " + m_index + " : " + taskName;
+		}
+		#endregion  Tool
 	}
 }

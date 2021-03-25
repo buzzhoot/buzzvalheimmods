@@ -9,7 +9,7 @@ namespace OdinPlus
 		#region Data
 		public enum TaskType { Treasure, Hunt, Dungeon, Search };
 		private static string[] RefKeys = { "defeated_eikthyr", "defeated_gdking", "defeated_bonemass", "defeated_moder" };
-		public const int MaxLevel=3;
+		public const int MaxLevel = 3;
 		#endregion Data
 		#region Out
 		public static int GameKey;
@@ -53,6 +53,15 @@ namespace OdinPlus
 			GameKey = result;
 			return result;
 		}
+		public static void PrintTaskList()
+		{
+			string n  = "Quest List";
+			foreach (var task in Root.GetComponentsInChildren<OdinTask>())
+			{
+				n+=task.PrintData();
+			}
+			Tweakers.SendRavenMessage("Quest List",n);
+		}
 
 		#endregion Tool
 
@@ -95,9 +104,9 @@ namespace OdinPlus
 		}
 		public static bool GiveUpTask(int ind)
 		{
-			foreach (var task in Root.GetComponents<OdinTask>())
-			{	
-				if (task.m_index==ind)
+			foreach (var task in Root.GetComponentsInChildren<OdinTask>())
+			{
+				if (task.m_index == ind)
 				{
 					task.Giveup();
 					return true;
