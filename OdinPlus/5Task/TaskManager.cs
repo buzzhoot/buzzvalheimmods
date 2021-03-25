@@ -8,15 +8,16 @@ namespace OdinPlus
 		#region  var
 		#region Data
 		public enum TaskType { Treasure, Hunt, Dungeon, Search };
-		private static string[] RefKeys = { "defeated_eikthyr", "defeated_gdking", "defeated_bonemass", "defeated_moder", "defeated_goblinking" };
+		private static string[] RefKeys = { "defeated_eikthyr", "defeated_gdking", "defeated_bonemass", "defeated_moder" };
+		public const int MaxLevel=3;
 		#endregion Data
 		#region Out
 		public static int GameKey;
-		public static bool isMain;
+		public static bool isMain = false;
 		#endregion Out
 		#region in
 		public static GameObject Root;
-		public static int Level;
+		public static int Level = 1;
 		#endregion interal
 		#region Internal
 
@@ -33,9 +34,13 @@ namespace OdinPlus
 		#endregion Mono
 
 		#region Tool
-		public bool HasTask()
+		public static bool HasTask()
 		{
 			return !(Root.transform.childCount == 0);
+		}
+		public static int Count()
+		{
+			return Root.transform.childCount;
 		}
 		public static int CheckKey()
 		{
@@ -55,7 +60,7 @@ namespace OdinPlus
 		public static void CreateRandomTask()
 		{
 			UnityEngine.Random.InitState((int)Time.time);
-			int count = Enum.GetNames(typeof(TaskType)).Length;
+			//?int count = Enum.GetNames(typeof(TaskType)).Length;
 			switch (CheckKey())
 			{
 				case 0:
@@ -68,8 +73,6 @@ namespace OdinPlus
 				case 3:
 					break;
 				case 4:
-					break;
-				default:
 					break;
 			}
 		}
@@ -90,9 +93,17 @@ namespace OdinPlus
 					break;
 			}
 		}
-		public static void GiveUpTask()
+		public static bool GiveUpTask(int ind)
 		{
-
+			foreach (var task in Root.GetComponents<OdinTask>())
+			{	
+				if (task.m_index==ind)
+				{
+					task.Giveup();
+					return true;
+				}
+			}
+			return false;
 		}
 		public static void Clear()
 		{
@@ -106,8 +117,10 @@ namespace OdinPlus
 			}
 		}
 		#endregion Feature
+
 		#region internalTool
 		#endregion internalTool
+
 		#region save&Load
 		public static List<OdinData.TaskDataTable> Save()
 		{
@@ -170,7 +183,7 @@ namespace OdinPlus
 			}
 			Root.SetActive(true);
 			DBG.blogInfo("Loaded Task Count: " + i);
-			
+
 			#endregion save&Load
 		}
 	}

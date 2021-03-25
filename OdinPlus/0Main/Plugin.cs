@@ -306,7 +306,6 @@ namespace OdinPlus
 		#region Debug
 		public static void TestA()
 		{
-			TaskManager.isMain=true;
 			TaskManager.CreateRandomTask();
 		}
 		public static void TestB()
