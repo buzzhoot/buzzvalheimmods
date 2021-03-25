@@ -15,7 +15,9 @@ namespace OdinPlus
 		public GameObject m_talker;
 		public virtual void Say(string text)
 		{
-			Chat.instance.SetNpcText(m_talker, Vector3.up * 1.5f, 60f, 5, m_name, text, false);
+			text=Localization.instance.Localize(text);
+			var tname=Localization.instance.Localize(m_name);
+			Chat.instance.SetNpcText(m_talker, Vector3.up * 1.5f, 60f, 5, tname, text, false);
 		}
 		public virtual bool Interact(Humanoid user, bool hold)
 		{

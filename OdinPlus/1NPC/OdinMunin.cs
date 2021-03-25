@@ -10,19 +10,20 @@ namespace OdinPlus
 		private string currentChoice;
 		private float timer = 0f;
 		private Animator m_animator;
+		public static OdinMunin instance;
 		private void Awake()
 		{
-			this.m_name = "$odin.munin";
+			instance = this;
+			this.m_name = "$odin_munin_name";
 			this.m_talker = this.gameObject;
 			currentChoice = choice[index];
-			m_animator= this.GetComponentInChildren<Animator>();
+			m_animator = this.GetComponentInChildren<Animator>();
 		}
 		private void Start()
 		{
 			gameObject.transform.Rotate(0, -30f, 0);
 			this.m_animator.SetTrigger("teleportin");
 			this.m_animator.SetTrigger("talk");
-			
 		}
 		private void Update()
 		{
@@ -31,12 +32,17 @@ namespace OdinPlus
 				timer -= Time.deltaTime;
 			}
 		}
+		private void OnDestroy()
+		{
+			instance = null;
+		}
 		#region Feature
 		private void CreatSideQuest()
 		{
 			if (timer > 0)
 			{
-				Say("Wait a moment,Hugin will find something for you");
+				var n=string.Format("<color=yellow><b>{0}</b></color>",Mathf.CeilToInt(timer));
+				Say("My brother is finding Quest for you, wait for"+n);
 				return;
 			}
 			if (TaskManager.Root.transform.childCount >= 10)
@@ -56,6 +62,7 @@ namespace OdinPlus
 				string n = "Which Quest you want to give up?";
 				n = Localization.instance.Localize(n);
 				TextInput.instance.RequestText(new TR_Giveup(), n, 3);
+				ResetTimer();
 			}
 		}
 		private void ChangeLevel()
@@ -67,11 +74,10 @@ namespace OdinPlus
 			}
 			TaskManager.Level++;
 		}
-		
-		#endregion Feature
-		#region Val
 
-		#endregion Val
+		#endregion Feature
+
+		#region Val
 		public override bool Interact(Humanoid user, bool hold)
 		{
 			if (hold)
@@ -125,8 +131,34 @@ namespace OdinPlus
 		}
 		public override bool UseItem(Humanoid user, ItemDrop.ItemData item)
 		{
-			return false;
+			if (!SearchTask.CanOffer(item))
+			{
+				return false;
+			}
+			if (SearchTask.CanFinish(item))
+			{
+				Say("Nice!");
+			}
+			Say("Not eoungh...bring more!");
+			return true;
 		}
+		#endregion Val
+
+		#region Tool
+		public static void Reward(int key, int level)
+		{
+			var a = Instantiate(ZNetScene.instance.GetPrefab("OdinLegacy"), instance.transform.position + Vector3.up * 2f + Vector3.forward, Quaternion.identity);
+			var id = a.GetComponent<ItemDrop>().m_itemData;
+			id.m_stack = key;
+			id.m_quality = level;
+			ResetTimer();
+		}
+		public static void ResetTimer()
+		{
+			instance.timer=0f;
+		}
+		#endregion Tool
+
 		#region TextGUI
 		private class TR_Giveup : TextReceiver
 		{

@@ -61,7 +61,7 @@ namespace OdinPlus
 		#endregion Var
 
 		#region Mono
-		private void Update()
+		protected virtual void Update()
 		{
 			if (!m_isInit)
 			{
@@ -176,6 +176,7 @@ namespace OdinPlus
 		{
 			MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : "Side") + "Quest " + m_index + " : " + taskName + " Clear", true);
 			RemovePin();
+			OdinMunin.ResetTimer();
 			m_finished = true;
 		}
 		public virtual void Clear()
@@ -269,6 +270,13 @@ namespace OdinPlus
 
 			m_type = dat.m_type;
 
+			if (m_type == TaskManager.TaskType.Search)
+			{
+				Id = dat.Id;
+				gameObject.name = "Task" + Id;
+				return true;
+			}
+
 			isMain = dat.isMain;
 
 			m_isInit = dat.m_isInit;
@@ -332,7 +340,7 @@ namespace OdinPlus
 				isMain = this.isMain,
 
 				m_isInit = this.m_isInit,
-				
+
 				m_position = this.m_position,
 
 				m_pause = this.m_pause,
@@ -342,6 +350,7 @@ namespace OdinPlus
 				m_finished = this.m_finished,
 
 				m_isClear = this.m_isClear,
+
 				Id = this.Id
 			};
 			return dat;
@@ -352,7 +361,7 @@ namespace OdinPlus
 		public string PrintData()
 		{
 			string n = "\n" + (isMain ? "Main" : "Side");
-			n += String.Format(" Quest <color=yellow><b>[{0}]</b></color> : {1}", m_index, taskName);
+			n += String.Format(" Quest [<color=yellow><b>{0}</b></color>] : {1}", m_index, taskName);
 			return n;
 		}
 		#endregion  Tool

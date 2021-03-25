@@ -123,6 +123,7 @@
     <Compile Include="3Items\PrefabManager.cs" />
     <EmbeddedResource Include="Resources\OdinLegacy.png" />
     <Compile Include="2StatusEffects\Se_Buzz.cs" />
+    <Compile Include="5Task\SearchTask.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

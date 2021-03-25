@@ -18,7 +18,7 @@ namespace OdinPlus
 			Tutorial.TutorialText tutorialText = new Tutorial.TutorialText
 			{
 				m_label = "Quest Hints",
-				m_name = messageName+DateTimeOffset.Now.Millisecond+DateTimeOffset.Now.Day+DateTimeOffset.Now.Hour+DateTimeOffset.Now.Minute,
+				m_name = messageName + DateTimeOffset.Now.Millisecond + DateTimeOffset.Now.Day + DateTimeOffset.Now.Hour + DateTimeOffset.Now.Minute,
 				m_text = messageText,
 				m_topic = "Quest Hint"
 			};
@@ -26,17 +26,17 @@ namespace OdinPlus
 			var m_knownTexts = Traverse.Create(Player.m_localPlayer).Field<Dictionary<string, string>>("m_knownTexts").Value;
 			if (m_knownTexts.ContainsKey(tutorialText.m_topic))
 			{
-				m_knownTexts[tutorialText.m_topic] = messageName+"\n"+tutorialText.m_text+"\n\n"+m_knownTexts[tutorialText.m_topic];
+				m_knownTexts[tutorialText.m_topic] = messageName + "\n" + tutorialText.m_text + "\n\n" + m_knownTexts[tutorialText.m_topic];
 				return;
 			}
-			m_knownTexts.Add(tutorialText.m_topic, messageName+"\n"+tutorialText.m_text);
+			m_knownTexts.Add(tutorialText.m_topic, messageName + "\n" + tutorialText.m_text);
 		}
 		public static void TaskTopicHugin(string messageName, string messageText)
 		{
 			Tutorial.TutorialText tutorialText = new Tutorial.TutorialText
 			{
 				m_label = "Quest List",
-				m_name = messageName+DateTimeOffset.Now.Millisecond+DateTimeOffset.Now.Day+DateTimeOffset.Now.Hour+DateTimeOffset.Now.Minute,
+				m_name = messageName + DateTimeOffset.Now.Millisecond + DateTimeOffset.Now.Day + DateTimeOffset.Now.Hour + DateTimeOffset.Now.Minute,
 				m_text = messageText,
 				m_topic = "Quest List"
 			};
@@ -108,6 +108,10 @@ namespace OdinPlus
 				}
 			}
 			return false;
+		}
+		public static ItemDrop.ItemData GetItemData(string name)
+		{
+			return ObjectDB.instance.GetItemPrefab(name).GetComponent<ItemDrop>().m_itemData;
 		}
 	}
 
