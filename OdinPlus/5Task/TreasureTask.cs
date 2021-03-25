@@ -13,15 +13,20 @@ namespace OdinPlus
 		#region Main
 		private void Awake()
 		{
-			if (isMain)
+			if (!TaskManager.isMain)
 			{
-				m_tier0 = new string[] { "WoodHouse11", "WoodHouse6", "WoodHouse3", "WoodHouse4" };
+				m_tier0 = new string[] { "WoodHouse11", "WoodHouse6", "WoodHouse3", "WoodHouse4", "WoodHouse6", "WoodHouse7", "WoodHouse8", "WoodHouse9" };
+				m_tier1 = new string[] { "WoodHouse3", "WoodHouse4", "Ruin2", "Ruins1", "ShipSetting01", "Runestone_Boars", "Runestone_Meadows", "Runestone_Greydwarfs", "Runestone_BlackForest" };
+				m_tier2 = new string[] { "SwampRuinX", "SwampRuinY", "SwampHut5", "SwampHut1", "SwampHut2", "SwampHut3", "SwampHut4", "Runestone_Draugr" };
+				m_tier3 = new string[] { "SwampRuinX", "SwampRuinY", "SwampHut5", "SwampHut1", "SwampHut2", "SwampHut3", "SwampHut4", "Runestone_Draugr" };//?
+				m_tier4 = new string[] { "SwampRuinX", "SwampRuinY", "SwampHut5", "SwampHut1", "SwampHut2", "SwampHut3", "SwampHut4", "Runestone_Draugr" };//?
 			}
 			else
-			m_tier0 = new string[] { "WoodHouse11", "WoodHouse6", "WoodHouse3", "WoodHouse4","WoodHouse6","WoodHouse7","WoodHouse8","WoodHouse9" };
-			m_tier1 = new string[] { "WoodHouse3", "WoodHouse4","Ruin2","Ruins1","ShipSetting01","Runestone_Boars","Runestone_Meadows","Runestone_Greydwarfs","Runestone_BlackForest"};
-			m_tier2 = new string[] { "SwampRuinX", "SwampRuinY","SwampHut5","SwampHut1","SwampHut2","SwampHut3","SwampHut4","Runestone_Draugr"};
-			if (laoding)
+			{
+				m_tier0 = new string[] { "WoodHouse2", "WoodHouse10"};
+			}
+
+			if (loading)
 			{
 				return;
 			}
@@ -49,11 +54,46 @@ namespace OdinPlus
 					CheckHive();
 					return;
 				}
-				LocationManager.GetLocationInstance(Id,out location);
+				LocationManager.GetLocationInstance(Id, out location);
 				return;
 			}
 			AddChest();
 		}
+		protected override void InitTire1()
+		{
+			if (!isLoaded())
+			{
+				return;
+			}
+			AddChest();
+		}
+		protected override void InitTire2()
+		{
+			if (!isLoaded())
+			{
+				return;
+			}
+			AddChest();
+		}
+		protected override void InitTire3()
+		{
+			if (!isLoaded())
+			{
+				return;
+			}
+			AddChest();
+		}
+		protected override void InitTire4()
+		{
+			if (!isLoaded())
+			{
+				return;
+			}
+			AddChest();
+		}
+			
+
+		
 		protected override void Discovery()
 		{
 			HintTarget = string.Format("Looks like you are close to the chest,look around find a <color=yellow><b>[{0}]</b></color>", locName);
@@ -82,11 +122,12 @@ namespace OdinPlus
 		}
 		private void CheckHive()
 		{
-			if (!Tweakers.HasObject("Beehive",location.m_position))
+			if (!Tweakers.HasObject("Beehive", location.m_position))
 			{
 				var go = Instantiate(ZNetScene.instance.GetPrefab("Beehive"));
 
-				go.transform.localPosition = root.FindObject("Beehive").transform.localPosition+location.m_position;
+				//go.transform.localPosition = root.FindObject("Beehive").transform.localPosition + location.m_position;
+				go.transform.localPosition =location.m_position;
 				DBG.blogWarning("placed beehive at:" + go.transform.localPosition);
 				AddChest();
 				return;

@@ -34,7 +34,7 @@ namespace OdinPlus
 		protected Vector3 m_position;
 		protected float m_range;
 		protected Action Init;
-		protected bool laoding = false;
+		protected bool loading = false;
 		#region Real Data
 		public TaskManager.TaskType m_type;
 		public string taskName;
@@ -51,7 +51,7 @@ namespace OdinPlus
 		#region in
 		public int Key;
 		public int Level;
-		public bool isMain;
+		public bool isMain=false;
 		#endregion in
 		#region out
 		public string HintTarget;
@@ -89,6 +89,7 @@ namespace OdinPlus
 
 		public virtual void Giveup()
 		{
+			MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : "Side" )+ " Quest "+m_index+" : " + taskName + " Giveup", true);
 			Clear();
 		}
 
@@ -103,7 +104,7 @@ namespace OdinPlus
 		{
 			Key = TaskManager.GameKey;
 			Level = TaskManager.Level;
-			isMain = TaskManager.isMain;
+			isMain=TaskManager.isMain;
 			locList = new List<string[]> { m_tier0, m_tier1, m_tier2, m_tier3, m_tier4 };
 			switch (Key)
 			{
@@ -252,7 +253,7 @@ namespace OdinPlus
 		#region save load
 		public bool Load(OdinData.TaskDataTable dat)
 		{
-			laoding = true;
+			loading = true;
 			taskName = dat.taskName;
 
 			m_index = dat.m_index;
