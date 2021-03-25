@@ -17,6 +17,7 @@ namespace OdinPlus
 			{
 				return;
 			}
+			m_type=TaskManager.TaskType.Treasure;
 			if (!TaskManager.isMain)
 			{
 				m_tier0 = new string[] { "WoodHouse11", "WoodHouse6", "WoodHouse3", "WoodHouse4", "WoodHouse6", "WoodHouse7", "WoodHouse8", "WoodHouse9" };
