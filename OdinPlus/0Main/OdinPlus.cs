@@ -236,7 +236,7 @@ namespace OdinPlus
 			PostZNS();
 			NpcManager.RavenPrefab = Tutorial.instance.m_ravenPrefab.transform.Find("Munin").gameObject;
 			InitNPC();
-
+			isLoaded=true;
 		}
 		#endregion Debug
 
