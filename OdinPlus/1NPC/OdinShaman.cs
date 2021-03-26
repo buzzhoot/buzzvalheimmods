@@ -8,8 +8,8 @@ namespace OdinPlus
 	{
 		//private static bool isInit = false;
 		public  Dictionary<string, GoodsDate> GoodsList = new Dictionary<string, GoodsDate>{
-		{"TrophyFrostTroll", new GoodsDate { Good = "ScrolTroll", Value = 5 }},
-		{"TrophyWolf", new GoodsDate { Good = "ScrollWolf", Value = 5 }}
+		{"TrophyFrostTroll", new GoodsDate { Good = "ScrolTroll", Value = 3 }},
+		{"TrophyWolf", new GoodsDate { Good = "ScrollWolf", Value = 3 }}
 		};
 		public struct GoodsDate
 		{

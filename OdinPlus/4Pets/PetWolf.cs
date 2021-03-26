@@ -25,8 +25,8 @@ namespace OdinPlus
 
 			tame = this.GetComponent<Tameable>();
 			tame.Tame();
-			tame.m_fedDuration = 600;
-
+			tame.m_fedDuration = 1800;
+			Traverse.Create(tame).Method("ResetFeedingTimer").GetValue();
 
 			m_hum = this.GetComponent<Humanoid>();
 		}
@@ -36,6 +36,10 @@ namespace OdinPlus
 		}
 		private void Update()
 		{
+			if (this.GetComponent<Tameable>().IsHungry())
+			{
+				ZNetScene.instance.Destroy(this.gameObject);
+			}
 			var weight = Traverse.Create(m_inventory).Field<float>("m_totalWeight").Value;
 			if (weight > 0)
 			{

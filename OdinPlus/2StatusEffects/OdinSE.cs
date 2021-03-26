@@ -59,7 +59,7 @@ namespace OdinPlus
 			se.m_name = "$odin_SE_Wolf";
 			se.m_tooltip = "$odin_SE_Wolf_tooltip";
 			se.m_cooldownIcon = true;
-			se.m_ttl = 300;
+			se.m_ttl = 1800;
 			se.PetName = "WolfPet";
 			SElist.Add("ScrollWolf", se);
 		}

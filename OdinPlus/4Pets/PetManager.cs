@@ -73,10 +73,14 @@ namespace OdinPlus
 			}
 			go.AddComponent<PetTroll>();
 			var hd = go.GetComponent<Humanoid>();
+			var mai = go.GetComponent<MonsterAI>();
+
 			DestroyImmediate(go.GetComponent<CharacterDrop>());
 
 			hd.m_name = hd.m_name + " Pet";//trans
 			hd.m_faction = Character.Faction.Players;
+
+			mai.m_consumeItems.Clear();
 
 			SetColor(go);
 
@@ -111,6 +115,7 @@ namespace OdinPlus
 
 			hum.m_name = "$odin_wolf_name";
 			hum.m_faction = Character.Faction.Players;
+			mai.m_consumeItems.Clear();
 			//hum.SetLevel(4);
 			//Ai Tweak
 			mai.m_randomMoveInterval = 10000;
