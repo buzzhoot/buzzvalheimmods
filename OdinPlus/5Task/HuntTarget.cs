@@ -45,7 +45,7 @@ namespace OdinPlus
 			else
 			{
 				ID = m_nview.GetZDO().GetString("TaskID");
-				Level = m_nview.GetZDO().GetInt("HutnLevel");
+				Level = m_nview.GetZDO().GetInt("HuntLevel");
 				Key = m_nview.GetZDO().GetInt("HuntKey");
 			}
 			m_mai.SetPatrolPoint();
@@ -76,9 +76,10 @@ namespace OdinPlus
 		#endregion Mono
 
 		#region Tool
-		public void Setup(int Key, int lvl)
+		public void Setup(int key, int lvl)
 		{
 			Level = lvl;
+			Key = key;
 			m_chrct.SetLevel(Mathf.Clamp(Level + 2, 2, 5));
 			m_chrct.m_health *= (0.5f * Level + 1);
 			m_hum.m_faction = Character.Faction.Boss;
@@ -99,6 +100,7 @@ namespace OdinPlus
 			d.m_chance = 1;
 			d.m_amountMax = Level + Key;
 			d.m_amountMin = d.m_amountMax;
+			d.m_levelMultiplier=false;
 			d.m_prefab = ZNetScene.instance.GetPrefab("OdinLegacy");
 			m_cDrop.m_drops = new List<CharacterDrop.Drop>();
 			Traverse.Create(m_cDrop).Field<bool>("m_dropsEnabled").Value = true;
