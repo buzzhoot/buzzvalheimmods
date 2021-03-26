@@ -65,6 +65,7 @@ namespace OdinPlus
 			Root.AddComponent<PetManager>();
 			Root.AddComponent<PrefabManager>();
 			Root.AddComponent<TaskManager>();
+			Root.AddComponent<FxAssetManager>();
 			isInit = true;
 		}
 		public static void PostODB()
@@ -77,6 +78,11 @@ namespace OdinPlus
 		}
 		public static void PostZNS()
 		{
+			
+			if (!FxAssetManager.isInit)
+			{
+				FxAssetManager.Init();
+			}
 			if (!PetManager.isInit)
 			{
 				PetManager.Init();
@@ -233,6 +239,7 @@ namespace OdinPlus
 			Root.AddComponent<PrefabManager>();
 			Root.AddComponent<TaskManager>();
 			Root.AddComponent<LocationManager>();
+			Root.AddComponent<FxAssetManager>();
 			isInit = true;
 			
 			PostODB();
