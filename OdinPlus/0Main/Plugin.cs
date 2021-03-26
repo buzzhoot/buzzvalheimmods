@@ -324,54 +324,14 @@ namespace OdinPlus
 		}
 		public static void TestB()
 		{
-			//LocationManager.FindDungeon(Player.m_localPlayer.transform.localPosition);
 			GameCamera.instance.ToggleFreeFly();
-			//GameCamera.instance.gameObject.transform.position+=Vector3.up*5000;
-			//GameCamera.instance.gameObject.AddComponent<Light>();
 		}
 		public static void TestC()
 		{
-			if (TaskManager.Root.transform.childCount==0) { return; }
-			if (TaskManager.Root.transform.GetChild(OdinData.Data.TaskCount-1).GetComponent<DungeonTask>().Reward == null) { return; }
-			GameCamera.instance.gameObject.transform.position = TaskManager.Root.transform.GetChild(OdinData.Data.TaskCount-1).GetComponent<DungeonTask>().Reward.transform.position;
-			//GameCamera.instance.gameObject.AddComponent<Light>();
-		}
-		private static void finds()
-		{
-			var a = Resources.FindObjectsOfTypeAll<GameObject>();
-			string s = "";
-			foreach (var item in a)
-			{
-				if (item.name == "Beehive" && item.scene.name == "locations")
-				{
-					s += (char)34 + item.transform.parent.name + (char)34 + ",";
-				}
-			}
-			Debug.LogWarning(s);
-		}
-		private static void findLocPrefab()
-		{
-			var a = ZoneSystem.instance.m_locations;
-			int i = 0;
-			foreach (var b in a)
-			{
-				if (b.m_prefabName == "Vendor_BlackForest")
-				{
-					Debug.LogWarning(i);
-					return;
-				}
-				i++;
-			}
-		}
-		private static ZoneSystem.LocationInstance dbginsa;
-		private static void findLoc()
-		{
-			Game.instance.DiscoverClosestLocation("Crypt4", Player.m_localPlayer.transform.position, "test", 1);
-			Minimap.PinData pinData = Enumerable.First<Minimap.PinData>((List<Minimap.PinData>)Traverse.Create(Minimap.instance).Field("m_pins").GetValue(), (Minimap.PinData p) => p.m_type == Minimap.PinType.None && p.m_name == "");
-			ZoneSystem.instance.FindClosestLocation("Crypt4", Player.m_localPlayer.transform.position, out dbginsa);
+			DevTool.ViewReward();
 		}
 
-		//Crypt4
+		public static ZoneSystem.LocationInstance dbginsa;
 		#endregion Debug
 	}
 
