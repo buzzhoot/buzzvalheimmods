@@ -76,6 +76,16 @@ namespace OdinPlus
 			m_hum.m_faction=Character.Faction.Boss;
 			Traverse.Create(m_hum).Field<SEMan>("m_seman").Value.AddStatusEffect(OdinSE.MonsterSEList.ElementAt(Level).Key);
 			transform.SetParent(OdinPlus.PrefabParent.transform.parent.parent);//opt
+			
+			var d=new CharacterDrop.Drop();
+			d.m_chance=1;
+			d.m_amountMax = Level+Key;
+			d.m_amountMin = d.m_amountMax;
+			d.m_prefab=ZNetScene.instance.GetPrefab("OdinLegacy");
+			
+			m_cDrop.m_drops.Clear();
+			m_cDrop.m_dropsEnabled=true;
+			m_cDrop.m_drops.Add(d);
 		}
 		public static GameObject CreateMonster(string name)
 		{
