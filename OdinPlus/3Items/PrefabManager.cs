@@ -66,6 +66,8 @@ namespace OdinPlus
 				ctn.m_width = 1;
 				ctn.m_height = 1;
 				ctn.m_defaultItems.m_drops.Add(new DropTable.DropData { m_item = go, m_stackMax = i, m_stackMin = i, m_weight = 1 });
+				//fx
+				var fx = Instantiate(FxAssetManager.GetFxNN("BlueSmoke"), Chest.transform);
 
 				PrefabList.Add(Chest.name, Chest);
 			}
