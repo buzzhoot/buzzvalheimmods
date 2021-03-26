@@ -89,7 +89,7 @@ namespace OdinPlus
 			go.name = name + "Hunt";
 			go.AddComponent<HuntTarget>();
 			go.GetComponent<Humanoid>().m_name+=" $odin_hunt_target";
-			var fx = Instantiate(FxAssetManager.GetFxNN("RedSmoke"), go.transform);
+			var fx = Instantiate(FxAssetManager.GetFxNN("GreenSmoke"), go.transform);
 			fx.transform.position = go.FindObject("Spine2").transform.position;//opt Random smoke
 			return go;
 		}

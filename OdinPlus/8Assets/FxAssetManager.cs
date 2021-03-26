@@ -99,10 +99,10 @@ namespace OdinPlus
 		#region FxNN
 		private static void SetupFxNN()
 		{
-			ValFXcc("odin", "odinsmoke", "RedSmoke", Color.red*2, odinSmoke, 1);
-			ValFXcc("odin", "odinsmoke", "BlueSmoke", Color.blue*2, odinSmoke, 1);
-			ValFXcc("odin", "odinsmoke", "YellowSmoke", Color.yellow*2, odinSmoke, 1);
-			ValFXcc("odin", "odinsmoke", "GreenSmoke", Color.green*2, odinSmoke, 1);
+			ValFXcc("odin", "odinsmoke", "RedSmoke", Color.red, odinSmoke, 1);
+			ValFXcc("odin", "odinsmoke", "BlueSmoke", Color.blue, odinSmoke, 1);
+			ValFXcc("odin", "odinsmoke", "YellowSmoke", Color.yellow, odinSmoke, 1);
+			ValFXcc("odin", "odinsmoke", "GreenSmoke", Color.green, odinSmoke, 1);
 		}
 		#endregion Fx
 
