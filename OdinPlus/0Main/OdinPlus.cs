@@ -124,6 +124,10 @@ namespace OdinPlus
 				{
 					Plugin.TestB();
 				}
+				if (CMD == "testc")
+				{
+					Plugin.TestC();
+				}
 			}
 		}
 		

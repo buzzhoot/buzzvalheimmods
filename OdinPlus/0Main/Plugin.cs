@@ -324,7 +324,17 @@ namespace OdinPlus
 		}
 		public static void TestB()
 		{
-			findLoc();
+			//LocationManager.FindDungeon(Player.m_localPlayer.transform.localPosition);
+			GameCamera.instance.ToggleFreeFly();
+			//GameCamera.instance.gameObject.transform.position+=Vector3.up*5000;
+			//GameCamera.instance.gameObject.AddComponent<Light>();
+		}
+		public static void TestC()
+		{
+			if (TaskManager.Root.transform.childCount==0) { return; }
+			if (TaskManager.Root.transform.GetChild(OdinData.Data.TaskCount-1).GetComponent<DungeonTask>().Reward == null) { return; }
+			GameCamera.instance.gameObject.transform.position = TaskManager.Root.transform.GetChild(OdinData.Data.TaskCount-1).GetComponent<DungeonTask>().Reward.transform.position;
+			//GameCamera.instance.gameObject.AddComponent<Light>();
 		}
 		private static void finds()
 		{
@@ -358,7 +368,7 @@ namespace OdinPlus
 		{
 			Game.instance.DiscoverClosestLocation("Crypt4", Player.m_localPlayer.transform.position, "test", 1);
 			Minimap.PinData pinData = Enumerable.First<Minimap.PinData>((List<Minimap.PinData>)Traverse.Create(Minimap.instance).Field("m_pins").GetValue(), (Minimap.PinData p) => p.m_type == Minimap.PinType.None && p.m_name == "");
-			ZoneSystem.instance.FindClosestLocation("Crypt4", Player.m_localPlayer.transform.position,out dbginsa);
+			ZoneSystem.instance.FindClosestLocation("Crypt4", Player.m_localPlayer.transform.position, out dbginsa);
 		}
 
 		//Crypt4

@@ -92,18 +92,27 @@ namespace OdinPlus
 			{
 				return null;
 			}
-			var dunPos = loc.transform.Find("ExteriorGateway").transform.position;
-			Collider[] array = Physics.OverlapBox(pos, new Vector3(20, 20, 20));
+			var dunPos = loc.transform.Find("Interior").transform.position;
+			Collider[] array = Physics.OverlapBox(dunPos, new Vector3(60, 60, 60));
+			DungeonGenerator comp;
 			foreach (var item in array)
 			{
-				var c = item.GetComponentInParent<DungeonGenerator>();
-				if (c.enabled == true)
+				var c = item.transform;
+				while (c.transform.parent != null)
 				{
-					return c.gameObject;
+					if (c.TryGetComponent<DungeonGenerator>(out comp))
+					{
+						if (c.name.Contains("Clone"))
+						{
+							return c.gameObject;
+						}
+					}
+					c = c.transform.parent;
 				}
+				
 			}
 			return null;
 		}
-			#endregion Tool
-		}
+		#endregion Tool
 	}
+}
