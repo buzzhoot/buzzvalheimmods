@@ -213,6 +213,10 @@ namespace OdinPlus
 			m_namedPrefabs.RemoveList<int, GameObject>(odbRegList);
 			zns.m_prefabs.RemoveList<int, GameObject>(znsRegList);
 			m_namedPrefabs.RemoveList<int, GameObject>(znsRegList);
+			foreach (var item in OdinSE.SElist.Values)
+			{
+				odb.m_StatusEffects.Remove(item);
+			}
 			isRegistered = false;
 			isLoaded = false;
 			DBG.blogWarning("UnRegister all list");

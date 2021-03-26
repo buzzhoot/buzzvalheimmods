@@ -50,11 +50,12 @@ namespace OdinPlus
 		#region Troll
 		private static void InitTroll()
 		{
-			string[] l = Plugin.CFG_Pets.Value.Split(new char[] { ',' });
+			/* string[] l = Plugin.CFG_Pets.Value.Split(new char[] { ',' });
 			foreach (string name in l)
 			{
 				CreateTrollPrefab(name);
-			}
+			} */
+			CreateTrollPrefab("Troll");
 		}
 		private static void CreateTrollPrefab(string name)
 		{

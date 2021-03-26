@@ -191,7 +191,7 @@ namespace OdinPlus
 		{
 			for (int i = 1; i < 6; i++)
 			{
-				MonsterSEList.Add("MonsterAttackAMP"+i, new SEData() { m_ttl = 300, m_modifyAttackSkill = Skills.SkillType.All, m_damageModifier = 1+(i*0.2f) });
+				MonsterSEList.Add("MonsterAttackAMP"+i, new SEData() { m_ttl = 3000000, m_modifyAttackSkill = Skills.SkillType.All, m_damageModifier = 1+(i*0.2f) });
 			}
 		}
 		#endregion Monster Se

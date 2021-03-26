@@ -14,6 +14,9 @@ namespace OdinPlus
 		private static ZNetScene zns;
 		public static GameObject Root;
 		public static Dictionary<string, GameObject> PrefabList = new Dictionary<string, GameObject>();
+		#region Consant //?
+		public static string[] HuntTargetList = new string[] { "Troll", "Draugr_Elite", "Ferning", "GoblinBrute" };
+		#endregion Consant //?
 		#endregion Var
 
 		#region Mono
@@ -28,19 +31,26 @@ namespace OdinPlus
 			Root.transform.SetParent(OdinPlus.PrefabParent.transform);
 
 			CreateLegacyChest();
+			CreateHuntTargetMonster();
 
 			OdinPlus.OdinPostRegister(PrefabList);
 			isInit = true;
 		}
 		#endregion Mono
 
-		#region OdinLegcy
-
+		#region Task
+		private static void CreateHuntTargetMonster()
+		{
+			foreach (var item in HuntTargetList)
+			{
+				PrefabList.Add(item, HuntTarget.CreateMonster(item));
+			}
+		}
 		private static void CreateLegacyChest()
 		{
 			for (int i = 1; i < 6; i++)
 			{
-				var go =ZNetScene.instance.GetPrefab("OdinLegacy");
+				var go = ZNetScene.instance.GetPrefab("OdinLegacy");
 				GameObject Chest = Instantiate(ZNetScene.instance.GetPrefab("Chest"), Root.transform);
 				Chest.name = "LegacyChest" + i;
 

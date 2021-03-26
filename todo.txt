@@ -41,7 +41,8 @@
 //|| ||Mountable Dragon
 //|| ||BackPack;
 //||X||no mobs area FX on odin,and animator,Terrain
-//|| ||Does SE last When you quit game//??
+//|| ||Does SE last When you quit game//??Yes,REGISTER se before ObjectDB Awake 
+//|| ||Prefab Creation should be static in Own Mono//!
 //||X||Load Error//Check when will it happen again
 //============== EndTODO=============
 
