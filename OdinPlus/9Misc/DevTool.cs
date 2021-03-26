@@ -36,6 +36,32 @@ namespace OdinPlus
 			{
 				PrintLocPrefab();
 			}
+			if (Input.GetKeyDown(KeyCode.Keypad1)&&Input.GetKeyDown(KeyCode.RightControl))
+			{
+				ZoneSystem.instance.SetGlobalKey("defeated_eikthyr");
+			}
+			if (Input.GetKeyDown(KeyCode.Keypad0)&&Input.GetKeyDown(KeyCode.RightControl))
+			{
+				ZoneSystem.instance.ResetGlobalKeys();
+			}
+			if (Input.GetKeyDown(KeyCode.Keypad2)&&Input.GetKeyDown(KeyCode.RightControl))
+			{
+				ZoneSystem.instance.SetGlobalKey("defeated_eikthyr");
+				ZoneSystem.instance.SetGlobalKey("defeated_gdking");
+			}
+			if (Input.GetKeyDown(KeyCode.Keypad3)&&Input.GetKeyDown(KeyCode.RightControl))
+			{
+				ZoneSystem.instance.SetGlobalKey("defeated_eikthyr");
+				ZoneSystem.instance.SetGlobalKey("defeated_gdking");
+				ZoneSystem.instance.SetGlobalKey("defeated_bonemass");
+			}
+			if (Input.GetKeyDown(KeyCode.Keypad4)&&Input.GetKeyDown(KeyCode.RightControl))
+			{
+				ZoneSystem.instance.SetGlobalKey("defeated_eikthyr");
+				ZoneSystem.instance.SetGlobalKey("defeated_gdking");
+				ZoneSystem.instance.SetGlobalKey("defeated_bonemass");
+				ZoneSystem.instance.SetGlobalKey("defeated_moder");
+			}
 		}
 		
 		#endregion Mono

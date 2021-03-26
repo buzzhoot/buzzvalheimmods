@@ -305,6 +305,7 @@ namespace OdinPlus
 		#region Debug
 		public static void TestA()
 		{
+			TaskManager.CheckKey();
 			TaskManager.CreateTask(TaskManager.TaskType.Hunt);
 		}
 		public static void TestB()

@@ -79,7 +79,7 @@ namespace OdinPlus
 		public void Setup(int Key, int lvl)
 		{
 			Level = lvl;
-			m_chrct.SetLevel(Mathf.Clamp(Key, 2, 5));
+			m_chrct.SetLevel(Mathf.Clamp(Level+2, 2, 5));
 			m_chrct.m_health *= (0.5f * Level + 1);
 			m_hum.m_faction = Character.Faction.Boss;
 
