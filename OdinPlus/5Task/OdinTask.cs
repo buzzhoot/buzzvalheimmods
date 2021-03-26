@@ -35,6 +35,7 @@ namespace OdinPlus
 		protected float m_range;
 		protected Action Init;
 		protected bool loading = false;
+		protected bool singleInit = false;
 		#region Real Data
 		public TaskManager.TaskType m_type;
 		public string taskName;
@@ -107,25 +108,33 @@ namespace OdinPlus
 			Level = TaskManager.Level;
 			isMain = TaskManager.isMain;
 			locList = new List<string[]> { m_tier0, m_tier1, m_tier2, m_tier3, m_tier4 };
-			switch (Key)
+			if (singleInit)
 			{
-
-				case 0:
-					Init = new Action(InitTire0);
-					break;
-				case 1:
-					Init = new Action(InitTire1);
-					break;
-				case 2:
-					Init = new Action(InitTire2);
-					break;
-				case 3:
-					Init = new Action(InitTire3);
-					break;
-				case 4:
-					Init = new Action(InitTire4);
-					break;
+				Init = new Action(InitAll);
 			}
+			else
+			{
+				switch (Key)
+				{
+
+					case 0:
+						Init = new Action(InitTire0);
+						break;
+					case 1:
+						Init = new Action(InitTire1);
+						break;
+					case 2:
+						Init = new Action(InitTire2);
+						break;
+					case 3:
+						Init = new Action(InitTire3);
+						break;
+					case 4:
+						Init = new Action(InitTire4);
+						break;
+				}
+			}
+
 			if (!SetLocation())
 			{
 				return;
@@ -158,6 +167,7 @@ namespace OdinPlus
 			DestroyImmediate(this.gameObject);
 			return false;
 		}
+		protected virtual void InitAll() { }
 		protected virtual void InitTire0() { }
 		protected virtual void InitTire1() { }
 		protected virtual void InitTire2() { }
@@ -184,7 +194,7 @@ namespace OdinPlus
 			m_isClear = true;
 			Destroy(gameObject);
 		}
-		private void SetLocName()
+		protected virtual void SetLocName()
 		{
 			locName = Regex.Replace(locName, @"[\d-]", string.Empty);
 			locName = Regex.Replace(locName, @"[_]", "");

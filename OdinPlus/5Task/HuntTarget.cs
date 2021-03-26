@@ -12,6 +12,7 @@ namespace OdinPlus
 		private ZNetView m_nview;
 		public string ID = "";
 		public int Level;
+		public int Key;
 		private Transform m_task;
 		private Character m_chrct;
 		private Humanoid m_hum;
@@ -25,9 +26,11 @@ namespace OdinPlus
 		{
 			m_nview = gameObject.GetComponent<ZNetView>();
 			m_chrct = gameObject.GetComponent<Character>();
+			m_mai = gameObject.GetComponent<MonsterAI>();
+			m_cDrop = GetComponent<CharacterDrop>();
 			m_chrct.m_onDeath = (Action)Delegate.Combine(new Action(this.OnDeath), m_chrct.m_onDeath);
 			m_hum = gameObject.GetComponent<Humanoid>();
-			Traverse.Create(m_hum).Field<SEMan>("m_seman").Value.AddStatusEffect(OdinSE.MonsterSEList.ElementAt(Level).Key);
+
 		}
 		private void Start()
 		{
@@ -35,13 +38,19 @@ namespace OdinPlus
 			if (ID != "")
 			{
 				m_nview.GetZDO().Set("TaskID", ID);
+				m_nview.GetZDO().Set("HuntLevel", Level);
+				m_nview.GetZDO().Set("HuntKey", Key);
 				Tweakers.ValSpawn("vfx_GodExplosion", transform.position);
 			}
 			else
 			{
 				ID = m_nview.GetZDO().GetString("TaskID");
+				Level = m_nview.GetZDO().GetInt("HutnLevel");
+				Key = m_nview.GetZDO().GetInt("HuntKey");
 			}
 			m_mai.SetPatrolPoint();
+			Traverse.Create(m_hum).Field<SEMan>("m_seman").Value.AddStatusEffect(OdinSE.MonsterSEList.ElementAt(Level).Key);
+			CreateDrop();
 		}
 		private void Update()
 		{
@@ -53,8 +62,8 @@ namespace OdinPlus
 			if (m_task == null)
 			{
 				DBG.blogInfo("Cant find task,Destroy Hunt Target" + ID);
-				m_cDrop.m_dropsEnabled = false;
-				ZNetScene.instance.Destroy(gameObject);
+				Traverse.Create(m_cDrop).Field<bool>("m_dropsEnabled").Value = false;
+				m_nview.Destroy();
 				return;
 			}
 		}
@@ -69,29 +78,30 @@ namespace OdinPlus
 		#region Tool
 		public void Setup(int Key, int lvl)
 		{
-			Level=lvl;
-			transform.SetParent(OdinPlus.PrefabParent.transform);
+			Level = lvl;
 			m_chrct.SetLevel(Mathf.Clamp(Key, 2, 5));
 			m_chrct.m_health *= (0.5f * Level + 1);
-			m_hum.m_faction=Character.Faction.Boss;
-			Traverse.Create(m_hum).Field<SEMan>("m_seman").Value.AddStatusEffect(OdinSE.MonsterSEList.ElementAt(Level).Key);
-			transform.SetParent(OdinPlus.PrefabParent.transform.parent.parent);//opt
-			
+			m_hum.m_faction = Character.Faction.Boss;
+
+
+		}
+		public static GameObject CreateMonster(string name)
+		{
+			var go = Instantiate(ZNetScene.instance.GetPrefab(name), OdinPlus.PrefabParent.transform);
+			go.name = name + "Hunt";
+			go.AddComponent<HuntTarget>();
+			return go;
+		}
+		public void CreateDrop()
+		{
 			var d=new CharacterDrop.Drop();
 			d.m_chance=1;
 			d.m_amountMax = Level+Key;
 			d.m_amountMin = d.m_amountMax;
 			d.m_prefab=ZNetScene.instance.GetPrefab("OdinLegacy");
-			
-			m_cDrop.m_drops.Clear();
-			m_cDrop.m_dropsEnabled=true;
+			m_cDrop.m_drops=new List<CharacterDrop.Drop>();
+			Traverse.Create(m_cDrop).Field<bool>("m_dropsEnabled").Value=true;
 			m_cDrop.m_drops.Add(d);
-		}
-		public static GameObject CreateMonster(string name)
-		{
-			var go = Instantiate(ZNetScene.instance.GetPrefab(name),OdinPlus.PrefabParent.transform);
-			go.AddComponent<HuntTarget>();
-			return go;
 		}
 		#endregion Tool
 

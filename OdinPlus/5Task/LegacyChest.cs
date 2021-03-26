@@ -34,7 +34,7 @@ namespace OdinPlus
 			{
 				DBG.blogInfo("Cant find task,Destroy" + ID);
 				m_container.GetInventory().RemoveAll();
-				ZNetScene.instance.Destroy(gameObject);
+				m_nview.Destroy();
 				return;
 			}
 			if (m_container.GetInventory() == null)

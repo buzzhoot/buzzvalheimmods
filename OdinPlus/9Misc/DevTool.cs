@@ -34,7 +34,7 @@ namespace OdinPlus
 			}
 			if (Input.GetKeyDown(KeyCode.F9))
 			{
-				Monster();
+				PrintLocPrefab();
 			}
 		}
 		
@@ -52,13 +52,24 @@ namespace OdinPlus
 			int i = 0;
 			foreach (var b in a)
 			{
-				if (b.m_prefabName == "Vendor_BlackForest")
+				if (b.m_prefabName.Contains("w"))
 				{
 					Debug.LogWarning(i);
-					return;
 				}
 				i++;
 			}
+		}
+		public static void PrintLocPrefab()
+		{
+			int i = 0;
+			var a = ZoneSystem.instance.m_locations;
+			string str = "LocList";
+			foreach (var b in a)
+			{
+				str+=","+i+b.m_prefabName;
+				i++;
+			}
+			Debug.LogWarning(str);
 		}
 		public static void ViewReward()
 		{

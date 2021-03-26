@@ -15,7 +15,7 @@ namespace OdinPlus
 		public static GameObject Root;
 		public static Dictionary<string, GameObject> PrefabList = new Dictionary<string, GameObject>();
 		#region Consant //?
-		public static string[] HuntTargetList = new string[] { "Troll", "Draugr_Elite", "Ferning", "GoblinBrute" };
+		
 		#endregion Consant //?
 		#endregion Var
 
@@ -41,14 +41,14 @@ namespace OdinPlus
 		#region Task
 		private static void CreateHuntTargetMonster()
 		{
-			foreach (var item in HuntTargetList)
+			foreach (var item in HuntTask.Monsters)
 			{
-				PrefabList.Add(item, HuntTarget.CreateMonster(item));
+				PrefabList.Add(item+"Hunt", HuntTarget.CreateMonster(item));
 			}
 		}
 		private static void CreateLegacyChest()
 		{
-			for (int i = 1; i < 6; i++)
+			for (int i = 1; i < 11; i++)
 			{
 				var go = ZNetScene.instance.GetPrefab("OdinLegacy");
 				GameObject Chest = Instantiate(ZNetScene.instance.GetPrefab("Chest"), Root.transform);

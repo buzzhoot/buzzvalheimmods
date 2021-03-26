@@ -40,7 +40,10 @@ namespace OdinPlus
 		protected override bool SetLocation()
 		{
 			bool result = base.SetLocation();
-			HintStart = String.Format("There a chest burried under a  <color=yellow><b>[{0}]</b></color> near the location i marked for you,check your map ...", locName);
+			if (result)
+			{
+				HintStart = String.Format("There a chest burried under a  <color=yellow><b>[{0}]</b></color> near the location i marked for you,check your map ...", locName);
+			}
 			return result;
 		}
 		protected override void InitTire0()

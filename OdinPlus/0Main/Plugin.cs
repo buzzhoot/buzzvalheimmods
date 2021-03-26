@@ -305,7 +305,7 @@ namespace OdinPlus
 		#region Debug
 		public static void TestA()
 		{
-			TaskManager.CreateTask(TaskManager.TaskType.Dungeon);
+			TaskManager.CreateTask(TaskManager.TaskType.Hunt);
 		}
 		public static void TestB()
 		{

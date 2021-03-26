@@ -10,9 +10,11 @@ using UnityEngine;
 using System.Globalization;
 //=================TODO=============
 //||X||Save Interval
-//|| ||MouseTeleport
+//||X||MouseTeleport
 //||X||Free Camera
 //|| ||QuickLoad
+//|| ||FreeCamera
+//|| ||PlayerLight
 //============== EndTODO=============
 namespace AdminTool
 {
