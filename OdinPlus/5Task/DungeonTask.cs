@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 namespace OdinPlus
 {
+	//!Add Level for dungeon set.
 	public class DungeonTask : OdinTask
 	{
 		private GameObject DungeonRoot;
@@ -17,8 +18,9 @@ namespace OdinPlus
 			m_tier0 = new string[] { "Crypt3" };
 			m_tier1 = new string[] { "Crypt3", "Crypt2", "Crypt4" };
 			m_tier2 = new string[] { "SunkenCrypt4" };
-			m_tier3 = new string[] { "SunkenCrypt4", };
-			m_tier4 = new string[] { "SunkenCrypt4", };
+			m_tier3 = new string[] { "SunkenCrypt4" };
+			m_tier4 = new string[] { "GoblinCamp2" };
+			m_tier5 = new string[] { "Crypt3", "Crypt2", "Crypt4", "SunkenCrypt4","GoblinCamp2"};
 			base.Begin();
 		}
 		#region OverRide
@@ -33,39 +35,7 @@ namespace OdinPlus
 			HintTarget = string.Format("Looks like you are close to the dungeon,look around find a <color=yellow><b>[{0}]</b></color>", locName);
 			base.Discovery();
 		}
-		protected override void InitTire0()
-		{
-			if (!isLoaded())
-			{
-				return;
-			}
-			FindRoom();
-		}
-		protected override void InitTire1()
-		{
-			if (!isLoaded())
-			{
-				return;
-			}
-			FindRoom();
-		}
-		protected override void InitTire2()
-		{
-			if (!isLoaded())
-			{
-				return;
-			}
-			FindRoom();
-		}
-		protected override void InitTire3()
-		{
-			if (!isLoaded())
-			{
-				return;
-			}
-			FindRoom();
-		}
-		protected override void InitTire4()
+		protected override void InitAll()
 		{
 			if (!isLoaded())
 			{
@@ -77,13 +47,29 @@ namespace OdinPlus
 		#endregion OverRide
 		private void FindRoom()
 		{
-			DungeonRoot = LocationManager.FindDungeon(location.m_position);
+			if (location.m_location.m_prefabName == "GoblinCamp2")
+			{
+				var dunPos = location.m_position;
+				if (!AddChest(dunPos))
+				{
+					DBG.blogWarning("GoblinCamp Failed");
+					Reward = Instantiate(ZNetScene.instance.GetPrefab("LegacyChest" + (Key + 1).ToString()), dunPos, Quaternion.identity);
+					Reward.GetComponent<LegacyChest>().ID = this.Id;
+					m_isInit = true;
+					DBG.blogWarning("Placed LegacyChest at Dungeon camp: " + Reward.transform.position);
+					return;
+				}
+				return;
+			}
+			else
+			{
+				DungeonRoot = LocationManager.FindDungeon(location.m_position);
+			}
 			if (DungeonRoot == null)
 			{
 				return;
 			}
-			Container[] ctn = DungeonRoot.GetComponentsInChildren<Container>();
-			if (ctn.Length == 0)
+			if (!AddChest(DungeonRoot.transform.position))
 			{
 				Room[] array = DungeonRoot.GetComponentsInChildren<Room>();
 				if (array.Length == 0) { return; }
@@ -99,20 +85,6 @@ namespace OdinPlus
 				AddChest(array2[array2.Length.RollDice()]);
 				return;
 			}
-			else
-			{
-				var c = ctn[ctn.Length.RollDice()];
-				var pos = c.transform.position;
-				var par = c.transform.parent;
-				c.GetComponent<ZNetView>().Destroy();
-				Reward = Instantiate(ZNetScene.instance.GetPrefab("LegacyChest" + (Key + 1).ToString()), pos + Vector3.up * 0.1f, Quaternion.identity);
-				Reward.GetComponent<LegacyChest>().ID = this.Id;
-				m_isInit = true;
-				DBG.blogWarning("Placed LegacyChest at Dungeon ctn: " + Reward.transform.position);
-				return;
-			}
-
-
 		}
 		private void AddChest(Room room)
 		{
@@ -126,6 +98,34 @@ namespace OdinPlus
 			m_isInit = true;
 			DBG.blogWarning("Placed LegacyChest at Dungeon room: " + Reward.transform.localPosition);
 			return;
+		}
+		private bool AddChest(Vector3 pos)
+		{
+			Collider[] array = Physics.OverlapBox(pos, new Vector3(60, 60, 60));
+			Container comp;
+			foreach (var item in array)
+			{
+				var ci = item.transform;
+				while (ci.transform.parent != null)
+				{
+					if (ci.TryGetComponent<Container>(out comp))
+					{
+						if (ci.name.Contains("Clone"))
+						{
+							Reward = Instantiate(ZNetScene.instance.GetPrefab("LegacyChest" + (Key + 1).ToString()), comp.transform.position, Quaternion.identity);
+							comp.GetInventory().RemoveAll();
+							comp.GetComponent<ZNetView>().Destroy();
+							Reward.GetComponent<LegacyChest>().ID = this.Id;
+							m_isInit = true;
+							DBG.blogWarning("Placed LegacyChest at Dungeon ctn: " + Reward.transform.position);
+							return true;
+						}
+					}
+					ci = ci.transform.parent;
+				}
+			}
+			DBG.blogWarning("Cant Find Chest in dungeon");
+			return false;
 		}
 	}
 }

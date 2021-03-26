@@ -8,7 +8,7 @@ namespace OdinPlus
 		#region  var
 		#region Data
 		public enum TaskType { Treasure, Hunt, Dungeon, Search };
-		private static string[] RefKeys = { "defeated_eikthyr", "defeated_gdking", "defeated_bonemass", "defeated_moder" };
+		private static string[] RefKeys = { "defeated_eikthyr", "defeated_gdking", "defeated_bonemass", "defeated_moder", "defeated_goblinking" };
 		public const int MaxLevel = 3;
 		#endregion Data
 		#region Out
@@ -69,25 +69,35 @@ namespace OdinPlus
 		public static void CreateRandomTask()
 		{
 			UnityEngine.Random.InitState((int)Time.time);
-			//?int count = Enum.GetNames(typeof(TaskType)).Length;
+			TaskType[] a = new TaskType[] { TaskType.Treasure };
 			switch (CheckKey())
 			{
 				case 0:
-					CreateTask(TaskType.Search);
+					a = new TaskType[] { TaskType.Search,TaskType.Treasure,TaskType.Treasure };
 					break;
 				case 1:
-					CreateTask(TaskType.Treasure);
+					a = new TaskType[] { TaskType.Treasure, TaskType.Dungeon };
 					break;
 				case 2:
-					CreateTask(TaskType.Treasure);
+					a = new TaskType[] { TaskType.Treasure, TaskType.Dungeon, TaskType.Hunt, TaskType.Dungeon, TaskType.Dungeon };
 					break;
 				case 3:
-					CreateTask(TaskType.Treasure);
+					a = new TaskType[] { TaskType.Treasure, TaskType.Dungeon, TaskType.Hunt };
 					break;
 				case 4:
-					CreateTask(TaskType.Treasure);
+					a = new TaskType[] { TaskType.Treasure, TaskType.Dungeon, TaskType.Hunt };
+					break;
+				case 5:
+					a = new TaskType[] { TaskType.Treasure, TaskType.Dungeon, TaskType.Hunt };
 					break;
 			}
+			int l = a.Length;
+			if (1f.RollDice() < 0.1)
+			{
+				CreateTask(TaskType.Search);
+				return;
+			}
+			CreateTask(a[l.RollDice()]);
 		}
 		public static void CreateTask(TaskType t)
 		{

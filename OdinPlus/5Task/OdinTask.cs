@@ -24,6 +24,7 @@ namespace OdinPlus
 		protected string[] m_tier2 = new string[0];
 		protected string[] m_tier3 = new string[0];
 		protected string[] m_tier4 = new string[0];
+		protected string[] m_tier5 = new string[0];
 		protected List<string[]> locList = new List<string[]>();
 		protected GameObject root;
 		public string locName;
@@ -35,7 +36,7 @@ namespace OdinPlus
 		protected float m_range;
 		protected Action Init;
 		protected bool loading = false;
-		protected bool singleInit = false;
+		protected bool singleInit = true;
 		#region Real Data
 		public TaskManager.TaskType m_type;
 		public string taskName;

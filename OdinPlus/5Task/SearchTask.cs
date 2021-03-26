@@ -7,7 +7,7 @@ namespace OdinPlus
 	public class SearchTask : OdinTask
 	{
 		private string[] m_targetList;
-		private List<string[]> m_itemList=new List<string[]>();
+		private List<string[]> m_itemList = new List<string[]>();
 		private string m_item;
 		private int m_count;
 		private void Awake()
@@ -18,9 +18,9 @@ namespace OdinPlus
 			}
 			m_type = TaskManager.TaskType.Search;
 
-			m_tier0 = new string[] { "LeatherScraps:20", "Mushroom:20", "CookedMeat:20", "Raspberry:20", "Stone:50", "Wood:50", "DeerHide:15","Resin:20" };
-			m_tier1 = new string[] { "TrollHide:10", "Coins:100", "Resin:50", "BoneFragments:20", "MushroomYellow:20","Blueberries:20", "HardAntler:1" };
-			m_tier2 = new string[] { "Guck:30", "Ooze:10", "SurtlingCore:20", "ElderBark:50", "Amber:20", "AmberPearl:20", "Resin:100"};
+			m_tier0 = new string[] { "LeatherScraps:20", "Mushroom:20", "CookedMeat:20", "Raspberry:20", "Stone:50", "Wood:50", "DeerHide:15", "Resin:20" };
+			m_tier1 = new string[] { "TrollHide:10", "Coins:100", "Resin:50", "BoneFragments:20", "MushroomYellow:20", "Blueberries:20", "HardAntler:1" };
+			m_tier2 = new string[] { "Guck:30", "Ooze:10", "SurtlingCore:20", "ElderBark:50", "Amber:20", "AmberPearl:20", "Resin:100" };
 			m_tier3 = new string[] { "Guck:50", "Ooze:20", "SurtlingCore:30", "ElderBark:50", "DragonEgg:1", "WolfFang:20", "WolfPelt:10", "Resin:100" };
 			m_tier4 = new string[] { "Amber:20", "AmberPearl:20", "Bread:50", "Guck:80", "Ooze:40", "SurtlingCore:30", "ElderBark:80", "DragonEgg:1", "WolfFang:20", "WolfPelt:20", "Resin:100" };
 			m_itemList.Add(m_tier0);
@@ -63,6 +63,12 @@ namespace OdinPlus
 		{
 			isMain = TaskManager.isMain;
 			Key = TaskManager.GameKey;
+			//!
+			if (Key == 5)
+			{
+				Key = Key.RollDice();
+			}
+			//!
 			Level = TaskManager.Level;
 			if (!PickItem())
 			{
@@ -70,7 +76,7 @@ namespace OdinPlus
 				DestroyImmediate(this.gameObject);
 				return;
 			}
-			var item  = Tweakers.GetItemData(m_item);
+			var item = Tweakers.GetItemData(m_item);
 			HintTarget = String.Format("Find [<color=yellow><b>{0} {1}</b></color>] for Munin,he'll give you something nice ", m_count, item.m_shared.m_name);
 			taskName = item.m_shared.m_name + " Search";
 
@@ -80,7 +86,7 @@ namespace OdinPlus
 			Id = m_item;
 			gameObject.name = "Task" + Id;
 			OdinData.Data.SearchTaskList.Add(m_item, m_count);
-			
+
 			MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : "Side") + " Quest " + m_index + "\n" + taskName + "\nStart", true);
 			Tweakers.TaskHintHugin((isMain ? "Main" : "Side") + "Quest " + m_index + " : " + taskName, HintTarget);
 			m_isInit = true;
@@ -90,7 +96,7 @@ namespace OdinPlus
 			MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : "Side") + " Quest " + m_index + "\n" + taskName + "\nClear", true);
 
 			OdinData.Data.SearchTaskList.Remove(Id);
-			OdinMunin.Reward(Key,Level);
+			OdinMunin.Reward(Key, Level);
 			base.Clear();
 		}
 		public override void Clear()

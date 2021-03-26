@@ -17,14 +17,19 @@ namespace OdinPlus
 			{
 				return;
 			}
-			m_type=TaskManager.TaskType.Treasure;
+			m_type = TaskManager.TaskType.Treasure;
 			if (!TaskManager.isMain)
 			{
 				m_tier0 = new string[] { "WoodHouse11", "WoodHouse6", "WoodHouse3", "WoodHouse4", "WoodHouse6", "WoodHouse7", "WoodHouse8", "WoodHouse9" };
 				m_tier1 = new string[] { "WoodHouse3", "WoodHouse4", "Ruin2", "Ruins1", "ShipSetting01", "Runestone_Boars", "Runestone_Meadows", "Runestone_Greydwarfs", "Runestone_BlackForest" };
-				m_tier2 = new string[] { "SwampRuinX", "SwampRuinY", "SwampHut5", "SwampHut1", "SwampHut2", "SwampHut3", "SwampHut4", "Runestone_Draugr" };
-				m_tier3 = new string[] { "SwampRuinX", "SwampRuinY", "SwampHut5", "SwampHut1", "SwampHut2", "SwampHut3", "SwampHut4", "Runestone_Draugr" };//?
-				m_tier4 = new string[] { "SwampRuinX", "SwampRuinY", "SwampHut5", "SwampHut1", "SwampHut2", "SwampHut3", "SwampHut4", "Runestone_Draugr" };//?
+				m_tier2 = new string[] { "SwampRuin1", "SwampRuin2", "SwampHut5", "SwampHut1", "SwampHut2", "SwampHut3", "SwampHut4", "Runestone_Draugr", "FireHole", "DrakeNest01", "Waymarker02", "AbandonedLogCabin02", "AbandonedLogCabin03", "AbandonedLogCabin04", "MountainGrave01" };
+				m_tier3 = new string[] { "DrakeNest01", "Waymarker02", "AbandonedLogCabin02", "AbandonedLogCabin03", "AbandonedLogCabin04", "MountainGrave01", "DrakeLorestone" };
+				m_tier4 = new string[] { "StoneHenge1", "StoneHenge2", "StoneHenge3", "StoneHenge4", "StoneHenge5", "StoneHenge6" };
+				m_tier5 = new string[] {"WoodHouse11","WoodHouse6","WoodHouse3","WoodHouse4","WoodHouse6","WoodHouse7","WoodHouse8","WoodHouse9","WoodHouse3",
+				"WoodHouse4","Ruin2","Ruins1","ShipSetting01","Runestone_Boars","Runestone_Meadows","Runestone_Greydwarfs","Runestone_BlackForest","SwampRuin1",
+				"SwampRuin2","SwampHut5","SwampHut1","SwampHut2","SwampHut3","SwampHut4","Runestone_Draugr","FireHole","DrakeNest01","Waymarker02",
+				"AbandonedLogCabin02","AbandonedLogCabin03","AbandonedLogCabin04","MountainGrave01","DrakeNest01","Waymarker02","AbandonedLogCabin02",
+				"AbandonedLogCabin03","AbandonedLogCabin04","MountainGrave01","DrakeLorestone","StoneHenge1","StoneHenge2","StoneHenge3","StoneHenge4","StoneHenge5","StoneHenge6"};
 			}
 			else
 			{
@@ -37,6 +42,14 @@ namespace OdinPlus
 		#endregion Main
 
 		#region Override Init
+		protected override void InitAll()
+		{
+			if (!isLoaded())
+			{
+				return;
+			}
+			AddChest();
+		}
 		protected override bool SetLocation()
 		{
 			bool result = base.SetLocation();
@@ -64,40 +77,6 @@ namespace OdinPlus
 			}
 			AddChest();
 		}
-		protected override void InitTire1()
-		{
-			if (!isLoaded())
-			{
-				return;
-			}
-			AddChest();
-		}
-		protected override void InitTire2()
-		{
-			if (!isLoaded())
-			{
-				return;
-			}
-			AddChest();
-		}
-		protected override void InitTire3()
-		{
-			if (!isLoaded())
-			{
-				return;
-			}
-			AddChest();
-		}
-		protected override void InitTire4()
-		{
-			if (!isLoaded())
-			{
-				return;
-			}
-			AddChest();
-		}
-
-
 
 		protected override void Discovery()
 		{
