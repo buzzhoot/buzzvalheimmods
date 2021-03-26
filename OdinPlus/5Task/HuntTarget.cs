@@ -79,7 +79,7 @@ namespace OdinPlus
 		public void Setup(int Key, int lvl)
 		{
 			Level = lvl;
-			m_chrct.SetLevel(Mathf.Clamp(Level+2, 2, 5));
+			m_chrct.SetLevel(Mathf.Clamp(Level + 2, 2, 5));
 			m_chrct.m_health *= (0.5f * Level + 1);
 			m_hum.m_faction = Character.Faction.Boss;
 
@@ -90,17 +90,19 @@ namespace OdinPlus
 			var go = Instantiate(ZNetScene.instance.GetPrefab(name), OdinPlus.PrefabParent.transform);
 			go.name = name + "Hunt";
 			go.AddComponent<HuntTarget>();
+			var fx = Instantiate(FxAssetManager.GetFxNN("RedSmoke"), go.transform);
+			fx.transform.localPosition = go.FindObject("Spine2").transform.position;
 			return go;
 		}
 		public void CreateDrop()
 		{
-			var d=new CharacterDrop.Drop();
-			d.m_chance=1;
-			d.m_amountMax = Level+Key;
+			var d = new CharacterDrop.Drop();
+			d.m_chance = 1;
+			d.m_amountMax = Level + Key;
 			d.m_amountMin = d.m_amountMax;
-			d.m_prefab=ZNetScene.instance.GetPrefab("OdinLegacy");
-			m_cDrop.m_drops=new List<CharacterDrop.Drop>();
-			Traverse.Create(m_cDrop).Field<bool>("m_dropsEnabled").Value=true;
+			d.m_prefab = ZNetScene.instance.GetPrefab("OdinLegacy");
+			m_cDrop.m_drops = new List<CharacterDrop.Drop>();
+			Traverse.Create(m_cDrop).Field<bool>("m_dropsEnabled").Value = true;
 			m_cDrop.m_drops.Add(d);
 		}
 		#endregion Tool
