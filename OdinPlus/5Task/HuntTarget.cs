@@ -11,6 +11,7 @@ namespace OdinPlus
 		#region var
 		private ZNetView m_nview;
 		public string ID = "";
+		public int Level;
 		private Transform m_task;
 		private Character m_chrct;
 		private Humanoid m_hum;
@@ -26,6 +27,7 @@ namespace OdinPlus
 			m_chrct = gameObject.GetComponent<Character>();
 			m_chrct.m_onDeath = (Action)Delegate.Combine(new Action(this.OnDeath), m_chrct.m_onDeath);
 			m_hum = gameObject.GetComponent<Humanoid>();
+			Traverse.Create(m_hum).Field<SEMan>("m_seman").Value.AddStatusEffect(OdinSE.MonsterSEList.ElementAt(Level).Key);
 		}
 		private void Start()
 		{
@@ -65,8 +67,9 @@ namespace OdinPlus
 		#endregion Mono
 
 		#region Tool
-		public void Setup(int Key, int Level)
+		public void Setup(int Key, int lvl)
 		{
+			Level=lvl;
 			transform.SetParent(OdinPlus.PrefabParent.transform);
 			m_chrct.SetLevel(Mathf.Clamp(Key, 2, 5));
 			m_chrct.m_health *= (0.5f * Level + 1);
