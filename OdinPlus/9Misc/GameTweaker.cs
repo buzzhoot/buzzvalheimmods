@@ -113,6 +113,18 @@ namespace OdinPlus
 		{
 			return ObjectDB.instance.GetItemPrefab(name).GetComponent<ItemDrop>().m_itemData;
 		}
+		public static GameObject ValSpawn(string name,Vector3 pos,bool removeClone = false)
+		{
+			var a = GameObject.Instantiate(ZNetScene.instance.GetPrefab(name),pos,Quaternion.identity);
+			if (removeClone)
+			{
+				if (a.name.Contains("(Clone)"))
+				{
+					a.name=a.name.Substring(a.name.Length-6,7);
+				}
+			}
+			return a ;
+		}
 	}
 
 }
