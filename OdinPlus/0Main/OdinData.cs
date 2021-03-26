@@ -90,7 +90,7 @@ namespace OdinPlus
 		#region Mono
 		private void Awake()
 		{
-			if (Plugin.CFG_disableSave.Value)
+			if (DevTool.DisableSaving)
 			{
 				score = 1000;
 			}
@@ -132,7 +132,7 @@ namespace OdinPlus
 		#region Save And Load
 		public static void saveOdinData(string name)
 		{
-			if (Plugin.CFG_disableSave.Value)
+			if (DevTool.DisableSaving)
 			{
 				OdinPlus.isLoaded = true;
 				return;
@@ -160,7 +160,7 @@ namespace OdinPlus
 		}
 		public static void loadOdinData(string name)
 		{
-			if (Plugin.CFG_disableSave.Value)
+			if (DevTool.DisableSaving)
 			{
 				OdinPlus.isLoaded = true;
 				return;

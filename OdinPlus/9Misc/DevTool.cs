@@ -16,10 +16,11 @@ namespace OdinPlus
 {
 	public class DevTool : MonoBehaviour
 	{
+		public static bool DisableSaving=false;
 		#region Mono
 		private void Update()
 		{
-			if (Player.m_localPlayer==null)
+			if (Player.m_localPlayer == null)
 			{
 				return;
 			}
@@ -36,34 +37,52 @@ namespace OdinPlus
 			{
 				PrintLocPrefab();
 			}
-			if (Input.GetKeyDown(KeyCode.Keypad1)&&Input.GetKeyDown(KeyCode.RightControl))
-			{
-				ZoneSystem.instance.SetGlobalKey("defeated_eikthyr");
-			}
-			if (Input.GetKeyDown(KeyCode.Keypad0)&&Input.GetKeyDown(KeyCode.RightControl))
+			if (Input.GetKeyDown(KeyCode.Keypad0) && Input.GetKeyDown(KeyCode.RightControl))
 			{
 				ZoneSystem.instance.ResetGlobalKeys();
 			}
-			if (Input.GetKeyDown(KeyCode.Keypad2)&&Input.GetKeyDown(KeyCode.RightControl))
+			if (Input.GetKeyDown(KeyCode.Keypad1) && Input.GetKey(KeyCode.RightControl))
 			{
+				ZoneSystem.instance.ResetGlobalKeys();
+				ZoneSystem.instance.SetGlobalKey("defeated_eikthyr");
+			}
+
+			if (Input.GetKeyDown(KeyCode.Keypad2) && Input.GetKey(KeyCode.RightControl))
+			{
+				ZoneSystem.instance.ResetGlobalKeys();
 				ZoneSystem.instance.SetGlobalKey("defeated_eikthyr");
 				ZoneSystem.instance.SetGlobalKey("defeated_gdking");
 			}
-			if (Input.GetKeyDown(KeyCode.Keypad3)&&Input.GetKeyDown(KeyCode.RightControl))
+			if (Input.GetKeyDown(KeyCode.Keypad3) && Input.GetKey(KeyCode.RightControl))
 			{
+				ZoneSystem.instance.ResetGlobalKeys();
 				ZoneSystem.instance.SetGlobalKey("defeated_eikthyr");
 				ZoneSystem.instance.SetGlobalKey("defeated_gdking");
 				ZoneSystem.instance.SetGlobalKey("defeated_bonemass");
 			}
-			if (Input.GetKeyDown(KeyCode.Keypad4)&&Input.GetKeyDown(KeyCode.RightControl))
+			if (Input.GetKeyDown(KeyCode.Keypad4) && Input.GetKey(KeyCode.RightControl))
 			{
+				ZoneSystem.instance.ResetGlobalKeys();
 				ZoneSystem.instance.SetGlobalKey("defeated_eikthyr");
 				ZoneSystem.instance.SetGlobalKey("defeated_gdking");
 				ZoneSystem.instance.SetGlobalKey("defeated_bonemass");
 				ZoneSystem.instance.SetGlobalKey("defeated_moder");
 			}
+			if (Input.GetKeyDown(KeyCode.Keypad5) && Input.GetKey(KeyCode.RightControl))
+			{
+				ZoneSystem.instance.ResetGlobalKeys();
+				ZoneSystem.instance.SetGlobalKey("defeated_eikthyr");
+				ZoneSystem.instance.SetGlobalKey("defeated_gdking");
+				ZoneSystem.instance.SetGlobalKey("defeated_bonemass");
+				ZoneSystem.instance.SetGlobalKey("defeated_moder");
+				ZoneSystem.instance.SetGlobalKey("defeated_goblinking");
+			}
+			if (Input.GetKeyDown(KeyCode.Keypad6) && Input.GetKey(KeyCode.RightControl))
+			{
+				DBG.a();
+			}
 		}
-		
+
 		#endregion Mono
 		public static ZoneSystem.LocationInstance dbginsa;
 		public static void findLoc()
@@ -92,7 +111,7 @@ namespace OdinPlus
 			string str = "LocList";
 			foreach (var b in a)
 			{
-				str+=","+i+b.m_prefabName;
+				str += "," + b.m_prefabName;
 				i++;
 			}
 			Debug.LogWarning(str);
@@ -118,10 +137,31 @@ namespace OdinPlus
 		}
 		public static void Monster()
 		{
-			var a = GameObject.Instantiate(ZNetScene.instance.GetPrefab("Fenring"),Player.m_localPlayer.transform.position+Vector3.up+Vector3.forward*2,Quaternion.identity);
+			var a = GameObject.Instantiate(ZNetScene.instance.GetPrefab("Fenring"), Player.m_localPlayer.transform.position + Vector3.up + Vector3.forward * 2, Quaternion.identity);
 			Traverse.Create(a.GetComponent<Humanoid>()).Field<SEMan>("m_seman").Value.AddStatusEffect(OdinSE.MonsterSEList.ElementAt(4).Key);
 		}
+		#region Print
+		public static string PrintStringArray(string[] list)
+		{
+			string s = "";
+			foreach (var item in list)
+			{
+				s += string.Format("\"{0}\",", item);
+			}
+			Debug.Log(s);
+			return s;
+		}
+		/* 						var s = "";
+						s += DevTool.PrintStringArray(m_tier0);
+						s += DevTool.PrintStringArray(m_tier1);
+						s += DevTool.PrintStringArray(m_tier2);
+						s += DevTool.PrintStringArray(m_tier3);
+						s += DevTool.PrintStringArray(m_tier4);
+						DBG.blogWarning(s); */
+		#endregion Print
 
 
+	
+	//End Class
 	}
 }

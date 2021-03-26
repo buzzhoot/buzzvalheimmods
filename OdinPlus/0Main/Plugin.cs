@@ -21,7 +21,6 @@ namespace OdinPlus
 		public static ManualLogSource logger;
 		public static ConfigEntry<KeyboardShortcut> KS_SecondInteractkey;
 		public static ConfigEntry<string> CFG_ItemSellValue;
-		public static ConfigEntry<bool> CFG_disableSave;
 		#region InternalConfig
 		public static int RaiseCost = 10;
 		public static int RaiseFactor = 50;
@@ -34,10 +33,9 @@ namespace OdinPlus
 		private void Awake()
 		{
 			Plugin.logger = base.Logger;
-			CFG_ItemSellValue = base.Config.Bind<string>("Config", "ItemSellValue", "Coins:1;OdinLegacy:20");
+			CFG_ItemSellValue = base.Config.Bind<string>("Config", "ItemSellValue", "TrophyBlob:20;TrophyBoar:5;TrophyBonemass:50;TrophyDeathsquito:20;TrophyDeer:5;TrophyDragonQueen:50;TrophyDraugr:20;TrophyDraugrElite:30;TrophyDraugrFem:20;TrophyEikthyr:50;TrophyFenring:30;TrophyForestTroll:30;TrophyFrostTroll:20;TrophyGoblin:20;TrophyGoblinBrute:30;TrophyGoblinKing:50;TrophyGoblinShaman:20;TrophyGreydwarf:5;TrophyGreydwarfBrute:15;TrophyGreydwarfShaman:15;TrophyHatchling:20;TrophyLeech:15;TrophyLox:20;TrophyNeck:5;TrophySerpent:30;TrophySGolem:30;TrophySkeleton:10;TrophySkeletonPoison:30;TrophySurtling:20;TrophyTheElder:50;TrophyWolf:20;TrophyWraith:30;AncientSeed:5;BoneFragments:1;Chitin:5;WitheredBone:10;DragonEgg:40;GoblinTotem:20;OdinLegacy:20;");
 			//Plugin.nexusID = base.Config.Bind<int>("General", "NexusID", 354, "Nexus mod ID for updates");
 			KS_SecondInteractkey = base.Config.Bind<KeyboardShortcut>("1Hotkeys", "Second Interact key", new KeyboardShortcut(KeyCode.F));
-			CFG_disableSave = base.Config.Bind<bool>("2debug", "disable saving", false);
 			_harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), null);
 			//notice:: init here
 			OdinPlusRoot = new GameObject("OdinPlus");
@@ -306,7 +304,7 @@ namespace OdinPlus
 		public static void TestA()
 		{
 			TaskManager.CheckKey();
-			TaskManager.CreateTask(TaskManager.TaskType.Hunt);
+			TaskManager.CreateTask(TaskManager.TaskType.Dungeon);
 		}
 		public static void TestB()
 		{
