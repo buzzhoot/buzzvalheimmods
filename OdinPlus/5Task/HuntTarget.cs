@@ -82,8 +82,6 @@ namespace OdinPlus
 			m_chrct.SetLevel(Mathf.Clamp(Level + 2, 2, 5));
 			m_chrct.m_health *= (0.5f * Level + 1);
 			m_hum.m_faction = Character.Faction.Boss;
-
-
 		}
 		public static GameObject CreateMonster(string name)
 		{
@@ -91,7 +89,7 @@ namespace OdinPlus
 			go.name = name + "Hunt";
 			go.AddComponent<HuntTarget>();
 			var fx = Instantiate(FxAssetManager.GetFxNN("RedSmoke"), go.transform);
-			fx.transform.localPosition = go.FindObject("Spine2").transform.position;
+			fx.transform.position = go.FindObject("Spine2").transform.position;//opt Random smoke
 			return go;
 		}
 		public void CreateDrop()

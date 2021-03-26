@@ -11,7 +11,7 @@ namespace OdinPlus
 		public static bool isInit = false;
 		#endregion Member
 		#region Lists
-		public static Dictionary<string, GameObject> FxNNList;
+		public static Dictionary<string, GameObject> FxNNList = new Dictionary<string, GameObject>();
 		#endregion Lists
 		#endregion Var
 
@@ -52,11 +52,12 @@ namespace OdinPlus
 			selectList(go, name, whichList);
 			return go;
 		}
-		private static GameObject ValFXcc(string prefab, string par, string name, Color col, int whichList = 0)
+		private static GameObject ValFXcc(string prefab, string par, string name, Color col, Action<GameObject> action, int whichList = 0)
 		{
 			var go = InsVal(prefab, par, name);
 			go.GetComponent<Renderer>().material.color = col;
 			selectList(go, name, whichList);
+			action(go);
 			return go;
 		}
 		private static void selectList(GameObject go, string name, int whichList)
@@ -70,6 +71,21 @@ namespace OdinPlus
 					break;
 			}
 		}
+		#region ParticleSetup
+		private static void Nothing(GameObject go)
+		{
+
+		}
+		private static void odinSmoke(GameObject go)
+		{
+			var ps =go.GetComponent<ParticleSystem>();
+			var e = ps.emission;
+			var m = ps.main;
+			m.maxParticles=60;
+			e.rateOverTime=30;
+			m.startLifetime=1;
+		}
+		#endregion ParticleSetup
 
 		#endregion Tool
 
@@ -83,11 +99,12 @@ namespace OdinPlus
 		#region FxNN
 		private static void SetupFxNN()
 		{
-			ValFXcc("odin", "odinsmoke", "RedSmoke", Color.red, 1);
-			ValFXcc("odin", "odinsmoke", "BlueSmoke", Color.blue, 1);
-			ValFXcc("odin", "odinsmoke", "YellowSmoke", Color.yellow, 1);
-			ValFXcc("odin", "odinsmoke", "GreenSmoke", Color.green, 1);
+			ValFXcc("odin", "odinsmoke", "RedSmoke", Color.red*2, odinSmoke, 1);
+			ValFXcc("odin", "odinsmoke", "BlueSmoke", Color.blue*2, odinSmoke, 1);
+			ValFXcc("odin", "odinsmoke", "YellowSmoke", Color.yellow*2, odinSmoke, 1);
+			ValFXcc("odin", "odinsmoke", "GreenSmoke", Color.green*2, odinSmoke, 1);
 		}
 		#endregion Fx
+
 	}
 }
