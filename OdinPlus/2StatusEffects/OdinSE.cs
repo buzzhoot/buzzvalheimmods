@@ -12,6 +12,7 @@ namespace OdinPlus
 		public static Dictionary<string, StatusEffect> BuzzList = new Dictionary<string, StatusEffect>();
 		public static Dictionary<string, StatusEffect> ValList = new Dictionary<string, StatusEffect>();
 		public static Dictionary<string, SEData> ValDataList = new Dictionary<string, SEData>();
+		public static Dictionary<string, SEData> MonsterSEList = new Dictionary<string, SEData>();
 
 		#region Main
 		private void Awake()
@@ -23,6 +24,8 @@ namespace OdinPlus
 			initTrollSE();
 			initWolfSE();
 			initValSE();
+			SetupMonsterSe();
+			initMonsterSE();
 		}
 		public static void Register()
 		{
@@ -108,18 +111,18 @@ namespace OdinPlus
 			se.m_healthPerTick = data.m_healthPerTick;
 			se.m_healthOverTime = data.m_healthOverTime;
 			se.m_healthOverTimeDuration = data.m_healthOverTimeDuration;
-			se.m_healthOverTimeInterval = data.m_healthOverTimeInterval = 5f;
+			se.m_healthOverTimeInterval = data.m_healthOverTimeInterval;
 			se.m_staminaOverTimeDuration = data.m_staminaOverTimeDuration;
 			se.m_staminaDrainPerSec = data.m_staminaDrainPerSec;
 			se.m_runStaminaDrainModifier = data.m_runStaminaDrainModifier;
 			se.m_jumpStaminaUseModifier = data.m_jumpStaminaUseModifier;
-			se.m_healthRegenMultiplier = data.m_healthRegenMultiplier = 1f;
-			se.m_staminaRegenMultiplier = data.m_staminaRegenMultiplier = 1f;
+			se.m_healthRegenMultiplier = data.m_healthRegenMultiplier;
+			se.m_staminaRegenMultiplier = data.m_staminaRegenMultiplier;
 			se.m_raiseSkill = data.m_raiseSkill;
 			se.m_raiseSkillModifier = data.m_raiseSkillModifier;
 			//se.m_mods = new List<HitData.DamageModPair>() = data.m_mods = new List<HitData.DamageModPair>();
 			se.m_modifyAttackSkill = data.m_modifyAttackSkill;
-			se.m_damageModifier = data.m_damageModifier = 1f;
+			se.m_damageModifier = data.m_damageModifier ;
 			se.m_noiseModifier = data.m_noiseModifier;
 			se.m_stealthModifier = data.m_stealthModifier;
 			se.m_addMaxCarryWeight = data.m_addMaxCarryWeight;
@@ -163,19 +166,35 @@ namespace OdinPlus
 			ValDataList.Add("InvisableMeadS", new SEData() { m_ttl = 60, m_noiseModifier = -1, m_stealthModifier = -1 });
 			ValDataList.Add("InvisableMeadM", new SEData() { m_ttl = 90, m_noiseModifier = -1, m_stealthModifier = -1 });
 			ValDataList.Add("InvisableMeadL", new SEData() { m_ttl = 120, m_noiseModifier = -1, m_stealthModifier = -1 });
-			ValDataList.Add("PickaxeMeadS", new SEData() { m_ttl = 300, m_modifyAttackSkill = Skills.SkillType.Pickaxes, m_damageModifier = 1.5f });
-			ValDataList.Add("PickaxeMeadM", new SEData() { m_ttl = 300, m_modifyAttackSkill = Skills.SkillType.Pickaxes, m_damageModifier = 2f });
-			ValDataList.Add("PickaxeMeadL", new SEData() { m_ttl = 300, m_modifyAttackSkill = Skills.SkillType.Pickaxes, m_damageModifier = 2.5f });
-			ValDataList.Add("BowsMeadS", new SEData() { m_ttl = 300, m_modifyAttackSkill = Skills.SkillType.Bows, m_damageModifier = 1.5f });
-			ValDataList.Add("BowsMeadM", new SEData() { m_ttl = 300, m_modifyAttackSkill = Skills.SkillType.Bows, m_damageModifier = 2f });
-			ValDataList.Add("BowsMeadL", new SEData() { m_ttl = 300, m_modifyAttackSkill = Skills.SkillType.Bows, m_damageModifier = 2.5f });
-			ValDataList.Add("SwordsMeadS", new SEData() { m_ttl = 300, m_modifyAttackSkill = Skills.SkillType.Swords, m_damageModifier = 1.5f });
-			ValDataList.Add("SwordsMeadM", new SEData() { m_ttl = 300, m_modifyAttackSkill = Skills.SkillType.Swords, m_damageModifier = 2f });
-			ValDataList.Add("SwordsMeadL", new SEData() { m_ttl = 300, m_modifyAttackSkill = Skills.SkillType.Swords, m_damageModifier = 2.5f });
+			ValDataList.Add("PickaxeMeadS", new SEData() { m_ttl = 60, m_modifyAttackSkill = Skills.SkillType.Pickaxes, m_damageModifier = 2f });
+			ValDataList.Add("PickaxeMeadM", new SEData() { m_ttl = 150, m_modifyAttackSkill = Skills.SkillType.Pickaxes, m_damageModifier = 2f });
+			ValDataList.Add("PickaxeMeadL", new SEData() { m_ttl = 300, m_modifyAttackSkill = Skills.SkillType.Pickaxes, m_damageModifier = 2f });
+			ValDataList.Add("BowsMeadS", new SEData() { m_ttl = 60, m_modifyAttackSkill = Skills.SkillType.Bows, m_damageModifier = 2f });
+			ValDataList.Add("BowsMeadM", new SEData() { m_ttl = 150, m_modifyAttackSkill = Skills.SkillType.Bows, m_damageModifier = 2f });
+			ValDataList.Add("BowsMeadL", new SEData() { m_ttl = 300, m_modifyAttackSkill = Skills.SkillType.Bows, m_damageModifier = 2f });
+			ValDataList.Add("SwordsMeadS", new SEData() { m_ttl = 60, m_modifyAttackSkill = Skills.SkillType.Swords, m_damageModifier = 2f });
+			ValDataList.Add("SwordsMeadM", new SEData() { m_ttl = 150, m_modifyAttackSkill = Skills.SkillType.Swords, m_damageModifier = 2f });
+			ValDataList.Add("SwordsMeadL", new SEData() { m_ttl = 300, m_modifyAttackSkill = Skills.SkillType.Swords, m_damageModifier = 2f });
 		}
 		#endregion Se manager
 
 		#endregion Val_SE
+		#region Monster Se
+		public void initMonsterSE()
+		{
+			foreach (var item in MonsterSEList)
+			{
+				CreateValSE(item.Key, item.Value);
+			}
+		}
+		public void SetupMonsterSe()
+		{
+			for (int i = 1; i < 6; i++)
+			{
+				MonsterSEList.Add("MonsterAttackAMP"+i, new SEData() { m_ttl = 300, m_modifyAttackSkill = Skills.SkillType.All, m_damageModifier = 1+(i*0.2f) });
+			}
+		}
+		#endregion Monster Se
 
 	}
 
