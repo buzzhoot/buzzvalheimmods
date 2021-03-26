@@ -20,10 +20,7 @@ namespace OdinPlus
 		//public static ConfigEntry<int> nexusID;
 		public static ManualLogSource logger;
 		public static ConfigEntry<KeyboardShortcut> KS_SecondInteractkey;
-		public static ConfigEntry<KeyboardShortcut> KS_debug;
-		public static ConfigEntry<KeyboardShortcut> KS_debug2;
 		public static ConfigEntry<string> CFG_ItemSellValue;
-		public static ConfigEntry<string> CFG_Pets;
 		public static ConfigEntry<bool> CFG_disableSave;
 		#region InternalConfig
 		public static int RaiseCost = 10;
@@ -38,17 +35,14 @@ namespace OdinPlus
 		{
 			Plugin.logger = base.Logger;
 			CFG_ItemSellValue = base.Config.Bind<string>("Config", "ItemSellValue", "Coins:1;OdinLegacy:20");
-			CFG_Pets = base.Config.Bind<string>("Config", "PetList", "Troll,GoblinShaman");
 			//Plugin.nexusID = base.Config.Bind<int>("General", "NexusID", 354, "Nexus mod ID for updates");
 			KS_SecondInteractkey = base.Config.Bind<KeyboardShortcut>("1Hotkeys", "Second Interact key", new KeyboardShortcut(KeyCode.F));
-			KS_debug = base.Config.Bind<KeyboardShortcut>("1Hotkeys", "debug key", new KeyboardShortcut(KeyCode.F3));
-			KS_debug2 = base.Config.Bind<KeyboardShortcut>("1Hotkeys", "debug key2", new KeyboardShortcut(KeyCode.F4));
 			CFG_disableSave = base.Config.Bind<bool>("2debug", "disable saving", false);
 			_harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), null);
-
 			//notice:: init here
 			OdinPlusRoot = new GameObject("OdinPlus");
 			OdinPlusRoot.AddComponent<OdinPlus>();
+			OdinPlusRoot.AddComponent<DevTool>();
 			DontDestroyOnLoad(OdinPlusRoot);
 			DBG.blogInfo("OdinPlus Loadded");
 		}
@@ -162,16 +156,7 @@ namespace OdinPlus
 
 				}
 				#region debug
-				if (KS_debug.Value.IsUp())
-				{
-					OdinPlus.m_instance.Reset();
-				}
-				if (KS_debug2.Value.IsUp())
-				{
-					OdinPlus.UnRegister();
-					Destroy(OdinPlusRoot);
 
-				}
 				#endregion
 				//end
 			}
@@ -331,7 +316,7 @@ namespace OdinPlus
 			DevTool.ViewReward();
 		}
 
-		public static ZoneSystem.LocationInstance dbginsa;
+		
 		#endregion Debug
 	}
 

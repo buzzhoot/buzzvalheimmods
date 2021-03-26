@@ -14,14 +14,37 @@ using UnityEngine.UI;
 
 namespace OdinPlus
 {
-	public class DevTool
+	public class DevTool : MonoBehaviour
 	{
-
+		#region Mono
+		private void Update()
+		{
+			if (Player.m_localPlayer==null)
+			{
+				return;
+			}
+			if (Input.GetKeyDown(KeyCode.F8))
+			{
+				OdinPlus.m_instance.Reset();
+			}
+			if (Input.GetKeyDown(KeyCode.F6))
+			{
+				OdinPlus.UnRegister();
+				Destroy(Plugin.OdinPlusRoot);
+			}
+			if (Input.GetKeyDown(KeyCode.F9))
+			{
+				Monster();
+			}
+		}
+		
+		#endregion Mono
+		public static ZoneSystem.LocationInstance dbginsa;
 		public static void findLoc()
 		{
 			Game.instance.DiscoverClosestLocation("Crypt4", Player.m_localPlayer.transform.position, "test", 1);
 			Minimap.PinData pinData = Enumerable.First<Minimap.PinData>((List<Minimap.PinData>)Traverse.Create(Minimap.instance).Field("m_pins").GetValue(), (Minimap.PinData p) => p.m_type == Minimap.PinType.None && p.m_name == "");
-			ZoneSystem.instance.FindClosestLocation("Crypt4", Player.m_localPlayer.transform.position, out Plugin.dbginsa);
+			ZoneSystem.instance.FindClosestLocation("Crypt4", Player.m_localPlayer.transform.position, out dbginsa);
 		}
 		public static void findLocPrefab()
 		{
@@ -43,7 +66,7 @@ namespace OdinPlus
 			if (TaskManager.Root.transform.GetChild(OdinData.Data.TaskCount - 1).GetComponent<DungeonTask>().Reward == null) { return; }
 			GameCamera.instance.gameObject.transform.position = TaskManager.Root.transform.GetChild(OdinData.Data.TaskCount - 1).GetComponent<DungeonTask>().Reward.transform.position;
 		}
-		private static void finds()
+		public static void finds()
 		{
 			var a = Resources.FindObjectsOfTypeAll<GameObject>();
 			string s = "";
@@ -56,7 +79,11 @@ namespace OdinPlus
 			}
 			Debug.LogWarning(s);
 		}
-
+		public static void Monster()
+		{
+			var a = GameObject.Instantiate(ZNetScene.instance.GetPrefab("Fenring"),Player.m_localPlayer.transform.position+Vector3.up+Vector3.forward*2,Quaternion.identity);
+			Traverse.Create(a.GetComponent<Humanoid>()).Field<SEMan>("m_seman").Value.AddStatusEffect(OdinSE.MonsterSEList.ElementAt(4).Key);
+		}
 
 
 	}
