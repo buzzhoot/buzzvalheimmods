@@ -163,9 +163,9 @@ namespace OdinPlus
 			ValDataList.Add("WeightMeadS", new SEData() { m_ttl = 300, m_addMaxCarryWeight = 100 });
 			ValDataList.Add("WeightMeadM", new SEData() { m_ttl = 300, m_addMaxCarryWeight = 150 });
 			ValDataList.Add("WeightMeadL", new SEData() { m_ttl = 300, m_addMaxCarryWeight = 300 });
-			ValDataList.Add("InvisableMeadS", new SEData() { m_ttl = 60, m_noiseModifier = -1, m_stealthModifier = -1 });
-			ValDataList.Add("InvisableMeadM", new SEData() { m_ttl = 90, m_noiseModifier = -1, m_stealthModifier = -1 });
-			ValDataList.Add("InvisableMeadL", new SEData() { m_ttl = 120, m_noiseModifier = -1, m_stealthModifier = -1 });
+			ValDataList.Add("InvisibleMeadS", new SEData() { m_ttl = 60, m_noiseModifier = -1, m_stealthModifier = -1 });
+			ValDataList.Add("InvisibleMeadM", new SEData() { m_ttl = 90, m_noiseModifier = -1, m_stealthModifier = -1 });
+			ValDataList.Add("InvisibleMeadL", new SEData() { m_ttl = 120, m_noiseModifier = -1, m_stealthModifier = -1 });
 			ValDataList.Add("PickaxeMeadS", new SEData() { m_ttl = 60, m_modifyAttackSkill = Skills.SkillType.Pickaxes, m_damageModifier = 2f });
 			ValDataList.Add("PickaxeMeadM", new SEData() { m_ttl = 150, m_modifyAttackSkill = Skills.SkillType.Pickaxes, m_damageModifier = 2f });
 			ValDataList.Add("PickaxeMeadL", new SEData() { m_ttl = 300, m_modifyAttackSkill = Skills.SkillType.Pickaxes, m_damageModifier = 2f });
