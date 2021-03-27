@@ -78,7 +78,8 @@ namespace OdinPlus
 			}
 			var item = Tweakers.GetItemData(m_item);
 			HintTarget = String.Format("Find [<color=yellow><b>{0} {1}</b></color>] for Munin,he'll give you something nice ", m_count, item.m_shared.m_name);
-			taskName = item.m_shared.m_name + " Search";
+			taskName = item.m_shared.m_name + String.Format(" (<color=yellow>{0}</color>)Search", m_count);
+
 
 			OdinData.Data.TaskCount++;
 			m_index = OdinData.Data.TaskCount;
@@ -118,18 +119,40 @@ namespace OdinPlus
 			int count = OdinData.Data.SearchTaskList[item];
 			Debug.LogWarning(count);
 			var id = Tweakers.GetItemData(item);
+			var iname = id.m_shared.m_name;
 			var mstk = id.m_shared.m_maxStackSize;
+			int have = inv.CountItems(id.m_shared.m_name);
 
-			if (count > mstk)
+
+			if (have >= count)
 			{
-				inv.RemoveItem(Tweakers.GetItemData(item), id.m_shared.m_maxStackSize);
+				if (count > mstk)
+				{
+					inv.RemoveItem(iname, mstk);
+					OdinData.Data.SearchTaskList[item] -= mstk;
+					return false;
+				}
+				else
+				{
+					inv.RemoveItem(iname, count);
+					var t = TaskManager.Root.transform.Find("Task" + item);
+					t.gameObject.GetComponent<SearchTask>().Finish();
+					return true;
+				}
+			}
+			if (have < mstk)
+			{
+				inv.RemoveItem(iname, have);
+				OdinData.Data.SearchTaskList[item] -= have;
+				return false;
+			}
+			else
+			{
+				inv.RemoveItem(iname, mstk);
 				OdinData.Data.SearchTaskList[item] -= mstk;
 				return false;
 			}
-			inv.RemoveItem(Tweakers.GetItemData(item), count);
-			var t = TaskManager.Root.transform.Find("Task" + item);
-			t.gameObject.GetComponent<SearchTask>().Finish();
-			return true;
+
 		}
 	}
 }
