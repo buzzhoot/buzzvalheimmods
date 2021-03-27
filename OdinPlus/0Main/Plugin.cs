@@ -13,7 +13,7 @@ using System.Globalization;
 using UnityEngine.UI;
 namespace OdinPlus
 {
-	[BepInPlugin("buzz.valheim.OdinPlus", "OdinPlus", "0.0.1")]
+	[BepInPlugin("buzz.valheim.OdinPlus", "OdinPlus", "0.0.2")]
 	public class Plugin : BaseUnityPlugin
 	{
 		#region Config Var
@@ -21,7 +21,7 @@ namespace OdinPlus
 		public static ManualLogSource logger;
 		public static ConfigEntry<KeyboardShortcut> KS_SecondInteractkey;
 		public static ConfigEntry<string> CFG_ItemSellValue;
-		private static bool DisableSaving= false;
+		private static bool DisableSaving = false;
 		#region InternalConfig
 		public static int RaiseCost = 10;
 		public static int RaiseFactor = 100;
@@ -38,7 +38,7 @@ namespace OdinPlus
 			Plugin.nexusID = base.Config.Bind<int>("General", "NexusID", 759, "Nexus mod ID for updates");
 			KS_SecondInteractkey = base.Config.Bind<KeyboardShortcut>("1Hotkeys", "Second Interact key", new KeyboardShortcut(KeyCode.F));
 			_harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), null);
-			
+
 			//-- init here
 			OdinPlusRoot = new GameObject("OdinPlus");
 			OdinPlusRoot.AddComponent<OdinPlus>();
@@ -221,7 +221,7 @@ namespace OdinPlus
 			{
 				if (__instance.gameObject.GetComponent<Character>().m_name == "$odin_wolf_name")
 				{
-					__result +=Localization.instance.Localize(String.Format("\n<color=yellow><b>[{0}]</b></color>$odin_wolf_use", Plugin.KS_SecondInteractkey.Value.MainKey.ToString()));
+					__result += Localization.instance.Localize(String.Format("\n<color=yellow><b>[{0}]</b></color>$odin_wolf_use", Plugin.KS_SecondInteractkey.Value.MainKey.ToString()));
 				}
 			}
 		}
@@ -277,6 +277,21 @@ namespace OdinPlus
 			private static void Postfix(ObjectDB __instance)
 			{
 				OdinPlus.PostODB();
+			}
+		}
+		[HarmonyPatch(typeof(Chat), "InputText")]
+		private static class Patch_Console_InputText
+		{
+			private static void Prefix(Chat __instance)
+			{
+				if (Player.m_localPlayer != null && NpcManager.IsInit)
+				{
+					string cmd = __instance.m_input.text;
+					if (cmd.ToLower() == "/odinhere")
+					{
+						NpcManager.Root.transform.localPosition=Player.m_localPlayer.transform.localPosition+Vector3.forward*4;
+					}
+				}
 			}
 		}
 		#endregion
