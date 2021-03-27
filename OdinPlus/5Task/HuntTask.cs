@@ -35,6 +35,10 @@ namespace OdinPlus
 		}
 		protected override void SetLocName()
 		{
+			if (Key == 5)
+			{
+				Key = Key.RollDice();
+			}
 			locName = Monsters[Key - 1];
 			locName = Regex.Replace(locName, @"[_]", "");
 		}
@@ -53,10 +57,7 @@ namespace OdinPlus
 		}
 		private void AddMonster()
 		{
-			if (Key==5)
-			{
-				Key=Key.RollDice();
-			}
+
 			float y = 0;
 			ZoneSystem.instance.FindFloor(location.m_position, out y);
 			var pos = new Vector3(location.m_position.x, y + 2, location.m_position.z + 5f);
