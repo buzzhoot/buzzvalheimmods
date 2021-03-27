@@ -37,7 +37,7 @@ namespace OdinPlus
 		{
 			if (Key == 5)
 			{
-				Key = Key.RollDice();
+				Key = (Key-1).RollDice();
 			}
 			locName = Monsters[Key - 1];
 			locName = Regex.Replace(locName, @"[_]", "");
