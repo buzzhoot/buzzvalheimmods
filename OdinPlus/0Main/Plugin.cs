@@ -37,7 +37,8 @@ namespace OdinPlus
 			//Plugin.nexusID = base.Config.Bind<int>("General", "NexusID", 354, "Nexus mod ID for updates");
 			KS_SecondInteractkey = base.Config.Bind<KeyboardShortcut>("1Hotkeys", "Second Interact key", new KeyboardShortcut(KeyCode.F));
 			_harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), null);
-			//notice:: init here
+			
+			//-- init here
 			OdinPlusRoot = new GameObject("OdinPlus");
 			OdinPlusRoot.AddComponent<OdinPlus>();
 			OdinPlusRoot.AddComponent<DevTool>();

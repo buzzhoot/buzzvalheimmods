@@ -6,7 +6,7 @@ using HarmonyLib;
 using BepInEx.Logging;
 using UnityEngine;
 //||X||may be setup NPC somewhere else 
-//? Hi i am the manager ,spwan npc Somewhere Else;
+//||X||Hi i am the manager ,spwan npc Somewhere Else;
 namespace OdinPlus
 {
 

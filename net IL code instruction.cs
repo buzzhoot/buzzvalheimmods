@@ -131,7 +131,7 @@ foreach(var code in codes)
                     foundMoveDirCondition = true;
                 }
 
-                // Lastly, add "movedir.x * Vector3.Cross(Vector3.up, this.m_lookDir)" to the player's movedir so that they can strafe while autorunning
+                // Lastly, add "movedir.x * Vector3.Cross(Vector3.up, this.m_lookDir)" to the player's movedir so that they can  while autorunning
                 if (foundMoveDirCondition
                     && codes[i - 3].opcode == OpCodes.Ldarg_0
                     && codes[i - 2].opcode == OpCodes.Ldarg_0

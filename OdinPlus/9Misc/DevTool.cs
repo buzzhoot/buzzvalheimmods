@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 
 using BepInEx;
 using BepInEx.Configuration;
@@ -16,7 +17,8 @@ namespace OdinPlus
 {
 	public class DevTool : MonoBehaviour
 	{
-		public static bool DisableSaving=false;
+		public static bool DisableSaving = false;
+		public static string UnLocal;
 		#region Mono
 		private void Update()
 		{
@@ -36,6 +38,10 @@ namespace OdinPlus
 			if (Input.GetKeyDown(KeyCode.F9))
 			{
 				PrintLocPrefab();
+			}
+			if (Input.GetKeyDown(KeyCode.F9))
+			{
+				PrintUnLoc();
 			}
 			if (Input.GetKeyDown(KeyCode.Keypad0) && Input.GetKeyDown(KeyCode.RightControl))
 			{
@@ -84,6 +90,7 @@ namespace OdinPlus
 		}
 
 		#endregion Mono
+		#region ZoneSys
 		public static ZoneSystem.LocationInstance dbginsa;
 		public static void findLoc()
 		{
@@ -116,6 +123,9 @@ namespace OdinPlus
 			}
 			Debug.LogWarning(str);
 		}
+		#endregion ZoneSys
+
+		#region Task
 		public static void ViewReward()
 		{
 			if (TaskManager.Root.transform.childCount == 0) { return; }
@@ -140,7 +150,18 @@ namespace OdinPlus
 			var a = GameObject.Instantiate(ZNetScene.instance.GetPrefab("Fenring"), Player.m_localPlayer.transform.position + Vector3.up + Vector3.forward * 2, Quaternion.identity);
 			Traverse.Create(a.GetComponent<Humanoid>()).Field<SEMan>("m_seman").Value.AddStatusEffect(OdinSE.MonsterSEList.ElementAt(4).Key);
 		}
+		#endregion Task
+
 		#region Print
+		#region Print Tool
+		/* 						var s = "";
+					s += DevTool.PrintStringArray(m_tier0);
+					s += DevTool.PrintStringArray(m_tier1);
+					s += DevTool.PrintStringArray(m_tier2);
+					s += DevTool.PrintStringArray(m_tier3);
+					s += DevTool.PrintStringArray(m_tier4);
+					DBG.blogWarning(s); */
+		#endregion Print Tool
 		public static string PrintStringArray(string[] list)
 		{
 			string s = "";
@@ -151,17 +172,31 @@ namespace OdinPlus
 			Debug.Log(s);
 			return s;
 		}
-		/* 						var s = "";
-						s += DevTool.PrintStringArray(m_tier0);
-						s += DevTool.PrintStringArray(m_tier1);
-						s += DevTool.PrintStringArray(m_tier2);
-						s += DevTool.PrintStringArray(m_tier3);
-						s += DevTool.PrintStringArray(m_tier4);
-						DBG.blogWarning(s); */
+		public static void PrintUnLoc()
+		{
+			Debug.Log(UnLocal);
+		}
+		[HarmonyTranspiler]
+		[HarmonyPatch(typeof(Localization),"Translate")]
+		public static IEnumerable<CodeInstruction> TranslateTranspiler(IEnumerable<CodeInstruction> instructions)
+		{
+			List<CodeInstruction> codes = new List<CodeInstruction>(instructions);
+			//DumpIL(codes);
+			for (int i = 0; i < codes.Count(); i++)
+			{
+				if (codes[i].opcode==OpCodes.Ret&&codes[i+1].opcode==OpCodes.Ldstr)
+				{
+					string s = (string)codes[i+2].operand;
+					UnLocal+=s+",";
+				}
+			}
+			return codes.AsEnumerable();
+		}
+
 		#endregion Print
 
 
-	
-	//End Class
+
+		//End Class
 	}
 }

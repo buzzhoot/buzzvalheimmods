@@ -14,9 +14,9 @@ namespace OdinPlus
 		private static ZNetScene zns;
 		public static GameObject Root;
 		public static Dictionary<string, GameObject> PrefabList = new Dictionary<string, GameObject>();
-		#region Consant //?
-		
-		#endregion Consant //?
+		#region Consant
+
+		#endregion Consant
 		#endregion Var
 
 		#region Mono
@@ -43,7 +43,7 @@ namespace OdinPlus
 		{
 			foreach (var item in HuntTask.Monsters)
 			{
-				PrefabList.Add(item+"Hunt", HuntTarget.CreateMonster(item));
+				PrefabList.Add(item + "Hunt", HuntTarget.CreateMonster(item));
 			}
 		}
 		private static void CreateLegacyChest()
@@ -66,7 +66,7 @@ namespace OdinPlus
 				ctn.m_width = 1;
 				ctn.m_height = 1;
 				ctn.m_defaultItems.m_drops.Add(new DropTable.DropData { m_item = go, m_stackMax = i, m_stackMin = i, m_weight = 1 });
-				//fx
+				//-?
 				var fx = Instantiate(FxAssetManager.GetFxNN("BlueSmoke"), Chest.transform);
 
 				PrefabList.Add(Chest.name, Chest);
