@@ -53,7 +53,9 @@ namespace OdinPlus
 			public bool isMain = false;
 			public bool m_pause = false;
 			public bool m_isInit = false;
-			public Vector3 m_position = Vector3.zero;
+			public float m_positionX = 0f;
+			public float m_positionY = 0f;
+			public float m_positionZ = 0f;
 			public bool m_discovered = false;
 			public bool m_finished = false;
 			public bool m_isClear = false;
@@ -197,7 +199,7 @@ namespace OdinPlus
 			if (!File.Exists(@file))
 			{
 				OdinPlus.isLoaded = true;
-				score=100;
+				score = 100;
 				DBG.blogWarning("Profile not exists:" + name);
 				return;
 			}

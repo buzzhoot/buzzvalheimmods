@@ -293,7 +293,7 @@ namespace OdinPlus
 
 			m_isInit = dat.m_isInit;
 
-			m_position = dat.m_position;
+			m_position = new Vector3(dat.m_positionX,dat.m_positionY,dat.m_positionZ);
 
 			m_pause = dat.m_pause;
 
@@ -353,7 +353,9 @@ namespace OdinPlus
 
 				m_isInit = this.m_isInit,
 
-				m_position = this.m_position,
+				m_positionX = this.m_position.x,
+				m_positionY = this.m_position.y,
+				m_positionZ = this.m_position.z,
 
 				m_pause = this.m_pause,
 
