@@ -230,7 +230,7 @@ namespace OdinPlus
 			{
 				if (__instance.gameObject.GetComponent<Character>().m_name == "$odin_wolf_name")
 				{
-					__result += String.Format("\n<color=yellow><b>[{0}]</b></color>$odin_wolf_use", Plugin.KS_SecondInteractkey.Value.MainKey.ToString());
+					__result +=Localization.instance.Localize(String.Format("\n<color=yellow><b>[{0}]</b></color>$odin_wolf_use", Plugin.KS_SecondInteractkey.Value.MainKey.ToString()));
 				}
 			}
 		}
