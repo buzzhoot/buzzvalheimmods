@@ -34,7 +34,7 @@ namespace OdinPlus
 		{
 			UnityEngine.Random.InitState(Mathf.FloorToInt(Time.realtimeSinceStartup));
 			var l = OdinData.ItemSellValue;
-			int i = UnityEngine.Random.Range(0, l.Count);
+			int i = UnityEngine.Random.Range(0, l.Count-1);
 			return l.ElementAt(i).Key.GetTransName();
 		}
 		public static bool IsInstantiated()
