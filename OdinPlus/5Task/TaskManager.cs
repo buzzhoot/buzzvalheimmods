@@ -186,10 +186,13 @@ namespace OdinPlus
 						component = go.AddComponent<TreasureTask>();
 						break;
 					case TaskType.Hunt:
+						component = go.AddComponent<HuntTask>();
 						break;
 					case TaskType.Dungeon:
+					component = go.AddComponent<DungeonTask>();
 						break;
 					case TaskType.Search:
+					component = go.AddComponent<SearchTask>();
 						break;
 				}
 				if (component.Load(item))
