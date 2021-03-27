@@ -108,7 +108,7 @@ namespace OdinPlus
 			Key = TaskManager.GameKey;
 			Level = TaskManager.Level;
 			isMain = TaskManager.isMain;
-			locList = new List<string[]> { m_tier0, m_tier1, m_tier2, m_tier3, m_tier4 };
+			locList = new List<string[]> { m_tier0, m_tier1, m_tier2, m_tier3, m_tier4,m_tier5};
 			if (singleInit)
 			{
 				Init = new Action(InitAll);
