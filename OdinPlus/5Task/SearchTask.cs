@@ -117,19 +117,19 @@ namespace OdinPlus
 			var inv = Player.m_localPlayer.GetInventory();
 			int count = OdinData.Data.SearchTaskList[item];
 			Debug.LogWarning(count);
-			if (inv.CountItems(Tweakers.GetItemData(item).m_shared.m_name) >= count)
-			{
-				//inv.RemoveItem(Tweakers.GetItemData(item), count);
-				for (int i = 0; i < count; i++)
-				{
-					inv.RemoveOneItem(Tweakers.GetItemData(item));
-				}
-				var t = TaskManager.Root.transform.Find("Task" + item);
-				t.gameObject.GetComponent<SearchTask>().Finish();
-				return true;
-			}
-			return false;
-		}
+			var id = Tweakers.GetItemData(item);
+			var mstk = id.m_shared.m_maxStackSize;
 
+			if (count > mstk)
+			{
+				inv.RemoveItem(Tweakers.GetItemData(item), id.m_shared.m_maxStackSize);
+				OdinData.Data.SearchTaskList[item] -= mstk;
+				return false;
+			}
+			inv.RemoveItem(Tweakers.GetItemData(item), count);
+			var t = TaskManager.Root.transform.Find("Task" + item);
+			t.gameObject.GetComponent<SearchTask>().Finish();
+			return true;
+		}
 	}
 }
