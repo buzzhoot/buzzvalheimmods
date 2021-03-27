@@ -105,7 +105,10 @@ namespace OdinPlus
 {"SwordsMeadS",20},
 {"SwordsMeadM",30},
 {"SwordsMeadL",60},
-{"SpeedMeadsL",20}
+{"SpeedMeadsL",20},
+{"AxeMeadS",20},
+{"AxeMeadM",30},
+{"AxeMeadL",60}
 		};
 		#endregion GameCfgData
 
@@ -194,6 +197,7 @@ namespace OdinPlus
 			if (!File.Exists(@file))
 			{
 				OdinPlus.isLoaded = true;
+				score=100;
 				DBG.blogWarning("Profile not exists:" + name);
 				return;
 			}

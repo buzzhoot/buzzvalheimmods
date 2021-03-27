@@ -73,8 +73,8 @@ namespace OdinPlus
 			var se = ScriptableObject.CreateInstance<Se_Buzz>();
 			se.name = name;
 			se.m_icon = OdinPlus.OdinSEIcon[0];
-			se.m_name = "$odin_" + name+"_name";
-			se.m_tooltip = "$odin_" + name + "_tooltip";;
+			se.m_name = "$odin_" + name + "_name";
+			se.m_tooltip = "$odin_" + name + "_tooltip"; ;
 
 			se.m_ttl = 300;
 			se.speedModifier = 1.5f;
@@ -102,7 +102,7 @@ namespace OdinPlus
 			var se = ScriptableObject.CreateInstance<SE_Stats>();
 			se.name = name;
 			se.m_icon = OdinPlus.OdinSEIcon[0];
-			se.m_name = "$odin_" + name+"_name";
+			se.m_name = "$odin_" + name + "_name";
 			se.m_tooltip = "$odin_" + name + "_tooltip";
 
 			se.m_ttl = data.m_ttl;
@@ -122,7 +122,7 @@ namespace OdinPlus
 			se.m_raiseSkillModifier = data.m_raiseSkillModifier;
 			//se.m_mods = new List<HitData.DamageModPair>() = data.m_mods = new List<HitData.DamageModPair>();
 			se.m_modifyAttackSkill = data.m_modifyAttackSkill;
-			se.m_damageModifier = data.m_damageModifier ;
+			se.m_damageModifier = data.m_damageModifier;
 			se.m_noiseModifier = data.m_noiseModifier;
 			se.m_stealthModifier = data.m_stealthModifier;
 			se.m_addMaxCarryWeight = data.m_addMaxCarryWeight;
@@ -175,6 +175,9 @@ namespace OdinPlus
 			ValDataList.Add("SwordsMeadS", new SEData() { m_ttl = 60, m_modifyAttackSkill = Skills.SkillType.Swords, m_damageModifier = 2f });
 			ValDataList.Add("SwordsMeadM", new SEData() { m_ttl = 150, m_modifyAttackSkill = Skills.SkillType.Swords, m_damageModifier = 2f });
 			ValDataList.Add("SwordsMeadL", new SEData() { m_ttl = 300, m_modifyAttackSkill = Skills.SkillType.Swords, m_damageModifier = 2f });
+			ValDataList.Add("AxeMeadS", new SEData() { m_ttl = 60, m_modifyAttackSkill = Skills.SkillType.Axes, m_damageModifier = 2f });
+			ValDataList.Add("AxeMeadM", new SEData() { m_ttl = 150, m_modifyAttackSkill = Skills.SkillType.Axes, m_damageModifier = 2f });
+			ValDataList.Add("AxeMeadL", new SEData() { m_ttl = 300, m_modifyAttackSkill = Skills.SkillType.Axes, m_damageModifier = 2f });
 		}
 		#endregion Se manager
 
@@ -191,7 +194,7 @@ namespace OdinPlus
 		{
 			for (int i = 1; i < 6; i++)
 			{
-				MonsterSEList.Add("MonsterAttackAMP"+i, new SEData() { m_ttl = 3000000, m_modifyAttackSkill = Skills.SkillType.All, m_damageModifier = 1+((i-1)*0.1f)});
+				MonsterSEList.Add("MonsterAttackAMP" + i, new SEData() { m_ttl = 3000000, m_modifyAttackSkill = Skills.SkillType.All, m_damageModifier = 1 + ((i - 1) * 0.1f) });
 			}
 		}
 		#endregion Monster Se
