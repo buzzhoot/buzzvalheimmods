@@ -85,6 +85,30 @@ namespace OdinPlus
 		public static DataTable Data;
 		#endregion interl
 
+		#region GameCfgData
+		public static Dictionary<string, int> MeadsValue = new Dictionary<string, int>(){
+{"ExpMeadS",5},
+{"ExpMeadM",10},
+{"ExpMeadL",20},
+{"WeightMeadS",20},
+{"WeightMeadM",30},
+{"WeightMeadL",40},
+{"InvisableMeadS",30},
+{"InvisableMeadM",60},
+{"InvisableMeadL",90},
+{"PickaxeMeadS",20},
+{"PickaxeMeadM",30},
+{"PickaxeMeadL",60},
+{"BowsMeadS",20},
+{"BowsMeadM",30},
+{"BowsMeadL",60},
+{"SwordsMeadS",20},
+{"SwordsMeadM",30},
+{"SwordsMeadL",60},
+{"SpeedMeadsL",20}
+		};
+		#endregion GameCfgData
+
 		#endregion Var
 
 		#region Mono

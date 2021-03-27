@@ -148,13 +148,13 @@ namespace OdinPlus
 			OdinPlus.traderNameList.Add(m_odinPot.m_name);
 			m_odinPot.m_talker = m_odinGod.gameObject;
 
-			foreach (var item in OdinMeads.MeadList.Values)
+			foreach (var item in OdinMeads.MeadList)
 			{
 				m_odinPot.m_items.Add(new Trader.TradeItem
 				{
-					m_prefab = item.GetComponent<ItemDrop>(),
+					m_prefab = item.Value.GetComponent<ItemDrop>(),
 					m_stack = 1,
-					m_price = 1
+					m_price = OdinData.MeadsValue[item.Key]
 				});
 			}
 		}
