@@ -61,9 +61,9 @@ namespace OdinPlus
 		{
 			string n = string.Format("<color=lightblue><b>{0}</b></color>", m_name);
 			//n += string.Format("\n<color=green><b>Score:{0}</b></color>", OdinData.score);
-			n += "\n[<color=yellow><b>$KEY_Use</b></color>] $odin_buy";
-			n += "\n[<color=yellow><b>1-8</b></color>]Offer your Trophies";
-			n += String.Format("\n<color=yellow><b>[{0}]</b></color>$odin_shaman_use", Plugin.KS_SecondInteractkey.Value.MainKey.ToString());
+			n += "\n[<color=yellow><b>$KEY_Use</b></color>] $odin_buy(Devloping Not Working)";
+			n += "\n[<color=yellow><b>1-8</b></color>]Offer your Trophies(3,Wolf or Troll)";
+			n += String.Format("\n<color=yellow><b>[{0}]</b></color>$odin_shaman_use(Devloping Not Working)", Plugin.KS_SecondInteractkey.Value.MainKey.ToString());
 			return Localization.instance.Localize(n);
 		}
 		public override string GetHoverName()
@@ -82,7 +82,7 @@ namespace OdinPlus
 					if (user.GetInventory().AddItem(goodItemData))
 					{
 						user.GetInventory().RemoveItem(item, gd.Value);
-						Say(goodItemData.GetTooltip());
+						Say(goodItemData.m_shared.m_description);
 						return true;
 					}
 					DBG.InfoCT("$odin_inventory_full");
