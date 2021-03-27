@@ -16,7 +16,7 @@ namespace OdinPlus
 		[Serializable]
 		public class DataTable : SerializationBinder
 		{
-			public int score = 0;
+			public int score = 100;
 			public bool hasWolf = false;
 			public bool hasTroll = false;
 			public List<string> BlackList = new List<string>();
