@@ -8,6 +8,17 @@ namespace OdinPlus
 {
 	public static class Tweakers
 	{
+		public static List<string> TaskHints = new List<string>();
+		private static void addHints(string text)
+		{
+			var m_knownTexts = Traverse.Create(Player.m_localPlayer).Field<Dictionary<string, string>>("m_knownTexts").Value;
+			TaskHints.Add(text);
+			while (TaskHints.Count>50)
+			{
+				TaskHints.RemoveAt(0);
+			}
+			m_knownTexts["Quest Hints"]=string.Join("\n",TaskHints.ToArray());
+		}
 		public static Humanoid ChangeSpeed(this Humanoid humanoid, float speed)
 		{
 			humanoid.m_speed = speed;
@@ -23,13 +34,7 @@ namespace OdinPlus
 				m_topic = "Quest Hints"
 			};
 			HuginSays(tutorialText.m_name, tutorialText.m_topic, tutorialText.m_text, tutorialText.m_label);
-			var m_knownTexts = Traverse.Create(Player.m_localPlayer).Field<Dictionary<string, string>>("m_knownTexts").Value;
-			if (m_knownTexts.ContainsKey(tutorialText.m_topic))
-			{
-				m_knownTexts[tutorialText.m_topic] = messageName + "\n" + tutorialText.m_text + "\n\n" + m_knownTexts[tutorialText.m_topic];
-				return;
-			}
-			m_knownTexts.Add(tutorialText.m_topic, messageName + "\n" + tutorialText.m_text);
+			addHints(messageName + "\n" + tutorialText.m_text + "\n");
 		}
 		public static void TaskTopicHugin(string messageName, string messageText)
 		{
@@ -113,17 +118,17 @@ namespace OdinPlus
 		{
 			return ObjectDB.instance.GetItemPrefab(name).GetComponent<ItemDrop>().m_itemData;
 		}
-		public static GameObject ValSpawn(string name,Vector3 pos,bool removeClone = false)
+		public static GameObject ValSpawn(string name, Vector3 pos, bool removeClone = false)
 		{
-			var a = GameObject.Instantiate(ZNetScene.instance.GetPrefab(name),pos,Quaternion.identity);
+			var a = GameObject.Instantiate(ZNetScene.instance.GetPrefab(name), pos, Quaternion.identity);
 			if (removeClone)
 			{
 				if (a.name.Contains("(Clone)"))
 				{
-					a.name=a.name.Substring(a.name.Length-6,7);
+					a.name = a.name.Substring(a.name.Length - 6, 7);
 				}
 			}
-			return a ;
+			return a;
 		}
 	}
 
