@@ -21,6 +21,7 @@ namespace OdinPlus
 		public static ManualLogSource logger;
 		public static ConfigEntry<KeyboardShortcut> KS_SecondInteractkey;
 		public static ConfigEntry<string> CFG_ItemSellValue;
+		private static bool DisableSaving= false;
 		#region InternalConfig
 		public static int RaiseCost = 10;
 		public static int RaiseFactor = 50;
@@ -41,7 +42,10 @@ namespace OdinPlus
 			//-- init here
 			OdinPlusRoot = new GameObject("OdinPlus");
 			OdinPlusRoot.AddComponent<OdinPlus>();
+
+			//notice Debug
 			OdinPlusRoot.AddComponent<DevTool>();
+
 			DontDestroyOnLoad(OdinPlusRoot);
 			DBG.blogInfo("OdinPlus Loadded");
 		}
@@ -305,7 +309,7 @@ namespace OdinPlus
 		public static void TestA()
 		{
 			TaskManager.CheckKey();
-			TaskManager.CreateTask(TaskManager.TaskType.Dungeon);
+			TaskManager.CreateRandomTask();
 		}
 		public static void TestB()
 		{

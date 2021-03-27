@@ -74,7 +74,7 @@ namespace OdinPlus
 			se.name = name;
 			se.m_icon = OdinPlus.OdinSEIcon[0];
 			se.m_name = "$odin_se_" + name;
-			se.m_tooltip = "$odin_" + name + "_tooltip";
+			se.m_tooltip = "$odin_se" + name + "_tooltip";
 
 			se.m_ttl = 300;
 			se.speedModifier = 1.5f;

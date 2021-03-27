@@ -18,7 +18,7 @@ namespace OdinPlus
 	public class DevTool : MonoBehaviour
 	{
 		public static bool DisableSaving = false;
-		public static string UnLocal;
+		public static List<string> UnLocal = new List<string>();
 		#region Mono
 		private void Update()
 		{
@@ -37,9 +37,9 @@ namespace OdinPlus
 			}
 			if (Input.GetKeyDown(KeyCode.F9))
 			{
-				PrintLocPrefab();
+				PrintMeadsLoc();
 			}
-			if (Input.GetKeyDown(KeyCode.F9))
+			if (Input.GetKeyDown(KeyCode.F10))
 			{
 				PrintUnLoc();
 			}
@@ -174,25 +174,65 @@ namespace OdinPlus
 		}
 		public static void PrintUnLoc()
 		{
-			Debug.Log(UnLocal);
-		}
-		[HarmonyTranspiler]
-		[HarmonyPatch(typeof(Localization),"Translate")]
-		public static IEnumerable<CodeInstruction> TranslateTranspiler(IEnumerable<CodeInstruction> instructions)
-		{
-			List<CodeInstruction> codes = new List<CodeInstruction>(instructions);
-			//DumpIL(codes);
-			for (int i = 0; i < codes.Count(); i++)
+			string s = "";
+			foreach (var item in UnLocal)
 			{
-				if (codes[i].opcode==OpCodes.Ret&&codes[i+1].opcode==OpCodes.Ldstr)
+				s += item + ",";
+			}
+			Debug.Log(s);
+		}
+		/* 		[HarmonyTranspiler]
+				[HarmonyPatch(typeof(Localization),"Translate")]
+				public static IEnumerable<CodeInstruction> TranslateTranspiler(IEnumerable<CodeInstruction> instructions)
 				{
-					string s = (string)codes[i+2].operand;
-					UnLocal+=s+",";
+					List<CodeInstruction> codes = new List<CodeInstruction>(instructions);
+					//DumpIL(codes);
+					for (int i = 0; i < codes.Count(); i++)
+					{
+						if (codes[i].opcode==OpCodes.Ret&&codes[i+1].opcode==OpCodes.Ldstr)
+						{
+							string s = (string)codes[i+4].operand;
+							UnLocal+=s+",";
+						}
+					}
+					return codes.AsEnumerable();
+				} */
+		[HarmonyPatch(typeof(Localization), "Translate")]
+		private static class Postfix_Localization_Translate
+		{
+			private static void Postfix(ref string __result)
+			{
+				if (__result.StartsWith("["))
+				{
+					if (UnLocal.Contains(__result))
+					{
+						return;
+					}
+					UnLocal.Add(__result);
 				}
 			}
-			return codes.AsEnumerable();
 		}
 
+		private static void PrintMeadsList()
+		{
+			string s = "";
+			foreach (var item in OdinMeads.MeadList.Keys)
+			{
+				s += item + ",";
+			}
+			DBG.blogWarning(s);
+		}
+		private static void PrintMeadsLoc()
+		{
+			string s = "";
+			foreach (var item in OdinMeads.MeadList.Keys)
+			{
+				DBG.blogWarning("$odin_se_" + item);
+				DBG.blogWarning("$odin_se_" + item + "_tooltip");
+				DBG.blogWarning("$odin_" + item + "_name");
+				DBG.blogWarning("$odin_" + item + "_desc");
+			}
+		}
 		#endregion Print
 
 
