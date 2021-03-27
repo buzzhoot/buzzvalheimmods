@@ -119,7 +119,11 @@ namespace OdinPlus
 			Debug.LogWarning(count);
 			if (inv.CountItems(Tweakers.GetItemData(item).m_shared.m_name) >= count)
 			{
-				inv.RemoveItem(Tweakers.GetItemData(item), count);
+				//inv.RemoveItem(Tweakers.GetItemData(item), count);
+				for (int i = 0; i < count; i++)
+				{
+					inv.RemoveOneItem(Tweakers.GetItemData(item));
+				}
 				var t = TaskManager.Root.transform.Find("Task" + item);
 				t.gameObject.GetComponent<SearchTask>().Finish();
 				return true;
