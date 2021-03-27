@@ -123,6 +123,7 @@ namespace OdinPlus
 			string n = string.Format("<color=lightblue><b>{0}</b></color>", m_name);
 			n += string.Format("\n<color=lightblue><b>Current Quest Level:{0}</b></color>", TaskManager.Level);
 			n += string.Format("\nYou have <color=lightblue><b>{0}</b></color> Tasks", TaskManager.Count());
+			n += "\n[<color=yellow><b>1-8</b></color>]Offer your items";
 			n += "\n[<color=yellow><b>$KEY_Use</b></color>]" + currentChoice;
 			n += String.Format("\n<color=yellow><b>[{0}]</b></color>Switch Choice", Plugin.KS_SecondInteractkey.Value.MainKey.ToString());
 			return Localization.instance.Localize(n);
