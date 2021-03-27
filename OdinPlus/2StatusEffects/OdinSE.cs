@@ -47,7 +47,7 @@ namespace OdinPlus
 			se.m_name = "$odin_ScrolTroll_name";
 			se.m_tooltip = "$odin_ScrolTroll_tooltip";
 			se.m_cooldownIcon = true;
-			se.m_ttl = 300;
+			se.m_ttl = 600;
 			se.PetName = "TrollPet";
 			SElist.Add("ScrolTroll", se);
 		}

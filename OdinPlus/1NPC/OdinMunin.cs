@@ -52,7 +52,7 @@ namespace OdinPlus
 			}
 			TaskManager.CreateRandomTask();
 			Say("Wait for Hugin,he will tell you");
-			timer = 300f;//add
+			timer = 60f;//add
 		}
 		private void GiveUpTask()
 		{
