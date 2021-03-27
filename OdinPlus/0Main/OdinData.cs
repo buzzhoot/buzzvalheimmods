@@ -129,6 +129,10 @@ namespace OdinPlus
 			for (int i = 0; i < l1.Length; i++)
 			{
 				string[] c = l1[i].Split(new char[] { ':' });
+				if (c.Length==0)
+				{
+					continue;
+				}
 				try
 				{
 					ItemSellValue.Add(c[0], int.Parse(c[1]));
