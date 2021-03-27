@@ -41,7 +41,7 @@ namespace OdinPlus
 			{
 				return false;
 			}
-			Say("Want something magic,Warrior?");
+			Say("$op_pot_open");
 			StoreGui.instance.Show(this);
 			//m_randomStartTradeFX.Create(m_talker.transform.position, Quaternion.identity, null, 1f);
 			//m_randomStartTradeFX.Create(this.transform.position, Quaternion.identity, null, 1f);

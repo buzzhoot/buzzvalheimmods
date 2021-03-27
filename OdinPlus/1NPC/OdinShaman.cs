@@ -62,7 +62,7 @@ namespace OdinPlus
 			string n = string.Format("<color=lightblue><b>{0}</b></color>", m_name);
 			//n += string.Format("\n<color=green><b>Credits:{0}</b></color>", OdinData.Credits);
 			n += "\n[<color=yellow><b>$KEY_Use</b></color>] $odin_buy(Devloping Not Working)";
-			n += "\n[<color=yellow><b>1-8</b></color>]Offer your Trophies(3,Wolf or Troll)";
+			n += "\n[<color=yellow><b>1-8</b></color>]$op_pot_open";
 			n += String.Format("\n<color=yellow><b>[{0}]</b></color>$odin_shaman_use(Devloping Not Working)", Plugin.KS_SecondInteractkey.Value.MainKey.ToString());
 			return Localization.instance.Localize(n);
 		}

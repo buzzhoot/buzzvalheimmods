@@ -42,16 +42,16 @@ namespace OdinPlus
 			if (timer > 0)
 			{
 				var n=string.Format("<color=yellow><b>{0}</b></color>",Mathf.CeilToInt(timer));
-				Say("My brother is finding Quest for you, wait for "+n);
+				Say("$op_munin_cd "+n);
 				return;
 			}
 			if (TaskManager.Root.transform.childCount >= 10)
 			{
-				Say("You have too many quests,clear some before you want more");
+				Say("$op_munin_taskfulll");
 				return;
 			}
 			TaskManager.CreateRandomTask();
-			Say("Wait for Hugin,he will tell you");
+			Say("$op_munin_wait_hug");
 			timer = 60f;//add
 		}
 		private void GiveUpTask()
@@ -59,13 +59,13 @@ namespace OdinPlus
 			if (TaskManager.HasTask())
 			{
 				//string n = string.Format("Which Quest you want to give up?", TaskManager.Count());
-				string n = "Which Quest you want to give up?";
+				string n = "$op_munin_giveup";
 				n = Localization.instance.Localize(n);
 				TextInput.instance.RequestText(new TR_Giveup(), n, 3);
 				ResetTimer();
 				return;
 			}
-			Say("You don't have any Quest");
+			Say("$op_munin_notask");
 		}
 		private void ChangeLevel()
 		{
@@ -101,10 +101,10 @@ namespace OdinPlus
 					if (TaskManager.HasTask())
 					{
 						TaskManager.PrintTaskList();
-						Say("Wait for Hugin,he will tell you something");
+						Say("$");
 						break;
 					}
-					Say("You don't have any Quest");
+					Say("$op_munin_notask");
 					break;
 			}
 			return true;
@@ -121,11 +121,11 @@ namespace OdinPlus
 		public override string GetHoverText()
 		{
 			string n = string.Format("<color=lightblue><b>{0}</b></color>", m_name);
-			n += string.Format("\n<color=lightblue><b>Current Quest Level:{0}</b></color>", TaskManager.Level);
-			n += string.Format("\nYou have <color=lightblue><b>{0}</b></color> Tasks", TaskManager.Count());
-			n += "\n[<color=yellow><b>1-8</b></color>]Offer your items";
+			n += string.Format("\n<color=lightblue><b>op_munin_task_lvl :{0}</b></color>", TaskManager.Level);
+			n += string.Format("\nop_munin_tasknum_b <color=lightblue><b>{0}</b></color> op_munin_tasknum_a", TaskManager.Count());
+			n += "\n[<color=yellow><b>1-8</b></color>]$odin_offer";
 			n += "\n[<color=yellow><b>$KEY_Use</b></color>]" + currentChoice;
-			n += String.Format("\n<color=yellow><b>[{0}]</b></color>Switch Choice", Plugin.KS_SecondInteractkey.Value.MainKey.ToString());
+			n += String.Format("\n<color=yellow><b>[{0}]</b></color>$odin_switch", Plugin.KS_SecondInteractkey.Value.MainKey.ToString());
 			return Localization.instance.Localize(n);
 		}
 		public override string GetHoverName()
@@ -140,10 +140,10 @@ namespace OdinPlus
 			}
 			if (SearchTask.CanFinish(item.m_dropPrefab.name))
 			{
-				Say("Nice!");
+				Say("$op_munin_takeoffer");
 				return true;
 			}
-			Say("Not eoungh...bring more!");
+			Say("$op_munin_notenough");
 			return true;
 		}
 		#endregion Val
@@ -177,12 +177,12 @@ namespace OdinPlus
 				{
 					if (!TaskManager.GiveUpTask(num))
 					{
-						DBG.InfoCT("You don't have Quest " + num);
+						DBG.InfoCT("$op_munin_noq" + num);
 						return;
 					}
 					return;
 				}
-				DBG.InfoCT("Wrong Input");
+				DBG.InfoCT("$op_wrong_num");
 				return;
 			}
 		}

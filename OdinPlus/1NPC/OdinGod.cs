@@ -89,11 +89,11 @@ namespace OdinPlus
 			}
 			if (!OdinData.RemoveCredits(Plugin.RaiseCost))
 			{
-				Say("Hard work is the only way to get reward");
+				Say("$odin_god_nocrd");
 				return false;
 			}
 			user.GetSkills().RaiseSkill(stlist[cskillIndex], Plugin.RaiseFactor);
-			Say("I made you stronger,warrior");
+			Say("$odin_raise");
 			return true;
 		}
 		public override void SecondaryInteract(Humanoid user)
@@ -103,10 +103,10 @@ namespace OdinPlus
 		public override string GetHoverText()
 		{
 			string n = "<color=lightblue><b>ODIN</b></color>";
-			string s = string.Format("\n<color=lightblue><b>Credits:{0}</b></color>", OdinData.Credits);
+			string s = string.Format("\n<color=lightblue><b>$odin_crd:{0}</b></color>", OdinData.Credits);
 			string a = string.Format("\n[<color=yellow><b>$KEY_Use</b></color>] $odin_use[<color=green><b>{0}</b></color>]", cskill);
-			string b = "\n[<color=yellow><b>1-8</b></color>]Offer your gifts";
-			string c = "\n[<color=yellow><b>F</b></color>]Switch Skill";
+			string b = "\n[<color=yellow><b>1-8</b></color>]$odin_offer";
+			string c = "\n[<color=yellow><b>F</b></color>]$odin_switch";
 			return Localization.instance.Localize(n + s + a + b + c);
 		}
 		public override bool UseItem(Humanoid user, ItemDrop.ItemData item)//trans
@@ -115,13 +115,13 @@ namespace OdinPlus
 			int value = 1;
 			if (!OdinData.ItemSellValue.ContainsKey(name))
 			{
-				Say("I need Something useful...like " + randomName());
+				Say("$odin_god_randomitem" + randomName());
 				return false;
 			}
 			value = OdinData.ItemSellValue[name];
 			OdinData.AddCredits(value * item.m_stack*item.m_quality, m_head);
 			user.GetInventory().RemoveItem(item.m_shared.m_name, item.m_stack);
-			Say("Nice,bring back more");
+			Say("$odin_god_takeoffer");
 			return true;
 		}
 		#endregion
