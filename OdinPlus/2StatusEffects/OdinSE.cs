@@ -49,7 +49,7 @@ namespace OdinPlus
 			se.m_cooldownIcon = true;
 			se.m_ttl = 600;
 			se.PetName = "TrollPet";
-			SElist.Add("ScrolTroll", se);
+			SElist.Add("ScrollTroll", se);
 		}
 		private void initWolfSE()
 		{

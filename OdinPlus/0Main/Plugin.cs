@@ -24,7 +24,7 @@ namespace OdinPlus
 		private static bool DisableSaving= false;
 		#region InternalConfig
 		public static int RaiseCost = 10;
-		public static int RaiseFactor = 50;
+		public static int RaiseFactor = 100;
 
 		#endregion InternalConfig
 		Harmony _harmony;
