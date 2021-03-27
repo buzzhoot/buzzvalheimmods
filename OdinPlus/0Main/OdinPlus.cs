@@ -114,28 +114,7 @@ namespace OdinPlus
 		#endregion Patch
 
 		#region Tool
-		public static void InputCMD(string CMD)
-		{
-			if (CMD.Length > 0)
-			{
-				if (CMD.StartsWith(" "))
-				{
-					CMD = CMD.Remove(0, 1);
-				}
-				if (CMD == "testa")
-				{
-					Plugin.TestA();
-				}
-				if (CMD == "testb")
-				{
-					Plugin.TestB();
-				}
-				if (CMD == "testc")
-				{
-					Plugin.TestC();
-				}
-			}
-		}
+
 		
 		#endregion Tool
 

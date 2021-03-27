@@ -165,15 +165,6 @@ namespace OdinPlus
 			}
 		}
 
-		[HarmonyPatch(typeof(Console), "InputText")]
-		private static class Patch_Console_InputText
-		{
-			private static void Prefix()
-			{
-				OdinPlus.InputCMD(global::Console.instance.m_input.text);
-			}
-		}
-
 		[HarmonyPatch(typeof(FejdStartup), "Start")]
 		private static class FejdStartup_Start_Patch
 		{
@@ -306,23 +297,6 @@ namespace OdinPlus
 
 		#endregion
 
-		#region Debug
-		public static void TestA()
-		{
-			TaskManager.CheckKey();
-			TaskManager.CreateRandomTask();
-		}
-		public static void TestB()
-		{
-			GameCamera.instance.ToggleFreeFly();
-		}
-		public static void TestC()
-		{
-			DevTool.ViewReward();
-		}
-
-		
-		#endregion Debug
 	}
 
 }

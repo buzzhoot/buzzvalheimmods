@@ -234,6 +234,53 @@ namespace OdinPlus
 		}
 		#endregion Print
 
+		#region Debug
+		public static void TestA()
+		{
+			TaskManager.CheckKey();
+			TaskManager.CreateRandomTask();
+		}
+		public static void TestB()
+		{
+			GameCamera.instance.ToggleFreeFly();
+		}
+		public static void TestC()
+		{
+			DevTool.ViewReward();
+		}
+		public static void InputCMD(string CMD)
+		{
+			if (CMD.Length > 0)
+			{
+				if (CMD.StartsWith(" "))
+				{
+					CMD = CMD.Remove(0, 1);
+				}
+				if (CMD == "testa")
+				{
+					DevTool.TestA();
+				}
+				if (CMD == "testb")
+				{
+					DevTool.TestB();
+				}
+				if (CMD == "testc")
+				{
+					DevTool.TestC();
+				}
+			}
+		}
+		[HarmonyPatch(typeof(Console), "InputText")]
+		private static class Patch_Console_InputText
+		{
+			private static void Prefix()
+			{
+				InputCMD(global::Console.instance.m_input.text);
+			}
+		}
+
+
+		#endregion Debug
 
 
 		//End Class
