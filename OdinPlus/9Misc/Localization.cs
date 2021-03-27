@@ -13,6 +13,7 @@ namespace OdinPlus
 //NPC
 {"odin_OdinLegacy_desc","Offer this to odin and get credits"},
 {"odin_OdinLegacy_name","Odin Legacy"},
+{"odin_god","ODIN"},
 {"odin_use","Raise your skill:"},
 {"odin_pot_name","Odin's Pot"},
 {"odin_inventory_full","Make a room! your inventory is full!"},

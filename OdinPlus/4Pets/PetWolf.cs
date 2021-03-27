@@ -12,6 +12,7 @@ namespace OdinPlus
 		private Tameable tame;
 		private Inventory m_inventory;
 		private Humanoid m_hum;
+		private float m_weight=500;
 		#endregion var
 
 		#region Mono
@@ -43,12 +44,12 @@ namespace OdinPlus
 			var weight = Traverse.Create(m_inventory).Field<float>("m_totalWeight").Value;
 			if (weight > 0)
 			{
-				if (weight >= 300)
+				if (weight >= m_weight)
 				{
 					m_hum.ChangeSpeed(0.5f);
 					return;
 				}
-				m_hum.ChangeSpeed((300 - weight) / 300 * 1.5f + 0.5f);
+				m_hum.ChangeSpeed((m_weight - weight) / m_weight * 1.5f + 0.5f);
 				return;
 			}
 			m_hum.ChangeSpeed(2);

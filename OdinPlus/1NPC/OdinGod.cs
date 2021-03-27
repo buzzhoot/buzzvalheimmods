@@ -87,7 +87,7 @@ namespace OdinPlus
 			{
 				return false;
 			}
-			if (!OdinData.RemoveScore(Plugin.RaiseCost))
+			if (!OdinData.RemoveCredits(Plugin.RaiseCost))
 			{
 				Say("Hard work is the only way to get reward");
 				return false;
@@ -103,7 +103,7 @@ namespace OdinPlus
 		public override string GetHoverText()
 		{
 			string n = "<color=lightblue><b>ODIN</b></color>";
-			string s = string.Format("\n<color=lightblue><b>Score:{0}</b></color>", OdinData.score);
+			string s = string.Format("\n<color=lightblue><b>Credits:{0}</b></color>", OdinData.Credits);
 			string a = string.Format("\n[<color=yellow><b>$KEY_Use</b></color>] $odin_use[<color=green><b>{0}</b></color>]", cskill);
 			string b = "\n[<color=yellow><b>1-8</b></color>]Offer your gifts";
 			string c = "\n[<color=yellow><b>F</b></color>]Switch Skill";
@@ -119,7 +119,7 @@ namespace OdinPlus
 				return false;
 			}
 			value = OdinData.ItemSellValue[name];
-			OdinData.AddScore(value * item.m_stack*item.m_quality, m_head);
+			OdinData.AddCredits(value * item.m_stack*item.m_quality, m_head);
 			user.GetInventory().RemoveItem(item.m_shared.m_name, item.m_stack);
 			Say("Nice,bring back more");
 			return true;

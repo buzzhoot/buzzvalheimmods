@@ -34,7 +34,7 @@ namespace OdinPlus
 		public virtual string GetHoverText()
 		{
 			string n = string.Format("<color=lightblue><b>{0}}</b></color>", m_name);
-			n += string.Format("\n<color=green><b>Score:{0}</b></color>", OdinData.score);
+			n += string.Format("\n<color=green><b>Credits:{0}</b></color>", OdinData.Credits);
 			return Localization.instance.Localize(n);
 		}
 		public virtual string GetHoverName()

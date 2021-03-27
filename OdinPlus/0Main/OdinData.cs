@@ -16,7 +16,7 @@ namespace OdinPlus
 		[Serializable]
 		public class DataTable : SerializationBinder
 		{
-			public int score = 100;
+			public int Credits = 100;
 			public bool hasWolf = false;
 			public bool hasTroll = false;
 			public List<string> BlackList = new List<string>();
@@ -82,7 +82,7 @@ namespace OdinPlus
 
 		#endregion serialization
 		#region interl
-		public static int score;
+		public static int Credits;
 		public static Dictionary<string, int> ItemSellValue = new Dictionary<string, int>();
 		public static DataTable Data;
 		#endregion interl
@@ -121,7 +121,7 @@ namespace OdinPlus
 		{
 			if (DevTool.DisableSaving)
 			{
-				score = 1000;
+				Credits = 1000;
 			}
 			Data = new DataTable();
 			if (Plugin.CFG_ItemSellValue.Value == "") { return; }
@@ -142,22 +142,22 @@ namespace OdinPlus
 		}
 		#endregion Mono
 
-		#region Score
-		public static void AddScore(int s, Transform m_head)
+		#region Credits
+		public static void AddCredits(int s, Transform m_head)
 		{
-			score += s;
+			Credits += s;
 			Player.m_localPlayer.m_skillLevelupEffects.Create(m_head.position, m_head.rotation, m_head, 1f);
 		}
-		public static bool RemoveScore(int s)
+		public static bool RemoveCredits(int s)
 		{
-			if (score - s < 0)
+			if (Credits - s < 0)
 			{
 				return false;
 			}
-			score -= s;
+			Credits -= s;
 			return true;
 		}
-		#endregion Score
+		#endregion Credits
 		#region Save And Load
 		public static void saveOdinData(string name)
 		{
@@ -168,7 +168,7 @@ namespace OdinPlus
 			}
 			#region Save
 			Data.Tasks = TaskManager.Save();
-			Data.score = score;
+			Data.Credits = Credits;
 			#endregion Save
 
 			#region Serialize
@@ -199,7 +199,7 @@ namespace OdinPlus
 			if (!File.Exists(@file))
 			{
 				OdinPlus.isLoaded = true;
-				score = 100;
+				Credits = 100;
 				DBG.blogWarning("Profile not exists:" + name);
 				return;
 			}
@@ -211,7 +211,7 @@ namespace OdinPlus
 			#endregion Serial
 
 			#region Load
-			score = Data.score;
+			Credits = Data.Credits;
 			TaskManager.Load(Data.Tasks);
 			LocationManager.BlackList = Data.BlackList;
 			LocationManager.RemoveBlackList();
