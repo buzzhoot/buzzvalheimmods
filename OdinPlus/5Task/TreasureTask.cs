@@ -89,7 +89,7 @@ namespace OdinPlus
 		private void AddChest()
 		{
 			Reward = Instantiate(ZNetScene.instance.GetPrefab("LegacyChest" + (Key + 1).ToString()));
-			float y = -1.5f;
+			float y = -2f;
 			float x = 4f;
 			float z = 3.999f;
 			if (Key == 0)
