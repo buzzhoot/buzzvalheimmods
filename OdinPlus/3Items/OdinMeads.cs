@@ -42,9 +42,9 @@ namespace OdinPlus
 			GameObject go = Instantiate(MeadTasty, Root.transform);
 			go.name = name;
 			var id = go.GetComponent<ItemDrop>().m_itemData.m_shared;
-			id.m_name = "$odin_" + name + "_name";
+			id.m_name = "$op_" + name + "_name";
 			id.m_icons[0] = OdinPlus.OdinMeadsIcon[0];
-			id.m_description = "$odin_" + name + "_desc";
+			id.m_description = "$op_" + name + "_desc";
 
 			id.m_consumeStatusEffect = OdinSE.SElist[name];
 

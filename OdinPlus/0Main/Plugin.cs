@@ -13,7 +13,7 @@ using System.Globalization;
 using UnityEngine.UI;
 namespace OdinPlus
 {
-	[BepInPlugin("buzz.valheim.OdinPlus", "OdinPlus", "0.0.2")]
+	[BepInPlugin("buzz.valheim.OdinPlus", "OdinPlus", "0.1.1")]
 	public class Plugin : BaseUnityPlugin
 	{
 		#region Config Var
@@ -219,9 +219,9 @@ namespace OdinPlus
 		{
 			private static void Postfix(Tameable __instance, ref string __result)
 			{
-				if (__instance.gameObject.GetComponent<Character>().m_name == "$odin_wolf_name")
+				if (__instance.gameObject.GetComponent<Character>().m_name == "$op_wolf_name")
 				{
-					__result += Localization.instance.Localize(String.Format("\n<color=yellow><b>[{0}]</b></color>$odin_wolf_use", Plugin.KS_SecondInteractkey.Value.MainKey.ToString()));
+					__result += Localization.instance.Localize(String.Format("\n<color=yellow><b>[{0}]</b></color>$op_wolf_use", Plugin.KS_SecondInteractkey.Value.MainKey.ToString()));
 				}
 			}
 		}
@@ -238,8 +238,8 @@ namespace OdinPlus
 
 			}
 		}
-		[HarmonyPriority(500)]
-		[HarmonyBefore(new string[] { "buzz.valheim.AllTameable" })]
+		[HarmonyPriority(600)]
+		[HarmonyBefore(new string[] { "buzz.valheim.AllTameable","org.bepinex.plugins.creaturelevelcontrol"})]
 		[HarmonyPatch(typeof(ZNetScene), "Awake")]
 		private static class ZNetScene_Awake_Patch
 		{

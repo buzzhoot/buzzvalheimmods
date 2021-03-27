@@ -144,7 +144,7 @@ namespace OdinPlus
 			caul.transform.Find("HaveFire").gameObject.SetActive(true);
 
 			m_odinPot = caul.AddComponent<OdinTrader>();
-			m_odinPot.m_name = "$odin_pot_name";
+			m_odinPot.m_name = "$op_pot_name";
 			OdinPlus.traderNameList.Add(m_odinPot.m_name);
 			m_odinPot.m_talker = m_odinGod.gameObject;
 
@@ -170,7 +170,7 @@ namespace OdinPlus
 			DestroyImmediate(prefab.GetComponent<RandomAnimation>());
 
 			var npc = go.AddComponent<OdinShaman>();
-			npc.m_name = "$odin_shaman";
+			npc.m_name = "$op_shaman";
 			m_odinShaman = npc;
 
 		}

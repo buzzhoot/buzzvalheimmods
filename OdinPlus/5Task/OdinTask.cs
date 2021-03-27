@@ -157,7 +157,7 @@ namespace OdinPlus
 			if (LocationManager.FindClosestLocation(locName, Game.instance.GetPlayerProfile().GetCustomSpawnPoint(), out Id))
 			{
 				LocationManager.GetLocationInstance(Id, out location);
-				root = location.m_location.m_prefab.gameObject;
+				//root = location.m_location.m_prefab.gameObject;
 				gameObject.name = "Task" + Id;
 				SetLocName();
 				SetTaskName();

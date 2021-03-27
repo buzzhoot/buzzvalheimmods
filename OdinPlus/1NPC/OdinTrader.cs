@@ -28,7 +28,7 @@ namespace OdinPlus
 		public new string GetHoverText()
 		{
 			string n = string.Format("\n<color=lightblue><b>{0}</b></color>", m_name);
-			string u = "\n[<color=yellow><b>$KEY_Use</b></color>] $odin_buy";
+			string u = "\n[<color=yellow><b>$KEY_Use</b></color>] $op_buy";
 			return Localization.instance.Localize(n + u);
 		}
 		public new string GetHoverName()

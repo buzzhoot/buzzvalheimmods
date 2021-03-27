@@ -5,7 +5,7 @@ namespace OdinPlus
 {
 	class OdinMunin : OdinNPC
 	{
-		private string[] choice = new string[] { "Accept Side Quest", "Give up Quest", "Change Quest Level", "Show me QuestList" };
+		private string[] choice = new string[] { "$op_munin_c1", "$op_munin_c2", "$op_munin_c3", "$op_munin_c4" };
 		private int index = 0;
 		private string currentChoice;
 		private float timer = 0f;
@@ -14,7 +14,7 @@ namespace OdinPlus
 		private void Awake()
 		{
 			instance = this;
-			this.m_name = "$odin_munin_name";
+			this.m_name = "$op_munin_name";
 			this.m_talker = this.gameObject;
 			currentChoice = choice[index];
 			m_animator = this.GetComponentInChildren<Animator>();
@@ -121,11 +121,11 @@ namespace OdinPlus
 		public override string GetHoverText()
 		{
 			string n = string.Format("<color=lightblue><b>{0}</b></color>", m_name);
-			n += string.Format("\n<color=lightblue><b>op_munin_task_lvl :{0}</b></color>", TaskManager.Level);
-			n += string.Format("\nop_munin_tasknum_b <color=lightblue><b>{0}</b></color> op_munin_tasknum_a", TaskManager.Count());
-			n += "\n[<color=yellow><b>1-8</b></color>]$odin_offer";
+			n += string.Format("\n<color=lightblue><b>$op_munin_task_lvl :{0}</b></color>", TaskManager.Level);
+			n += string.Format("\n$op_munin_tasknum_b <color=lightblue><b>{0}</b></color> $op_munin_tasknum_a", TaskManager.Count());
+			n += "\n[<color=yellow><b>1-8</b></color>]$op_offer";
 			n += "\n[<color=yellow><b>$KEY_Use</b></color>]" + currentChoice;
-			n += String.Format("\n<color=yellow><b>[{0}]</b></color>$odin_switch", Plugin.KS_SecondInteractkey.Value.MainKey.ToString());
+			n += String.Format("\n<color=yellow><b>[{0}]</b></color>$op_switch", Plugin.KS_SecondInteractkey.Value.MainKey.ToString());
 			return Localization.instance.Localize(n);
 		}
 		public override string GetHoverName()
@@ -177,7 +177,7 @@ namespace OdinPlus
 				{
 					if (!TaskManager.GiveUpTask(num))
 					{
-						DBG.InfoCT("$op_munin_noq" + num);
+						DBG.InfoCT("$op_munin_noq " + num);
 						return;
 					}
 					return;

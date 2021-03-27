@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Reflection;
 using HarmonyLib;
 namespace OdinPlus
 {
 	class OdinShaman : OdinNPC, Hoverable, Interactable, OdinInteractable
 	{
 		//private static bool isInit = false;
-		public  Dictionary<string, GoodsDate> GoodsList = new Dictionary<string, GoodsDate>{
+		public Dictionary<string, GoodsDate> GoodsList = new Dictionary<string, GoodsDate>{
 		{"TrophyFrostTroll", new GoodsDate { Good = "ScrollTroll", Value = 3 }},
 		{"TrophyWolf", new GoodsDate { Good = "ScrollWolf", Value = 3 }}
 		};
@@ -16,11 +17,13 @@ namespace OdinPlus
 			public string Good;
 			public int Value;
 
+
 		}
+		public bool crealvl = true;
 		#region  Mono
 		private void Awake()
 		{
-			m_name = "$odin_shaman";
+			m_name = "$op_shaman";
 			m_talker = this.gameObject;
 		}
 
@@ -39,12 +42,28 @@ namespace OdinPlus
 			DestroyImmediate(prefab.GetComponent<Humanoid>());
 			DestroyImmediate(prefab.GetComponent<FootStep>());
 			DestroyImmediate(prefab.GetComponent<Rigidbody>());
+			foreach (var comp in gameObject.GetComponents<Component>())
+			{
+				if (!(comp is Transform) && !(comp is OdinShaman)&& !(comp is CapsuleCollider))
+				{
+					DestroyImmediate(comp);
+				}
+			}
 			var a = Traverse.Create(ZNetScene.instance).Field<Dictionary<ZDO, ZNetView>>("m_instances").Value;
 			a.Remove(zdo);
 			ZDOMan.instance.DestroyZDO(zdo);
 			prefab.gameObject.transform.Rotate(0, 30f, 0);
 		}
-
+		//remvoe
+		bool IsAssemblyExists(string assemblyName)
+		{
+			foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+			{
+				if (assembly.FullName.StartsWith(assemblyName))
+					return true;
+			}
+			return false;
+		}
 		public override bool Interact(Humanoid user, bool hold)
 		{
 			if (hold)
@@ -61,9 +80,9 @@ namespace OdinPlus
 		{
 			string n = string.Format("<color=lightblue><b>{0}</b></color>", m_name);
 			//n += string.Format("\n<color=green><b>Credits:{0}</b></color>", OdinData.Credits);
-			n += "\n[<color=yellow><b>$KEY_Use</b></color>] $odin_buy(Devloping Not Working)";
-			n += "\n[<color=yellow><b>1-8</b></color>]$op_pot_open";
-			n += String.Format("\n<color=yellow><b>[{0}]</b></color>$odin_shaman_use(Devloping Not Working)", Plugin.KS_SecondInteractkey.Value.MainKey.ToString());
+			//n += "\n[<color=yellow><b>$KEY_Use</b></color>] $op_buy";
+			n += "\n[<color=yellow><b>1-8</b></color>]$op_shaman_offer";
+			//n += String.Format("\n<color=yellow><b>[{0}]</b></color>$op_shaman_use", Plugin.KS_SecondInteractkey.Value.MainKey.ToString());
 			return Localization.instance.Localize(n);
 		}
 		public override string GetHoverName()
@@ -85,13 +104,13 @@ namespace OdinPlus
 						Say(goodItemData.m_shared.m_description);
 						return true;
 					}
-					DBG.InfoCT("$odin_inventory_full");
+					DBG.InfoCT("$op_inventory_full");
 					return true;
 				}
-				Say("$odin_shaman_notenough");
+				Say("$op_shaman_notenough");
 				return true;
 			}
-			Say("Hmm that's something new,can't take that right now");
+			Say("$op_shaman_no");
 			return true;
 		}
 	}

@@ -113,7 +113,7 @@ namespace OdinPlus
 
 			//Humanoid
 
-			hum.m_name = "$odin_wolf_name";
+			hum.m_name = "$op_wolf_name";
 			hum.m_faction = Character.Faction.Players;
 			mai.m_consumeItems.Clear();
 			//hum.SetLevel(4);

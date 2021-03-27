@@ -48,9 +48,9 @@ namespace OdinPlus
 			go.name = name;
 
 			var id = go.GetComponent<ItemDrop>().m_itemData.m_shared;
-			id.m_name = "$odin_" + name + "_name";
+			id.m_name = "$op_" + name + "_name";
 			id.m_icons[0] = icon;
-			id.m_description = "$odin_" + name + "_desc";
+			id.m_description = "$op_" + name + "_desc";
 
 			id.m_maxStackSize = 1;
 			id.m_consumeStatusEffect = OdinSE.SElist[name];
@@ -69,9 +69,9 @@ namespace OdinPlus
 			GameObject go = Instantiate(TrophyGoblinShaman, Root.transform);
 			go.name = "OdinLegacy";
 			var id = go.GetComponent<ItemDrop>().m_itemData.m_shared;
-			id.m_name = "$odin_" + name + "_name";
+			id.m_name = "$op_" + name + "_name";
 			id.m_icons[0] = OdinPlus.OdinLegacyIcon;
-			id.m_description = "$odin_" + name + "_desc";
+			id.m_description = "$op_" + name + "_desc";
 			id.m_itemType = ItemDrop.ItemData.ItemType.None;
 
 			id.m_maxStackSize = 10;

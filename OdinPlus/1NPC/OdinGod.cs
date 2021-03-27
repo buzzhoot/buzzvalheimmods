@@ -53,7 +53,7 @@ namespace OdinPlus
 			m_instance = this;
 			Summon();
 			m_head = this.gameObject.transform.Find("visual/Armature/Hips/Spine0/Spine1/Spine2/Head");
-			m_name = "$odin_god";
+			m_name = "$op_god";
 			m_talker=this.gameObject;
 		}
 		private void Start()
@@ -89,11 +89,11 @@ namespace OdinPlus
 			}
 			if (!OdinData.RemoveCredits(Plugin.RaiseCost))
 			{
-				Say("$odin_god_nocrd");
+				Say("$op_god_nocrd");
 				return false;
 			}
 			user.GetSkills().RaiseSkill(stlist[cskillIndex], Plugin.RaiseFactor);
-			Say("$odin_raise");
+			Say("$op_raise");
 			return true;
 		}
 		public override void SecondaryInteract(Humanoid user)
@@ -103,10 +103,10 @@ namespace OdinPlus
 		public override string GetHoverText()
 		{
 			string n = "<color=lightblue><b>ODIN</b></color>";
-			string s = string.Format("\n<color=lightblue><b>$odin_crd:{0}</b></color>", OdinData.Credits);
-			string a = string.Format("\n[<color=yellow><b>$KEY_Use</b></color>] $odin_use[<color=green><b>{0}</b></color>]", cskill);
-			string b = "\n[<color=yellow><b>1-8</b></color>]$odin_offer";
-			string c = "\n[<color=yellow><b>F</b></color>]$odin_switch";
+			string s = string.Format("\n<color=lightblue><b>$op_crd:{0}</b></color>", OdinData.Credits);
+			string a = string.Format("\n[<color=yellow><b>$KEY_Use</b></color>] $op_use[<color=green><b>{0}</b></color>]", cskill);
+			string b = "\n[<color=yellow><b>1-8</b></color>]$op_offer";
+			string c = "\n[<color=yellow><b>F</b></color>]$op_switch";
 			return Localization.instance.Localize(n + s + a + b + c);
 		}
 		public override bool UseItem(Humanoid user, ItemDrop.ItemData item)//trans
@@ -115,13 +115,13 @@ namespace OdinPlus
 			int value = 1;
 			if (!OdinData.ItemSellValue.ContainsKey(name))
 			{
-				Say("$odin_god_randomitem" + randomName());
+				Say("$op_god_randomitem " + randomName());
 				return false;
 			}
 			value = OdinData.ItemSellValue[name];
 			OdinData.AddCredits(value * item.m_stack*item.m_quality, m_head);
 			user.GetInventory().RemoveItem(item.m_shared.m_name, item.m_stack);
-			Say("$odin_god_takeoffer");
+			Say("$op_god_takeoffer");
 			return true;
 		}
 		#endregion
