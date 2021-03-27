@@ -247,7 +247,8 @@ namespace OdinPlus
 
 			}
 		}
-		[HarmonyPriority(100)]
+		[HarmonyPriority(500)]
+		[HarmonyBefore(new string[] { "buzz.valheim.AllTameable" })]
 		[HarmonyPatch(typeof(ZNetScene), "Awake")]
 		private static class ZNetScene_Awake_Patch
 		{
