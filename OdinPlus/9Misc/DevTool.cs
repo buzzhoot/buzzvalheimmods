@@ -275,13 +275,12 @@ namespace OdinPlus
 		{
 			private static void Prefix()
 			{
-				InputCMD(global::Console.instance.m_input.text);
+				//InputCMD(global::Console.instance.m_input.text);
 			}
 		}
 
 
 		#endregion Debug
-
 
 		//End Class
 	}
