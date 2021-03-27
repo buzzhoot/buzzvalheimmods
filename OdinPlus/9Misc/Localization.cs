@@ -3,7 +3,6 @@ using UnityEngine;
 using HarmonyLib;
 using System.Reflection;
 
-
 namespace OdinPlus
 {
 	public class BuzzLocal
@@ -11,12 +10,26 @@ namespace OdinPlus
 		private static Localization lcl;
 		public static Dictionary<string, string> t; //= new Dictionary<string, string>();
 		private static Dictionary<string, string> english = new Dictionary<string, string>() {
-			{"odin_use","Raise your skill:"},
-			{"odin_se_troll","TrollPet"},
-			{"odin_ScrollTroll_tooltip","summon a pet troll"},
-			{"odin_ScrolTroll_name","Troll mead"},
-			{"odin_ScrolTroll_desc","This item will summon a Troll pet,use F to make him force attack"},
-			{"odin_pot_name","Odin's Pot"},
+//NPC
+{"odin_OdinLegacy_desc","Offer this to odin and get credits"},
+{"odin_OdinLegacy_name","Odin Legacy"},
+{"odin_use","Raise your skill:"},
+{"odin_pot_name","Odin's Pot"},
+{"odin_inventory_full","Make a room! your inventory is full!"},
+{"odin_buy","Buy"},
+{"odin_munin_name","Munin"},
+{"odin_shaman","Mystery shaman"},
+{"odin_shaman_notenough","Need at least 3 ...."},
+{"odin_shaman_use","?"},
+{"odin_wolf_name","Magic Wolf"},
+{"odin_ScrollWolf_name","Magic Wolf Head"},
+{"odin_ScrolWolf_desc","\" Use this to summon a magic wolf with backpack...but watchout,he may disapper, i can't assure you anything.. \""},
+{"odin_ScrolWolf_tooltip","Duration:<color=orange><b>30</b></color>mins \n Use your <color=orange><b>SecondaryKey</b></color> to open his backpack"},
+{"odin_ScrolTroll_name","Magic Tr Headoll"},
+{"odin_ScrolTroll_desc","\" Use this to summon troll...but watchout,he may disapper, i can't assure you anything.. \""},
+{"odin_ScrollTroll_tooltip","Duration:<color=orange><b>5</b></color>mins\n CoolDown:<color=orange><b>10</b></color>mins \nUse your <color=orange><b>SecondaryKey</b></color> to make him force attack"},
+{"odin_wolf_use","Open wolf pack"},
+//Meads
 {"odin_ExpMeadS_name","Exp Mead Small"},
 {"odin_ExpMeadS_desc","Makes you level up faster!"},
 {"odin_ExpMeadS_tooltip","Duration:<color=orange><b>300</b></color>s"},
@@ -83,6 +96,8 @@ namespace OdinPlus
 {"odin_AxeMeadL_name","Axe Mead Large"},
 {"odin_AxeMeadL_desc","Makes your Axe more powerful!"},
 {"odin_AxeMeadL_tooltip","Duration:<color=orange><b>300</b></color>s"},
+//task
+{"odin_hunt_target","(Hunt Target)"},
 		};
 		private static Dictionary<string, string> chinese = new Dictionary<string, string>() {
 			{"odin_use","升级你的技能：" },

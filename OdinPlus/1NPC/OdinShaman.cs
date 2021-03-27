@@ -88,7 +88,7 @@ namespace OdinPlus
 					DBG.InfoCT("$odin_inventory_full");
 					return true;
 				}
-				Say("$odin_shaman_cantbuy");
+				Say("$odin_shaman_notenough");
 				return true;
 			}
 			Say("Hmm that's something new,can't take that right now");

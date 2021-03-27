@@ -64,7 +64,7 @@ namespace OdinPlus
 			var icon = __instance.m_coinText.transform.parent.GetChild(0).GetComponent<Image>();
 			sell.gameObject.SetActive(!set);
 			icon.sprite = !set ? OdinPlus.CoinsIcon : OdinPlus.OdinCreditIcon;
-			GameObject.Find("/_GameMain/GUI/PixelFix/IngameGui(Clone)/Store_Screen/Store/topic").GetComponent<Text>().text=Localization.instance.Localize(set?"OdinStore":@"$store_topic");
+			GameObject.Find("/_GameMain/GUI/PixelFix/IngameGui(Clone)/Store_Screen/Store/topic").GetComponent<Text>().text=Localization.instance.Localize(set?m_talker.GetComponent<OdinNPC>().m_name:@"$store_topic");
 		}
 
 		#endregion
