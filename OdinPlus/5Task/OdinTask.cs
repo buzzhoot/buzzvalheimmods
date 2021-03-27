@@ -133,6 +133,9 @@ namespace OdinPlus
 					case 4:
 						Init = new Action(InitTire4);
 						break;
+					case 5:
+						Init = new Action(InitAll);
+						break;
 				}
 			}
 
@@ -310,7 +313,8 @@ namespace OdinPlus
 				locName = location.m_location.m_prefabName;
 				SetLocName();
 				SetTaskName();
-				switch (Key)
+				Init=new Action(InitAll);
+/* 				switch (Key)
 				{
 
 					case 0:
@@ -328,7 +332,7 @@ namespace OdinPlus
 					case 4:
 						Init = new Action(InitTire4);
 						break;
-				}
+				} */
 				return true;
 
 			}
