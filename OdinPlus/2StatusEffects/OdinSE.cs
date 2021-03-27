@@ -44,8 +44,8 @@ namespace OdinPlus
 			var se = ScriptableObject.CreateInstance<SE_SumonPet>();
 			se.name = "SE_Troll";
 			se.m_icon = OdinPlus.TrollHeadIcon;
-			se.m_name = "$odin_ScrolTroll_name";
-			se.m_tooltip = "$odin_ScrolTroll_tooltip";
+			se.m_name = "$odin_ScrollTroll_name";
+			se.m_tooltip = "$odin_ScrollTroll_tooltip";
 			se.m_cooldownIcon = true;
 			se.m_ttl = 600;
 			se.PetName = "TrollPet";
@@ -56,8 +56,8 @@ namespace OdinPlus
 			var se = ScriptableObject.CreateInstance<SE_SumonPet>();
 			se.name = "SE_Wolf";
 			se.m_icon = OdinPlus.WolfHeadIcon;
-			se.m_name = "$odin_ScrolWolf_name";
-			se.m_tooltip = "$odin_ScrolWolf_tooltip";
+			se.m_name = "$odin_ScrollWolf_name";
+			se.m_tooltip = "$odin_ScrollWolf_tooltip";
 			se.m_cooldownIcon = true;
 			se.m_ttl = 1800;
 			se.PetName = "WolfPet";

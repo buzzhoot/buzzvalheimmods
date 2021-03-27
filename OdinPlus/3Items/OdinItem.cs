@@ -9,7 +9,7 @@ namespace OdinPlus
 		private static GameObject MeadTasty;
 		private static GameObject TrophyGoblinShaman;
 		public static Dictionary<string, Sprite> PetItemList = new Dictionary<string, Sprite>{
-			{"ScrolTroll", OdinPlus.TrollHeadIcon},
+			{"ScrollTroll", OdinPlus.TrollHeadIcon},
 			{"ScrollWolf", OdinPlus.WolfHeadIcon}
 			};
 		public static Dictionary<string, GameObject> ObjectList = new Dictionary<string, GameObject>();
