@@ -227,10 +227,9 @@ namespace OdinPlus
 			string s = "";
 			foreach (var item in OdinMeads.MeadList.Keys)
 			{
-				DBG.blogWarning("$odin_se_" + item);
-				DBG.blogWarning("$odin_se_" + item + "_tooltip");
-				DBG.blogWarning("$odin_" + item + "_name");
-				DBG.blogWarning("$odin_" + item + "_desc");
+				DBG.blogWarning("odin_" + item + "_name");
+				DBG.blogWarning("odin_" + item + "_desc");
+				DBG.blogWarning("odin_" + item + "_tooltip");
 			}
 		}
 		#endregion Print
