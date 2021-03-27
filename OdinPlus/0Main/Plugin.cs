@@ -247,7 +247,7 @@ namespace OdinPlus
 
 			}
 		}
-		[HarmonyPriority(1000)]
+		[HarmonyPriority(100)]
 		[HarmonyPatch(typeof(ZNetScene), "Awake")]
 		private static class ZNetScene_Awake_Patch
 		{

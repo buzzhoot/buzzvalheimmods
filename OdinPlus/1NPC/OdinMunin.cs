@@ -180,6 +180,7 @@ namespace OdinPlus
 						DBG.InfoCT("You don't have Quest " + num);
 						return;
 					}
+					return;
 				}
 				DBG.InfoCT("Wrong Input");
 				return;
