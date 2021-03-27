@@ -23,9 +23,9 @@ namespace OdinPlus
 {"odin_ExpMeadM_name","Exp Mead Medium"},
 {"odin_ExpMeadM_desc","Makes you level up faster!"},
 {"odin_ExpMeadM_tooltip","Duration:<color=orange><b>450</b></color>s"},
-{"odin_ExpMeadL_name","Weight Mead Large"},
+{"odin_ExpMeadL_name","Exp Mead Large"},
 {"odin_ExpMeadL_desc","Makes you level up faster!"},
-{"odin_ExpMeadL_tooltip","Weight Add:<color=orange><b>600</b></color>s"},
+{"odin_ExpMeadL_tooltip","Duration:<color=orange><b>600</b></color>s"},
 {"odin_WeightMeadS_name","Weight Mead Small"},
 {"odin_WeightMeadS_desc","Add more carry weight"},
 {"odin_WeightMeadS_tooltip","Weight Add:<color=orange><b>100</b></color>\nDuration:<color=orange><b>300</b></color>s"},
@@ -73,7 +73,7 @@ namespace OdinPlus
 {"odin_SwordsMeadL_tooltip","Duration:<color=orange><b>300</b></color>s"},
 {"odin_SpeedMeadsL_name","Speed Mead"},
 {"odin_SpeedMeadsL_desc","Makes you run faster!"},
-{"odin_SpeedMeadsL_tooltip","Duration:<color=orange><b>300</b></color>s"},
+{"odin_SpeedMeadsL_tooltip","Duration:<color=orange><b>300</b></color>s"}
 		};
 		private static Dictionary<string, string> chinese = new Dictionary<string, string>() {
 			{"odin_use","升级你的技能：" },
@@ -82,16 +82,15 @@ namespace OdinPlus
 			{"odin_ScrolTroll_name","巨魔卷轴"},
 			{"odin_ScrolTroll_desc","地精的商品，据说可以召唤一只巨魔打工人，但是他不会打我吧..."},
 			{"odin_pot_name","品尝奥丁的魔酒"},
-			{"odin_ExpMeadS_name","剑魔法酒(小)"},
-{"odin_ExpMeadS_name","剑魔法酒(小)"},
+{"odin_ExpMeadS_name","经验魔法酒(小)"},
 {"odin_ExpMeadS_desc","加快你的升级速度"},
 {"odin_ExpMeadS_tooltip","持续时间:<color=orange><b>300</b></color>秒"},
-{"odin_ExpMeadM_name","剑魔法酒(中)"},
+{"odin_ExpMeadM_name","经验魔法酒(中)"},
 {"odin_ExpMeadM_desc","加快你的升级速度"},
 {"odin_ExpMeadM_tooltip","持续时间:<color=orange><b>450</b></color>秒"},
-{"odin_ExpMeadL_name","负重魔法酒(大)"},
+{"odin_ExpMeadL_name","经验魔法酒(大)"},
 {"odin_ExpMeadL_desc","加快你的升级速度"},
-{"odin_ExpMeadL_tooltip","负重:<color=orange><b>600</b></color>秒"},
+{"odin_ExpMeadL_tooltip","持续时间:<color=orange><b>600</b></color>秒"},
 {"odin_WeightMeadS_name","负重魔法酒(小)"},
 {"odin_WeightMeadS_desc","增加你的负重"},
 {"odin_WeightMeadS_tooltip","负重:<color=orange><b>100</b></color>\n持续时间:<color=orange><b>300</b></color>秒"},
@@ -139,7 +138,7 @@ namespace OdinPlus
 {"odin_SwordsMeadL_tooltip","持续时间:<color=orange><b>300</b></color>秒"},
 {"odin_SpeedMeadsL_name","猎豹魔法酒"},
 {"odin_SpeedMeadsL_desc","变身 香港记者...+1s"},
-{"odin_SpeedMeadsL_tooltip","持续时间:<color=orange><b>300</b></color>秒"},
+{"odin_SpeedMeadsL_tooltip","持续时间:<color=orange><b>300</b></color>秒"}
 		};
 		public static void init(string lang, Localization l)
 		{
