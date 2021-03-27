@@ -129,7 +129,7 @@ namespace OdinPlus
 		public static void ViewReward()
 		{
 			if (TaskManager.Root.transform.childCount == 0) { return; }
-			if (TaskManager.Root.transform.GetChild(OdinData.Data.TaskCount - 1).GetComponent<DungeonTask>().Reward == null) { return; }
+			if (TaskManager.Root.transform.GetChild(OdinData.Data.TaskCount - 1).GetComponent<OdinTask>().Reward == null) { return; }
 			GameCamera.instance.gameObject.transform.position = TaskManager.Root.transform.GetChild(OdinData.Data.TaskCount - 1).GetComponent<DungeonTask>().Reward.transform.position;
 		}
 		public static void finds()
