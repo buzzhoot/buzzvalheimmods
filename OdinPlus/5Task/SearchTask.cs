@@ -59,7 +59,7 @@ namespace OdinPlus
 			return true;
 
 		}
-		protected override void Begin()
+		public void BeginSearch()
 		{
 			isMain = TaskManager.isMain;
 			Key = TaskManager.GameKey;
@@ -77,24 +77,24 @@ namespace OdinPlus
 				return;
 			}
 			var item = Tweakers.GetItemData(m_item);
-			HintTarget = String.Format("Find [<color=yellow><b>{0} {1}</b></color>] for Munin,he'll give you something nice ", m_count, item.m_shared.m_name);
-			taskName = item.m_shared.m_name + String.Format(" (<color=yellow>{0}</color>)Search", m_count);
+			//?HintTarget = String.Format("Find [<color=yellow><b>{0} {1}</b></color>] for Munin,he'll give you something nice ", m_count, item.m_shared.m_name);
+			//?taskName = item.m_shared.m_name + String.Format(" (<color=yellow>{0}</color>)Search", m_count);
 
 
-			OdinData.Data.TaskCount++;
-			m_index = OdinData.Data.TaskCount;
+			//OdinData.Data.TaskCount++;
+			//m_index = OdinData.Data.TaskCount;
 
 			Id = m_item;
 			gameObject.name = "Task" + Id;
 			OdinData.Data.SearchTaskList.Add(m_item, m_count);
 
-			MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : "Side") + " Quest " + m_index + "\n" + taskName + "\nStart", true);
-			Tweakers.TaskHintHugin((isMain ? "Main" : "Side") + "Quest " + m_index + " : " + taskName, HintTarget);
+			//?MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : "Side") + " Quest " + m_index + "\n" + taskName + "\nStart", true);
+			//?Tweakers.TaskHintHugin((isMain ? "Main" : "Side") + "Quest " + m_index + " : " + taskName, HintTarget);
 			m_isInit = true;
 		}
 		public override void Finish()
 		{
-			MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : "Side") + " Quest " + m_index + "\n" + taskName + "\nClear", true);
+			//?MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : "Side") + " Quest " + m_index + "\n" + taskName + "\nClear", true);
 
 			OdinData.Data.SearchTaskList.Remove(Id);
 			OdinMunin.Reward(Key, Level);

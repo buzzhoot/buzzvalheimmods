@@ -29,11 +29,11 @@ namespace OdinPlus
 			bool result = base.SetLocation();
 			if (result)
 			{
-				HintStart = String.Format("There is a <color=yellow><b>[{0}]</b></color> near the location i marked for you,check your map ...", locName);
+				SetMonsterName();
 			}
 			return result;
 		}
-		protected override void SetLocName()
+		private void SetMonsterName()
 		{
 			if (Key == 5)
 			{
@@ -41,11 +41,6 @@ namespace OdinPlus
 			}
 			locName = Monsters[Key - 1];
 			locName = Regex.Replace(locName, @"[_]", "");
-		}
-		protected override void Discovery()
-		{
-			HintTarget = string.Format("Looks like you are close to the <color=yellow><b>[{0}]</b></color> Watchout!", locName);
-			base.Discovery();
 		}
 		protected override void InitAll()
 		{

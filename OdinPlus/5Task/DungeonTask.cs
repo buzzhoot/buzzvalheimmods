@@ -24,17 +24,7 @@ namespace OdinPlus
 			base.Begin();
 		}
 		#region OverRide
-		protected override bool SetLocation()
-		{
-			bool result = base.SetLocation();
-			HintStart = String.Format("There a chest in the dungeon <color=yellow><b>[{0}]</b></color> near the location i marked for you,check your map ...", locName);
-			return result;
-		}
-		protected override void Discovery()
-		{
-			HintTarget = string.Format("Looks like you are close to the dungeon,look around find a <color=yellow><b>[{0}]</b></color>", locName);
-			base.Discovery();
-		}
+
 		protected override void InitAll()
 		{
 			if (!isLoaded())

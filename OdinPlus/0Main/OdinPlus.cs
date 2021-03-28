@@ -78,7 +78,7 @@ namespace OdinPlus
 		}
 		public static void PostZNS()
 		{
-			
+
 			if (!FxAssetManager.isInit)
 			{
 				FxAssetManager.Init();
@@ -95,8 +95,13 @@ namespace OdinPlus
 		}
 		public static void PostZone()
 		{
-			Root.AddComponent<LocationManager>();
+			if (ZNet.instance.IsDedicated())
+			{
+				
+				OdinData.loadOdinData(ZNet.instance.GetWorldName());
+			}
 			OdinPlus.InitNPC();
+			Root.AddComponent<LocationManager>();
 		}
 		public static void InitNPC()
 		{
@@ -115,7 +120,7 @@ namespace OdinPlus
 
 		#region Tool
 
-		
+
 		#endregion Tool
 
 		#region Assets
@@ -220,7 +225,7 @@ namespace OdinPlus
 			Root.AddComponent<LocationManager>();
 			Root.AddComponent<FxAssetManager>();
 			isInit = true;
-			
+
 			PostODB();
 			var m_namedPrefabs = Traverse.Create(ZNetScene.instance).Field<Dictionary<int, GameObject>>("m_namedPrefabs").Value;
 			foreach (var item in odbRegList)
@@ -231,7 +236,7 @@ namespace OdinPlus
 			PostZNS();
 			NpcManager.RavenPrefab = Tutorial.instance.m_ravenPrefab.transform.Find("Munin").gameObject;
 			InitNPC();
-			isLoaded=true;
+			isLoaded = true;
 		}
 		#endregion Debug
 

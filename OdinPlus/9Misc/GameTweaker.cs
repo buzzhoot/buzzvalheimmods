@@ -13,11 +13,11 @@ namespace OdinPlus
 		{
 			var m_knownTexts = Traverse.Create(Player.m_localPlayer).Field<Dictionary<string, string>>("m_knownTexts").Value;
 			TaskHints.Add(text);
-			while (TaskHints.Count>50)
+			while (TaskHints.Count > 50)
 			{
 				TaskHints.RemoveAt(0);
 			}
-			m_knownTexts["Quest Hints"]=string.Join("\n",TaskHints.ToArray());
+			m_knownTexts["Quest Hints"] = string.Join("\n", TaskHints.ToArray());
 		}
 		public static Humanoid ChangeSpeed(this Humanoid humanoid, float speed)
 		{
@@ -130,6 +130,17 @@ namespace OdinPlus
 			}
 			return a;
 		}
+		#region Distance
+
+		public static bool isInsideArea(Vector3 position,Vector3 m_position,float m_range)
+		{
+			if (position.y > 3000f)
+			{
+				return false;
+			}
+			return Utils.DistanceXZ(position, m_position) < m_range;
+		}
+		#endregion Distance
 	}
 
 }

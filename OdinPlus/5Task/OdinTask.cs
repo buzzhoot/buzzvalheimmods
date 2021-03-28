@@ -26,24 +26,19 @@ namespace OdinPlus
 		protected string[] m_tier4 = new string[0];
 		protected string[] m_tier5 = new string[0];
 		protected List<string[]> locList = new List<string[]>();
-		protected GameObject root;
 		public string locName;
-		public int m_index;
 
 		#endregion Data
 		#region internal
-		protected Vector3 m_position;
-		protected float m_range;
+		protected long owner;
 		protected Action Init;
 		protected bool loading = false;
 		protected bool singleInit = true;
 		#region Real Data
 		public TaskManager.TaskType m_type;
-		public string taskName;
 		public string Id;
 		protected bool m_pause = false;
 		protected bool m_isInit = false;
-		protected bool m_discovered = false;
 		protected bool m_finished = false;
 		protected bool m_isClear = false;
 		protected ZoneSystem.LocationInstance location;
@@ -51,13 +46,12 @@ namespace OdinPlus
 
 		#endregion internal
 		#region in
+
 		public int Key;
 		public int Level;
 		public bool isMain = false;
 		#endregion in
 		#region out
-		public string HintTarget;
-		public string HintStart;
 		public GameObject Reward;
 		#endregion out
 		#endregion Var
@@ -68,12 +62,6 @@ namespace OdinPlus
 			if (!m_isInit)
 			{
 				Init();
-				return;
-			}
-			if (!m_discovered)
-			{
-				m_discovered = isLoaded();
-				Discovery();
 				return;
 			}
 			if (isLoaded() && !IsFinsih())
@@ -88,14 +76,10 @@ namespace OdinPlus
 		#endregion Mono
 
 		#region Feature
-
 		public virtual void Giveup()
 		{
-			MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : "Side") + " Quest " + m_index + " \n " + taskName + "\nGive up", true);
-			RemovePin();
 			Clear();
 		}
-
 		public virtual void Pause()
 		{
 			m_pause = !m_pause;
@@ -106,9 +90,7 @@ namespace OdinPlus
 		protected virtual void Begin()
 		{
 			Key = TaskManager.GameKey;
-			Level = TaskManager.Level;
-			isMain = TaskManager.isMain;
-			locList = new List<string[]> { m_tier0, m_tier1, m_tier2, m_tier3, m_tier4,m_tier5};
+			locList = new List<string[]> { m_tier0, m_tier1, m_tier2, m_tier3, m_tier4, m_tier5 };
 			if (singleInit)
 			{
 				Init = new Action(InitAll);
@@ -117,7 +99,6 @@ namespace OdinPlus
 			{
 				switch (Key)
 				{
-
 					case 0:
 						Init = new Action(InitTire0);
 						break;
@@ -138,16 +119,13 @@ namespace OdinPlus
 						break;
 				}
 			}
-
 			if (!SetLocation())
 			{
+				ZRoutedRpc.instance.InvokeRoutedRPC(owner, "RPC_CreateTaskFailed", new object[] { m_type, locName });
+				DBG.blogWarning(string.Format("Cannot Place Task :  {0} {1}", m_type, locName));
 				return;
 			}
-			Tweakers.TaskHintHugin((isMain ? "Main" : "Side") + "Quest " + m_index + " : " + taskName, HintStart);
-			SetRange(30.RollDice(30 + Level * 30));
-			SetPosition();
-			SetPin();
-			MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : "Side") + " Quest " + m_index + "\n" + taskName + "\nStart", true);
+			ZRoutedRpc.instance.InvokeRoutedRPC(owner, "RPC_CreateTaskSucced", new object[] { m_type, locName });
 		}
 		protected virtual bool SetLocation()
 		{
@@ -157,17 +135,10 @@ namespace OdinPlus
 			if (LocationManager.FindClosestLocation(locName, Game.instance.GetPlayerProfile().GetCustomSpawnPoint(), out Id))
 			{
 				LocationManager.GetLocationInstance(Id, out location);
-				//root = location.m_location.m_prefab.gameObject;
 				gameObject.name = "Task" + Id;
-				SetLocName();
-				SetTaskName();
 				LocationManager.Remove(Id);
-				OdinData.Data.TaskCount++;
-				m_index = OdinData.Data.TaskCount;
 				return true;
 			}
-			DBG.InfoCT("Something Went Wrong,Try again");
-			DBG.blogWarning(string.Format("Cannot Place Task :  {0} {1}", GetTaskType(), locName));
 			DestroyImmediate(this.gameObject);
 			return false;
 		}
@@ -177,20 +148,18 @@ namespace OdinPlus
 		protected virtual void InitTire2() { }
 		protected virtual void InitTire3() { }
 		protected virtual void InitTire4() { }
-		private void SetPin()
-		{
-			Minimap.instance.DiscoverLocation(m_position, Minimap.PinType.Icon3, (isMain ? "Main" : "Side") + "Quest " + m_index + " : " + taskName);
-		}
-		protected virtual void Discovery()
-		{
-			Tweakers.TaskHintHugin((isMain ? "Main" : "Side") + "Quest " + m_index + " : " + taskName, HintTarget);
-		}
 		protected virtual void CheckTarget() { }
 		public virtual void Finish()
 		{
-			MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : "Side") + "Quest " + m_index + "\n" + taskName + "\nClear", true);
-			RemovePin();
-			OdinMunin.ResetTimer();
+			//CHECK ONLINE
+			if (ZNet.instance.GetPeer(owner) == null)
+			{
+				DBG.blogWarning("task been taken by someone elese");
+			}
+			else
+			{
+				ZRoutedRpc.instance.InvokeRoutedRPC(owner, "RPC_ClientFinish", new object[] { Id });
+			}
 			m_finished = true;
 		}
 		public virtual void Clear()
@@ -198,36 +167,18 @@ namespace OdinPlus
 			m_isClear = true;
 			Destroy(gameObject);
 		}
-		protected virtual void SetLocName()
-		{
-			locName = Regex.Replace(locName, @"[\d-]", string.Empty);
-			locName = Regex.Replace(locName, @"[_]", "");
-		}
-		private void SetTaskName()
-		{
-			taskName = locName + " " + GetTaskType().ToString();
-		}
-		private void SetPosition()
-		{
-			m_position = location.m_position;
-			m_position = m_position.GetRandomLocation(m_range);
-		}
-		private void RemovePin()
-		{
-			Minimap.instance.RemovePin(m_position, 10);
-		}
-
 
 		#endregion internal Feature
 
 		#region Tool
-		public void SetRange(int range)
+
+		public void SetOwner(long sender)
 		{
-			m_range = range.RollDice();
+			owner = sender;
 		}
-		public void SendPing()
+		public bool IsOwner(long sender)
 		{
-			Chat.instance.SendPing(m_position);
+			return sender == owner;
 		}
 		public bool IsFinsih()
 		{
@@ -237,26 +188,17 @@ namespace OdinPlus
 		{
 			return m_pause;
 		}
-		public bool IsDiscovered()
-		{
-			return m_discovered;
-		}
 		public bool isLoaded()
 		{
 			return ZoneSystem.instance.IsZoneLoaded(location.m_position);
 		}
-		public TaskManager.TaskType GetTaskType()
-		{
-			return m_type;
-		}
-
 		public bool isInsideArea(Vector3 position)
 		{
 			if (position.y > 3000f)
 			{
 				return false;
 			}
-			return Utils.DistanceXZ(position, m_position) < m_range;
+			return Utils.DistanceXZ(position, location.m_position) < 100;//?
 		}
 		public bool IsPlayerInsideArea()
 		{
@@ -275,9 +217,8 @@ namespace OdinPlus
 		public bool Load(OdinData.TaskDataTable dat)
 		{
 			loading = true;
-			taskName = dat.taskName;
 
-			m_index = dat.m_index;
+			owner = dat.owner;
 
 			Key = dat.Key;
 
@@ -292,15 +233,9 @@ namespace OdinPlus
 				return true;
 			}
 
-			isMain = dat.isMain;
-
 			m_isInit = dat.m_isInit;
 
-			m_position = new Vector3(dat.m_positionX,dat.m_positionY,dat.m_positionZ);
-
 			m_pause = dat.m_pause;
-
-			m_discovered = dat.m_discovered;
 
 			m_finished = dat.m_finished;
 
@@ -309,33 +244,31 @@ namespace OdinPlus
 			Id = dat.Id;
 			if (LocationManager.GetLocationInstance(Id, out location))
 			{
-				root = location.m_location.m_prefab.gameObject;
 				locName = location.m_location.m_prefabName;
-				SetLocName();
-				SetTaskName();
-				Init=new Action(InitAll);
-/* 				switch (Key)
-				{
+				Init = new Action(InitAll);
+				/* 				switch (Key)
+								{
 
-					case 0:
-						Init = new Action(InitTire0);
-						break;
-					case 1:
-						Init = new Action(InitTire1);
-						break;
-					case 2:
-						Init = new Action(InitTire2);
-						break;
-					case 3:
-						Init = new Action(InitTire3);
-						break;
-					case 4:
-						Init = new Action(InitTire4);
-						break;
-				} */
+									case 0:
+										Init = new Action(InitTire0);
+										break;
+									case 1:
+										Init = new Action(InitTire1);
+										break;
+									case 2:
+										Init = new Action(InitTire2);
+										break;
+									case 3:
+										Init = new Action(InitTire3);
+										break;
+									case 4:
+										Init = new Action(InitTire4);
+										break;
+								} */
 				return true;
 
 			}
+			//-?
 			DestroyImmediate(this.gameObject);
 			return false;
 		}
@@ -343,9 +276,7 @@ namespace OdinPlus
 		{
 			var dat = new OdinData.TaskDataTable()
 			{
-				taskName = this.taskName,
-
-				m_index = this.m_index,
+				owner = this.owner,
 
 				Key = this.Key,
 
@@ -353,17 +284,9 @@ namespace OdinPlus
 
 				m_type = this.m_type,
 
-				isMain = this.isMain,
-
 				m_isInit = this.m_isInit,
 
-				m_positionX = this.m_position.x,
-				m_positionY = this.m_position.y,
-				m_positionZ = this.m_position.z,
-
 				m_pause = this.m_pause,
-
-				m_discovered = this.m_discovered,
 
 				m_finished = this.m_finished,
 
@@ -375,13 +298,6 @@ namespace OdinPlus
 		}
 
 		#endregion save load
-		#region  Tool
-		public string PrintData()
-		{
-			string n = "\n" + (isMain ? "Main" : "Side");
-			n += String.Format(" Quest [<color=yellow><b>{0}</b></color>] : {1}", m_index, taskName);
-			return n;
-		}
-		#endregion  Tool
+
 	}
 }

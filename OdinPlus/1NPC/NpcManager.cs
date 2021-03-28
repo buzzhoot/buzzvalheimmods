@@ -42,14 +42,6 @@ namespace OdinPlus
 			Root.SetActive(false);
 			Root.transform.SetParent(OdinPlus.Root.transform);
 
-			ZoneSystem.LocationInstance locationInstance;
-			Vector3 p = Vector3.zero;
-			if (ZoneSystem.instance.FindClosestLocation("StartTemple", Vector3.zero, out locationInstance))
-			{
-				p = locationInstance.m_position + new Vector3(-6, 0, -8);
-			}
-			Root.transform.localPosition = p;
-
 			InitTerrain();
 			InitOdinGod();
 			InitOdinPot();

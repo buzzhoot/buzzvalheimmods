@@ -23,6 +23,7 @@ namespace OdinPlus
 			public List<OdinData.TaskDataTable> Tasks = null;
 			public int TaskCount = 0;
 			public Dictionary<string, int> SearchTaskList = new Dictionary<string, int>();
+			public List<TaskManager.ClientTaskData> ClientTaskDatas = new List<TaskManager.ClientTaskData>();
 			public override Type BindToType(string assemblyName, string typeName)
 			{
 				Type tyType = null;
@@ -46,17 +47,11 @@ namespace OdinPlus
 		public class TaskDataTable : SerializationBinder
 		{
 			public TaskManager.TaskType m_type = TaskManager.TaskType.Treasure;
-			public string taskName = "";
-			public int m_index = 0;
+			public long owner;
 			public int Key = 0;
 			public int Level = 1;
-			public bool isMain = false;
 			public bool m_pause = false;
 			public bool m_isInit = false;
-			public float m_positionX = 0f;
-			public float m_positionY = 0f;
-			public float m_positionZ = 0f;
-			public bool m_discovered = false;
 			public bool m_finished = false;
 			public bool m_isClear = false;
 			public string Id = "0_0";
@@ -129,7 +124,7 @@ namespace OdinPlus
 			for (int i = 0; i < l1.Length; i++)
 			{
 				string[] c = l1[i].Split(new char[] { ':' });
-				if (c.Length==0)
+				if (c.Length == 0)
 				{
 					continue;
 				}

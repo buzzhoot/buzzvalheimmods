@@ -197,11 +197,14 @@ namespace OdinPlus
 		{
 			public static void Prefix(PlayerProfile __instance)
 			{
-				if (CheckPlayerNull())
+				if (!ZNet.instance.IsDedicated())
 				{
-					return;
+					if (CheckPlayerNull())
+					{
+						return;
+					}
+					OdinData.saveOdinData(Player.m_localPlayer.GetPlayerName() + "_" + ZNet.instance.GetWorldName());
 				}
-				OdinData.saveOdinData(Player.m_localPlayer.GetPlayerName() + "_" + ZNet.instance.GetWorldName());
 			}
 		}
 
@@ -210,8 +213,12 @@ namespace OdinPlus
 		{
 			private static void Postfix()
 			{
-				if (CheckPlayerNull() || OdinPlus.isLoaded) { return; }
-				OdinData.loadOdinData(Player.m_localPlayer.GetPlayerName() + "_" + ZNet.instance.GetWorldName());
+				if (!ZNet.instance.IsDedicated())
+				{
+					if (CheckPlayerNull() || OdinPlus.isLoaded) { return; }
+					OdinData.loadOdinData(Player.m_localPlayer.GetPlayerName() + "_" + ZNet.instance.GetWorldName());
+				}
+
 			}
 		}
 		[HarmonyPatch(typeof(Tameable), "GetHoverText")]
@@ -239,7 +246,7 @@ namespace OdinPlus
 			}
 		}
 		[HarmonyPriority(600)]
-		[HarmonyBefore(new string[] { "buzz.valheim.AllTameable","org.bepinex.plugins.creaturelevelcontrol"})]
+		[HarmonyBefore(new string[] { "buzz.valheim.AllTameable", "org.bepinex.plugins.creaturelevelcontrol" })]
 		[HarmonyPatch(typeof(ZNetScene), "Awake")]
 		private static class ZNetScene_Awake_Patch
 		{
@@ -254,6 +261,10 @@ namespace OdinPlus
 		{
 			private static void Postfix()
 			{
+				if (ZNet.instance.IsDedicated())
+				{
+					OdinData.saveOdinData(ZNet.instance.GetWorldName());
+				}
 				OdinPlus.UnRegister();
 				OdinPlus.Clear();
 			}
@@ -289,7 +300,7 @@ namespace OdinPlus
 					string cmd = __instance.m_input.text;
 					if (cmd.ToLower() == "/odinhere")
 					{
-						NpcManager.Root.transform.localPosition=Player.m_localPlayer.transform.localPosition+Vector3.forward*4;
+						NpcManager.Root.transform.localPosition = Player.m_localPlayer.transform.localPosition + Vector3.forward * 4;
 					}
 				}
 			}

@@ -35,8 +35,6 @@ namespace OdinPlus
 			{
 				m_tier0 = new string[] { "WoodHouse2", "WoodHouse10" };
 			}
-
-
 			base.Begin();
 		}
 		#endregion Main
@@ -49,15 +47,6 @@ namespace OdinPlus
 				return;
 			}
 			AddChest();
-		}
-		protected override bool SetLocation()
-		{
-			bool result = base.SetLocation();
-			if (result)
-			{
-				HintStart = String.Format("There a chest burried under a  <color=yellow><b>[{0}]</b></color> near the location i marked for you,check your map ...", locName);
-			}
-			return result;
 		}
 		protected override void InitTire0()
 		{
@@ -78,11 +67,6 @@ namespace OdinPlus
 			AddChest();
 		}
 
-		protected override void Discovery()
-		{
-			HintTarget = string.Format("Looks like you are close to the chest,look around find a <color=yellow><b>[{0}]</b></color>", locName);
-			base.Discovery();
-		}
 		#endregion Override Init
 
 		#region Tool

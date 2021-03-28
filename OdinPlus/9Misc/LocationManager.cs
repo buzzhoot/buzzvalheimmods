@@ -9,12 +9,26 @@ namespace OdinPlus
 	{
 		private static Dictionary<Vector2i, ZoneSystem.LocationInstance> m_locationInstances = new Dictionary<Vector2i, ZoneSystem.LocationInstance>();
 		public static List<string> BlackList = new List<string>();
+		public static LocationManager instance;
 
 		#region Mono
 		private void Awake()
 		{
-			BlackList = OdinData.Data.BlackList;
-			GetValDictionary();
+			initRPC();
+			instance = this;
+			if (ZNet.instance.IsServer())
+			{
+				BlackList = OdinData.Data.BlackList;
+				GetValDictionary();
+				/* ZoneSystem.LocationInstance temp;
+				ZoneSystem.instance.FindClosestLocation("StartTemple", Vector3.zero, out temp);
+				NpcManager.Root.transform.localPosition = temp.m_position + new Vector3(-6, 0, -8); */
+			}
+			GetStartPos();
+		}
+		private void Start()
+		{
+			
 		}
 		private void OnDestroy()
 		{
@@ -82,6 +96,25 @@ namespace OdinPlus
 			}
 			return result;
 		}
+		public static bool FindClosestLocation(string name, Vector3 point, out Vector3 pos)
+		{
+
+			float num = 999999f;
+
+			bool result = false;
+			foreach (var item in m_locationInstances)
+			{
+				float num2 = Vector3.Distance(item.Value.m_position, point);
+				if (item.Value.m_location.m_prefabName == name && num2 < num)
+				{
+					pos = item.Value.m_position;
+					num = num2;
+					result = true;
+				}
+			}
+			pos = Vector3.zero;
+			return result;
+		}
 		#endregion Feature
 
 		#region Tool
@@ -109,10 +142,41 @@ namespace OdinPlus
 					}
 					c = c.transform.parent;
 				}
-				
+
 			}
 			return null;
 		}
 		#endregion Tool
+
+		#region RPC
+		public void initRPC()
+		{
+			ZRoutedRpc.instance.Register<Vector3>("RPC_SetStartPos", new Action<long, Vector3>(this.RPC_SetStartPos));
+			if (ZNet.instance.IsServer())
+			{
+				ZRoutedRpc.instance.Register("Rpc_GetStartPos", new Action<long>(this.Rpc_GetStartPos));
+				return;
+			}
+
+		}
+		public void GetStartPos()
+		{
+			ZRoutedRpc.instance.InvokeRoutedRPC("Rpc_GetStartPos", new object[] { });
+		}
+		private void Rpc_GetStartPos(long sender)
+		{
+			ZoneSystem.LocationInstance temp;
+			ZoneSystem.instance.FindClosestLocation("StartTemple", Vector3.zero, out temp);
+			ZRoutedRpc.instance.InvokeRoutedRPC(sender, "RPC_SetStartPos", new object[] { temp.m_position });
+		}
+		private void RPC_SetStartPos(long sender, Vector3 pos)
+		{
+			Debug.Log("a");
+			NpcManager.Root.transform.localPosition = pos + new Vector3(-6, 0, -8);
+		}
+
+		#endregion RPC
+
+
 	}
 }
