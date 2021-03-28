@@ -8,7 +8,7 @@ namespace OdinPlus
 	{
 		#region  var
 		#region Data
-		public enum TaskType { Treasure, Hunt, Dungeon, Search };
+		public enum TaskType { Treasure = 1 , Hunt = 2, Dungeon= 3, Search =4  };
 		private static string[] RefKeys = { "defeated_eikthyr", "defeated_gdking", "defeated_bonemass", "defeated_moder", "defeated_goblinking" };
 		public const int MaxLevel = 3;
 		public static List<ClientTaskData> MyTasks = new List<ClientTaskData>();
@@ -36,18 +36,18 @@ namespace OdinPlus
 			Root.transform.SetParent(OdinPlus.Root.transform);
 
 			//-? reg rpc
-
+			ReigsterRpc();
 		}
 		private void ReigsterRpc()
 		{
 			if (ZNet.instance.IsServer())
 			{
-				ZRoutedRpc.instance.Register<TaskType, int, bool>("", new Action<long, TaskType, int, bool>(RPC_ServerCreateTask));
-				ZRoutedRpc.instance.Register<string>("", new Action<long, string>(RPC_ServerGiveup));	
+				ZRoutedRpc.instance.Register<int, int, bool>("RPC_ServerCreateTask", new Action<long, int, int, bool>(RPC_ServerCreateTask));
+				ZRoutedRpc.instance.Register<string>("RPC_ServerGiveup", new Action<long, string>(RPC_ServerGiveup));
 			}
 			ZRoutedRpc.instance.Register<string, string, Vector3>("RPC_CreateTaskSucced", new Action<long, string, string, Vector3>(RPC_CreateTaskSucced));
-			ZRoutedRpc.instance.Register<TaskType, string>("", new Action<long, TaskType, string>(RPC_CreateTaskFailed));
-			ZRoutedRpc.instance.Register<string>("", new Action<long, string>(RPC_ClientFinish));
+			ZRoutedRpc.instance.Register<int, string>("RPC_CreateTaskFailed", new Action<long, int, string>(RPC_CreateTaskFailed));
+			ZRoutedRpc.instance.Register<string>("RPC_ClientFinish", new Action<long, string>(RPC_ClientFinish));
 		}
 		#endregion Mono
 
@@ -91,7 +91,7 @@ namespace OdinPlus
 			switch (CheckKey())
 			{
 				case 0:
-					a = new TaskType[] {TaskType.Treasure, TaskType.Treasure };
+					a = new TaskType[] { TaskType.Treasure, TaskType.Treasure };
 					break;
 				case 1:
 					a = new TaskType[] { TaskType.Treasure, TaskType.Dungeon };
@@ -112,15 +112,15 @@ namespace OdinPlus
 			int l = a.Length;
 			//if (1f.RollDice() < 0.1)
 			//{
-				//CreateTask(TaskType.Search);
-				//return;
+			//CreateTask(TaskType.Search);
+			//return;
 			//}
-			CreateTask(a[l.RollDice()]);
+			instance.CreateTask(a[l.RollDice()]);
 		}
-		public static void CreateTask(TaskType t)
+		public void CreateTask(TaskType t)
 		{
 			tempType = t;
-			ZRoutedRpc.instance.InvokeRoutedRPC("RPC_ServerCreateTask",new object[]{t,Level,isMain});
+			ZRoutedRpc.instance.InvokeRoutedRPC("RPC_ServerCreateTask", new object[] {(int)t,Level, isMain});
 		}
 		public void RPC_CreateTaskSucced(long sender, string id, string lname, Vector3 pos)
 		{
@@ -131,17 +131,18 @@ namespace OdinPlus
 			task.Begin(pos);
 			DBG.blogWarning(string.Format("Client :Create Task {0} {1} at {2}", id, lname, pos));
 		}
-		public void RPC_CreateTaskFailed(long sender, TaskType t, string lname)
+		public void RPC_CreateTaskFailed(long sender, int t, string lname)
 		{
 			DBG.InfoCT("Try Agian,report " + lname + "  " + t + "   to Buzz,thx");
 			DBG.blogError(string.Format("Cannot Place Task :  {0} {1}", t, lname));
 		}
-		public void RPC_ServerCreateTask(long sender, TaskType t, int lvl, bool main)
+		public static void RPC_ServerCreateTask(long sender, int t, int lvl, bool main)
 		{
+			TaskType ttp = (TaskType)t;
 			var go = new GameObject("Task");
 			go.transform.SetParent(Root.transform);
 			go.SetActive(false);
-			switch (t)
+			switch (ttp)
 			{
 				case TaskType.Treasure:
 					go.AddComponent<TreasureTask>();
@@ -249,7 +250,7 @@ namespace OdinPlus
 		{
 			if (Root.transform.childCount == 0)
 			{
-				DBG.blogWarning("Sever Load:Task is null");
+				DBG.blogWarning("Sever Save:Task is null");
 				return null;
 			}
 			var data = new List<OdinData.TaskDataTable>();
@@ -435,7 +436,7 @@ namespace OdinPlus
 				Clear();
 			}
 			public void Clear()
-			{				
+			{
 				string result = "Stolen";
 				if (isMeInsideTaskArea())
 				{
@@ -452,7 +453,7 @@ namespace OdinPlus
 			public void Giveup()
 			{
 				DBG.blogWarning("Client Giveup Task");
-				ZRoutedRpc.instance.InvokeRoutedRPC("RPC_ServerGiveup",new object[]{Id});
+				ZRoutedRpc.instance.InvokeRoutedRPC("RPC_ServerGiveup", new object[] { Id });
 				this.Clear();
 			}
 		}

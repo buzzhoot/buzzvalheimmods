@@ -64,7 +64,6 @@ namespace OdinPlus
 			Root.AddComponent<OdinItem>();
 			Root.AddComponent<PetManager>();
 			Root.AddComponent<PrefabManager>();
-			Root.AddComponent<TaskManager>();
 			Root.AddComponent<FxAssetManager>();
 			isInit = true;
 		}
@@ -95,13 +94,16 @@ namespace OdinPlus
 		}
 		public static void PostZone()
 		{
-			if (ZNet.instance.IsDedicated())
-			{
-				
-				OdinData.loadOdinData(ZNet.instance.GetWorldName());
-			}
 			OdinPlus.InitNPC();
 			Root.AddComponent<LocationManager>();
+			Root.AddComponent<TaskManager>();
+			if (ZNet.instance.IsDedicated()&&ZNet.instance.IsServer())
+			{
+
+				OdinData.loadOdinData(ZNet.instance.GetWorldName());
+			}
+			
+
 		}
 		public static void InitNPC()
 		{
@@ -112,6 +114,7 @@ namespace OdinPlus
 		{
 			PetManager.Clear();
 			TaskManager.Clear();
+			Destroy(Root.GetComponent<TaskManager>());
 			Destroy(Root.GetComponent<NpcManager>());
 			Destroy(Root.GetComponent<LocationManager>());
 			isNPCInit = false;

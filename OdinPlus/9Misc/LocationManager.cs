@@ -171,7 +171,6 @@ namespace OdinPlus
 		}
 		private void RPC_SetStartPos(long sender, Vector3 pos)
 		{
-			Debug.Log("a");
 			NpcManager.Root.transform.localPosition = pos + new Vector3(-6, 0, -8);
 		}
 

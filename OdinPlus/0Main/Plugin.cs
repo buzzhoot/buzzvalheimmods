@@ -21,7 +21,7 @@ namespace OdinPlus
 		public static ManualLogSource logger;
 		public static ConfigEntry<KeyboardShortcut> KS_SecondInteractkey;
 		public static ConfigEntry<string> CFG_ItemSellValue;
-		private static bool DisableSaving = false;
+		private static bool DisableSaving = true;
 		#region InternalConfig
 		public static int RaiseCost = 10;
 		public static int RaiseFactor = 100;
@@ -44,7 +44,7 @@ namespace OdinPlus
 			OdinPlusRoot.AddComponent<OdinPlus>();
 
 			//notice Debug
-			//OdinPlusRoot.AddComponent<DevTool>();
+			OdinPlusRoot.AddComponent<DevTool>();
 
 			DontDestroyOnLoad(OdinPlusRoot);
 			DBG.blogInfo("OdinPlus Loadded");
@@ -197,7 +197,7 @@ namespace OdinPlus
 		{
 			public static void Prefix(PlayerProfile __instance)
 			{
-				if (!ZNet.instance.IsDedicated())
+				if (!ZNet.instance.IsDedicated()&&ZNet.instance.IsServer())
 				{
 					if (CheckPlayerNull())
 					{
@@ -217,7 +217,7 @@ namespace OdinPlus
 				{
 					return;
 				}
-				if (!ZNet.instance.IsDedicated())
+				if (!ZNet.instance.IsDedicated()&&ZNet.instance.IsServer())
 				{
 					if (CheckPlayerNull() || OdinPlus.isLoaded) { return; }
 					OdinData.loadOdinData(Player.m_localPlayer.GetPlayerName() + "_" + ZNet.instance.GetWorldName());
@@ -265,7 +265,7 @@ namespace OdinPlus
 		{
 			private static void Postfix()
 			{
-				if (ZNet.instance.IsDedicated())
+				if (ZNet.instance.IsDedicated()&&ZNet.instance.IsServer())
 				{
 					OdinData.saveOdinData(ZNet.instance.GetWorldName());
 				}
