@@ -213,6 +213,10 @@ namespace OdinPlus
 		{
 			private static void Postfix()
 			{
+				if (ZNet.instance==null)
+				{
+					return;
+				}
 				if (!ZNet.instance.IsDedicated())
 				{
 					if (CheckPlayerNull() || OdinPlus.isLoaded) { return; }

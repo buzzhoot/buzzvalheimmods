@@ -166,7 +166,11 @@ namespace OdinPlus
 				return;
 			}
 			#region Save
-			Data.Tasks = TaskManager.Save();
+			if (ZNet.instance.IsServer())
+			{
+				Data.Tasks = TaskManager.Save();
+			}
+			TaskManager.ClientSave();
 			Data.Credits = Credits;
 			#endregion Save
 
@@ -211,7 +215,11 @@ namespace OdinPlus
 
 			#region Load
 			Credits = Data.Credits;
-			TaskManager.Load(Data.Tasks);
+			if (ZNet.instance.IsServer())
+			{
+				TaskManager.Load(Data.Tasks);
+			}
+			TaskManager.ClientLoad();
 			LocationManager.BlackList = Data.BlackList;
 			LocationManager.RemoveBlackList();
 			#endregion Load
