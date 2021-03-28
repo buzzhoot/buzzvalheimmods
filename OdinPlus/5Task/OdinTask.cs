@@ -122,10 +122,11 @@ namespace OdinPlus
 			if (!SetLocation())
 			{
 				ZRoutedRpc.instance.InvokeRoutedRPC(owner, "RPC_CreateTaskFailed", new object[] { (int)m_type, locName });
-				DBG.blogWarning(string.Format("Cannot Place Task :  {0} {1}", m_type, locName));
+				DBG.blogError(string.Format("Cannot Place Task :  {0} {1}", m_type, locName));
 				return;
 			}
 			ZRoutedRpc.instance.InvokeRoutedRPC(owner, "RPC_CreateTaskSucced", new object[] { Id, locName,location.m_position });
+			DBG.blogWarning(string.Format("Placed Task :  {0} {1}", m_type, locName));
 		}
 		protected virtual bool SetLocation()
 		{

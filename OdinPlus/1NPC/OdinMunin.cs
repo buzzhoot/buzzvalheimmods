@@ -101,7 +101,7 @@ namespace OdinPlus
 					if (TaskManager.HasTask())
 					{
 						TaskManager.PrintTaskList();
-						Say("$");
+						Say("$op_munin_wait_hug");
 						break;
 					}
 					Say("$op_munin_notask");

@@ -129,6 +129,7 @@ namespace OdinPlus
 			task.locName = lname;
 			task.m_type = tempType;
 			task.Begin(pos);
+			MyTasks.Add(task);
 			DBG.blogWarning(string.Format("Client :Create Task {0} {1} at {2}", id, lname, pos));
 		}
 		public void RPC_CreateTaskFailed(long sender, int t, string lname)
@@ -408,7 +409,8 @@ namespace OdinPlus
 			}
 			public void Begin(Vector3 pos)
 			{
-				m_index = MyTasks.Count;
+				OdinData.Data.TaskCount++;
+				m_index = OdinData.Data.TaskCount;
 				SetLocName();
 				SetTaskName();
 				SetHintStart();
