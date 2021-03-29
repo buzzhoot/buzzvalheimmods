@@ -59,7 +59,7 @@ namespace OdinPlus
 			}
 			return null;
 		}
-		public static Sprite LoadSpriteFromTexture(this Sprite spi,Texture2D SpriteTexture, float PixelsPerUnit = 100f)
+		public static Sprite LoadSpriteFromTexture(Texture2D SpriteTexture, float PixelsPerUnit = 100f)
 		{
 			bool flag = SpriteTexture;
 			Sprite result;

@@ -17,7 +17,7 @@ namespace OdinPlus
 		public static bool isNPCInit = false;
 		public static bool isPetInit = false;
 		public static bool isRegistered = false;
-		public  bool isLoaded = false;
+		public bool isLoaded = false;
 		public static OdinPlus m_instance;
 		#endregion
 		#region List
@@ -35,6 +35,7 @@ namespace OdinPlus
 
 		public static Sprite OdinCreditIcon;
 		public static List<Sprite> OdinMeadsIcon = new List<Sprite>();
+		public static Dictionary<string, Sprite> OdinMeadsIcons = new Dictionary<string, Sprite>();
 		public static List<Sprite> OdinSEIcon = new List<Sprite>();
 		public static Sprite TrollHeadIcon;
 		public static Sprite WolfHeadIcon;
@@ -98,7 +99,7 @@ namespace OdinPlus
 		{
 			OdinPlus.InitNPC();
 			LocationManager.Init();
-			
+
 			TaskManager.instance.ReigsterRpc();
 			if (ZNet.instance.IsDedicated() && ZNet.instance.IsServer())
 			{
@@ -129,12 +130,23 @@ namespace OdinPlus
 		public static void initAssets()
 		{
 			OdinCreditIcon = ObjectDB.instance.GetItemPrefab("HelmetOdin").GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0];
-			OdinMeadsIcon.Add(ObjectDB.instance.GetItemPrefab("MeadTasty").GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0]);
 			OdinSEIcon.Add(OdinCreditIcon);
 			TrollHeadIcon = ObjectDB.instance.GetItemPrefab("TrophyFrostTroll").GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0];
 			WolfHeadIcon = ObjectDB.instance.GetItemPrefab("TrophyWolf").GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0];
 			CoinsIcon = ObjectDB.instance.GetItemPrefab("Coins").GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0];
-			OdinLegacyIcon = OdinCreditIcon.LoadSpriteFromTexture(Util.LoadTextureRaw(Util.GetResource(Assembly.GetCallingAssembly(), "OdinPlus.Resources.OdinLegacy.png")), 100f);
+			OdinLegacyIcon = Util.LoadSpriteFromTexture(Util.LoadTextureRaw(Util.GetResource(Assembly.GetCallingAssembly(), "OdinPlus.Resources.OdinLegacy.png")), 100f);
+			//AddIcon("explarge", 0);
+			AddValIcon("MeadTasty",0);
+		}
+		public static void AddIcon(string name, int list)
+		{
+			Sprite a = Util.LoadSpriteFromTexture(Util.LoadTextureRaw(Util.GetResource(Assembly.GetCallingAssembly(), "OdinPlus.Resources." + name + ".png")), 100f);
+			OdinMeadsIcons.Add(name, a);
+		}
+		public static void AddValIcon(string name, int list)
+		{
+			Sprite a = ObjectDB.instance.GetItemPrefab(name).GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0];
+			OdinMeadsIcons.Add(name,a);
 		}
 		#endregion Assets
 

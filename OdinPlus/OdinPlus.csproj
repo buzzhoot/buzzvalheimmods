@@ -136,6 +136,8 @@
     <Compile Include="9Misc\DevTool.cs" />
     <Compile Include="5Task\HuntTarget.cs" />
     <Compile Include="8Assets\FxAssetManager.cs" />
+    <EmbeddedResource Include="Resources\explarge.png" />
+    <EmbeddedResource Include="Resources\invisibilitysmall.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
