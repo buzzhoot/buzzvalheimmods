@@ -37,12 +37,12 @@ namespace OdinPlus
 		#endregion OverRide
 		private void FindRoom()
 		{
+			DBG.blogWarning("Finding Dungeons");
 			if (location.m_location.m_prefabName == "GoblinCamp2")
 			{
 				var dunPos = location.m_position;
 				if (!AddChest(dunPos))
 				{
-					DBG.blogWarning("GoblinCamp Failed");
 					Reward = Instantiate(ZNetScene.instance.GetPrefab("LegacyChest" + (Key + 1).ToString()), dunPos, Quaternion.identity);
 					Reward.GetComponent<LegacyChest>().ID = this.Id;
 					m_isInit = true;

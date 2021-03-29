@@ -112,7 +112,8 @@ namespace OdinPlus
 		#region Tool
 		public static GameObject FindDungeon(Vector3 pos)
 		{
-			var loc = Location.GetLocation(pos);
+			DBG.blogWarning("Finding Dungeon");
+			   var loc = Location.GetLocation(pos);
 			if (loc == null)
 			{
 				return null;
@@ -169,7 +170,7 @@ namespace OdinPlus
 		}
 		private void RPC_SetStartPos(long sender, Vector3 pos)
 		{
-			DBG.blogWarning("client  got odin postion "+ pos);
+			DBG.blogWarning("client  got odin postion " + pos);
 			NpcManager.Root.transform.localPosition = pos + new Vector3(-6, 0, -8);
 		}
 
