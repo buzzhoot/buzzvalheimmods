@@ -127,9 +127,9 @@ namespace OdinPlus
 				Destroy(gameObject);
 				return;
 			}
-			playerName=Tweakers.GetNameByPeerId(owner);
-			ZRoutedRpc.instance.InvokeRoutedRPC(owner, "RPC_CreateTaskSucced", new object[] { Id, locName,location.m_position });
-			DBG.blogWarning(string.Format("Placed Task :  {0}, {1},owner:{2} , {3}", m_type, locName,owner,playerName));
+			playerName = Tweakers.GetNameByPeerId(owner);
+			ZRoutedRpc.instance.InvokeRoutedRPC(owner, "RPC_CreateTaskSucced", new object[] { Id, locName, location.m_position });
+			DBG.blogWarning(string.Format("Placed Task :  {0}, {1},owner:{2} , {3}", m_type, locName, owner, playerName));
 		}
 		protected virtual bool SetLocation()
 		{
@@ -214,6 +214,18 @@ namespace OdinPlus
 			}
 			return false;
 		}
+		public List<long> PeersInArea()
+		{
+			List<long> list = new List<long>();
+			foreach (var peer in ZNet.instance.GetPeers())
+			{ Vector3 pos =  ZDOMan.instance.GetZDO(peer.m_characterID).GetPosition();
+				if (isInsideArea(pos))
+				{
+					list.Add(peer.m_uid);
+				}
+			}
+			return list;
+		}
 		#endregion Tool
 
 		#region save load
@@ -223,7 +235,7 @@ namespace OdinPlus
 
 			owner = dat.owner;
 
-			playerName=dat.playerName;
+			playerName = dat.playerName;
 
 			Key = dat.Key;
 
@@ -283,7 +295,7 @@ namespace OdinPlus
 			{
 				owner = this.owner,
 
-				playerName=this.playerName,
+				playerName = this.playerName,
 
 				Key = this.Key,
 

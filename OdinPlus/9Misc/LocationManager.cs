@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using HarmonyLib;
 
@@ -112,7 +113,7 @@ namespace OdinPlus
 		#region Tool
 		public static GameObject FindDungeon(Vector3 pos)
 		{
-			   var loc = Location.GetLocation(pos);
+			var loc = Location.GetLocation(pos);
 			if (loc == null)
 			{
 				return null;
@@ -173,6 +174,91 @@ namespace OdinPlus
 			NpcManager.Root.transform.localPosition = pos + new Vector3(-6, 0, -8);
 		}
 
+		private void RPC_ClientInitDungeon(long sender, string name, Vector3 pos, string Id, int Key)
+		{
+			AddDungeonChest(name, pos, Id, Key);
+		}
+		private void AddDungeonChest(string name, Vector3 pos, string Id, int Key)
+		{
+			var DungeonRoot = new GameObject();
+			if (name == "GoblinCamp2")
+			{
+				var dunPos = pos;
+				if (!AddChest(dunPos, Id, Key))
+				{
+					var Reward = Instantiate(ZNetScene.instance.GetPrefab("LegacyChest" + (Key + 1).ToString()), dunPos, Quaternion.identity);
+					Reward.GetComponent<LegacyChest>().ID = Id;
+					DBG.blogWarning("Placed LegacyChest at Dungeon camp: " + Reward.transform.position);
+					return;
+				}
+				return;
+			}
+			else
+			{
+				DungeonRoot = LocationManager.FindDungeon(pos);
+			}
+			if (DungeonRoot == null)
+			{
+				return;
+			}
+			if (!AddChest(DungeonRoot.transform.position, Id, Key))
+			{
+				Room[] array = DungeonRoot.GetComponentsInChildren<Room>();
+				if (array.Length == 0) { return; }
+
+				var array2 = array.Where(c => c.m_endCap != true).ToArray();
+
+				if (array2 == null)
+				{
+					var a = array[array.Length.RollDice()];
+					AddChest(a, Id, Key);
+					return;
+				}
+				AddChest(array2[array2.Length.RollDice()], Id, Key);
+				return;
+			}
+		}
+		private bool AddChest(Vector3 pos, string Id, int Key)
+		{
+			Collider[] array = Physics.OverlapBox(pos, new Vector3(60, 60, 60));
+			Container comp;
+			foreach (var item in array)
+			{
+				var ci = item.transform;
+				while (ci.transform.parent != null)
+				{
+					if (ci.TryGetComponent<Container>(out comp))
+					{
+						if (ci.name.Contains("Clone"))
+						{
+							var Reward = Instantiate(ZNetScene.instance.GetPrefab("LegacyChest" + (Key + 1).ToString()), comp.transform.position, Quaternion.identity);
+							comp.GetInventory().RemoveAll();
+							comp.GetComponent<ZNetView>().Destroy();
+							Reward.GetComponent<LegacyChest>().ID = Id;
+
+							DBG.blogWarning("Placed LegacyChest at Dungeon ctn: " + Reward.transform.position);
+							return true;
+						}
+					}
+					ci = ci.transform.parent;
+				}
+			}
+			DBG.blogWarning("Cant Find Chest in dungeon");
+			return false;
+		}
+
+		private void AddChest(Room room, string Id, int Key)
+		{
+			var y = room.GetComponentInChildren<RoomConnection>().transform.localPosition.y;
+			var x = room.m_size.x / 2;
+			var z = room.m_size.z / 2;
+			var pos = new Vector3(0, y + 0.2f, 0) + room.transform.position;
+			var Reward = Instantiate(ZNetScene.instance.GetPrefab("LegacyChest" + (Key + 1).ToString()));
+			Reward.transform.localPosition = pos;
+			Reward.GetComponent<LegacyChest>().ID = Id;
+			DBG.blogWarning("Placed LegacyChest at Dungeon room: " + Reward.transform.localPosition);
+			return;
+		}
 		#endregion RPC
 
 
