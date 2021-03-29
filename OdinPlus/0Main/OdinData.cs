@@ -48,6 +48,7 @@ namespace OdinPlus
 		{
 			public TaskManager.TaskType m_type = TaskManager.TaskType.Treasure;
 			public long owner;
+			public string playerName;
 			public int Key = 0;
 			public int Level = 1;
 			public bool m_pause = false;

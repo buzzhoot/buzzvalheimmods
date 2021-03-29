@@ -31,6 +31,7 @@ namespace OdinPlus
 		#endregion Data
 		#region internal
 		protected long owner;
+		public string playerName;
 		protected Action Init;
 		protected bool loading = false;
 		protected bool singleInit = true;
@@ -126,8 +127,9 @@ namespace OdinPlus
 				Destroy(gameObject);
 				return;
 			}
+			playerName=Tweakers.GetNameByPeerId(owner);
 			ZRoutedRpc.instance.InvokeRoutedRPC(owner, "RPC_CreateTaskSucced", new object[] { Id, locName,location.m_position });
-			DBG.blogWarning(string.Format("Placed Task :  {0}, {1},owner:{2}", m_type, locName,owner));
+			DBG.blogWarning(string.Format("Placed Task :  {0}, {1},owner:{2} , {3}", m_type, locName,owner,playerName));
 		}
 		protected virtual bool SetLocation()
 		{
@@ -153,13 +155,13 @@ namespace OdinPlus
 		public virtual void Finish()
 		{
 			//CHECK ONLINE
-			if (ZNet.instance.GetPeer(owner) == null)
+			if (ZNet.instance.GetPeerByPlayerName(playerName) == null)
 			{
 				DBG.blogWarning("task been taken by someone elese");
 			}
 			else
 			{
-				ZRoutedRpc.instance.InvokeRoutedRPC(owner, "RPC_ClientFinish", new object[] { Id });
+				ZRoutedRpc.instance.InvokeRoutedRPC(ZNet.instance.GetPeerByPlayerName(playerName).m_uid, "RPC_ClientFinish", new object[] { Id });
 			}
 			m_finished = true;
 		}
@@ -221,6 +223,8 @@ namespace OdinPlus
 
 			owner = dat.owner;
 
+			playerName=dat.playerName;
+
 			Key = dat.Key;
 
 			Level = dat.Level;
@@ -278,6 +282,8 @@ namespace OdinPlus
 			var dat = new OdinData.TaskDataTable()
 			{
 				owner = this.owner,
+
+				playerName=this.playerName,
 
 				Key = this.Key,
 

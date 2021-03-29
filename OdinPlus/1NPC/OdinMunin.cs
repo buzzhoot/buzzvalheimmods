@@ -9,7 +9,7 @@ namespace OdinPlus
 		private int index = 0;
 		private string currentChoice;
 		private float timer = 0f;
-		private float taskCD = 0f;
+		private float taskCD = 60f;
 		private Animator m_animator;
 		public static OdinMunin instance;
 		private void Awake()

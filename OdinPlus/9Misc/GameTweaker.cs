@@ -132,13 +132,26 @@ namespace OdinPlus
 		}
 		#region Distance
 
-		public static bool isInsideArea(Vector3 position,Vector3 m_position,float m_range)
+		public static bool isInsideArea(Vector3 position, Vector3 m_position, float m_range)
 		{
 			if (position.y > 3000f)
 			{
 				return false;
 			}
 			return Utils.DistanceXZ(position, m_position) < m_range;
+		}
+		public static string GetNameByPeerId(long uid)
+		{
+			var peers = Traverse.Create(ZNet.instance).Field<List<ZNetPeer>>("m_peers").Value;
+			foreach (var peer in peers)
+			{
+				if (peer.m_uid == uid)
+				{
+					return peer.m_playerName;
+				}
+			}
+			DBG.blogWarning("Cant find player name");
+			return null;
 		}
 		#endregion Distance
 	}
