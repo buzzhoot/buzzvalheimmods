@@ -35,9 +35,11 @@ namespace OdinPlus
 			instance = this;
 			Root = new GameObject("TaskRoot");
 			Root.transform.SetParent(OdinPlus.Root.transform);
+			MyTasks = new List<ClientTaskData>();
 		}
 		public void ReigsterRpc()
 		{
+			MyTasks = new List<ClientTaskData>();
 			if (rpcReigstered)
 			{
 				return;
@@ -67,6 +69,10 @@ namespace OdinPlus
 		}
 		public static int Count()
 		{
+			if (MyTasks == null)
+			{
+				return 0;
+			}
 			return MyTasks.Count;
 		}
 		public static int CheckKey()
@@ -95,6 +101,10 @@ namespace OdinPlus
 		#region Feature
 		public static void CreateRandomTask()
 		{
+			if (MyTasks==null)
+			{
+				MyTasks = new List<ClientTaskData>();
+			}
 			UnityEngine.Random.InitState((int)Time.time);
 			TaskType[] a = new TaskType[] { TaskType.Treasure };
 			switch (CheckKey())
@@ -131,9 +141,9 @@ namespace OdinPlus
 			tempType = t;
 			ZRoutedRpc.instance.InvokeRoutedRPC("RPC_ServerCreateTask", new object[] { (int)t, Level, isMain });
 		}
-		public void RPC_TryFindTask(long sender,string ID)
+		public void RPC_TryFindTask(long sender, string ID)
 		{
-			
+
 		}
 		public void RPC_CreateTaskSucced(long sender, string id, string lname, Vector3 pos)
 		{
@@ -247,8 +257,13 @@ namespace OdinPlus
 		}
 		public static void ClientClear()
 		{
-			MyTasks.Clear();
-			DBG.blogWarning("Client task data cleared");
+			if (MyTasks != null)
+			{
+				MyTasks.Clear();
+				DBG.blogWarning("Client task data cleared");
+			}
+			DBG.blogInfo("Task is null");
+
 		}
 		#endregion Feature
 
@@ -264,6 +279,10 @@ namespace OdinPlus
 		}
 		public static void ClientLoad()
 		{
+			if (OdinData.Data.ClientTaskDatas==null)
+			{
+				MyTasks=new List<ClientTaskData>();
+			}
 			MyTasks = OdinData.Data.ClientTaskDatas;
 
 			//Check if task stoled

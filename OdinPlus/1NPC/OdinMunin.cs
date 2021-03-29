@@ -7,7 +7,7 @@ namespace OdinPlus
 	{
 		private string[] choice = new string[] { "$op_munin_c1", "$op_munin_c2", "$op_munin_c3", "$op_munin_c4" };
 		private int index = 0;
-		private string currentChoice;
+		private string currentChoice="";
 		private float timer = 0f;
 		private float taskCD = 60f;
 		private Animator m_animator;
@@ -46,7 +46,7 @@ namespace OdinPlus
 				Say("$op_munin_cd "+n);
 				return;
 			}
-			if (TaskManager.MyTasks.Count >= 10)
+			if (TaskManager.Count() >= 10)
 			{
 				Say("$op_munin_taskfulll");
 				return;

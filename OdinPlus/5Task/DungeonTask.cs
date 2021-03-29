@@ -31,6 +31,7 @@ namespace OdinPlus
 			{
 				return;
 			}
+			
 			FindRoom();
 		}
 
@@ -42,7 +43,6 @@ namespace OdinPlus
 				var dunPos = location.m_position;
 				if (!AddChest(dunPos))
 				{
-					DBG.blogWarning("GoblinCamp Failed");
 					Reward = Instantiate(ZNetScene.instance.GetPrefab("LegacyChest" + (Key + 1).ToString()), dunPos, Quaternion.identity);
 					Reward.GetComponent<LegacyChest>().ID = this.Id;
 					m_isInit = true;
