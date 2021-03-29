@@ -154,21 +154,10 @@ namespace OdinPlus
 			if (ZNet.instance.IsServer())
 			{
 				ZRoutedRpc.instance.Register("Rpc_GetStartPos", new Action<long>(this.Rpc_GetStartPos));
-				ZRoutedRpc.instance.Register<string>("RPC_ServerSetGlobalKey",new Action<long,string>(RPC_ServerSetGlobalKey));
+
 				return;
 			}
 
-		}
-		public static void RequestSetGlobalKey(string gkey)
-		{
-			ZRoutedRpc.instance.InvokeRoutedRPC("RPC_ServerSetGlobalKey",gkey);
-			DBG.blogWarning("Client Request Set Global key :"+gkey);
-
-		}
-		public static void RPC_ServerSetGlobalKey(long sender, string gkey)
-		{
-			ZoneSystem.instance.SetGlobalKey(gkey);
-			DBG.blogWarning("Server set Global key: "+gkey);
 		}
 		public static void GetStartPos()
 		{

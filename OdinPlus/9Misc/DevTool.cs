@@ -20,6 +20,14 @@ namespace OdinPlus
 		public static bool DisableSaving = false;
 		public static List<string> UnLocal = new List<string>();
 		#region Mono
+		private void Awake()
+		{
+			if (ZNet.instance.IsServer()
+			{
+				ZRoutedRpc.instance.Register<string>("RPC_ServerSetGlobalKey", new Action<long, string>(RPC_ServerSetGlobalKey));
+			}
+
+		}
 		private void Update()
 		{
 			if (Player.m_localPlayer == null)
@@ -270,7 +278,7 @@ namespace OdinPlus
 				}
 				if (CMD.StartsWith("/ctask"))
 				{
-					CMD=CMD.Remove(0,6);
+					CMD = CMD.Remove(0, 6);
 					TaskManager.instance.CreateTask((TaskManager.TaskType)int.Parse(CMD));
 					Debug.Log("creatin task");
 				}
@@ -288,6 +296,20 @@ namespace OdinPlus
 
 		#endregion Debug
 
+		#region RpcCheats
+		public static void RequestSetGlobalKey(string gkey)
+		{
+			ZRoutedRpc.instance.InvokeRoutedRPC("RPC_ServerSetGlobalKey", gkey);
+			DBG.blogWarning("Client Request Set Global key :" + gkey);
+
+		}
+		public static void RPC_ServerSetGlobalKey(long sender, string gkey)
+		{
+			ZoneSystem.instance.SetGlobalKey(gkey);
+			DBG.blogWarning("Server set Global key: " + gkey);
+		}
+
+		#endregion RpcCheats
 		//End Class
 	}
 }
