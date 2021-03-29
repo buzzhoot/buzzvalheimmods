@@ -175,13 +175,13 @@ namespace OdinPlus
 
 		#region Tool
 
+		public void DisInit()
+		{	
+			m_isInit=false;
+		}
 		public void SetOwner(long sender)
 		{
 			owner = sender;
-		}
-		public bool IsOwner(long sender)
-		{
-			return sender == owner;
 		}
 		public bool IsFinsih()
 		{
@@ -218,7 +218,8 @@ namespace OdinPlus
 		{
 			List<long> list = new List<long>();
 			foreach (var peer in ZNet.instance.GetPeers())
-			{ Vector3 pos =  ZDOMan.instance.GetZDO(peer.m_characterID).GetPosition();
+			{
+				Vector3 pos = ZDOMan.instance.GetZDO(peer.m_characterID).GetPosition();
 				if (isInsideArea(pos))
 				{
 					list.Add(peer.m_uid);

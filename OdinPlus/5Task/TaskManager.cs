@@ -54,6 +54,7 @@ namespace OdinPlus
 				ZRoutedRpc.instance.Register<string>("RPC_FinishTask", new Action<long, string>(RPC_FinishTask));
 				ZRoutedRpc.instance.Register<int, int, bool>("RPC_ServerCreateTask", new Action<long, int, int, bool>(RPC_ServerCreateTask));
 				ZRoutedRpc.instance.Register<string>("RPC_ServerGiveup", new Action<long, string>(RPC_ServerGiveup));
+				ZRoutedRpc.instance.Register<string>("RPC_ServerDisInitTask",new Action<long, string> (RPC_ServerDisInitTask));
 				rpcReigstered = true;
 				DBG.blogWarning("TaskManager rpc server");
 			}
@@ -101,7 +102,7 @@ namespace OdinPlus
 		#region Feature
 		public static void CreateRandomTask()
 		{
-			if (MyTasks==null)
+			if (MyTasks == null)
 			{
 				MyTasks = new List<ClientTaskData>();
 			}
@@ -140,6 +141,14 @@ namespace OdinPlus
 		{
 			tempType = t;
 			ZRoutedRpc.instance.InvokeRoutedRPC("RPC_ServerCreateTask", new object[] { (int)t, Level, isMain });
+		}
+		public void RPC_ServerDisInitTask(long sender, string ID)
+		{
+			var go = Root.transform.Find("Task" + ID);
+			if (go != null)
+			{
+				go.GetComponent<OdinTask>().DisInit();
+			}
 		}
 		public void RPC_TryFindTask(long sender, string ID)
 		{
@@ -279,9 +288,9 @@ namespace OdinPlus
 		}
 		public static void ClientLoad()
 		{
-			if (OdinData.Data.ClientTaskDatas==null)
+			if (OdinData.Data.ClientTaskDatas == null)
 			{
-				MyTasks=new List<ClientTaskData>();
+				MyTasks = new List<ClientTaskData>();
 			}
 			MyTasks = OdinData.Data.ClientTaskDatas;
 
@@ -491,7 +500,7 @@ namespace OdinPlus
 			private bool isMeInsideTaskArea()
 			{
 				Vector3 ppos = Player.m_localPlayer.transform.position;
-				return Tweakers.isInsideArea(ppos, new Vector3(m_positionX, m_positionY, m_positionZ), 30);
+				return Tweakers.isInsideArea(ppos, new Vector3(m_positionX, m_positionY, m_positionZ), 150);
 			}
 			public void Giveup()
 			{

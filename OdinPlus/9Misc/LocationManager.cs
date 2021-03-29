@@ -149,14 +149,26 @@ namespace OdinPlus
 				return;
 			}
 			ZRoutedRpc.instance.Register<Vector3>("RPC_SetStartPos", new Action<long, Vector3>(this.RPC_SetStartPos));
-			ZRoutedRpc.instance.Register<string,Vector3,string,int>("RPC_ClientInitDungeon",new RoutedMethod<string, Vector3, string, int>.Method(RPC_ClientInitDungeon));
+			ZRoutedRpc.instance.Register<string, Vector3, string, int>("RPC_ClientInitDungeon", new RoutedMethod<string, Vector3, string, int>.Method(RPC_ClientInitDungeon));
 			rpc = true;
 			if (ZNet.instance.IsServer())
 			{
 				ZRoutedRpc.instance.Register("Rpc_GetStartPos", new Action<long>(this.Rpc_GetStartPos));
+				ZRoutedRpc.instance.Register<string>("RPC_ServerSetGlobalKey",new Action<long,string>(RPC_ServerSetGlobalKey));
 				return;
 			}
 
+		}
+		public static void RequestSetGlobalKey(string gkey)
+		{
+			ZRoutedRpc.instance.InvokeRoutedRPC("RPC_ServerSetGlobalKey",gkey);
+			DBG.blogWarning("Client Request Set Global key :"+gkey);
+
+		}
+		public static void RPC_ServerSetGlobalKey(long sender, string gkey)
+		{
+			ZoneSystem.instance.SetGlobalKey(gkey);
+			DBG.blogWarning("Server set Global key: "+gkey);
 		}
 		public static void GetStartPos()
 		{
@@ -177,9 +189,10 @@ namespace OdinPlus
 
 		private void RPC_ClientInitDungeon(long sender, string name, Vector3 pos, string Id, int Key)
 		{
-			AddDungeonChest(name, pos, Id, Key);
+			if (AddDungeonChest(name, pos, Id, Key)) ;
+			ZRoutedRpc.instance.InvokeRoutedRPC(sender, "RPC_ServerDisInitTask", new object[] { Id });
 		}
-		private void AddDungeonChest(string name, Vector3 pos, string Id, int Key)
+		private bool AddDungeonChest(string name, Vector3 pos, string Id, int Key)
 		{
 			var DungeonRoot = new GameObject();
 			if (name == "GoblinCamp2")
@@ -190,9 +203,9 @@ namespace OdinPlus
 					var Reward = Instantiate(ZNetScene.instance.GetPrefab("LegacyChest" + (Key + 1).ToString()), dunPos, Quaternion.identity);
 					Reward.GetComponent<LegacyChest>().ID = Id;
 					DBG.blogWarning("Placed LegacyChest at Dungeon camp: " + Reward.transform.position);
-					return;
+					return true;
 				}
-				return;
+				return false;
 			}
 			else
 			{
@@ -200,12 +213,12 @@ namespace OdinPlus
 			}
 			if (DungeonRoot == null)
 			{
-				return;
+				return false;
 			}
 			if (!AddChest(DungeonRoot.transform.position, Id, Key))
 			{
 				Room[] array = DungeonRoot.GetComponentsInChildren<Room>();
-				if (array.Length == 0) { return; }
+				if (array.Length == 0) { return false; }
 
 				var array2 = array.Where(c => c.m_endCap != true).ToArray();
 
@@ -213,11 +226,12 @@ namespace OdinPlus
 				{
 					var a = array[array.Length.RollDice()];
 					AddChest(a, Id, Key);
-					return;
+					return true;
 				}
 				AddChest(array2[array2.Length.RollDice()], Id, Key);
-				return;
+				return true;
 			}
+			return true;
 		}
 		private bool AddChest(Vector3 pos, string Id, int Key)
 		{
