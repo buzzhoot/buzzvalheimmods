@@ -143,11 +143,15 @@ namespace OdinPlus
 		#region RPC
 		public void initRPC()
 		{
+			if (rpc)
+			{
+				return;
+			}
 			ZRoutedRpc.instance.Register<Vector3>("RPC_SetStartPos", new Action<long, Vector3>(this.RPC_SetStartPos));
-			if (ZNet.instance.IsServer() && !rpc)
+			rpc = true;
+			if (ZNet.instance.IsServer())
 			{
 				ZRoutedRpc.instance.Register("Rpc_GetStartPos", new Action<long>(this.Rpc_GetStartPos));
-				rpc = true;
 				return;
 			}
 
@@ -158,12 +162,14 @@ namespace OdinPlus
 		}
 		private void Rpc_GetStartPos(long sender)
 		{
+			DBG.blogWarning("Server got odin postion request");
 			ZoneSystem.LocationInstance temp;
 			ZoneSystem.instance.FindClosestLocation("StartTemple", Vector3.zero, out temp);
 			ZRoutedRpc.instance.InvokeRoutedRPC(sender, "RPC_SetStartPos", new object[] { temp.m_position });
 		}
 		private void RPC_SetStartPos(long sender, Vector3 pos)
 		{
+			DBG.blogWarning("client  got odin postion "+ pos);
 			NpcManager.Root.transform.localPosition = pos + new Vector3(-6, 0, -8);
 		}
 

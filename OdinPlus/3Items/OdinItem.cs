@@ -75,7 +75,7 @@ namespace OdinPlus
 			id.m_itemType = ItemDrop.ItemData.ItemType.None;
 
 			id.m_maxStackSize = 10;
-			id.m_maxQuality = 4;
+			id.m_maxQuality = 5;
 
 			ObjectList.Add(name, go);
 

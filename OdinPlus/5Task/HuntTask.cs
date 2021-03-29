@@ -37,30 +37,22 @@ namespace OdinPlus
 		{
 			if (Key >= 5 || Key <= 0)
 			{
-				Key = 4.RollDice();
-				locName = Monsters[Key];
+				Key = 4.RollDice()+1;
 			}
-			else
-			{
 				locName = Monsters[Key - 1];
-			}
 
 			locName = Regex.Replace(locName, @"[_]", "");
 		}
 		protected override void InitAll()
 		{
-			if (!isLoaded())
-			{
-				return;
-			}
 			AddMonster();
 		}
 		private void AddMonster()
 		{
-
 			float y = 0;
 			ZoneSystem.instance.FindFloor(location.m_position, out y);
 			var pos = new Vector3(location.m_position.x, y + 2, location.m_position.z + 5f);
+			SetMonsterName();
 			Reward = Instantiate(ZNetScene.instance.GetPrefab(Monsters[Key - 1] + "Hunt"), pos, Quaternion.identity);
 			Reward.GetComponent<HuntTarget>().ID = Id;
 			Reward.GetComponent<HuntTarget>().Setup(Key, Level);

@@ -13,7 +13,7 @@ using System.Globalization;
 using UnityEngine.UI;
 namespace OdinPlus
 {
-	[BepInPlugin("buzz.valheim.OdinPlus", "OdinPlus", "0.1.1")]
+	[BepInPlugin("buzz.valheim.OdinPlus", "OdinPlus", "0.2.0")]
 	public class Plugin : BaseUnityPlugin
 	{
 		#region Config Var
@@ -197,14 +197,11 @@ namespace OdinPlus
 		{
 			public static void Prefix(PlayerProfile __instance)
 			{
-				if (!ZNet.instance.IsDedicated()&&ZNet.instance.IsServer())
-				{
 					if (CheckPlayerNull())
 					{
 						return;
 					}
 					OdinData.saveOdinData(Player.m_localPlayer.GetPlayerName() + "_" + ZNet.instance.GetWorldName());
-				}
 			}
 		}
 
@@ -217,9 +214,9 @@ namespace OdinPlus
 				{
 					return;
 				}
-				if (!ZNet.instance.IsDedicated()&&ZNet.instance.IsServer())
 				{
 					if (CheckPlayerNull() || OdinPlus.m_instance.isLoaded) { return; }
+					LocationManager.GetStartPos();
 					OdinData.loadOdinData(Player.m_localPlayer.GetPlayerName() + "_" + ZNet.instance.GetWorldName());
 				}
 

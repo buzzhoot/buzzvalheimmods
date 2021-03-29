@@ -34,7 +34,6 @@ namespace OdinPlus
 		}
 		private void Start()
 		{
-
 			if (ID != "")
 			{
 				m_nview.GetZDO().Set("TaskID", ID);
@@ -50,11 +49,11 @@ namespace OdinPlus
 			}
 			m_mai.SetPatrolPoint();
 			Traverse.Create(m_hum).Field<SEMan>("m_seman").Value.AddStatusEffect(OdinSE.MonsterSEList.ElementAt(Level).Key);
-			CreateDrop();
 		}
 		private void Update()
 		{
-			if (!OdinPlus.m_instance.isLoaded)
+			ID = m_nview.GetZDO().GetString("TaskID");
+			if (!ZNet.instance.IsServer())
 			{
 				return;
 			}
@@ -69,8 +68,12 @@ namespace OdinPlus
 		}
 		public void OnDeath()
 		{
+			ZRoutedRpc.instance.InvokeRoutedRPC("RPC_FinishTask", new object[] { ID });
 			Tweakers.ValSpawn("vfx_GodExplosion", transform.position);
-			m_task.GetComponent<HuntTask>().Finish();
+			var r= Instantiate(ZNetScene.instance.GetPrefab("OdinLegacy"),transform.localPosition,Quaternion.identity);
+			r.GetComponent<ItemDrop>().m_itemData.m_quality=Key;
+			r.GetComponent<ItemDrop>().m_itemData.m_stack=Level;
+			
 		}
 
 		#endregion Mono
@@ -90,6 +93,7 @@ namespace OdinPlus
 			go.name = name + "Hunt";
 			go.AddComponent<HuntTarget>();
 			go.GetComponent<Humanoid>().m_name+=" $op_hunt_target";
+			DestroyImmediate(go.GetComponent<CharacterDrop>());
 			var fx = Instantiate(FxAssetManager.GetFxNN("GreenSmoke"), go.transform);
 			fx.transform.position = go.FindObject("Spine2").transform.position;//opt Random smoke
 			return go;

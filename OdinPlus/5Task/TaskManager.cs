@@ -48,6 +48,8 @@ namespace OdinPlus
 			DBG.blogWarning("TaskManager rpc reged");
 			if (ZNet.instance.IsServer())
 			{
+
+				ZRoutedRpc.instance.Register<string>("RPC_FinishTask", new Action<long, string>(RPC_FinishTask));
 				ZRoutedRpc.instance.Register<int, int, bool>("RPC_ServerCreateTask", new Action<long, int, int, bool>(RPC_ServerCreateTask));
 				ZRoutedRpc.instance.Register<string>("RPC_ServerGiveup", new Action<long, string>(RPC_ServerGiveup));
 				rpcReigstered = true;
@@ -104,7 +106,7 @@ namespace OdinPlus
 					a = new TaskType[] { TaskType.Treasure, TaskType.Dungeon };
 					break;
 				case 2:
-					a = new TaskType[] { TaskType.Treasure,TaskType.Hunt, TaskType.Dungeon};
+					a = new TaskType[] { TaskType.Treasure, TaskType.Hunt, TaskType.Dungeon };
 					break;
 				case 3:
 					a = new TaskType[] { TaskType.Treasure, TaskType.Dungeon, TaskType.Hunt };
@@ -128,6 +130,10 @@ namespace OdinPlus
 		{
 			tempType = t;
 			ZRoutedRpc.instance.InvokeRoutedRPC("RPC_ServerCreateTask", new object[] { (int)t, Level, isMain });
+		}
+		public void RPC_TryFindTask(long sender,string ID)
+		{
+			
 		}
 		public void RPC_CreateTaskSucced(long sender, string id, string lname, Vector3 pos)
 		{
@@ -197,6 +203,15 @@ namespace OdinPlus
 			}
 			DBG.blogError("Giveup : Server Cant Find task ID:" + ID);
 			return;
+		}
+		public void RPC_FinishTask(long sender, string ID)
+		{
+			var a = Root.FindObject("Task" + ID);
+			if (a != null)
+			{
+				a.GetComponent<OdinTask>().Finish();
+				DBG.blogWarning("Task finished by " + sender);
+			}
 		}
 		public void RPC_ClientFinish(long sender, string ID)
 		{
@@ -327,8 +342,8 @@ namespace OdinPlus
 			public string locName = "";
 			public string Id = "0_0";
 			public TaskManager.TaskType m_type;
-			public string HintTarget;//-?
-			public string HintStart;//-?
+			public string HintTarget;
+			public string HintStart;
 			public string taskName;
 			public int m_index;
 			public float m_positionX = 0f;

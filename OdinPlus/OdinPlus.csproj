@@ -33,10 +33,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CreatureLevelControl">
-      <HintPath>..\0libDep\CreatureLevelControl.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="0Harmony">
       <HintPath>..\0libDep\0Harmony.dll</HintPath>
       <Private>False</Private>

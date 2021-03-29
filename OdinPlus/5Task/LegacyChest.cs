@@ -12,12 +12,12 @@ namespace OdinPlus
 		private Container m_container;
 		private void Start()
 		{
+			m_nview = gameObject.GetComponent<ZNetView>();
+			m_container = gameObject.GetComponent<Container>();
 			if (!ZNet.instance.IsServer())
 			{
 				return;
 			}
-			m_nview = gameObject.GetComponent<ZNetView>();
-			m_container = gameObject.GetComponent<Container>();
 			if (ID != "")
 			{
 				m_nview.GetZDO().Set("TaskID", ID);
@@ -29,6 +29,7 @@ namespace OdinPlus
 		}
 		private void Update()
 		{
+			ID = m_nview.GetZDO().GetString("TaskID");
 			if (m_container.GetInventory() == null)
 			{
 				DBG.blogWarning("Cant find inv");
@@ -36,14 +37,7 @@ namespace OdinPlus
 			}
 			if (m_container.GetInventory().NrOfItems() == 0)
 			{
-				DBG.blogInfo("Task Finish,Destroy");
-				foreach (var task in TaskManager.MyTasks)
-				{
-					if (task.Id==ID)
-					{
-						task.Finish();
-					}
-				}
+				ZRoutedRpc.instance.InvokeRoutedRPC("RPC_FinishTask", new object[] { ID });
 				Instantiate(NpcManager.RavenPrefab.GetComponent<Raven>().m_despawnEffect.m_effectPrefabs[0].m_prefab, gameObject.transform.position, Quaternion.identity);
 				ZNetScene.instance.Destroy(gameObject);
 			}

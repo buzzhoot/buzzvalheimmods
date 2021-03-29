@@ -17,7 +17,7 @@ namespace OdinPlus
 		public static bool isNPCInit = false;
 		public static bool isPetInit = false;
 		public static bool isRegistered = false;
-		public  bool isLoaded = true;
+		public  bool isLoaded = false;
 		public static OdinPlus m_instance;
 		#endregion
 		#region List
@@ -98,7 +98,7 @@ namespace OdinPlus
 		{
 			OdinPlus.InitNPC();
 			LocationManager.Init();
-			LocationManager.GetStartPos();
+			
 			TaskManager.instance.ReigsterRpc();
 			if (ZNet.instance.IsDedicated() && ZNet.instance.IsServer())
 			{

@@ -86,8 +86,6 @@ namespace OdinPlus
 			Reward.transform.localPosition = new Vector3(x.RollDice(), y, z.RollDice()) + location.m_position;
 			Reward.GetComponent<LegacyChest>().ID = this.Id;
 			m_isInit = true;
-			OdinPlus.m_instance.isLoaded=true;
-			Debug.Log(OdinPlus.m_instance.isLoaded);
 			DBG.blogWarning("Placed LegacyChest at : " + Reward.transform.localPosition);
 			return;
 		}
