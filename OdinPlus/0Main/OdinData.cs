@@ -20,7 +20,7 @@ namespace OdinPlus
 			public bool hasWolf = false;
 			public bool hasTroll = false;
 			public List<string> BlackList = new List<string>();
-			public List<OdinData.TaskDataTable> Tasks = null;
+			public List<OdinData.TaskDataTable> Tasks = new List<TaskDataTable>();
 			public int TaskCount = 0;
 			public Dictionary<string, int> SearchTaskList = new Dictionary<string, int>();
 			public List<TaskManager.ClientTaskData> ClientTaskDatas = new List<TaskManager.ClientTaskData>();
@@ -120,6 +120,7 @@ namespace OdinPlus
 				Credits = 1000;
 			}
 			Data = new DataTable();
+			Data.ClientTaskDatas=new List<TaskManager.ClientTaskData>();
 			if (Plugin.CFG_ItemSellValue.Value == "") { return; }
 			string[] l1 = Plugin.CFG_ItemSellValue.Value.Split(new char[] { ';' });
 			for (int i = 0; i < l1.Length; i++)

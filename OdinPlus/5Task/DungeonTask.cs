@@ -31,13 +31,13 @@ namespace OdinPlus
 			{
 				return;
 			}
+			
 			FindRoom();
 		}
 
 		#endregion OverRide
 		private void FindRoom()
 		{
-			DBG.blogWarning("Finding Dungeons");
 			if (location.m_location.m_prefabName == "GoblinCamp2")
 			{
 				var dunPos = location.m_position;

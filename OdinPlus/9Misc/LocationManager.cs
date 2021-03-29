@@ -112,7 +112,6 @@ namespace OdinPlus
 		#region Tool
 		public static GameObject FindDungeon(Vector3 pos)
 		{
-			DBG.blogWarning("Finding Dungeon");
 			   var loc = Location.GetLocation(pos);
 			if (loc == null)
 			{
