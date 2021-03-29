@@ -31,8 +31,13 @@ namespace OdinPlus
 			{
 				return;
 			}
-			
-			FindRoom();
+			var pl = PeersInArea();
+			if (pl!=null)
+			{
+				ZRoutedRpc.instance.InvokeRoutedRPC(pl[0],"RPC_ClientInitDungeon",new object[]{locName,location.m_position,Id,Key});
+				m_isInit= true;
+			}
+			return;
 		}
 
 		#endregion OverRide

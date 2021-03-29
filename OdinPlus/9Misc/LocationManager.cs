@@ -149,6 +149,7 @@ namespace OdinPlus
 				return;
 			}
 			ZRoutedRpc.instance.Register<Vector3>("RPC_SetStartPos", new Action<long, Vector3>(this.RPC_SetStartPos));
+			ZRoutedRpc.instance.Register<string,Vector3,string,int>("RPC_ClientInitDungeon",new RoutedMethod<string, Vector3, string, int>.Method(RPC_ClientInitDungeon));
 			rpc = true;
 			if (ZNet.instance.IsServer())
 			{
