@@ -38,10 +38,10 @@ namespace OdinPlus
 		}
 		public static void Init()
 		{
+
 			Root = new GameObject("OdinNPCs"); ;
 			Root.SetActive(false);
 			Root.transform.SetParent(OdinPlus.Root.transform);
-
 			InitTerrain();
 			InitOdinGod();
 			InitOdinPot();

@@ -268,6 +268,12 @@ namespace OdinPlus
 				{
 					DevTool.TestC();
 				}
+				if (CMD.StartsWith("/ctask"))
+				{
+					CMD=CMD.Remove(0,6);
+					TaskManager.instance.CreateTask((TaskManager.TaskType)int.Parse(CMD));
+					Debug.Log("creatin task");
+				}
 			}
 		}
 		[HarmonyPatch(typeof(Console), "InputText")]
@@ -275,7 +281,7 @@ namespace OdinPlus
 		{
 			private static void Prefix()
 			{
-				//InputCMD(global::Console.instance.m_input.text);
+				InputCMD(global::Console.instance.m_input.text);
 			}
 		}
 

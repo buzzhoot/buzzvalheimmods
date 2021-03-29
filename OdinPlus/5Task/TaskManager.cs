@@ -8,7 +8,7 @@ namespace OdinPlus
 	{
 		#region  var
 		#region Data
-		public enum TaskType { Treasure = 1 , Hunt = 2, Dungeon= 3, Search =4  };
+		public enum TaskType { Treasure = 1, Hunt = 2, Dungeon = 3, Search = 4 };
 		private static string[] RefKeys = { "defeated_eikthyr", "defeated_gdking", "defeated_bonemass", "defeated_moder", "defeated_goblinking" };
 		public const int MaxLevel = 3;
 		public static List<ClientTaskData> MyTasks = new List<ClientTaskData>();
@@ -24,6 +24,7 @@ namespace OdinPlus
 		#endregion interal
 		#region Internal
 		private static TaskType tempType;
+		private static bool rpcReigstered = false;
 		#endregion Internal
 		#endregion  var
 
@@ -34,20 +35,26 @@ namespace OdinPlus
 			instance = this;
 			Root = new GameObject("TaskRoot");
 			Root.transform.SetParent(OdinPlus.Root.transform);
-
-			//-? reg rpc
-			ReigsterRpc();
 		}
-		private void ReigsterRpc()
+		public void ReigsterRpc()
 		{
-			if (ZNet.instance.IsServer())
+			if (rpcReigstered)
 			{
-				ZRoutedRpc.instance.Register<int, int, bool>("RPC_ServerCreateTask", new Action<long, int, int, bool>(RPC_ServerCreateTask));
-				ZRoutedRpc.instance.Register<string>("RPC_ServerGiveup", new Action<long, string>(RPC_ServerGiveup));
+				return;
 			}
 			ZRoutedRpc.instance.Register<string, string, Vector3>("RPC_CreateTaskSucced", new Action<long, string, string, Vector3>(RPC_CreateTaskSucced));
 			ZRoutedRpc.instance.Register<int, string>("RPC_CreateTaskFailed", new Action<long, int, string>(RPC_CreateTaskFailed));
 			ZRoutedRpc.instance.Register<string>("RPC_ClientFinish", new Action<long, string>(RPC_ClientFinish));
+			DBG.blogWarning("TaskManager rpc reged");
+			if (ZNet.instance.IsServer())
+			{
+				ZRoutedRpc.instance.Register<int, int, bool>("RPC_ServerCreateTask", new Action<long, int, int, bool>(RPC_ServerCreateTask));
+				ZRoutedRpc.instance.Register<string>("RPC_ServerGiveup", new Action<long, string>(RPC_ServerGiveup));
+				rpcReigstered = true;
+				DBG.blogWarning("TaskManager rpc server");
+			}
+
+
 		}
 		#endregion Mono
 
@@ -120,7 +127,7 @@ namespace OdinPlus
 		public void CreateTask(TaskType t)
 		{
 			tempType = t;
-			ZRoutedRpc.instance.InvokeRoutedRPC("RPC_ServerCreateTask", new object[] {(int)t,Level, isMain});
+			ZRoutedRpc.instance.InvokeRoutedRPC("RPC_ServerCreateTask", new object[] { (int)t, Level, isMain });
 		}
 		public void RPC_CreateTaskSucced(long sender, string id, string lname, Vector3 pos)
 		{

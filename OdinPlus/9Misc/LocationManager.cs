@@ -10,32 +10,22 @@ namespace OdinPlus
 		private static Dictionary<Vector2i, ZoneSystem.LocationInstance> m_locationInstances = new Dictionary<Vector2i, ZoneSystem.LocationInstance>();
 		public static List<string> BlackList = new List<string>();
 		public static LocationManager instance;
+		public static bool rpc = false;
 
 		#region Mono
 		private void Awake()
 		{
-			initRPC();
 			instance = this;
+		}
+		public static void Init()
+		{
+			instance.initRPC();
 			if (ZNet.instance.IsServer())
 			{
 				BlackList = OdinData.Data.BlackList;
 				GetValDictionary();
-				/* ZoneSystem.LocationInstance temp;
-				ZoneSystem.instance.FindClosestLocation("StartTemple", Vector3.zero, out temp);
-				NpcManager.Root.transform.localPosition = temp.m_position + new Vector3(-6, 0, -8); */
 			}
-			GetStartPos();
 		}
-		private void Start()
-		{
-			
-		}
-		private void OnDestroy()
-		{
-			m_locationInstances.Clear();
-			BlackList.Clear();
-		}
-
 		#endregion Mono
 
 		#region Init
@@ -56,6 +46,8 @@ namespace OdinPlus
 		}
 		public static void Clear()
 		{
+			BlackList.Clear();
+			m_locationInstances.Clear();
 		}
 		#endregion Init
 
@@ -152,14 +144,15 @@ namespace OdinPlus
 		public void initRPC()
 		{
 			ZRoutedRpc.instance.Register<Vector3>("RPC_SetStartPos", new Action<long, Vector3>(this.RPC_SetStartPos));
-			if (ZNet.instance.IsServer())
+			if (ZNet.instance.IsServer() && !rpc)
 			{
 				ZRoutedRpc.instance.Register("Rpc_GetStartPos", new Action<long>(this.Rpc_GetStartPos));
+				rpc = true;
 				return;
 			}
 
 		}
-		public void GetStartPos()
+		public static void GetStartPos()
 		{
 			ZRoutedRpc.instance.InvokeRoutedRPC("Rpc_GetStartPos", new object[] { });
 		}

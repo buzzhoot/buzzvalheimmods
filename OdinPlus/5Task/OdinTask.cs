@@ -126,7 +126,7 @@ namespace OdinPlus
 				return;
 			}
 			ZRoutedRpc.instance.InvokeRoutedRPC(owner, "RPC_CreateTaskSucced", new object[] { Id, locName,location.m_position });
-			DBG.blogWarning(string.Format("Placed Task :  {0} {1}", m_type, locName));
+			DBG.blogWarning(string.Format("Placed Task :  {0}, {1},owner:{2}", m_type, locName,owner));
 		}
 		protected virtual bool SetLocation()
 		{
@@ -191,7 +191,7 @@ namespace OdinPlus
 		}
 		public bool isLoaded()
 		{
-			return ZoneSystem.instance.IsZoneLoaded(location.m_position);
+			return IsPlayerInsideArea();
 		}
 		public bool isInsideArea(Vector3 position)
 		{
@@ -199,7 +199,7 @@ namespace OdinPlus
 			{
 				return false;
 			}
-			return Utils.DistanceXZ(position, location.m_position) < 100;//?
+			return Utils.DistanceXZ(position, location.m_position) < 100;//? 
 		}
 		public bool IsPlayerInsideArea()
 		{

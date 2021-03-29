@@ -17,7 +17,7 @@ namespace OdinPlus
 		public static bool isNPCInit = false;
 		public static bool isPetInit = false;
 		public static bool isRegistered = false;
-		public static bool isLoaded = false;
+		public  bool isLoaded = true;
 		public static OdinPlus m_instance;
 		#endregion
 		#region List
@@ -52,6 +52,8 @@ namespace OdinPlus
 			PrefabParent.SetActive(false);
 			PrefabParent.transform.SetParent(Root.transform);
 			Root.AddComponent<OdinData>();
+			Root.AddComponent<TaskManager>();
+			Root.AddComponent<LocationManager>();
 		}
 		#endregion Mono
 
@@ -95,15 +97,13 @@ namespace OdinPlus
 		public static void PostZone()
 		{
 			OdinPlus.InitNPC();
-			Root.AddComponent<LocationManager>();
-			Root.AddComponent<TaskManager>();
-			if (ZNet.instance.IsDedicated()&&ZNet.instance.IsServer())
+			LocationManager.Init();
+			LocationManager.GetStartPos();
+			TaskManager.instance.ReigsterRpc();
+			if (ZNet.instance.IsDedicated() && ZNet.instance.IsServer())
 			{
-
 				OdinData.loadOdinData(ZNet.instance.GetWorldName());
 			}
-			
-
 		}
 		public static void InitNPC()
 		{
@@ -114,9 +114,8 @@ namespace OdinPlus
 		{
 			PetManager.Clear();
 			TaskManager.Clear();
-			Destroy(Root.GetComponent<TaskManager>());
+			LocationManager.Clear();
 			Destroy(Root.GetComponent<NpcManager>());
-			Destroy(Root.GetComponent<LocationManager>());
 			isNPCInit = false;
 		}
 		#endregion Patch
@@ -211,7 +210,7 @@ namespace OdinPlus
 				odb.m_StatusEffects.Remove(item);
 			}
 			isRegistered = false;
-			isLoaded = false;
+			m_instance.isLoaded = false;
 			DBG.blogWarning("UnRegister all list");
 		}
 		#endregion Feature

@@ -5,13 +5,17 @@ namespace OdinPlus
 {
 	public class LegacyChest : MonoBehaviour
 	{
-		
+
 		private ZNetView m_nview;
 		public string ID = "";
 		private Transform m_task;
 		private Container m_container;
 		private void Start()
 		{
+			if (!ZNet.instance.IsServer())
+			{
+				return;
+			}
 			m_nview = gameObject.GetComponent<ZNetView>();
 			m_container = gameObject.GetComponent<Container>();
 			if (ID != "")
@@ -25,7 +29,7 @@ namespace OdinPlus
 		}
 		private void Update()
 		{
-			if (!OdinPlus.isLoaded)
+			if (!ZNet.instance.IsServer())
 			{
 				return;
 			}
@@ -39,6 +43,7 @@ namespace OdinPlus
 			}
 			if (m_container.GetInventory() == null)
 			{
+				DBG.blogWarning("Cant find inv");
 				return;
 			}
 			if (m_container.GetInventory().NrOfItems() == 0)

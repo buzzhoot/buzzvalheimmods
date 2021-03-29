@@ -9,6 +9,7 @@ namespace OdinPlus
 		private int index = 0;
 		private string currentChoice;
 		private float timer = 0f;
+		private float taskCD = 0f;
 		private Animator m_animator;
 		public static OdinMunin instance;
 		private void Awake()
@@ -52,7 +53,7 @@ namespace OdinPlus
 			}
 			TaskManager.CreateRandomTask();
 			Say("$op_munin_wait_hug");
-			timer = 60f;//add
+			timer = taskCD;
 		}
 		private void GiveUpTask()
 		{

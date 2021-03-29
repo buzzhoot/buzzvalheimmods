@@ -162,7 +162,7 @@ namespace OdinPlus
 		{
 			if (DevTool.DisableSaving)
 			{
-				OdinPlus.isLoaded = true;
+				OdinPlus.m_instance.isLoaded = true;
 				return;
 			}
 			#region Save
@@ -192,16 +192,17 @@ namespace OdinPlus
 		}
 		public static void loadOdinData(string name)
 		{
+			DBG.blogWarning("Starting loding data");
 			if (DevTool.DisableSaving)
 			{
-				OdinPlus.isLoaded = true;
+				OdinPlus.m_instance.isLoaded= true;
 				return;
 			}
 			#region Serial
 			string file = Path.Combine(Application.persistentDataPath, (name + ".odinplus"));
 			if (!File.Exists(@file))
 			{
-				OdinPlus.isLoaded = true;
+				OdinPlus.m_instance.isLoaded= true;
 				Credits = 100;
 				DBG.blogWarning("Profile not exists:" + name);
 				return;
@@ -224,7 +225,7 @@ namespace OdinPlus
 			LocationManager.RemoveBlackList();
 			#endregion Load
 
-			OdinPlus.isLoaded = true;
+			OdinPlus.m_instance.isLoaded= true;
 			DBG.blogWarning("OdinDataLoaded:" + name);
 		}
 		#endregion Save And Load

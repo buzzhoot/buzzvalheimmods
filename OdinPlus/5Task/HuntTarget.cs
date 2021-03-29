@@ -54,7 +54,7 @@ namespace OdinPlus
 		}
 		private void Update()
 		{
-			if (!OdinPlus.isLoaded)
+			if (!OdinPlus.m_instance.isLoaded)
 			{
 				return;
 			}
