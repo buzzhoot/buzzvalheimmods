@@ -104,7 +104,7 @@ namespace OdinPlus
 					a = new TaskType[] { TaskType.Treasure, TaskType.Dungeon };
 					break;
 				case 2:
-					a = new TaskType[] { TaskType.Treasure, TaskType.Dungeon, TaskType.Hunt, TaskType.Dungeon, TaskType.Dungeon };
+					a = new TaskType[] { TaskType.Treasure,TaskType.Hunt, TaskType.Dungeon};
 					break;
 				case 3:
 					a = new TaskType[] { TaskType.Treasure, TaskType.Dungeon, TaskType.Hunt };

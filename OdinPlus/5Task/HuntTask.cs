@@ -35,11 +35,16 @@ namespace OdinPlus
 		}
 		private void SetMonsterName()
 		{
-			if (Key == 5)
+			if (Key >= 5 || Key <= 0)
 			{
-				Key = (Key-1).RollDice();
+				Key = 4.RollDice();
+				locName = Monsters[Key];
 			}
-			locName = Monsters[Key - 1];
+			else
+			{
+				locName = Monsters[Key - 1];
+			}
+
 			locName = Regex.Replace(locName, @"[_]", "");
 		}
 		protected override void InitAll()

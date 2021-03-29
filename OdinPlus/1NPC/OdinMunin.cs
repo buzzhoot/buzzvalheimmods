@@ -46,7 +46,7 @@ namespace OdinPlus
 				Say("$op_munin_cd "+n);
 				return;
 			}
-			if (TaskManager.Root.transform.childCount >= 10)
+			if (TaskManager.MyTasks.Count >= 10)
 			{
 				Say("$op_munin_taskfulll");
 				return;

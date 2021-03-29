@@ -123,6 +123,7 @@ namespace OdinPlus
 			{
 				ZRoutedRpc.instance.InvokeRoutedRPC(owner, "RPC_CreateTaskFailed", new object[] { (int)m_type, locName });
 				DBG.blogError(string.Format("Cannot Place Task :  {0} {1}", m_type, locName));
+				Destroy(gameObject);
 				return;
 			}
 			ZRoutedRpc.instance.InvokeRoutedRPC(owner, "RPC_CreateTaskSucced", new object[] { Id, locName,location.m_position });
@@ -140,7 +141,6 @@ namespace OdinPlus
 				LocationManager.Remove(Id);
 				return true;
 			}
-			DestroyImmediate(this.gameObject);
 			return false;
 		}
 		protected virtual void InitAll() { }
