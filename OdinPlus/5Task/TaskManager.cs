@@ -54,7 +54,7 @@ namespace OdinPlus
 				ZRoutedRpc.instance.Register<string>("RPC_FinishTask", new Action<long, string>(RPC_FinishTask));
 				ZRoutedRpc.instance.Register<int, int, bool>("RPC_ServerCreateTask", new Action<long, int, int, bool>(RPC_ServerCreateTask));
 				ZRoutedRpc.instance.Register<string>("RPC_ServerGiveup", new Action<long, string>(RPC_ServerGiveup));
-				ZRoutedRpc.instance.Register<string>("RPC_ServerDisInitTask",new Action<long, string> (RPC_ServerDisInitTask));
+				ZRoutedRpc.instance.Register<string>("RPC_ServerDisInitTask", new Action<long, string>(RPC_ServerDisInitTask));
 				rpcReigstered = true;
 				DBG.blogWarning("TaskManager rpc server");
 			}
@@ -96,6 +96,15 @@ namespace OdinPlus
 			}
 			Tweakers.TaskTopicHugin("Quest List", n);
 		}
+		public static void UpdateTaskList()
+		{
+			string n = "";
+			foreach (var task in MyTasks)
+			{
+				n += task.PrintData();
+			}
+			Tweakers.addHints(n);
+		}
 
 		#endregion Tool
 
@@ -135,12 +144,14 @@ namespace OdinPlus
 			//CreateTask(TaskType.Search);
 			//return;
 			//}
+			DBG.blogWarning("Dice Rolled");
 			instance.CreateTask(a[l.RollDice()]);
 		}
 		public void CreateTask(TaskType t)
 		{
 			tempType = t;
 			ZRoutedRpc.instance.InvokeRoutedRPC("RPC_ServerCreateTask", new object[] { (int)t, Level, isMain });
+			DBG.blogWarning("Called Server to start placing task type : " + t);
 		}
 		public void RPC_ServerDisInitTask(long sender, string ID)
 		{
@@ -190,11 +201,13 @@ namespace OdinPlus
 					//go.AddComponent<SearchTask>();
 					break;
 			}
-			var a = go.GetComponent<OdinTask>();//?
+			var a = go.GetComponent<OdinTask>();
 			a.SetOwner(sender);
 			a.Level = lvl;
 			a.isMain = main;
+			a.Key = CheckKey();
 			go.SetActive(true);
+			DBG.blogWarning("Server task prefab created");
 		}
 		public static bool GiveUpTask(int ind)
 		{
@@ -459,6 +472,7 @@ namespace OdinPlus
 			}
 			public void Begin(Vector3 pos)
 			{
+				
 				OdinData.Data.TaskCount++;
 				m_index = OdinData.Data.TaskCount;
 				SetLocName();
@@ -469,7 +483,7 @@ namespace OdinPlus
 				SetPin();
 				MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : "Side") + " Quest " + m_index + "\n" + taskName + "\nStart", true);
 				Tweakers.TaskHintHugin((isMain ? "Main" : "Side") + "Quest " + m_index + " : " + taskName, HintStart);
-
+				UpdateTaskList();
 			}
 			public void SearchBegin()
 			{
@@ -485,6 +499,7 @@ namespace OdinPlus
 			{
 				RemovePin();
 				OdinMunin.ResetTimer();
+				UpdateTaskList();
 				Clear();
 			}
 			public void Clear()
@@ -500,7 +515,7 @@ namespace OdinPlus
 			private bool isMeInsideTaskArea()
 			{
 				Vector3 ppos = Player.m_localPlayer.transform.position;
-				return Tweakers.isInsideArea(ppos, new Vector3(m_positionX, m_positionY, m_positionZ), 150);
+				return Tweakers.isInsideArea(ppos, new Vector3(m_positionX, ppos.y, m_positionZ), 150);
 			}
 			public void Giveup()
 			{
@@ -509,10 +524,7 @@ namespace OdinPlus
 				this.Clear();
 			}
 		}
-		public void CheckDiscover()
-		{
 
-		}
 		#endregion Client
 
 	}

@@ -9,7 +9,7 @@ namespace OdinPlus
 	public static class Tweakers
 	{
 		public static List<string> TaskHints = new List<string>();
-		private static void addHints(string text)
+		public static void addHints(string text)
 		{
 			var m_knownTexts = Traverse.Create(Player.m_localPlayer).Field<Dictionary<string, string>>("m_knownTexts").Value;
 			TaskHints.Add(text);
@@ -19,6 +19,7 @@ namespace OdinPlus
 			}
 			m_knownTexts["Quest Hints"] = string.Join("\n", TaskHints.ToArray());
 		}
+
 		public static Humanoid ChangeSpeed(this Humanoid humanoid, float speed)
 		{
 			humanoid.m_speed = speed;

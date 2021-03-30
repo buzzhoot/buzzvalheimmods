@@ -13,6 +13,7 @@ namespace OdinPlus
 		public string ID = "";
 		public int Level;
 		public int Key;
+		public bool Placing = false;
 		private Transform m_task;
 		private Character m_chrct;
 		private Humanoid m_hum;

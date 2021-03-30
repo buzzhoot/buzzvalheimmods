@@ -13,20 +13,39 @@ using UnityEngine.SceneManagement;
 using System.Globalization;
 using UnityEngine.UI;
 
+//|| ||DEBUG How to
+//Right Ctrl + keypad[0-5] global key sets (how many kinds of boss have you defeated,quest is based on that)
+//console /ctast1 Treasure /ctask2 Dungeon /ctask3 Hunt
+//dont press RinghtCtrl+F[6-10] it's for dev debug most like ly will break the mod
+//Thx for your help for testing!
 namespace OdinPlus
 {
 	public class DevTool : MonoBehaviour
 	{
 		public static bool DisableSaving = false;
 		public static List<string> UnLocal = new List<string>();
+		private static DevTool instance;
+		private Action postZone;
+
 		#region Mono
 		private void Awake()
 		{
-			if (ZNet.instance.IsServer()
+			instance = this;
+			Plugin.posZone = (Action)Delegate.Combine(Plugin.posZone, (Action)Reg);
+		}
+		private void Reg()
+		{
+			if (ZNet.instance.IsServer())
 			{
 				ZRoutedRpc.instance.Register<string>("RPC_ServerSetGlobalKey", new Action<long, string>(RPC_ServerSetGlobalKey));
+				ZRoutedRpc.instance.Register("RPC_ServerResetGlobalKey", new Action<long>(RPC_ServerResetGlobalKey));
+				DBG.blogWarning("Server Reg:cheat Global Key");
 			}
 
+		}
+		public static bool IsIns()
+		{
+			return instance != null;
 		}
 		private void Update()
 		{
@@ -34,62 +53,62 @@ namespace OdinPlus
 			{
 				return;
 			}
-			if (Input.GetKeyDown(KeyCode.F8))
+			if (Input.GetKeyDown(KeyCode.F8)&& Input.GetKeyDown(KeyCode.RightControl))
 			{
 				OdinPlus.m_instance.Reset();
 			}
-			if (Input.GetKeyDown(KeyCode.F6))
+			if (Input.GetKeyDown(KeyCode.F6)&& Input.GetKeyDown(KeyCode.RightControl))
 			{
 				OdinPlus.UnRegister();
 				Destroy(Plugin.OdinPlusRoot);
 			}
-			if (Input.GetKeyDown(KeyCode.F9))
+			if (Input.GetKeyDown(KeyCode.F9)&& Input.GetKeyDown(KeyCode.RightControl))
 			{
 				PrintMeadsLoc();
 			}
-			if (Input.GetKeyDown(KeyCode.F10))
+			if (Input.GetKeyDown(KeyCode.F10)&& Input.GetKeyDown(KeyCode.RightControl))
 			{
 				PrintUnLoc();
 			}
 			if (Input.GetKeyDown(KeyCode.Keypad0) && Input.GetKeyDown(KeyCode.RightControl))
 			{
-				ZoneSystem.instance.ResetGlobalKeys();
+				RequestResetGlobalKey();
 			}
 			if (Input.GetKeyDown(KeyCode.Keypad1) && Input.GetKey(KeyCode.RightControl))
 			{
-				ZoneSystem.instance.ResetGlobalKeys();
-				ZoneSystem.instance.SetGlobalKey("defeated_eikthyr");
+				RequestResetGlobalKey();
+				RequestSetGlobalKey("defeated_eikthyr");
 			}
 
 			if (Input.GetKeyDown(KeyCode.Keypad2) && Input.GetKey(KeyCode.RightControl))
 			{
-				ZoneSystem.instance.ResetGlobalKeys();
-				ZoneSystem.instance.SetGlobalKey("defeated_eikthyr");
-				ZoneSystem.instance.SetGlobalKey("defeated_gdking");
+				RequestResetGlobalKey();
+				RequestSetGlobalKey("defeated_eikthyr");
+				RequestSetGlobalKey("defeated_gdking");
 			}
 			if (Input.GetKeyDown(KeyCode.Keypad3) && Input.GetKey(KeyCode.RightControl))
 			{
-				ZoneSystem.instance.ResetGlobalKeys();
-				ZoneSystem.instance.SetGlobalKey("defeated_eikthyr");
-				ZoneSystem.instance.SetGlobalKey("defeated_gdking");
-				ZoneSystem.instance.SetGlobalKey("defeated_bonemass");
+				RequestResetGlobalKey();
+				RequestSetGlobalKey("defeated_eikthyr");
+				RequestSetGlobalKey("defeated_gdking");
+				RequestSetGlobalKey("defeated_bonemass");
 			}
 			if (Input.GetKeyDown(KeyCode.Keypad4) && Input.GetKey(KeyCode.RightControl))
 			{
-				ZoneSystem.instance.ResetGlobalKeys();
-				ZoneSystem.instance.SetGlobalKey("defeated_eikthyr");
-				ZoneSystem.instance.SetGlobalKey("defeated_gdking");
-				ZoneSystem.instance.SetGlobalKey("defeated_bonemass");
-				ZoneSystem.instance.SetGlobalKey("defeated_moder");
+				RequestResetGlobalKey();
+				RequestSetGlobalKey("defeated_eikthyr");
+				RequestSetGlobalKey("defeated_gdking");
+				RequestSetGlobalKey("defeated_bonemass");
+				RequestSetGlobalKey("defeated_moder");
 			}
 			if (Input.GetKeyDown(KeyCode.Keypad5) && Input.GetKey(KeyCode.RightControl))
 			{
-				ZoneSystem.instance.ResetGlobalKeys();
-				ZoneSystem.instance.SetGlobalKey("defeated_eikthyr");
-				ZoneSystem.instance.SetGlobalKey("defeated_gdking");
-				ZoneSystem.instance.SetGlobalKey("defeated_bonemass");
-				ZoneSystem.instance.SetGlobalKey("defeated_moder");
-				ZoneSystem.instance.SetGlobalKey("defeated_goblinking");
+				RequestResetGlobalKey();
+				RequestSetGlobalKey("defeated_eikthyr");
+				RequestSetGlobalKey("defeated_gdking");
+				RequestSetGlobalKey("defeated_bonemass");
+				RequestSetGlobalKey("defeated_moder");
+				RequestSetGlobalKey("defeated_goblinking");
 			}
 			if (Input.GetKeyDown(KeyCode.Keypad6) && Input.GetKey(KeyCode.RightControl))
 			{
@@ -98,6 +117,7 @@ namespace OdinPlus
 		}
 
 		#endregion Mono
+	
 		#region ZoneSys
 		public static ZoneSystem.LocationInstance dbginsa;
 		public static void findLoc()
@@ -232,7 +252,6 @@ namespace OdinPlus
 		}
 		private static void PrintMeadsLoc()
 		{
-			string s = "";
 			foreach (var item in OdinMeads.MeadList.Keys)
 			{
 				DBG.blogWarning("op_" + item + "_name");
@@ -284,14 +303,7 @@ namespace OdinPlus
 				}
 			}
 		}
-		[HarmonyPatch(typeof(Console), "InputText")]
-		private static class Patch_Console_InputText
-		{
-			private static void Prefix()
-			{
-				//InputCMD(global::Console.instance.m_input.text);
-			}
-		}
+
 
 
 		#endregion Debug
@@ -299,8 +311,20 @@ namespace OdinPlus
 		#region RpcCheats
 		public static void RequestSetGlobalKey(string gkey)
 		{
-			ZRoutedRpc.instance.InvokeRoutedRPC("RPC_ServerSetGlobalKey", gkey);
+			ZRoutedRpc.instance.InvokeRoutedRPC("RPC_ServerSetGlobalKey", new object[] { gkey });
 			DBG.blogWarning("Client Request Set Global key :" + gkey);
+
+		}
+		public static void RequestResetGlobalKey()
+		{
+			ZRoutedRpc.instance.InvokeRoutedRPC("RPC_ServerResetGlobalKey");
+			DBG.blogWarning("Client Request Reset Global key");
+
+		}
+		public static void RPC_ServerResetGlobalKey(long sender)
+		{
+			ZoneSystem.instance.ResetGlobalKeys();
+			DBG.blogWarning("Client Request Reset Global key");
 
 		}
 		public static void RPC_ServerSetGlobalKey(long sender, string gkey)

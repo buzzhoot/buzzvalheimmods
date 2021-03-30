@@ -141,22 +141,22 @@ namespace OdinPlus
 		#region  game
 		public static float RollDice(this float val)
 		{
-			UnityEngine.Random.InitState((int)((Time.time+val)*1000));
+			UnityEngine.Random.InitState((int)((Time.time + val) * 1000));
 			return val * UnityEngine.Random.value;
 		}
 		public static int RollDice(this int val)
 		{
-			UnityEngine.Random.InitState((int)((Time.time+val)*1000));
-			return Mathf.FloorToInt(UnityEngine.Random.Range(0,val-0.0001f));
+			UnityEngine.Random.InitState((int)((Time.time + val) * 1000));
+			return Mathf.FloorToInt(UnityEngine.Random.Range(0, val - 0.0001f));
 		}
 		public static int RollDice(this int val, int max)
 		{
-			UnityEngine.Random.InitState((int)((Time.time+val)*1000));
+			UnityEngine.Random.InitState((int)((Time.time + val) * 1000));
 			return (int)(UnityEngine.Random.Range(val, max));
 		}
 		public static float RollDice(this float val, float max)
 		{
-			UnityEngine.Random.InitState((int)((Time.time+val)*1000));
+			UnityEngine.Random.InitState((int)((Time.time + val) * 1000));
 			return (UnityEngine.Random.Range(val, max));
 		}
 
@@ -169,7 +169,7 @@ namespace OdinPlus
 		}
 		public static GameObject FindObject(this GameObject parent, string name)
 		{
-			Component[] trs =parent.GetComponentsInChildren(typeof(Transform), true);
+			Component[] trs = parent.GetComponentsInChildren(typeof(Transform), true);
 			foreach (Transform t in trs)
 			{
 				if (t.name == name)
@@ -182,5 +182,8 @@ namespace OdinPlus
 		#endregion  game
 
 	}
+
+
+
 }
 

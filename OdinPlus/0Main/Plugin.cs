@@ -21,6 +21,7 @@ namespace OdinPlus
 		public static ManualLogSource logger;
 		public static ConfigEntry<KeyboardShortcut> KS_SecondInteractkey;
 		public static ConfigEntry<string> CFG_ItemSellValue;
+		public static ConfigEntry<Vector3> CFG_OdinPosition;
 		private static bool DisableSaving = true;
 		#region InternalConfig
 		public static int RaiseCost = 10;
@@ -30,6 +31,10 @@ namespace OdinPlus
 		Harmony _harmony;
 		#endregion
 		public static GameObject OdinPlusRoot;
+
+		#region Actions
+		public static Action posZone;
+		#endregion Actions
 		#region Mono
 		private void Awake()
 		{
@@ -37,6 +42,7 @@ namespace OdinPlus
 			CFG_ItemSellValue = base.Config.Bind<string>("Config", "ItemSellValue", "TrophyBlob:20;TrophyBoar:5;TrophyBonemass:50;TrophyDeathsquito:20;TrophyDeer:5;TrophyDragonQueen:50;TrophyDraugr:20;TrophyDraugrElite:30;TrophyDraugrFem:20;TrophyEikthyr:50;TrophyFenring:30;TrophyForestTroll:30;TrophyFrostTroll:20;TrophyGoblin:20;TrophyGoblinBrute:30;TrophyGoblinKing:50;TrophyGoblinShaman:20;TrophyGreydwarf:5;TrophyGreydwarfBrute:15;TrophyGreydwarfShaman:15;TrophyHatchling:20;TrophyLeech:15;TrophyLox:20;TrophyNeck:5;TrophySerpent:30;TrophySGolem:30;TrophySkeleton:10;TrophySkeletonPoison:30;TrophySurtling:20;TrophyTheElder:50;TrophyWolf:20;TrophyWraith:30;AncientSeed:5;BoneFragments:1;Chitin:5;WitheredBone:10;DragonEgg:40;GoblinTotem:20;OdinLegacy:20");
 			Plugin.nexusID = base.Config.Bind<int>("General", "NexusID", 798, "Nexus mod ID for updates");
 			KS_SecondInteractkey = base.Config.Bind<KeyboardShortcut>("1Hotkeys", "Second Interact key", new KeyboardShortcut(KeyCode.F));
+			CFG_OdinPosition = base.Config.Bind<Vector3>("2Server set only", "Odin position", Vector3.zero);
 			_harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), null);
 
 			//-- init here
@@ -44,7 +50,7 @@ namespace OdinPlus
 			OdinPlusRoot.AddComponent<OdinPlus>();
 
 			//notice Debug
-			//OdinPlusRoot.AddComponent<DevTool>();
+			OdinPlusRoot.AddComponent<DevTool>();
 
 			DontDestroyOnLoad(OdinPlusRoot);
 			DBG.blogInfo("OdinPlus Loadded");
@@ -158,10 +164,6 @@ namespace OdinPlus
 					}
 
 				}
-				#region debug
-
-				#endregion
-				//end
 			}
 		}
 
@@ -175,6 +177,17 @@ namespace OdinPlus
 					return;
 				}
 				OdinPlus.Init();
+			}
+		}
+		[HarmonyPatch(typeof(Console), "InputText")]
+		private static class Patch_Console_InputText
+		{
+			private static void Prefix()
+			{
+				if (DevTool.IsIns())
+				{
+					DevTool.InputCMD(global::Console.instance.m_input.text);
+				}
 			}
 		}
 
@@ -197,11 +210,11 @@ namespace OdinPlus
 		{
 			public static void Prefix(PlayerProfile __instance)
 			{
-					if (CheckPlayerNull())
-					{
-						return;
-					}
-					OdinData.saveOdinData(Player.m_localPlayer.GetPlayerName() + "_" + ZNet.instance.GetWorldName());
+				if (CheckPlayerNull())
+				{
+					return;
+				}
+				OdinData.saveOdinData(Player.m_localPlayer.GetPlayerName() + "_" + ZNet.instance.GetWorldName());
 			}
 		}
 
@@ -210,13 +223,12 @@ namespace OdinPlus
 		{
 			private static void Postfix()
 			{
-				if (ZNet.instance==null)
+				if (ZNet.instance == null)
 				{
 					return;
 				}
 				{
 					if (CheckPlayerNull() || OdinPlus.m_instance.isLoaded) { return; }
-					LocationManager.GetStartPos();
 					OdinData.loadOdinData(Player.m_localPlayer.GetPlayerName() + "_" + ZNet.instance.GetWorldName());
 				}
 
@@ -262,7 +274,7 @@ namespace OdinPlus
 		{
 			private static void Postfix()
 			{
-				if (ZNet.instance.IsDedicated()&&ZNet.instance.IsServer())
+				if (ZNet.instance.IsDedicated() && ZNet.instance.IsServer())
 				{
 					OdinData.saveOdinData(ZNet.instance.GetWorldName());
 				}
@@ -277,6 +289,7 @@ namespace OdinPlus
 		{
 			private static void Postfix()
 			{
+				posZone();
 				OdinPlus.PostZone();
 			}
 		}
@@ -292,7 +305,7 @@ namespace OdinPlus
 			}
 		}
 		[HarmonyPatch(typeof(Chat), "InputText")]
-		private static class Patch_Console_InputText
+		private static class Patch_Chat_InputText
 		{
 			private static void Prefix(Chat __instance)
 			{
@@ -301,7 +314,11 @@ namespace OdinPlus
 					string cmd = __instance.m_input.text;
 					if (cmd.ToLower() == "/odinhere")
 					{
-						NpcManager.Root.transform.localPosition = Player.m_localPlayer.transform.localPosition + Vector3.forward * 4;
+						LocationManager.GetStartPos();
+					}
+					if (cmd.ToLower() == "/3dcoord")
+					{
+						DBG.InfoCT(Player.m_localPlayer.transform.position.ToString());
 					}
 				}
 			}
@@ -324,6 +341,8 @@ namespace OdinPlus
 
 		#endregion
 
+		#region Delegates
+		#endregion Delegates
 	}
 
 }

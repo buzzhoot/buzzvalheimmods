@@ -38,10 +38,10 @@ namespace OdinPlus
 		}
 		public static void Init()
 		{
-
 			Root = new GameObject("OdinNPCs"); ;
 			Root.SetActive(false);
 			Root.transform.SetParent(OdinPlus.Root.transform);
+			Root.transform.position=Vector3.zero;
 			InitTerrain();
 			InitOdinGod();
 			InitOdinPot();
@@ -54,8 +54,6 @@ namespace OdinPlus
 			var pfab = ZoneSystem.instance.m_locations[85].m_prefab.transform.Find("ForceField");
 			var nmz = Instantiate(pfab, Root.transform);
 			nmz.transform.localScale = Vector3.one * 10;
-
-			IsInit = true;
 		}
 		public static void test()
 		{

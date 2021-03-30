@@ -90,7 +90,6 @@ namespace OdinPlus
 		#region internal Feature
 		protected virtual void Begin()
 		{
-			Key = TaskManager.GameKey;
 			locList = new List<string[]> { m_tier0, m_tier1, m_tier2, m_tier3, m_tier4, m_tier5 };
 			if (singleInit)
 			{
@@ -173,11 +172,33 @@ namespace OdinPlus
 
 		#endregion internal Feature
 
+		#region Static Feature
+		public static GameObject PlacingChest(Vector3 pos, string parId, int parKey)
+		{
+			GameObject chest;
+			chest = Instantiate(ZNetScene.instance.GetPrefab("LegacyChest" + (parKey + 1).ToString()),OdinPlus.PrefabParent.transform);
+			chest.transform.localPosition = pos;
+			chest.GetComponent<LegacyChest>().ID = parId;
+			chest.GetComponent<LegacyChest>().Placing=true;
+			chest.transform.SetParent(OdinPlus.Root.transform);
+			return chest;
+		}
+				public static GameObject PlacingChest(Vector3 pos,Quaternion rot, string parId, int parKey)
+		{
+			GameObject chest;
+			chest = Instantiate(ZNetScene.instance.GetPrefab("LegacyChest" + (parKey + 1).ToString()),pos,rot,OdinPlus.PrefabParent.transform);
+			chest.GetComponent<LegacyChest>().ID = parId;
+			chest.GetComponent<LegacyChest>().Placing=true;
+			chest.transform.SetParent(OdinPlus.Root.transform);
+			return chest;
+		}
+		#endregion Static Feature
+
 		#region Tool
 
 		public void DisInit()
-		{	
-			m_isInit=false;
+		{
+			m_isInit = false;
 		}
 		public void SetOwner(long sender)
 		{

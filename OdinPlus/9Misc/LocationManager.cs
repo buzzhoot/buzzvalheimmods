@@ -12,6 +12,7 @@ namespace OdinPlus
 		public static List<string> BlackList = new List<string>();
 		public static LocationManager instance;
 		public static bool rpc = false;
+		public static Vector3 OdinPostion = Vector3.zero;
 
 		#region Mono
 		private void Awake()
@@ -23,6 +24,16 @@ namespace OdinPlus
 			instance.initRPC();
 			if (ZNet.instance.IsServer())
 			{
+				if (Plugin.CFG_OdinPosition.Value == Vector3.zero)
+				{
+					ZoneSystem.LocationInstance temp;
+					ZoneSystem.instance.FindClosestLocation("StartTemple", Vector3.zero, out temp);
+					OdinPostion = temp.m_position + new Vector3(-6, 0, -8);
+				}
+				else
+				{
+					OdinPostion=Plugin.CFG_OdinPosition.Value;
+				}
 				BlackList = OdinData.Data.BlackList;
 				GetValDictionary();
 			}
@@ -166,20 +177,21 @@ namespace OdinPlus
 		private void Rpc_GetStartPos(long sender)
 		{
 			DBG.blogWarning("Server got odin postion request");
-			ZoneSystem.LocationInstance temp;
-			ZoneSystem.instance.FindClosestLocation("StartTemple", Vector3.zero, out temp);
-			ZRoutedRpc.instance.InvokeRoutedRPC(sender, "RPC_SetStartPos", new object[] { temp.m_position });
+			ZRoutedRpc.instance.InvokeRoutedRPC(sender, "RPC_SetStartPos", new object[] {OdinPostion});
 		}
 		private void RPC_SetStartPos(long sender, Vector3 pos)
 		{
 			DBG.blogWarning("client  got odin postion " + pos);
-			NpcManager.Root.transform.localPosition = pos + new Vector3(-6, 0, -8);
+			NpcManager.Root.transform.localPosition = pos;
 		}
 
 		private void RPC_ClientInitDungeon(long sender, string name, Vector3 pos, string Id, int Key)
 		{
-			if (AddDungeonChest(name, pos, Id, Key)) ;
-			ZRoutedRpc.instance.InvokeRoutedRPC(sender, "RPC_ServerDisInitTask", new object[] { Id });
+			if (!AddDungeonChest(name, pos, Id, Key))
+			{
+				ZRoutedRpc.instance.InvokeRoutedRPC("RPC_ServerDisInitTask", new object[] { Id });
+			}
+
 		}
 		private bool AddDungeonChest(string name, Vector3 pos, string Id, int Key)
 		{
@@ -189,12 +201,11 @@ namespace OdinPlus
 				var dunPos = pos;
 				if (!AddChest(dunPos, Id, Key))
 				{
-					var Reward = Instantiate(ZNetScene.instance.GetPrefab("LegacyChest" + (Key + 1).ToString()), dunPos, Quaternion.identity);
-					Reward.GetComponent<LegacyChest>().ID = Id;
+					var Reward = OdinTask.PlacingChest(dunPos, Id, Key);
 					DBG.blogWarning("Placed LegacyChest at Dungeon camp: " + Reward.transform.position);
 					return true;
 				}
-				return false;
+				return true;
 			}
 			else
 			{
@@ -235,11 +246,9 @@ namespace OdinPlus
 					{
 						if (ci.name.Contains("Clone"))
 						{
-							var Reward = Instantiate(ZNetScene.instance.GetPrefab("LegacyChest" + (Key + 1).ToString()), comp.transform.position, Quaternion.identity);
+							var Reward = OdinTask.PlacingChest(comp.transform.position, comp.transform.rotation, Id, Key);
 							comp.GetInventory().RemoveAll();
 							comp.GetComponent<ZNetView>().Destroy();
-							Reward.GetComponent<LegacyChest>().ID = Id;
-
 							DBG.blogWarning("Placed LegacyChest at Dungeon ctn: " + Reward.transform.position);
 							return true;
 						}
@@ -250,17 +259,14 @@ namespace OdinPlus
 			DBG.blogWarning("Cant Find Chest in dungeon");
 			return false;
 		}
-
 		private void AddChest(Room room, string Id, int Key)
 		{
 			var y = room.GetComponentInChildren<RoomConnection>().transform.localPosition.y;
 			var x = room.m_size.x / 2;
 			var z = room.m_size.z / 2;
 			var pos = new Vector3(0, y + 0.2f, 0) + room.transform.position;
-			var Reward = Instantiate(ZNetScene.instance.GetPrefab("LegacyChest" + (Key + 1).ToString()));
-			Reward.transform.localPosition = pos;
-			Reward.GetComponent<LegacyChest>().ID = Id;
-			DBG.blogWarning("Placed LegacyChest at Dungeon room: " + Reward.transform.localPosition);
+			var chest = OdinTask.PlacingChest(pos, Id, Key);
+			DBG.blogWarning("Placed LegacyChest at Dungeon room: " + chest.transform.localPosition);
 			return;
 		}
 		#endregion RPC

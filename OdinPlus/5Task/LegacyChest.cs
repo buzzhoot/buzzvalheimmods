@@ -8,23 +8,25 @@ namespace OdinPlus
 
 		private ZNetView m_nview;
 		public string ID = "";
+		public bool Placing=false;
 		private Transform m_task;
 		private Container m_container;
-		private void Start()
+		private void Awake()
 		{
 			m_nview = gameObject.GetComponent<ZNetView>();
 			m_container = gameObject.GetComponent<Container>();
-			if (!ZNet.instance.IsServer())
-			{
-				return;
-			}
-			if (ID != "")
+			if (Placing)
 			{
 				m_nview.GetZDO().Set("TaskID", ID);
+				return;
 			}
 			else
 			{
 				ID = m_nview.GetZDO().GetString("TaskID");
+			}
+			if (ZNet.instance.IsServer()&&ZNet.instance.IsDedicated())
+			{
+				Destroy(gameObject);
 			}
 		}
 		private void Update()

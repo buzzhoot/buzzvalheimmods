@@ -20,7 +20,7 @@ namespace OdinPlus
 			m_tier2 = new string[] { "SunkenCrypt4" };
 			m_tier3 = new string[] { "SunkenCrypt4" };
 			m_tier4 = new string[] { "GoblinCamp2" };
-			m_tier5 = new string[] { "Crypt3", "Crypt2", "Crypt4", "SunkenCrypt4","GoblinCamp2"};
+			m_tier5 = new string[] { "Crypt3", "Crypt2", "Crypt4", "SunkenCrypt4", "GoblinCamp2" };
 			base.Begin();
 		}
 		#region OverRide
@@ -32,10 +32,10 @@ namespace OdinPlus
 				return;
 			}
 			var pl = PeersInArea();
-			if (pl!=null)
+			if (pl != null)
 			{
-				ZRoutedRpc.instance.InvokeRoutedRPC(pl[0],"RPC_ClientInitDungeon",new object[]{locName,location.m_position,Id,Key});
-				m_isInit= true;
+				ZRoutedRpc.instance.InvokeRoutedRPC(pl[0], "RPC_ClientInitDungeon", new object[] { locName, location.m_position, Id, Key });
+				m_isInit = true;
 			}
 			return;
 		}

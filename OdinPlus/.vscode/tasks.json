@@ -4,13 +4,15 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "odinplus",
+			"label": "OdinPlusRelease",
 			"command": "dotnet",
 			"type": "shell",
 			"args": [
 				"build",
-				"${workspaceFolder}/odinplus.sln",
-				"/property:GenerateFullPaths=true",
+				"${workspaceFolder}/odinplus.csproj",
+				"-c",
+				"Release",
+				"/property:GenerateFullPaths=false",
 				"/consoleloggerparameters:NoSummary"
 			],
 			"group": {

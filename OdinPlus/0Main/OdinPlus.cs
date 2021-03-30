@@ -97,9 +97,9 @@ namespace OdinPlus
 		}
 		public static void PostZone()
 		{
-			OdinPlus.InitNPC();
-			LocationManager.Init();
 
+			LocationManager.Init();
+			OdinPlus.InitNPC();
 			TaskManager.instance.ReigsterRpc();
 			if (ZNet.instance.IsDedicated() && ZNet.instance.IsServer())
 			{
@@ -136,7 +136,7 @@ namespace OdinPlus
 			CoinsIcon = ObjectDB.instance.GetItemPrefab("Coins").GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0];
 			OdinLegacyIcon = Util.LoadSpriteFromTexture(Util.LoadTextureRaw(Util.GetResource(Assembly.GetCallingAssembly(), "OdinPlus.Resources.OdinLegacy.png")), 100f);
 			//AddIcon("explarge", 0);
-			AddValIcon("MeadTasty",0);
+			AddValIcon("MeadTasty", 0);
 		}
 		public static void AddIcon(string name, int list)
 		{
@@ -146,7 +146,7 @@ namespace OdinPlus
 		public static void AddValIcon(string name, int list)
 		{
 			Sprite a = ObjectDB.instance.GetItemPrefab(name).GetComponent<ItemDrop>().m_itemData.m_shared.m_icons[0];
-			OdinMeadsIcons.Add(name,a);
+			OdinMeadsIcons.Add(name, a);
 		}
 		#endregion Assets
 

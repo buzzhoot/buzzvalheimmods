@@ -34,7 +34,7 @@ namespace OdinPlus
 		{
 			UnityEngine.Random.InitState(Mathf.FloorToInt(Time.realtimeSinceStartup));
 			var l = OdinData.ItemSellValue;
-			int i = UnityEngine.Random.Range(0, l.Count-1);
+			int i = UnityEngine.Random.Range(0, l.Count - 1);
 			return l.ElementAt(i).Key.GetTransName();
 		}
 		public static bool IsInstantiated()
@@ -54,7 +54,21 @@ namespace OdinPlus
 			Summon();
 			m_head = this.gameObject.transform.Find("visual/Armature/Hips/Spine0/Spine1/Spine2/Head");
 			m_name = "$op_god";
-			m_talker=this.gameObject;
+			m_talker = this.gameObject;
+			InvokeRepeating("requestOidnPosition", 1, 3);
+			DBG.blogInfo("Client start to Calling Request Odin Location");
+		}
+
+
+		private void requestOidnPosition()
+		{
+			if (NpcManager.Root.transform.position == Vector3.zero)
+			{
+				LocationManager.GetStartPos();
+				return;
+			}
+			DBG.blogInfo("Client Stop Request odin position");
+			CancelInvoke("requestOidnPosition");
 		}
 		private void Start()
 		{
@@ -119,7 +133,7 @@ namespace OdinPlus
 				return false;
 			}
 			value = OdinData.ItemSellValue[name];
-			OdinData.AddCredits(value * item.m_stack*item.m_quality, m_head);
+			OdinData.AddCredits(value * item.m_stack * item.m_quality, m_head);
 			user.GetInventory().RemoveItem(item.m_shared.m_name, item.m_stack);
 			Say("$op_god_takeoffer");
 			return true;
