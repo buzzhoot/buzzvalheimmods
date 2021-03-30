@@ -50,7 +50,7 @@ namespace OdinPlus
 			OdinPlusRoot.AddComponent<OdinPlus>();
 
 			//notice Debug
-			//OdinPlusRoot.AddComponent<DevTool>();
+			OdinPlusRoot.AddComponent<DevTool>();
 
 			DontDestroyOnLoad(OdinPlusRoot);
 			DBG.blogInfo("OdinPlus Loadded");
