@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using System.Reflection;
+using HarmonyLib;
 //||X||Sell Value Don't Resolve Here!!!
 namespace OdinPlus
 {
@@ -58,8 +59,6 @@ namespace OdinPlus
 			InvokeRepeating("requestOidnPosition", 1, 3);
 			DBG.blogInfo("Client start to Calling Request Odin Location");
 		}
-
-
 		private void requestOidnPosition()
 		{
 			if (NpcManager.Root.transform.position == Vector3.zero)
@@ -106,6 +105,7 @@ namespace OdinPlus
 				Say("$op_god_nocrd");
 				return false;
 			}
+
 			user.GetSkills().RaiseSkill(stlist[cskillIndex], Plugin.RaiseFactor);
 			Say("$op_raise");
 			return true;
@@ -142,11 +142,13 @@ namespace OdinPlus
 		#region feature
 		private void ReadSkill()
 		{
+			slist.Clear();
+			stlist.Clear();
 			foreach (object obj in Enum.GetValues(typeof(Skills.SkillType)))
 			{
 				Skills.SkillType skillType = (Skills.SkillType)obj;
 				var s = skillType.ToString();
-				if (s != "None" && s != "" && s != "All")
+				if (s != "None" && s != "FrostMagic" && s != "All"&&s!="FireMagic")
 				{
 					slist.Add(skillType.ToString());
 					stlist.Add(skillType);

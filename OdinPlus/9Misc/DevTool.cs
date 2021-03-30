@@ -49,28 +49,32 @@ namespace OdinPlus
 		}
 		private void Update()
 		{
+			if (Input.GetKeyDown(KeyCode.Alpha0) && Input.GetKey(KeyCode.RightControl))
+			{
+				DisableSaving=true;
+			}
 			if (Player.m_localPlayer == null)
 			{
 				return;
 			}
-			if (Input.GetKeyDown(KeyCode.F8)&& Input.GetKeyDown(KeyCode.RightControl))
+			if (Input.GetKeyDown(KeyCode.F8) && Input.GetKey(KeyCode.RightControl))
 			{
 				OdinPlus.m_instance.Reset();
 			}
-			if (Input.GetKeyDown(KeyCode.F6)&& Input.GetKeyDown(KeyCode.RightControl))
+			if (Input.GetKeyDown(KeyCode.F6) && Input.GetKey(KeyCode.RightControl))
 			{
 				OdinPlus.UnRegister();
 				Destroy(Plugin.OdinPlusRoot);
 			}
-			if (Input.GetKeyDown(KeyCode.F9)&& Input.GetKeyDown(KeyCode.RightControl))
+			if (Input.GetKeyDown(KeyCode.F9) && Input.GetKey(KeyCode.RightControl))
 			{
 				PrintMeadsLoc();
 			}
-			if (Input.GetKeyDown(KeyCode.F10)&& Input.GetKeyDown(KeyCode.RightControl))
+			if (Input.GetKeyDown(KeyCode.F10) && Input.GetKey(KeyCode.RightControl))
 			{
 				PrintUnLoc();
 			}
-			if (Input.GetKeyDown(KeyCode.Keypad0) && Input.GetKeyDown(KeyCode.RightControl))
+			if (Input.GetKeyDown(KeyCode.Keypad0) && Input.GetKey(KeyCode.RightControl))
 			{
 				RequestResetGlobalKey();
 			}
@@ -117,7 +121,7 @@ namespace OdinPlus
 		}
 
 		#endregion Mono
-	
+
 		#region ZoneSys
 		public static ZoneSystem.LocationInstance dbginsa;
 		public static void findLoc()

@@ -309,16 +309,23 @@ namespace OdinPlus
 		{
 			private static void Prefix(Chat __instance)
 			{
-				if (Player.m_localPlayer != null && NpcManager.IsInit)
+				if (Player.m_localPlayer != null && OdinPlus.isNPCInit)
 				{
 					string cmd = __instance.m_input.text;
 					if (cmd.ToLower() == "/odinhere")
 					{
 						LocationManager.GetStartPos();
+						return;
 					}
 					if (cmd.ToLower() == "/3dcoord")
 					{
-						DBG.InfoCT(Player.m_localPlayer.transform.position.ToString());
+						var pos = Player.m_localPlayer.transform.position;
+						string s = pos.x+","+pos.y+","+pos.z;
+						DBG.InfoCT(s);
+						DBG.cprt(s);
+						//global::Console.instance.m_input.text=s;
+						__instance.m_input.text=s;
+						return;
 					}
 				}
 			}

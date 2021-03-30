@@ -4,6 +4,25 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
+			"label": "OdinPlus",
+			"command": "dotnet",
+			"type": "shell",
+			"args": [
+				"build",
+				"${workspaceFolder}/odinplus.csproj",
+				"/property:GenerateFullPaths=false",
+				"/consoleloggerparameters:NoSummary"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"presentation": {
+				"reveal": "silent"
+			},
+			"problemMatcher": "$msCompile"
+		},
+		{
 			"label": "OdinPlusRelease",
 			"command": "dotnet",
 			"type": "shell",
@@ -15,10 +34,7 @@
 				"/property:GenerateFullPaths=false",
 				"/consoleloggerparameters:NoSummary"
 			],
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			},
+			"group": "build",
 			"presentation": {
 				"reveal": "silent"
 			},

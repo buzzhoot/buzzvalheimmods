@@ -41,7 +41,7 @@ namespace OdinPlus
 			Root = new GameObject("OdinNPCs"); ;
 			Root.SetActive(false);
 			Root.transform.SetParent(OdinPlus.Root.transform);
-			Root.transform.position=Vector3.zero;
+			Root.transform.position = Vector3.zero;
 			InitTerrain();
 			InitOdinGod();
 			InitOdinPot();
@@ -106,6 +106,16 @@ namespace OdinPlus
 			DestroyImmediate(odin.GetComponent<ZSyncTransform>());
 			DestroyImmediate(odin.GetComponent<Odin>());
 			DestroyImmediate(odin.GetComponent<Rigidbody>());
+			Aoe[] aoes = odin.GetComponentsInChildren<Aoe>();
+			EffectArea[] fxas = odin.GetComponentsInChildren<EffectArea>();
+			foreach (var item in aoes)
+			{
+				DestroyImmediate(item);
+			}
+			foreach (var item in fxas)
+			{
+				DestroyImmediate(item);
+			}
 
 			//ani.runtimeAnimatorController=ZNetScene.instance.GetPrefab("Haldor").GetComponentInChildren<Animator>().runtimeAnimatorController;
 			//var stf = odin.transform.Find("staff");

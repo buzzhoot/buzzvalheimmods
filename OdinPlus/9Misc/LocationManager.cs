@@ -177,6 +177,10 @@ namespace OdinPlus
 		private void Rpc_GetStartPos(long sender)
 		{
 			DBG.blogWarning("Server got odin postion request");
+			if (Plugin.CFG_OdinPosition.Value!=Vector3.zero)
+			{
+				OdinPostion=Plugin.CFG_OdinPosition.Value+Vector3.up*0.00001f;
+			}
 			ZRoutedRpc.instance.InvokeRoutedRPC(sender, "RPC_SetStartPos", new object[] {OdinPostion});
 		}
 		private void RPC_SetStartPos(long sender, Vector3 pos)
