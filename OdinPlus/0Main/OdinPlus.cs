@@ -60,7 +60,7 @@ namespace OdinPlus
 
 			Root.AddComponent<OdinData>();
 			Root.AddComponent<TaskManager>();
-			Root.AddComponent<LocationManager>();
+
 
 			Root.AddComponent<OdinSE>();
 		}
@@ -70,7 +70,7 @@ namespace OdinPlus
 		public static void Init()
 		{
 			initAssets();
-
+			Root.AddComponent<LocationManager>();
 			Root.AddComponent<OdinMeads>();
 			Root.AddComponent<OdinItem>();
 			Root.AddComponent<PetManager>();
@@ -254,8 +254,8 @@ namespace OdinPlus
 			Root.AddComponent<TaskManager>();
 			Root.AddComponent<LocationManager>();
 			Root.AddComponent<FxAssetManager>();
-			
-			
+
+
 			isInit = true;
 
 			PostODB();
