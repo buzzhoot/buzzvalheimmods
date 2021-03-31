@@ -13,7 +13,7 @@ using System.Globalization;
 using UnityEngine.UI;
 namespace OdinPlus
 {
-	[BepInPlugin("buzz.valheim.OdinPlus", "OdinPlus", "0.2.4")]
+	[BepInPlugin("buzz.valheim.OdinPlus", "OdinPlus", "0.2.5")]
 	public class Plugin : BaseUnityPlugin
 	{
 		#region Config Var
@@ -56,7 +56,7 @@ namespace OdinPlus
 			OdinPlusRoot.AddComponent<OdinPlus>();
 
 			//notice Debug
-			OdinPlusRoot.AddComponent<DevTool>();
+			//OdinPlusRoot.AddComponent<DevTool>();
 
 			DontDestroyOnLoad(OdinPlusRoot);
 			DBG.blogInfo("OdinPlus Loadded");
