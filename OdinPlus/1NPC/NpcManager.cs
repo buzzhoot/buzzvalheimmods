@@ -42,7 +42,7 @@ namespace OdinPlus
 			Root.SetActive(false);
 			Root.transform.SetParent(OdinPlus.Root.transform);
 			Root.transform.position = Vector3.zero;
-			InitTerrain();
+			//InitTerrain();
 			InitOdinGod();
 			InitOdinPot();
 			InitOdinChest();
