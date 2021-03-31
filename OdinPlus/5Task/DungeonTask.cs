@@ -33,8 +33,7 @@ namespace OdinPlus
 			}
 			if (ZNet.instance.IsLocalInstance())
 			{
-				ZRoutedRpc.instance.InvokeRoutedRPC("RPC_ClientInitDungeon", new object[] { locName, location.m_position, Id, Key });
-				m_isInit = true;
+				FindRoom();
 				return;
 			}
 			var pl = PeersInArea();

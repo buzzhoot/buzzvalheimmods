@@ -1,5 +1,6 @@
 using System.Reflection;
 using System.Collections.Generic;
+using System;
 using BepInEx;
 using BepInEx.Configuration;
 using HarmonyLib;
@@ -49,13 +50,18 @@ namespace OdinPlus
 		{
 			m_instance = this;
 			Root = this.gameObject;
+
 			PrefabParent = new GameObject("OdinPlusPrefabs");
 			PrefabParent.SetActive(false);
 			PrefabParent.transform.SetParent(Root.transform);
+
+			Plugin.preODB =(Action<ObjectDB>) Delegate.Combine(Plugin.preODB, (Action<ObjectDB>)PreODB);
+
 			Root.AddComponent<OdinData>();
 			Root.AddComponent<TaskManager>();
 			Root.AddComponent<LocationManager>();
 			Root.AddComponent<ResourceAssetManager>();
+
 		}
 		#endregion Mono
 
@@ -70,6 +76,10 @@ namespace OdinPlus
 			Root.AddComponent<PrefabManager>();
 			Root.AddComponent<FxAssetManager>();
 			isInit = true;
+		}
+		private static void PreODB(ObjectDB odb)
+		{
+			OdinSE.Register();
 		}
 		public static void PostODB()
 		{
@@ -154,7 +164,7 @@ namespace OdinPlus
 		#region Feature
 		public static void ValRegister(ObjectDB odb)
 		{
-			OdinSE.Register();
+			
 			var m_itemByHash = Traverse.Create(odb).Field<Dictionary<int, GameObject>>("m_itemByHash").Value;
 			foreach (var item in odbRegList)
 			{

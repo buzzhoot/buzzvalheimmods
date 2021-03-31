@@ -520,6 +520,7 @@ namespace OdinPlus
 			public void Giveup()
 			{
 				DBG.blogWarning("Client Giveup Task");
+				RemovePin();
 				ZRoutedRpc.instance.InvokeRoutedRPC("RPC_ServerGiveup", new object[] { Id });
 				this.Clear();
 			}

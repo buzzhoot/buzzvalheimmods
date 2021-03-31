@@ -34,6 +34,7 @@ namespace OdinPlus
 
 		#region Actions
 		public static Action posZone;
+		public static Action<ObjectDB> preODB;
 		#endregion Actions
 		#region Mono
 		private void Awake()
@@ -297,6 +298,16 @@ namespace OdinPlus
 		#endregion ZoneSystem
 		#region ODB
 		[HarmonyPatch(typeof(ObjectDB), "Awake")]
+		private static class Prefix_ObjectDB_Awake
+		{
+			private static void Prefix(ObjectDB __instance)
+			{
+				preODB(__instance);
+			}
+		}
+
+
+		[HarmonyPatch(typeof(ObjectDB), "Awake")]
 		private static class Patch_ObjectDB_Awake
 		{
 			private static void Postfix(ObjectDB __instance)
@@ -320,11 +331,11 @@ namespace OdinPlus
 					if (cmd.ToLower() == "/3dcoord")
 					{
 						var pos = Player.m_localPlayer.transform.position;
-						string s = pos.x+","+pos.y+","+pos.z;
+						string s = pos.x + "," + pos.y + "," + pos.z;
 						DBG.InfoCT(s);
 						DBG.cprt(s);
 						//global::Console.instance.m_input.text=s;
-						__instance.m_input.text=s;
+						__instance.m_input.text = s;
 						return;
 					}
 				}
