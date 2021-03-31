@@ -18,10 +18,10 @@ namespace OdinPlus
 		private void Awake()
 		{
 			instance = this;
+			Plugin.posZnet = (Action)Delegate.Combine(Plugin.posZnet, (Action)initRPC);
 		}
 		public static void Init()
 		{
-			instance.initRPC();
 			if (ZNet.instance.IsServer())
 			{
 				if (Plugin.CFG_OdinPosition.Value == Vector3.zero)
@@ -29,14 +29,19 @@ namespace OdinPlus
 					ZoneSystem.LocationInstance temp;
 					ZoneSystem.instance.FindClosestLocation("StartTemple", Vector3.zero, out temp);
 					OdinPostion = temp.m_position + new Vector3(-6, 0, -8);
+					if (OdinPostion==Vector3.zero)
+					{
+						OdinPostion+=Vector3.forward*0.0001f;
+					}
 				}
 				else
 				{
-					OdinPostion=Plugin.CFG_OdinPosition.Value;
+					OdinPostion = Plugin.CFG_OdinPosition.Value;
 				}
 				BlackList = OdinData.Data.BlackList;
 				GetValDictionary();
 			}
+			
 		}
 		#endregion Mono
 
@@ -155,18 +160,13 @@ namespace OdinPlus
 		#region RPC
 		public void initRPC()
 		{
-			if (rpc)
-			{
-				return;
-			}
 			ZRoutedRpc.instance.Register<Vector3>("RPC_SetStartPos", new Action<long, Vector3>(this.RPC_SetStartPos));
 			ZRoutedRpc.instance.Register<string, Vector3, string, int>("RPC_ClientInitDungeon", new RoutedMethod<string, Vector3, string, int>.Method(RPC_ClientInitDungeon));
-			rpc = true;
+			ZRoutedRpc.instance.Register<bool>("RPC_ReceiveServerFOP", new Action<long, bool>(RPC_ReceiveServerFOP));
 			if (ZNet.instance.IsServer())
 			{
 				ZRoutedRpc.instance.Register("Rpc_GetStartPos", new Action<long>(this.Rpc_GetStartPos));
-
-				return;
+				ZRoutedRpc.instance.Register("RPC_SendServerFOP", new Action<long>(RPC_SendServerFOP));
 			}
 
 		}
@@ -177,18 +177,32 @@ namespace OdinPlus
 		private void Rpc_GetStartPos(long sender)
 		{
 			DBG.blogWarning("Server got odin postion request");
-			if (Plugin.CFG_OdinPosition.Value!=Vector3.zero)
+			if (Plugin.CFG_OdinPosition.Value != Vector3.zero)
 			{
-				OdinPostion=Plugin.CFG_OdinPosition.Value+Vector3.up*0.00001f;
+				OdinPostion = Plugin.CFG_OdinPosition.Value;
 			}
-			ZRoutedRpc.instance.InvokeRoutedRPC(sender, "RPC_SetStartPos", new object[] {OdinPostion});
+			ZRoutedRpc.instance.InvokeRoutedRPC(sender, "RPC_SetStartPos", new object[] { OdinPostion });
 		}
 		private void RPC_SetStartPos(long sender, Vector3 pos)
 		{
 			DBG.blogWarning("client  got odin postion " + pos);
 			NpcManager.Root.transform.localPosition = pos;
 		}
-
+		public static void RequestServerFop()
+		{
+			ZRoutedRpc.instance.InvokeRoutedRPC("RPC_SendServerFOP", new object[] { });
+		}
+		public static void RPC_SendServerFOP(long sender)
+		{
+			ZRoutedRpc.instance.InvokeRoutedRPC(sender, "RPC_ReceiveServerFOP", new object[] { Plugin.CFG_ForceOdinPosition.Value });
+			DBG.blogWarning("Server Sent FOP:" + Plugin.CFG_ForceOdinPosition.Value);
+		}
+		public static void RPC_ReceiveServerFOP(long sender, bool result)
+		{
+			DBG.blogWarning("Client Got FOP:" + result);
+			Plugin.Set_FOP = result;
+		}
+		#region Dungeon
 		private void RPC_ClientInitDungeon(long sender, string name, Vector3 pos, string Id, int Key)
 		{
 			if (!AddDungeonChest(name, pos, Id, Key))
@@ -273,6 +287,8 @@ namespace OdinPlus
 			DBG.blogWarning("Placed LegacyChest at Dungeon room: " + chest.transform.localPosition);
 			return;
 		}
+		#endregion Dungeon
+
 		#endregion RPC
 
 
