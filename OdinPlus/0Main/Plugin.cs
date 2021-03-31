@@ -22,7 +22,9 @@ namespace OdinPlus
 		public static ConfigEntry<KeyboardShortcut> KS_SecondInteractkey;
 		public static ConfigEntry<string> CFG_ItemSellValue;
 		public static ConfigEntry<Vector3> CFG_OdinPosition;
+		public static ConfigEntry<bool> CFG_ForceOdinPosition;
 		private static bool DisableSaving = true;
+		public static bool Set_FOP = false;
 		#region InternalConfig
 		public static int RaiseCost = 10;
 		public static int RaiseFactor = 100;
@@ -34,8 +36,10 @@ namespace OdinPlus
 
 		#region Actions
 		public static Action posZone;
+		public static Action posZnet;
 		public static Action<ObjectDB> preODB;
 		#endregion Actions
+
 		#region Mono
 		private void Awake()
 		{
@@ -44,13 +48,14 @@ namespace OdinPlus
 			Plugin.nexusID = base.Config.Bind<int>("General", "NexusID", 798, "Nexus mod ID for updates");
 			KS_SecondInteractkey = base.Config.Bind<KeyboardShortcut>("1Hotkeys", "Second Interact key", new KeyboardShortcut(KeyCode.F));
 			CFG_OdinPosition = base.Config.Bind<Vector3>("2Server set only", "Odin position", Vector3.zero);
+			CFG_ForceOdinPosition = base.Config.Bind<bool>("2Server set only", "Force Odin Position", false);
 			_harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), null);
 
 			//-- init here
 			OdinPlusRoot = new GameObject("OdinPlus");
 			OdinPlusRoot.AddComponent<ResourceAssetManager>();
 			OdinPlusRoot.AddComponent<OdinPlus>();
-			
+
 			//notice Debug
 			OdinPlusRoot.AddComponent<DevTool>();
 
@@ -202,6 +207,7 @@ namespace OdinPlus
 		{
 			public static void Postfix(Localization __instance, string language)
 			{
+				//Debug.LogWarning(language);
 				BuzzLocal.init(language, __instance);
 				BuzzLocal.UpdateDictinary();
 			}
@@ -326,10 +332,14 @@ namespace OdinPlus
 					string cmd = __instance.m_input.text;
 					if (cmd.ToLower() == "/odinhere")
 					{
-						LocationManager.GetStartPos();
-						return;
+						if (Set_FOP)
+						{
+							LocationManager.GetStartPos();
+							return;
+						}
+						NpcManager.Root.transform.localPosition = Player.m_localPlayer.transform.localPosition + Vector3.forward * 4;
 					}
-					if (cmd.ToLower() == "/3dcoord")
+					if (cmd.ToLower() == "/whereami")
 					{
 						var pos = Player.m_localPlayer.transform.position;
 						string s = pos.x + "," + pos.y + "," + pos.z;
@@ -339,10 +349,35 @@ namespace OdinPlus
 						__instance.m_input.text = s;
 						return;
 					}
+					if (cmd.ToLower() == "/whereodin")
+					{
+						var pos = NpcManager.Root.transform.localPosition;
+						string s = pos.x + "," + pos.y + "," + pos.z;
+						DBG.InfoCT(s);
+						DBG.cprt(s);
+						__instance.m_input.text = s;
+						return;
+					}
+					if (cmd.ToLower() == "/setodin")
+					{
+						CFG_OdinPosition.Value = NpcManager.Root.transform.localPosition;
+						return;
+					}
 				}
 			}
 		}
 		#endregion
+		#region Znet
+		[HarmonyPatch(typeof(ZNet), "Awake")]
+		private static class Postfix_ZNet_Awake
+		{
+			private static void Postfix()
+			{
+				posZnet();
+				LocationManager.RequestServerFop();
+			}
+		}
+		#endregion znet
 		#endregion
 
 		#region Tool
