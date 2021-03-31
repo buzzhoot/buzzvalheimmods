@@ -390,7 +390,7 @@ namespace OdinPlus
 
 			private void SetPin()
 			{
-				Minimap.instance.DiscoverLocation(new Vector3(m_positionX, m_positionY, m_positionZ), Minimap.PinType.Icon3, (isMain ? "Main" : "$op_task_side") + "op_task_quest " + m_index + " : " + taskName);
+				Minimap.instance.DiscoverLocation(new Vector3(m_positionX, m_positionY, m_positionZ), Minimap.PinType.Icon3, (isMain ? "Main" : " $op_task_side ") + " $op_task_quest " + m_index + " : " + taskName);
 			}
 			protected virtual void SetLocName()
 			{
@@ -431,7 +431,7 @@ namespace OdinPlus
 			}
 			public string PrintData()
 			{
-				string n = "\n" + (isMain ? "op_task_main" : "$op_task_side");
+				string n = "\n" + (isMain ? "$op_task_main" : " $op_task_side ");
 				n += String.Format(" $op_task_quest [<color=yellow><b>{0}</b></color>] : {1}", m_index, taskName);
 				return n;
 			}
@@ -484,7 +484,7 @@ namespace OdinPlus
 				SetPosition(pos);
 				SetPin();
 				MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : " $op_task_side ") + " $op_task_quest " + m_index + "\n" + taskName + "\n $op_task_start", true);
-				Tweakers.TaskHintHugin((isMain ? "Main" : " $op_task_side ") + "$op_task_quest " + m_index + " : " + taskName, HintStart);
+				Tweakers.TaskHintHugin((isMain ? "Main" : " $op_task_side ") + " $op_task_quest " + m_index + " : " + taskName, HintStart);
 				UpdateTaskList();
 			}
 			public void SearchBegin()
@@ -511,7 +511,7 @@ namespace OdinPlus
 				{
 					result = "$op_task_clear";
 				}
-				MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : " $op_task_side ") + "op_task_quest " + m_index + "\n" + taskName + "\n" + result, true);
+				MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : " $op_task_side ") + " $op_task_quest " + m_index + "\n" + taskName + "\n" + result, true);
 				MyTasks.Remove(this);
 			}
 			private bool isMeInsideTaskArea()
