@@ -53,8 +53,7 @@ namespace OdinPlus
 				var dunPos = location.m_position;
 				if (!AddChest(dunPos))
 				{
-					Reward = Instantiate(ZNetScene.instance.GetPrefab("LegacyChest" + (Key + 1).ToString()), dunPos, Quaternion.identity);
-					Reward.GetComponent<LegacyChest>().ID = this.Id;
+					Reward = OdinTask.PlacingChest(dunPos, Id, Key);
 					m_isInit = true;
 					DBG.blogWarning("Placed LegacyChest at Dungeon camp: " + Reward.transform.position);
 					return;
