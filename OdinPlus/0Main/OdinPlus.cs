@@ -55,6 +55,7 @@ namespace OdinPlus
 			Root.AddComponent<OdinData>();
 			Root.AddComponent<TaskManager>();
 			Root.AddComponent<LocationManager>();
+			Root.AddComponent<ResourceAssetManager>();
 		}
 		#endregion Mono
 

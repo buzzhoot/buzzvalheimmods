@@ -43,11 +43,9 @@ namespace OdinPlus
 			go.name = name;
 			var id = go.GetComponent<ItemDrop>().m_itemData.m_shared;
 			id.m_name = "$op_" + name + "_name";
-			id.m_icons[0] = OdinPlus.OdinMeadsIcons["MeadTasty"];
+			id.m_icons[0] = ResourceAssetManager.OdinMeadsIcons[name];
 			id.m_description = "$op_" + name + "_desc";
-
 			id.m_consumeStatusEffect = OdinSE.SElist[name];
-
 			MeadList.Add(name, go);
 		}
 		public static void InitBuzzMead()

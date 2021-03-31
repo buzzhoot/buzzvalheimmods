@@ -153,6 +153,12 @@ namespace OdinPlus
 		protected virtual void CheckTarget() { }
 		public virtual void Finish()
 		{
+			if (ZNet.instance.IsLocalInstance())
+			{
+				ZRoutedRpc.instance.InvokeRoutedRPC("RPC_ClientFinish", new object[] { Id });
+				m_finished= true;
+				return;
+			}
 			//CHECK ONLINE
 			if (ZNet.instance.GetPeerByPlayerName(playerName) == null)
 			{

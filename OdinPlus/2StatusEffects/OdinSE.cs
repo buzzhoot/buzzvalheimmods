@@ -72,7 +72,7 @@ namespace OdinPlus
 		{
 			var se = ScriptableObject.CreateInstance<Se_Buzz>();
 			se.name = name;
-			se.m_icon = OdinPlus.OdinSEIcon[0];
+			se.m_icon = ResourceAssetManager.OdinMeadsIcons[name];
 			se.m_name = "$op_" + name + "_name";
 			se.m_tooltip = "$op_" + name + "_tooltip"; ;
 
@@ -101,7 +101,7 @@ namespace OdinPlus
 		{
 			var se = ScriptableObject.CreateInstance<SE_Stats>();
 			se.name = name;
-			se.m_icon = OdinPlus.OdinSEIcon[0];
+			se.m_icon = ResourceAssetManager.OdinMeadsIcons[name];
 			se.m_name = "$op_" + name + "_name";
 			se.m_tooltip = "$op_" + name + "_tooltip";
 

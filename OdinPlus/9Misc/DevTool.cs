@@ -15,8 +15,10 @@ using UnityEngine.UI;
 
 //|| ||DEBUG How to
 //Right Ctrl + keypad[0-5] global key sets (how many kinds of boss have you defeated,quest is based on that)
+//5 unlock all tasks and location
+//3d teleport, console type in /3dtele x,y,z
 //console /ctast1 Treasure /ctask2 Dungeon /ctask3 Hunt
-//dont press RinghtCtrl+F[6-10] it's for dev debug most like ly will break the mod
+//!DONT PRESS RinghtCtrl+F[6-10] it's for dev debug most like ly will break the mod
 //Thx for your help for testing!
 namespace OdinPlus
 {
@@ -298,6 +300,12 @@ namespace OdinPlus
 				if (CMD == "testc")
 				{
 					DevTool.TestC();
+				}
+				if (CMD.StartsWith("/3dtele"))
+				{
+					CMD=CMD.Remove(0,8);
+					var pos = CMD.Split(new char[]{','});
+					Player.m_localPlayer.transform.position= new Vector3(float.Parse(pos[0]),float.Parse(pos[1]),float.Parse(pos[2]));
 				}
 				if (CMD.StartsWith("/ctask"))
 				{
