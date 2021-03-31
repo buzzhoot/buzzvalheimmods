@@ -394,7 +394,7 @@ namespace OdinPlus
 
 			private void SetPin()
 			{
-				Minimap.instance.DiscoverLocation(new Vector3(m_positionX, m_positionY, m_positionZ), Minimap.PinType.Icon3, (isMain ? "Main" : "Side") + "Quest " + m_index + " : " + taskName);
+				Minimap.instance.DiscoverLocation(new Vector3(m_positionX, m_positionY, m_positionZ), Minimap.PinType.Icon3, (isMain ? "Main" : "$op_task_side") + "op_task_quest " + m_index + " : " + taskName);
 			}
 			protected virtual void SetLocName()
 			{
@@ -427,7 +427,7 @@ namespace OdinPlus
 			}
 			private void Discovery()
 			{
-				Tweakers.TaskHintHugin((isMain ? "Main" : "Side") + "Quest " + m_index + " : " + taskName, HintTarget);
+				Tweakers.TaskHintHugin((isMain ? "Main" : "$op_task_side") + "op_task_quest " + m_index + " : " + taskName, HintTarget);
 			}
 			public TaskManager.TaskType GetTaskType()
 			{
@@ -435,7 +435,7 @@ namespace OdinPlus
 			}
 			public string PrintData()
 			{
-				string n = "\n" + (isMain ? "Main" : "Side");
+				string n = "\n" + (isMain ? "Main" : "$op_task_side");
 				n += String.Format(" Quest [<color=yellow><b>{0}</b></color>] : {1}", m_index, taskName);
 				return n;
 			}
@@ -444,13 +444,16 @@ namespace OdinPlus
 				switch (GetTaskType())
 				{
 					case TaskType.Hunt:
-						HintStart = String.Format("There is a <color=yellow><b>[{0}]</b></color> near the location i marked for you,check your map ...", locName);
+						//HintStart = String.Format("There is a <color=yellow><b>[{0}]</b></color> near the location i marked for you,check your map ...", locName);
+						HintStart = String.Format("$op_task_hunt_start_pr_1 <color=yellow><b>[{0}]</b></color> $op_task_hunt_start_po_1 ", locName);
 						break;
 					case TaskType.Treasure:
-						HintStart = String.Format("There a chest burried under a  <color=yellow><b>[{0}]</b></color> near the location i marked for you,check your map ...", locName);
+						//HintStart = String.Format("There a chest burried under a  <color=yellow><b>[{0}]</b></color> near the location i marked for you,check your map ...", locName);
+						HintStart = String.Format("$op_task_treasure_start_pr_1 <color=yellow><b>[{0}]</b></color> $op_task_treasure_start_po_1 ", locName);
 						break;
 					case TaskType.Dungeon:
-						HintStart = String.Format("There a chest in the dungeon <color=yellow><b>[{0}]</b></color> near the location i marked for you,check your map ...", locName);
+						//HintStart = String.Format("There a chest in the dungeon <color=yellow><b>[{0}]</b></color> near the location i marked for you,check your map ...", locName);
+						HintStart = String.Format("$op_task_dungeon_start_pr_1 <color=yellow><b>[{0}]</b></color> $op_task_dungeon_start_po_1 ", locName);
 						break;
 				}
 
@@ -460,13 +463,16 @@ namespace OdinPlus
 				switch (GetTaskType())
 				{
 					case TaskType.Hunt:
-						HintTarget = string.Format("Looks like you are close to the <color=yellow><b>[{0}]</b></color> Watchout!", locName);
+						//HintTarget = string.Format("Looks like you are close to the <color=yellow><b>[{0}]</b></color> Watchout!", locName);
+						HintStart = String.Format("$op_task_hunt_target_pr_1 <color=yellow><b>[{0}]</b></color> $op_task_hunt_target_po_1 ", locName);
 						break;
 					case TaskType.Treasure:
-						HintTarget = string.Format("Looks like you are close to the chest,look around find a <color=yellow><b>[{0}]</b></color>", locName);
+						//HintTarget = string.Format("Looks like you are close to the chest,look around find a <color=yellow><b>[{0}]</b></color>", locName);
+						HintStart = String.Format("$op_task_treasure_target_pr_1 <color=yellow><b>[{0}]</b></color> $op_task_treasure_target_po_1 ", locName);
 						break;
 					case TaskType.Dungeon:
-						HintTarget = string.Format("Looks like you are close to the dungeon,look around find a <color=yellow><b>[{0}]</b></color>", locName);
+						//HintTarget = string.Format("Looks like you are close to the dungeon,look around find a <color=yellow><b>[{0}]</b></color>", locName);
+						HintStart = String.Format("$op_task_dungeon_target_pr_1 <color=yellow><b>[{0}]</b></color> $op_task_dungeon_target_po_1 ", locName);
 						break;
 				}
 			}
@@ -481,19 +487,19 @@ namespace OdinPlus
 				SetRange(30.RollDice(30 + Level * 30));
 				SetPosition(pos);
 				SetPin();
-				MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : "Side") + " Quest " + m_index + "\n" + taskName + "\nStart", true);
-				Tweakers.TaskHintHugin((isMain ? "Main" : "Side") + "Quest " + m_index + " : " + taskName, HintStart);
+				MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : "$op_task_side") + " $op_task_quest " + m_index + "\n" + taskName + "\n $op_task_start", true);
+				Tweakers.TaskHintHugin((isMain ? "Main" : "$op_task_side") + "op_task_quest " + m_index + " : " + taskName, HintStart);
 				UpdateTaskList();
 			}
 			public void SearchBegin()
 			{
-				MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : "Side") + " Quest " + m_index + "\n" + taskName + "\nStart", true);
-				Tweakers.TaskHintHugin((isMain ? "Main" : "Side") + "Quest " + m_index + " : " + taskName, HintStart);
+				MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : "$op_task_side") + " $op_task_quest " + m_index + "\n" + taskName + "\n $op_task_start", true);
+				Tweakers.TaskHintHugin((isMain ? "Main" : "$op_task_side") + "op_task_quest " + m_index + " : " + taskName, HintStart);
 			}
 			public void Discovered()
 			{
 				SetHintTarget();
-				Tweakers.TaskHintHugin((isMain ? "Main" : "Side") + "Quest " + m_index + " : " + taskName, HintTarget);
+				Tweakers.TaskHintHugin((isMain ? "Main" : "$op_task_side") + "op_task_quest " + m_index + " : " + taskName, HintTarget);
 			}
 			public void Finish()
 			{
@@ -504,12 +510,12 @@ namespace OdinPlus
 			}
 			public void Clear()
 			{
-				string result = "Stolen";
+				string result = "$op_task_stolen";
 				if (isMeInsideTaskArea())
 				{
-					result = "Clear";
+					result = "$op_task_clear";
 				}
-				MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : "Side") + "Quest " + m_index + "\n" + taskName + "\n" + result, true);
+				MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : "$op_task_side") + "op_task_quest " + m_index + "\n" + taskName + "\n" + result, true);
 				MyTasks.Remove(this);
 			}
 			private bool isMeInsideTaskArea()
