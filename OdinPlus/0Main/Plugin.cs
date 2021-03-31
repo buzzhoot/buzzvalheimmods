@@ -13,7 +13,7 @@ using System.Globalization;
 using UnityEngine.UI;
 namespace OdinPlus
 {
-	[BepInPlugin("buzz.valheim.OdinPlus", "OdinPlus", "0.2.3")]
+	[BepInPlugin("buzz.valheim.OdinPlus", "OdinPlus", "0.2.4")]
 	public class Plugin : BaseUnityPlugin
 	{
 		#region Config Var
@@ -23,7 +23,6 @@ namespace OdinPlus
 		public static ConfigEntry<string> CFG_ItemSellValue;
 		public static ConfigEntry<Vector3> CFG_OdinPosition;
 		public static ConfigEntry<bool> CFG_ForceOdinPosition;
-		private static bool DisableSaving = true;
 		public static bool Set_FOP = false;
 		#region InternalConfig
 		public static int RaiseCost = 10;

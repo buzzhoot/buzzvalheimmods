@@ -120,19 +120,19 @@ namespace OdinPlus
 			}
 			if (Input.GetKeyDown(KeyCode.Keypad6) && Input.GetKey(KeyCode.RightControl))
 			{
-				DBG.InfoCT("Warrior has benn Trained");
+				
 			}
 			if (Input.GetKeyDown(KeyCode.Keypad7) && Input.GetKey(KeyCode.RightControl))
 			{
-				SpawnHuman();
+				
 			}
 			if (Input.GetKeyDown(KeyCode.Keypad8) && Input.GetKey(KeyCode.RightControl))
 			{
-				killHuman();
+				
 			}
 			if (Input.GetKeyDown(KeyCode.Keypad9) && Input.GetKey(KeyCode.RightControl))
 			{
-				HackCamp();
+				
 			}
 		}
 
@@ -362,82 +362,7 @@ namespace OdinPlus
 		#endregion RpcCheats
 
 		#region HumanNpc
-		public void HackValHuman()
-		{
-			var go = Instantiate(Game.instance.m_playerPrefab, OdinPlus.PrefabParent.transform);
 
-			DestroyImmediate(go.GetComponent<PlayerController>());
-			DestroyImmediate(go.GetComponent<Talker>());
-			DestroyImmediate(go.GetComponent<Skills>());
-
-			var oply = go.GetComponent<Player>();
-			var vis = go.GetComponent<VisEquipment>();
-			var hum = go.AddComponent<Humanoid>();
-			hum.m_health = 1000;
-			hum.m_faction = Character.Faction.Players;
-
-			vis.m_isPlayer = false;
-			var mai = go.AddComponentcc<MonsterAI>(ZNetScene.instance.GetPrefab("Goblin").GetComponent<MonsterAI>());
-			var tame = go.AddComponent<Tameable>();
-
-			hum.CopySonComponet<Humanoid, Player>(oply);
-			hum.m_defaultItems = new GameObject[]{
-				ZNetScene.instance.GetPrefab("SwordIron"),
-				ZNetScene.instance.GetPrefab("ArmorIronChest"),
-				ZNetScene.instance.GetPrefab("ArmorIronLegs"),
-				ZNetScene.instance.GetPrefab("HelmetDrake"),
-				//TrainingDummy
-
-			};
-			DestroyImmediate(go.GetComponent<Player>());
-
-			HumanTest = go;
-
-			go.name = "TestNpcS";
-			var a = Instantiate(ZNetScene.instance.GetPrefab("Spawner_Goblin"), OdinPlus.PrefabParent.transform).GetComponent<CreatureSpawner>();
-			a.gameObject.name = "SpawnHuman";
-			a.m_creaturePrefab = go;
-			PrefabManager.PrefabList.Add(a.name, a.gameObject);
-			PrefabManager.PrefabList.Add(go.name, go.gameObject);
-
-		}
-		public static Dictionary<string, GameObject> PrefabList = new Dictionary<string, GameObject>();
-		public static void HackDummy()
-		{
-			var pgo = ZNetScene.instance.GetPrefab("TrainingDummy");
-			var go = NpcManager.CopyChildren(pgo);
-
-		}
-		public static void HackCamp()
-		{
-			var list = DungeonDB.GetRooms();
-			var go = list[0].m_room.transform.parent;
-			var a = go.GetComponentsInChildren<CreatureSpawner>(true);
-			Debug.Log(a.Length);
-			foreach (var item in a)
-			{
-				if (item.name.StartsWith("Spawner_Goblin"))
-				{
-					var c = Instantiate(ZNetScene.instance.GetPrefab("SpawnHuman"), item.transform.parent);
-					c.transform.localPosition = item.transform.localPosition;
-					c.name = "SpawnHuman";
-					Debug.Log("hack campe");
-				}
-			}
-			//var a =  ZNetScene.instance.GetPrefab("Spawner_Goblin").GetComponent<CreatureSpawner>();
-			//a.m_creaturePrefab=HumanTest;
-		}
-		public static GameObject HumanTest;
-		public static GameObject Ins;
-		public static void SpawnHuman()
-		{
-			Ins = Instantiate(HumanTest, Player.m_localPlayer.transform.position + Vector3.forward, Quaternion.identity);
-			//HumanTest.GetComponent<Tameable>().Tame();
-		}
-		public static void killHuman()
-		{
-			DestroyImmediate(Ins);
-		}
 
 		#endregion HumanNpc
 		//End Class
