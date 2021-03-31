@@ -55,6 +55,8 @@ namespace OdinPlus
 				Chest.name = "LegacyChest" + i;
 
 				DestroyImmediate(Chest.GetComponent<Rigidbody>());
+				var sp= Chest.AddComponent<StaticPhysics>();
+				sp.m_pushUp=false;
 				var ctn = Chest.GetComponent<Container>();
 				Chest.AddComponent<LegacyChest>();
 				var mat = Chest.GetComponentInChildren<Renderer>().material;
