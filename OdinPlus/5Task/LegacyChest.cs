@@ -8,11 +8,15 @@ namespace OdinPlus
 
 		private ZNetView m_nview;
 		public string ID = "";
-		public bool Placing=false;
+		public bool Placing = false;
 		private Transform m_task;
 		private Container m_container;
 		private void Start()
 		{
+			if (gameObject.transform.position.y > 4000)
+			{
+				DestroyImmediate(this.GetComponent<StaticPhysics>());
+			}
 			m_nview = gameObject.GetComponent<ZNetView>();
 			m_container = gameObject.GetComponent<Container>();
 			if (Placing)
@@ -24,10 +28,11 @@ namespace OdinPlus
 			{
 				ID = m_nview.GetZDO().GetString("TaskID");
 			}
-			if (ZNet.instance.IsServer()&&ZNet.instance.IsDedicated())
+			if (ZNet.instance.IsServer() && ZNet.instance.IsDedicated())
 			{
 				//Destroy(gameObject);
 			}
+
 		}
 		private void Update()
 		{
