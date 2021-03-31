@@ -11,20 +11,14 @@ namespace OdinPlus
 	{
 
 		public static bool isInit = false;
-		private static ZNetScene zns;
-		public static GameObject Root;
 		public static Dictionary<string, GameObject> PrefabList = new Dictionary<string, GameObject>();
 		public static GameObject BasicHuman;
 		public static string[] Weapons = { "AtgeirBlackmetal", "AtgeirBronze", "AtgeirIron", "Battleaxe", "KnifeBlackMetal", "KnifeChitin", "KnifeCopper", "KnifeFlint", "MaceBronze", "MaceIron", "MaceNeedle", "MaceSilve", "SledgeIron", "SledgeStagbreaker", "SpearBronze", "SpearElderbark", "SpearFlint", "SpearWolfFang", "SwordBlackmetal", "SwordBronze", "SwordCheat", "SwordIron", "SwordIronFire", "SwordSilver", "AtgeirBlackmetal", "AtgeirBronze", "AtgeirIron", "Battleaxe", "KnifeBlackMetal", "KnifeChitin", "KnifeCopper", "KnifeFlint", "MaceBronze", "MaceIron", "MaceNeedle", "MaceSilver" };
 		public static string[] Armor = { "ArmorBronzeChest", "ArmorBronzeLegs", "ArmorIronChest", "ArmorIronLegs", "ArmorLeatherChest", "ArmorLeatherLegs", "ArmorPaddedCuirass", "ArmorPaddedGreaves", "ArmorRagsChest", "ArmorRagsLegs", "ArmorTrollLeatherChest", "ArmorTrollLeatherLegs", "ArmorWolfChest", "ArmorWolfLegs", "CapeDeerHide", "CapeLinen", "CapeLox", "CapeOdin", "CapeTest", "CapeTrollHide", "CapeWolf", "HelmetBronze", "HelmetDrake", "HelmetDverger", "HelmetIron", "HelmetLeather", "HelmetOdin", "HelmetPadded", "HelmetTrollLeather", "HelmetYule" };
 		public static string[] Shield = { "ShieldBanded", "ShieldBlackmetal", "ShieldBlackmetalTower", "ShieldBronzeBuckler", "ShieldIronSquare", "ShieldIronTower", "ShieldKnight", "ShieldSerpentscale", "ShieldSilver", "ShieldWood", "ShieldWoodTower" };
 
-		public  void Init()
+		public void Init()
 		{
-			zns = ZNetScene.instance;
-			Root = new GameObject("OdinPrefab");
-			Root.transform.SetParent(OdinPlus.PrefabParent.transform);
-
 
 			HackValHuman();
 			HumanNpc();
@@ -90,7 +84,7 @@ namespace OdinPlus
 
 			var vis = go.GetComponent<VisEquipment>();
 			var hum = go.GetComponent<Humanoid>();
-			vis.m_isPlayer=false;
+			vis.m_isPlayer = false;
 
 			hum.m_health = 1000;
 			hum.m_faction = Character.Faction.Players;
@@ -98,9 +92,9 @@ namespace OdinPlus
 			var mai = go.AddComponentcc<MonsterAI>(ZNetScene.instance.GetPrefab("Goblin").GetComponent<MonsterAI>());
 			var tame = go.AddComponent<Tameable>();
 
-			hum.m_defaultItems=new GameObject[0];
-			hum.m_randomSets=new Humanoid.ItemSet[0];
-			hum.m_unarmedWeapon=null;
+			hum.m_defaultItems = new GameObject[0];
+			hum.m_randomSets = new Humanoid.ItemSet[0];
+			hum.m_unarmedWeapon = null;
 			hum.m_randomArmor = RandomVis(Armor);
 			hum.m_randomWeapon = RandomVis(Weapons);
 			hum.m_randomShield = RandomVis(Shield);
@@ -114,7 +108,7 @@ namespace OdinPlus
 
 			var vis = go.GetComponent<VisEquipment>();
 			var hum = go.GetComponent<Humanoid>();
-			vis.m_isPlayer=false;
+			vis.m_isPlayer = false;
 
 			hum.m_health = 1000;
 			hum.m_faction = Character.Faction.PlainsMonsters;
@@ -122,9 +116,9 @@ namespace OdinPlus
 			var mai = go.AddComponentcc<MonsterAI>(ZNetScene.instance.GetPrefab("Goblin").GetComponent<MonsterAI>());
 			var tame = go.AddComponent<Tameable>();
 
-			hum.m_defaultItems=new GameObject[0];
-			hum.m_unarmedWeapon=null;
-			hum.m_randomSets=new Humanoid.ItemSet[0];
+			hum.m_defaultItems = new GameObject[0];
+			hum.m_unarmedWeapon = null;
+			hum.m_randomSets = new Humanoid.ItemSet[0];
 			hum.m_randomArmor = RandomVis(Armor);
 			hum.m_randomWeapon = RandomVis(Weapons);
 			hum.m_randomShield = RandomVis(Shield);
