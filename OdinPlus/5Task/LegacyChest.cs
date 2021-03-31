@@ -11,7 +11,7 @@ namespace OdinPlus
 		public bool Placing=false;
 		private Transform m_task;
 		private Container m_container;
-		private void Awake()
+		private void Start()
 		{
 			m_nview = gameObject.GetComponent<ZNetView>();
 			m_container = gameObject.GetComponent<Container>();
@@ -26,7 +26,7 @@ namespace OdinPlus
 			}
 			if (ZNet.instance.IsServer()&&ZNet.instance.IsDedicated())
 			{
-				Destroy(gameObject);
+				//Destroy(gameObject);
 			}
 		}
 		private void Update()
