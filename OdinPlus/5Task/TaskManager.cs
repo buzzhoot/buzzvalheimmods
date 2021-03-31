@@ -507,7 +507,7 @@ namespace OdinPlus
 			public void Clear()
 			{
 				string result = "$op_task_stolen";
-				if (isMeInsideTaskArea())
+				if (isMeInsideTaskArea()||ZNet.instance.IsLocalInstance())
 				{
 					result = "$op_task_clear";
 				}
