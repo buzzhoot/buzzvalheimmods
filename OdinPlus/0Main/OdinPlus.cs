@@ -20,6 +20,7 @@ namespace OdinPlus
 		public static bool isRegistered = false;
 		public bool isLoaded = false;
 		public static OdinPlus m_instance;
+		public static bool ZnsInit = false;
 		#endregion
 		#region List
 		public static List<string> traderNameList = new List<string>();
@@ -55,12 +56,12 @@ namespace OdinPlus
 			PrefabParent.SetActive(false);
 			PrefabParent.transform.SetParent(Root.transform);
 
-			Plugin.preODB =(Action<ObjectDB>) Delegate.Combine(Plugin.preODB, (Action<ObjectDB>)PreODB);
-			
+			Plugin.preODB = (Action<ObjectDB>)Delegate.Combine(Plugin.preODB, (Action<ObjectDB>)PreODB);
+
 			Root.AddComponent<OdinData>();
 			Root.AddComponent<TaskManager>();
 			Root.AddComponent<LocationManager>();
-			
+
 			Root.AddComponent<OdinSE>();
 		}
 		#endregion Mono
@@ -69,7 +70,7 @@ namespace OdinPlus
 		public static void Init()
 		{
 			initAssets();
-			
+
 			Root.AddComponent<OdinMeads>();
 			Root.AddComponent<OdinItem>();
 			Root.AddComponent<PetManager>();
@@ -91,19 +92,23 @@ namespace OdinPlus
 		}
 		public static void PostZNS()
 		{
+			if (!ZnsInit)
+			{
+				if (!FxAssetManager.isInit)
+				{
+					FxAssetManager.Init();
+				}
+				if (!PetManager.isInit)
+				{
+					PetManager.Init();
+				}
+				if (!PrefabManager.isInit)
+				{
+					PrefabManager.Init();
+				}
+				ZnsInit = true;
+			}
 
-			if (!FxAssetManager.isInit)
-			{
-				FxAssetManager.Init();
-			}
-			if (!PetManager.isInit)
-			{
-				PetManager.Init();
-			}
-			if (!PrefabManager.isInit)
-			{
-				PrefabManager.Init();
-			}
 			ValRegister();
 		}
 		public static void PostZone()
@@ -164,7 +169,7 @@ namespace OdinPlus
 		#region Feature
 		public static void ValRegister(ObjectDB odb)
 		{
-			
+
 			var m_itemByHash = Traverse.Create(odb).Field<Dictionary<int, GameObject>>("m_itemByHash").Value;
 			foreach (var item in odbRegList)
 			{
@@ -249,6 +254,8 @@ namespace OdinPlus
 			Root.AddComponent<TaskManager>();
 			Root.AddComponent<LocationManager>();
 			Root.AddComponent<FxAssetManager>();
+			
+			
 			isInit = true;
 
 			PostODB();

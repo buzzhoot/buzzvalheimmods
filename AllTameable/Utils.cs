@@ -85,7 +85,7 @@ namespace AllTameable
             return comp as T;
         }
 
-        public static T AddComponent<T>(this GameObject go, T toAdd) where T : Component
+        public static T AddComponentcc<T>(this GameObject go, T toAdd) where T : Component
         {
             return go.AddComponent(toAdd.GetType()).GetCopyOf(toAdd) as T;
         }
