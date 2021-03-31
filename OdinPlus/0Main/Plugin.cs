@@ -34,7 +34,7 @@ namespace OdinPlus
 		public static GameObject OdinPlusRoot;
 
 		#region Actions
-		public static Action posZone;
+		//public static Action posZone;
 		public static Action posZnet;
 		public static Action<ObjectDB> preODB;
 		#endregion Actions
@@ -341,7 +341,6 @@ namespace OdinPlus
 		{
 			private static void Postfix()
 			{
-				posZone();
 				OdinPlus.PostZone();
 			}
 		}
