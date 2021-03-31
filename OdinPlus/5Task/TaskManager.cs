@@ -515,7 +515,7 @@ namespace OdinPlus
 			private bool isMeInsideTaskArea()
 			{
 				Vector3 ppos = Player.m_localPlayer.transform.position;
-				return Tweakers.isInsideArea(ppos, new Vector3(m_positionX, ppos.y, m_positionZ), 150);
+				return Tweakers.isInsideArea(ppos, new Vector3(m_positionX, ppos.y, m_positionZ), 200);
 			}
 			public void Giveup()
 			{

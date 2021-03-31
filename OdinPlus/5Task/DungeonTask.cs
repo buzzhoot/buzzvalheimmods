@@ -92,9 +92,8 @@ namespace OdinPlus
 			var x = room.m_size.x / 2;
 			var z = room.m_size.z / 2;
 			var pos = new Vector3(0, y + 0.2f, 0) + room.transform.position;
-			Reward = Instantiate(ZNetScene.instance.GetPrefab("LegacyChest" + (Key + 1).ToString()));
 			Reward.transform.localPosition = pos;
-			Reward.GetComponent<LegacyChest>().ID = this.Id;
+			OdinTask.PlacingChest(pos, Id, Key);
 			m_isInit = true;
 			DBG.blogWarning("Placed LegacyChest at Dungeon room: " + Reward.transform.localPosition);
 			return;
@@ -112,10 +111,9 @@ namespace OdinPlus
 					{
 						if (ci.name.Contains("Clone"))
 						{
-							Reward = Instantiate(ZNetScene.instance.GetPrefab("LegacyChest" + (Key + 1).ToString()), comp.transform.position, Quaternion.identity);
 							comp.GetInventory().RemoveAll();
 							comp.GetComponent<ZNetView>().Destroy();
-							Reward.GetComponent<LegacyChest>().ID = this.Id;
+							 Reward = OdinTask.PlacingChest(comp.transform.position, comp.transform.rotation, Id, Key);
 							m_isInit = true;
 							DBG.blogWarning("Placed LegacyChest at Dungeon ctn: " + Reward.transform.position);
 							return true;

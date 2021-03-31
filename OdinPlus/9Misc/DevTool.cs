@@ -16,7 +16,7 @@ using UnityEngine.UI;
 //|| ||DEBUG How to
 //Right Ctrl + keypad[0-5] global key sets (how many kinds of boss have you defeated,quest is based on that)
 //5 unlock all tasks and location
-//3d teleport, console type in /3dtele x,y,z
+//3d teleport, console type in /3dtele x,y,z  like this: /3dtele 329.4,5034.8,605.7
 //console /ctast1 Treasure /ctask2 Dungeon /ctask3 Hunt
 //!DONT PRESS RinghtCtrl+F[6-10] it's for dev debug most like ly will break the mod
 //Thx for your help for testing!

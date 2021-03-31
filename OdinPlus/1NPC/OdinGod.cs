@@ -120,8 +120,8 @@ namespace OdinPlus
 			string s = string.Format("\n<color=lightblue><b>$op_crd:{0}</b></color>", OdinData.Credits);
 			string a = string.Format("\n[<color=yellow><b>$KEY_Use</b></color>] $op_use[<color=green><b>{0}</b></color>]", cskill);
 			string b = "\n[<color=yellow><b>1-8</b></color>]$op_offer";
-			string c = "\n[<color=yellow><b>F</b></color>]$op_switch";
-			return Localization.instance.Localize(n + s + a + b + c);
+			b += String.Format("\n<color=yellow><b>[{0}]</b></color>$op_switch", Plugin.KS_SecondInteractkey.Value.MainKey.ToString());
+			return Localization.instance.Localize(n + s + a + b);
 		}
 		public override bool UseItem(Humanoid user, ItemDrop.ItemData item)//trans
 		{
@@ -148,7 +148,7 @@ namespace OdinPlus
 			{
 				Skills.SkillType skillType = (Skills.SkillType)obj;
 				var s = skillType.ToString();
-				if (s != "None" && s != "FrostMagic" && s != "All"&&s!="FireMagic")
+				if (s != "None" && s != "FrostMagic" && s != "All" && s != "FireMagic")
 				{
 					slist.Add(skillType.ToString());
 					stlist.Add(skillType);
