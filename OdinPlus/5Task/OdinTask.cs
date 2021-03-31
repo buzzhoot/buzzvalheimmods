@@ -156,7 +156,7 @@ namespace OdinPlus
 			if (ZNet.instance.IsLocalInstance())
 			{
 				ZRoutedRpc.instance.InvokeRoutedRPC("RPC_ClientFinish", new object[] { Id });
-				m_finished= true;
+				m_finished = true;
 				return;
 			}
 			//CHECK ONLINE
@@ -182,19 +182,19 @@ namespace OdinPlus
 		public static GameObject PlacingChest(Vector3 pos, string parId, int parKey)
 		{
 			GameObject chest;
-			chest = Instantiate(ZNetScene.instance.GetPrefab("LegacyChest" + (parKey + 1).ToString()),OdinPlus.PrefabParent.transform);
+			chest = Instantiate(ZNetScene.instance.GetPrefab("LegacyChest" + (parKey + 1).ToString()), OdinPlus.PrefabParent.transform);
 			chest.transform.localPosition = pos;
 			chest.GetComponent<LegacyChest>().ID = parId;
-			chest.GetComponent<LegacyChest>().Placing=true;
+			chest.GetComponent<LegacyChest>().Placing = true;
 			chest.transform.SetParent(OdinPlus.Root.transform);
 			return chest;
 		}
-				public static GameObject PlacingChest(Vector3 pos,Quaternion rot, string parId, int parKey)
+		public static GameObject PlacingChest(Vector3 pos, Quaternion rot, string parId, int parKey)
 		{
 			GameObject chest;
-			chest = Instantiate(ZNetScene.instance.GetPrefab("LegacyChest" + (parKey + 1).ToString()),pos,rot,OdinPlus.PrefabParent.transform);
+			chest = Instantiate(ZNetScene.instance.GetPrefab("LegacyChest" + (parKey + 1).ToString()), pos, rot, OdinPlus.PrefabParent.transform);
 			chest.GetComponent<LegacyChest>().ID = parId;
-			chest.GetComponent<LegacyChest>().Placing=true;
+			chest.GetComponent<LegacyChest>().Placing = true;
 			chest.transform.SetParent(OdinPlus.Root.transform);
 			return chest;
 		}

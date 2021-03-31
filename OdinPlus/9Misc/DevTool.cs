@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using BepInEx;
 using BepInEx.Configuration;
 using HarmonyLib;
@@ -363,7 +365,7 @@ namespace OdinPlus
 		public void HackValHuman()
 		{
 			var go = Instantiate(Game.instance.m_playerPrefab, OdinPlus.PrefabParent.transform);
-			
+
 			DestroyImmediate(go.GetComponent<PlayerController>());
 			DestroyImmediate(go.GetComponent<Talker>());
 			DestroyImmediate(go.GetComponent<Skills>());
@@ -377,7 +379,7 @@ namespace OdinPlus
 			vis.m_isPlayer = false;
 			var mai = go.AddComponentcc<MonsterAI>(ZNetScene.instance.GetPrefab("Goblin").GetComponent<MonsterAI>());
 			var tame = go.AddComponent<Tameable>();
-			
+
 			hum.CopySonComponet<Humanoid, Player>(oply);
 			hum.m_defaultItems = new GameObject[]{
 				ZNetScene.instance.GetPrefab("SwordIron"),
@@ -390,14 +392,14 @@ namespace OdinPlus
 			DestroyImmediate(go.GetComponent<Player>());
 
 			HumanTest = go;
-			
+
 			go.name = "TestNpcS";
-			var a = Instantiate(ZNetScene.instance.GetPrefab("Spawner_Goblin"),OdinPlus.PrefabParent.transform).GetComponent<CreatureSpawner>();
-			a.gameObject.name="SpawnHuman";
-			a.m_creaturePrefab=go;
-			PrefabManager.PrefabList.Add(a.name,a.gameObject);
-			PrefabManager.PrefabList.Add(go.name,go.gameObject);
-			
+			var a = Instantiate(ZNetScene.instance.GetPrefab("Spawner_Goblin"), OdinPlus.PrefabParent.transform).GetComponent<CreatureSpawner>();
+			a.gameObject.name = "SpawnHuman";
+			a.m_creaturePrefab = go;
+			PrefabManager.PrefabList.Add(a.name, a.gameObject);
+			PrefabManager.PrefabList.Add(go.name, go.gameObject);
+
 		}
 		public static Dictionary<string, GameObject> PrefabList = new Dictionary<string, GameObject>();
 		public static void HackDummy()
@@ -409,16 +411,16 @@ namespace OdinPlus
 		public static void HackCamp()
 		{
 			var list = DungeonDB.GetRooms();
-			var go =list[0].m_room.transform.parent;
+			var go = list[0].m_room.transform.parent;
 			var a = go.GetComponentsInChildren<CreatureSpawner>(true);
 			Debug.Log(a.Length);
 			foreach (var item in a)
 			{
-				if (item.name.StartsWith ("Spawner_Goblin"))
+				if (item.name.StartsWith("Spawner_Goblin"))
 				{
-					var c = Instantiate(ZNetScene.instance.GetPrefab("SpawnHuman"),item.transform.parent);
-					c.transform.localPosition=item.transform.localPosition;
-					c.name="SpawnHuman";
+					var c = Instantiate(ZNetScene.instance.GetPrefab("SpawnHuman"), item.transform.parent);
+					c.transform.localPosition = item.transform.localPosition;
+					c.name = "SpawnHuman";
 					Debug.Log("hack campe");
 				}
 			}
@@ -439,5 +441,21 @@ namespace OdinPlus
 
 		#endregion HumanNpc
 		//End Class
+
+		#region DebugSaving
+		public static OdinData.DataTable SaveDataDebug;
+		public static string SaveDataFileName;
+
+		public static void LoadDebugSavingData()
+		{
+			string file = Path.Combine(Application.persistentDataPath, (SaveDataFileName + ".odinplus"));
+			FileStream fileStream = new FileStream(@file, FileMode.Open, FileAccess.Read);
+			BinaryFormatter formatter = new BinaryFormatter();
+			SaveDataDebug = (OdinData.DataTable)formatter.Deserialize(fileStream);
+			fileStream.Close();
+		}
+
+
+		#endregion DebugSaving
 	}
 }
