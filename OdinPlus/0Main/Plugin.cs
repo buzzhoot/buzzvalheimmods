@@ -197,6 +197,51 @@ namespace OdinPlus
 				}
 			}
 		}
+		[HarmonyPatch(typeof(Chat), "InputText")]
+		private static class Patch_Chat_InputText
+		{
+			private static void Prefix(Chat __instance)
+			{
+				if (Player.m_localPlayer != null && OdinPlus.isNPCInit)
+				{
+					string cmd = __instance.m_input.text;
+					if (cmd.ToLower() == "/odinhere")
+					{
+						if (Set_FOP)
+						{
+							LocationManager.GetStartPos();
+							return;
+						}
+						NpcManager.Root.transform.localPosition = Player.m_localPlayer.transform.localPosition + Vector3.forward * 4;
+					}
+					if (cmd.ToLower() == "/whereami")
+					{
+						var pos = Player.m_localPlayer.transform.position;
+						string s = pos.x + "," + pos.y + "," + pos.z;
+						DBG.InfoCT(s);
+						DBG.cprt(s);
+						//global::Console.instance.m_input.text=s;
+						__instance.m_input.text = s;
+						return;
+					}
+					if (cmd.ToLower() == "/whereodin")
+					{
+						var pos = NpcManager.Root.transform.localPosition;
+						string s = pos.x + "," + pos.y + "," + pos.z;
+						DBG.InfoCT(s);
+						DBG.cprt(s);
+						__instance.m_input.text = s;
+						return;
+					}
+					if (cmd.ToLower() == "/setodin")
+					{
+						CFG_OdinPosition.Value = NpcManager.Root.transform.localPosition;
+						return;
+					}
+				}
+			}
+		}
+
 
 		#endregion
 		#region Misc
@@ -322,50 +367,7 @@ namespace OdinPlus
 				OdinPlus.PostODB();
 			}
 		}
-		[HarmonyPatch(typeof(Chat), "InputText")]
-		private static class Patch_Chat_InputText
-		{
-			private static void Prefix(Chat __instance)
-			{
-				if (Player.m_localPlayer != null && OdinPlus.isNPCInit)
-				{
-					string cmd = __instance.m_input.text;
-					if (cmd.ToLower() == "/odinhere")
-					{
-						if (Set_FOP)
-						{
-							LocationManager.GetStartPos();
-							return;
-						}
-						NpcManager.Root.transform.localPosition = Player.m_localPlayer.transform.localPosition + Vector3.forward * 4;
-					}
-					if (cmd.ToLower() == "/whereami")
-					{
-						var pos = Player.m_localPlayer.transform.position;
-						string s = pos.x + "," + pos.y + "," + pos.z;
-						DBG.InfoCT(s);
-						DBG.cprt(s);
-						//global::Console.instance.m_input.text=s;
-						__instance.m_input.text = s;
-						return;
-					}
-					if (cmd.ToLower() == "/whereodin")
-					{
-						var pos = NpcManager.Root.transform.localPosition;
-						string s = pos.x + "," + pos.y + "," + pos.z;
-						DBG.InfoCT(s);
-						DBG.cprt(s);
-						__instance.m_input.text = s;
-						return;
-					}
-					if (cmd.ToLower() == "/setodin")
-					{
-						CFG_OdinPosition.Value = NpcManager.Root.transform.localPosition;
-						return;
-					}
-				}
-			}
-		}
+
 		#endregion
 		#region Znet
 		[HarmonyPatch(typeof(ZNet), "Awake")]
