@@ -56,12 +56,12 @@ namespace OdinPlus
 			PrefabParent.transform.SetParent(Root.transform);
 
 			Plugin.preODB =(Action<ObjectDB>) Delegate.Combine(Plugin.preODB, (Action<ObjectDB>)PreODB);
-
+			
 			Root.AddComponent<OdinData>();
 			Root.AddComponent<TaskManager>();
 			Root.AddComponent<LocationManager>();
-			Root.AddComponent<ResourceAssetManager>();
-
+			
+			Root.AddComponent<OdinSE>();
 		}
 		#endregion Mono
 
@@ -69,7 +69,7 @@ namespace OdinPlus
 		public static void Init()
 		{
 			initAssets();
-			Root.AddComponent<OdinSE>();
+			
 			Root.AddComponent<OdinMeads>();
 			Root.AddComponent<OdinItem>();
 			Root.AddComponent<PetManager>();
@@ -79,7 +79,7 @@ namespace OdinPlus
 		}
 		private static void PreODB(ObjectDB odb)
 		{
-			OdinSE.Register();
+			OdinSE.Register(odb);
 		}
 		public static void PostODB()
 		{

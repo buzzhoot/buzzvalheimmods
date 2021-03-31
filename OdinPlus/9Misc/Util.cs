@@ -73,6 +73,10 @@ namespace OdinPlus
 			}
 			return result;
 		}
+		public static Sprite LoadResouceIcon(string name)
+		{
+			return Util.LoadSpriteFromTexture(Util.LoadTextureRaw(Util.GetResource(Assembly.GetCallingAssembly(), "OdinPlus.Resources." + name + ".png")), 100f);
+		}
 		#endregion LoadResource
 		#region Reflection
 		public static object InvokePrivate(object instance, string name, object[] args = null)

@@ -159,6 +159,8 @@
 <EmbeddedResource Include="Resources\AxeMeadS.png" />
 <EmbeddedResource Include="Resources\AxeMeadM.png" />
 <EmbeddedResource Include="Resources\AxeMeadL.png" />
+<EmbeddedResource Include="Resources\SE_Troll.png" />
+<EmbeddedResource Include="Resources\SE_Wolf.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

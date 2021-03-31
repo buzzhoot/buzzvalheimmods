@@ -48,8 +48,9 @@ namespace OdinPlus
 
 			//-- init here
 			OdinPlusRoot = new GameObject("OdinPlus");
+			OdinPlusRoot.AddComponent<ResourceAssetManager>();
 			OdinPlusRoot.AddComponent<OdinPlus>();
-
+			
 			//notice Debug
 			OdinPlusRoot.AddComponent<DevTool>();
 

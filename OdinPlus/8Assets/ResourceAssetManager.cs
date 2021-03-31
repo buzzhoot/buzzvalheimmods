@@ -24,7 +24,7 @@ namespace OdinPlus
 		}
 		public static void AddIcon(string name, int list)
 		{
-			Sprite a = Util.LoadSpriteFromTexture(Util.LoadTextureRaw(Util.GetResource(Assembly.GetCallingAssembly(), "OdinPlus.Resources." + name + ".png")), 100f);
+			Sprite a = Util.LoadResouceIcon(name);
 			OdinMeadsIcons.Add(name, a);
 		}
 	}

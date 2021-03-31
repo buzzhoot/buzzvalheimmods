@@ -19,19 +19,23 @@ namespace OdinPlus
 		{
 			SetupValSE();
 
-
 			initBuzzSE();
 			initTrollSE();
 			initWolfSE();
 			initValSE();
+
 			SetupMonsterSe();
 			initMonsterSE();
 		}
-		public static void Register()
+		public static void Register(ObjectDB odb)
 		{
+			if (SElist.Count == 0)
+			{
+				return;
+			}
 			foreach (var se in SElist.Values)
 			{
-				ObjectDB.instance.m_StatusEffects.Add(se);
+				odb.m_StatusEffects.Add(se);
 			}
 			DBG.blogInfo("Register SE");
 		}
@@ -43,7 +47,7 @@ namespace OdinPlus
 		{
 			var se = ScriptableObject.CreateInstance<SE_SumonPet>();
 			se.name = "SE_Troll";
-			se.m_icon = OdinPlus.TrollHeadIcon;
+			se.m_icon = Util.LoadResouceIcon("SE_Troll");
 			se.m_name = "$op_ScrollTroll_name";
 			se.m_tooltip = "$op_ScrollTroll_tooltip";
 			se.m_cooldownIcon = true;
@@ -55,7 +59,7 @@ namespace OdinPlus
 		{
 			var se = ScriptableObject.CreateInstance<SE_SumonPet>();
 			se.name = "SE_Wolf";
-			se.m_icon = OdinPlus.WolfHeadIcon;
+			se.m_icon = Util.LoadResouceIcon("SE_Wolf");
 			se.m_name = "$op_ScrollWolf_name";
 			se.m_tooltip = "$op_ScrollWolf_tooltip";
 			se.m_cooldownIcon = true;
@@ -101,7 +105,12 @@ namespace OdinPlus
 		{
 			var se = ScriptableObject.CreateInstance<SE_Stats>();
 			se.name = name;
-			se.m_icon = ResourceAssetManager.OdinMeadsIcons[name];
+
+			if (ResourceAssetManager.OdinMeadsName.Contains(name))
+			{
+				se.m_icon = ResourceAssetManager.OdinMeadsIcons[name];
+			}
+
 			se.m_name = "$op_" + name + "_name";
 			se.m_tooltip = "$op_" + name + "_tooltip";
 
@@ -194,7 +203,7 @@ namespace OdinPlus
 		{
 			for (int i = 1; i < 6; i++)
 			{
-				MonsterSEList.Add("MonsterAttackAMP" + i, new SEData() { m_ttl = 3000000, m_modifyAttackSkill = Skills.SkillType.All, m_damageModifier = 1 + ((i - 1) * 0.1f) });
+				MonsterSEList.Add("MonsterAttackAMP" + i, new SEData() { m_ttl = 0, m_modifyAttackSkill = Skills.SkillType.All, m_damageModifier = 1 + ((i - 1) * 0.1f) });
 			}
 		}
 		#endregion Monster Se
