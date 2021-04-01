@@ -94,6 +94,8 @@ namespace OdinPlus
 		{
 			if (!ZnsInit)
 			{
+				var a = Root.AddComponent<HumanManager>();
+				a.Init();
 				if (!FxAssetManager.isInit)
 				{
 					FxAssetManager.Init();
@@ -265,6 +267,7 @@ namespace OdinPlus
 				ZNetScene.instance.m_prefabs.Add(item.Value);
 				m_namedPrefabs.Add(item.Key, item.Value);
 			}
+			PostZone();
 			PostZNS();
 			NpcManager.RavenPrefab = Tutorial.instance.m_ravenPrefab.transform.Find("Munin").gameObject;
 			InitNPC();

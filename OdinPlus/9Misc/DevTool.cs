@@ -35,7 +35,7 @@ namespace OdinPlus
 		private void Awake()
 		{
 			instance = this;
-			//Plugin.posZone = (Action)Delegate.Combine(Plugin.posZone, (Action)Reg);
+			Plugin.posZone = (Action)Delegate.Combine(Plugin.posZone, (Action)Reg);
 		}
 		private void Reg()
 		{

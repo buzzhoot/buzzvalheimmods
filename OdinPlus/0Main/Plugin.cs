@@ -34,7 +34,7 @@ namespace OdinPlus
 		public static GameObject OdinPlusRoot;
 
 		#region Actions
-		//public static Action posZone;
+		public static Action posZone;
 		public static Action posZnet;
 		public static Action<ObjectDB> preODB;
 		#endregion Actions
@@ -56,7 +56,7 @@ namespace OdinPlus
 			OdinPlusRoot.AddComponent<OdinPlus>();
 
 			//notice Debug
-			//OdinPlusRoot.AddComponent<DevTool>();
+			OdinPlusRoot.AddComponent<DevTool>();
 
 			DontDestroyOnLoad(OdinPlusRoot);
 			DBG.blogInfo("OdinPlus Loadded");
@@ -280,6 +280,7 @@ namespace OdinPlus
 					return;
 				}
 				{
+					HumanManager.HackCamp();//!
 					if (CheckPlayerNull() || OdinPlus.m_instance.isLoaded) { return; }
 					OdinData.loadOdinData(Player.m_localPlayer.GetPlayerName() + "_" + ZNet.instance.GetWorldName());
 				}
@@ -341,6 +342,10 @@ namespace OdinPlus
 		{
 			private static void Postfix()
 			{
+				if (posZone!=null)
+				{
+					posZone();
+				}
 				OdinPlus.PostZone();
 			}
 		}
@@ -377,6 +382,7 @@ namespace OdinPlus
 				LocationManager.RequestServerFop();
 			}
 		}
+		
 		#endregion znet
 		#endregion
 

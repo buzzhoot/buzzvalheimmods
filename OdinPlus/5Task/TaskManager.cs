@@ -39,6 +39,7 @@ namespace OdinPlus
 		}
 		public void ReigsterRpc()
 		{
+			
 			MyTasks = new List<ClientTaskData>();
 			ZRoutedRpc.instance.Register<string, string, Vector3>("RPC_CreateTaskSucced", new Action<long, string, string, Vector3>(RPC_CreateTaskSucced));
 			ZRoutedRpc.instance.Register<int, string>("RPC_CreateTaskFailed", new Action<long, int, string>(RPC_CreateTaskFailed));

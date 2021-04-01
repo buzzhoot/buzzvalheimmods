@@ -27,6 +27,8 @@ namespace OdinPlus
 			HumanSpawner();
 			HackSpawner();
 
+			//HackCamp();
+
 
 			OdinPlus.OdinPostRegister(PrefabList);
 			isInit = true;
