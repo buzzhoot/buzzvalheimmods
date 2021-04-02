@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31129.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminTool", "AdminTool\AdminTool.csproj", "{B528CC46-DB28-4289-BF27-4D1FFA2B78CB}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuickChat", "QuickChat\QuickChat.csproj", "{DF195772-07F5-44AF-B0B0-4A34F0B29671}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuzzValheimTemplate", "BuzzValheimTemplate\BuzzValheimTemplate.csproj", "{4C7416FA-E599-4574-9BCE-5FE7779F88E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DebugAwakeQuene", "DebugAwakeQuene\DebugAwakeQuene.csproj", "{1D7F48D3-C733-484F-B3C1-236C4A1E99D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,8 +47,15 @@ Global
 		{4C7416FA-E599-4574-9BCE-5FE7779F88E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C7416FA-E599-4574-9BCE-5FE7779F88E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C7416FA-E599-4574-9BCE-5FE7779F88E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D7F48D3-C733-484F-B3C1-236C4A1E99D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D7F48D3-C733-484F-B3C1-236C4A1E99D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D7F48D3-C733-484F-B3C1-236C4A1E99D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D7F48D3-C733-484F-B3C1-236C4A1E99D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B5A37C04-68D9-4591-8F0F-E122218AA80D}
 	EndGlobalSection
 EndGlobal
