@@ -94,8 +94,8 @@ namespace OdinPlus
 		{
 			if (!ZnsInit)
 			{
-				var a = Root.AddComponent<HumanManager>();
-				a.Init();
+				
+				
 				if (!FxAssetManager.isInit)
 				{
 					FxAssetManager.Init();
@@ -108,6 +108,7 @@ namespace OdinPlus
 				{
 					PrefabManager.Init();
 				}
+				HumanManager.Init();
 				ZnsInit = true;
 			}
 

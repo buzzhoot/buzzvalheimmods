@@ -19,12 +19,7 @@ namespace OdinPlus
 			var prefab = this.gameObject;
 			ZNetView znv = prefab.GetComponent<ZNetView>();
 			ZDO zdo = prefab.GetComponent<ZNetView>().GetZDO();
-			DestroyImmediate(prefab.GetComponent<ZNetView>());
-			DestroyImmediate(prefab.GetComponent<ZSyncAnimation>());
-			DestroyImmediate(prefab.GetComponent<ZSyncTransform>());
-			DestroyImmediate(prefab.GetComponent<VisEquipment>());
-			DestroyImmediate(prefab.GetComponent<Humanoid>());
-			DestroyImmediate(prefab.GetComponent<Rigidbody>());
+			
 			foreach (var comp in gameObject.GetComponents<Component>())
 			{
 				if (!(comp is Transform) && !(comp is RandomNPC) && !(comp is CapsuleCollider))
