@@ -17,7 +17,7 @@ namespace OdinPlus
 		public static string[] Armor = { "ArmorBronzeChest", "ArmorBronzeLegs", "ArmorIronChest", "ArmorIronLegs", "ArmorLeatherChest", "ArmorLeatherLegs", "ArmorPaddedCuirass", "ArmorPaddedGreaves", "ArmorRagsChest", "ArmorRagsLegs", "ArmorTrollLeatherChest", "ArmorTrollLeatherLegs", "ArmorWolfChest", "ArmorWolfLegs", "CapeDeerHide", "CapeLinen", "CapeLox", "CapeOdin", "CapeTest", "CapeTrollHide", "CapeWolf", "HelmetBronze", "HelmetDrake", "HelmetDverger", "HelmetIron", "HelmetLeather", "HelmetOdin", "HelmetPadded", "HelmetTrollLeather", "HelmetYule" };
 		public static string[] Shield = { "ShieldBanded", "ShieldBlackmetal", "ShieldBlackmetalTower", "ShieldBronzeBuckler", "ShieldIronSquare", "ShieldIronTower", "ShieldKnight", "ShieldSerpentscale", "ShieldSilver", "ShieldWood", "ShieldWoodTower" };
 
-		public void Init()
+		public static void Init()
 		{
 
 			HackValHuman();
@@ -66,16 +66,24 @@ namespace OdinPlus
 			hum.m_health = 1000;
 			hum.m_faction = Character.Faction.Boss;
 
+			//EXC
+			
+			var exc_prb = Tutorial.instance.m_ravenPrefab.transform.Find("Munin").gameObject;
+			var exc = Instantiate(exc_prb.GetComponentInChildren<Raven>().m_exclamation, Vector3.up*2, Quaternion.identity, go.transform);
+			exc.name="excOBJ";
+			exc.transform.localScale=Vector3.one*0.5f;
+
 
 			hum.m_defaultItems = new GameObject[]{
 				ZNetScene.instance.GetPrefab("ArmorTrollLeatherLegs"),
 				ZNetScene.instance.GetPrefab("HelmetTrollLeather"),
 				ZNetScene.instance.GetPrefab("CapeTrollHide"),
 				ZNetScene.instance.GetPrefab("ArmorTrollLeatherChest"),
-				//TrainingDummy
 
 			};
 			go.AddComponent<RandomNPC>();
+
+			//ADD exc
 
 			go.name = "HumanNPC";
 			PrefabManager.PrefabList.Add(go.name, go.gameObject);
