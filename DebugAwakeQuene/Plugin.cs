@@ -18,6 +18,7 @@ namespace DebugAwakeQuene
 		//heloot
 		//public static ConfigEntry<int> nexusID;
 		private static ManualLogSource logger;
+		Harmony _harmony;
 		#endregion
 
 		private void Awake()
@@ -25,6 +26,7 @@ namespace DebugAwakeQuene
 			Plugin.logger = base.Logger;
 
 			//Plugin.nexusID = base.Config.Bind<int>("General", "NexusID", 354, "Nexus mod ID for updates");
+			_harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), null);
 			Plugin.logger.LogInfo("name Loadded");
 		}
 		//?
