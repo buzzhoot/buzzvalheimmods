@@ -70,3 +70,11 @@
 //||X||Easter Egg
 //|| ||Rename//?ZDO
 //============== EndTODO=============
+
+//=================OP Rework TODO=============
+//|| ||Finish Human NPC visual
+//|| ||TrY Task Mark
+//|| ||Dungeon Hack
+//|| ||Hack Location system
+//|| ||Rework Quest method ref? or extension?
+//============== EndTODO=============
