@@ -101,7 +101,7 @@ namespace OdinPlus
 			Invoke("Choice"+index.ToString(),0f);
 			return true;
 		}
-		public virtual void Choice1()
+		public virtual void Choice0()
 		{
 			Say("Find me some <color=lightblue><b>BlueBerry</b></color> then i will tell you where to go");
 		}
