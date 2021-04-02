@@ -72,9 +72,10 @@
 //============== EndTODO=============
 
 //=================OP Rework TODO=============
+//|| ||Check 
 //|| ||Finish Human NPC visual
 //|| ||TrY Task Mark
-//|| ||Dungeon Hack
+//|| ||Dungeon Mark Derive form task mark
 //|| ||Hack Location system
 //|| ||Rework Quest method ref? or extension?
 //============== EndTODO=============
