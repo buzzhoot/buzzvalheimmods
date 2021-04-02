@@ -62,12 +62,14 @@ namespace OdinPlus
 
 			var vis = go.GetComponent<VisEquipment>();
 			var hum = go.GetComponent<Humanoid>();
+			vis.m_isPlayer = false;
 
 			hum.m_health = 1000;
 			hum.m_faction = Character.Faction.Boss;
 
 			//EXC
 			go.GetComponentInChildren<Animator>().SetBool("wakeup",false);//+
+			//+Delay EXC
 			//var exc_prb = Tutorial.instance.m_ravenPrefab.transform.Find("Munin").gameObject;
 			//var exc = Instantiate(exc_prb.GetComponentInChildren<Raven>().m_exclamation, Vector3.up*2, Quaternion.identity, go.transform);
 			//exc.name="excOBJ";
