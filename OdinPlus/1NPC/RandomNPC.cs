@@ -48,14 +48,21 @@ namespace OdinPlus
 		}
 		protected virtual void SetupVisual()
 		{
-			m_vis.m_beardItem = m_beardItem.GetRandomElement();
-			m_vis.m_hairItem = m_hairItem.GetRandomElement();
-			m_vis.m_helmetItem = m_helmetItem.GetRandomElement();
-			m_vis.m_chestItem = m_chestItem.GetRandomElement();
-			m_vis.m_shoulderItem = m_chestItem.GetRandomElement();
-			m_vis.m_legItem = m_legItem.GetRandomElement();
-			m_vis.m_modelIndex = 2.RollDices();
-			m_vis.m_skinColor = new Vector3(1f.RollDices(), 1f.RollDices(), 1);
+			SetItem("BeardItem",m_beardItem);
+			SetItem("HairItem",m_hairItem);
+			if (m_helmetItem!=new string[]{""})
+			{
+				SetItem("HelmetItem",m_helmetItem);
+			}
+			SetItem("ChestItem",m_chestItem);
+			SetItem("ShoulderItem",m_shoulderItem);
+			SetItem("LegItem",m_legItem);
+			//m_vis.m_modelIndex = 2.RollDices();
+			//m_vis.m_skinColor = new Vector3(1f.RollDices(), 1f.RollDices(), 1);
+		}
+		protected void SetItem(string slot, string[] items)
+		{
+			m_nview.GetZDO().Set(slot,items.GetRandomElement().GetStableHashCode());
 		}
 
 		private void RemoveUnusedComp()
