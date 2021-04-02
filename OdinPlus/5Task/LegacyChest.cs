@@ -9,6 +9,8 @@ namespace OdinPlus
 		private ZNetView m_nview;
 		public string ID = "";
 		public bool Placing = false;
+		public bool isPublic = false;
+		public string OwenerID = "";
 		private Transform m_task;
 		private Container m_container;
 		private void Start()
@@ -33,6 +35,7 @@ namespace OdinPlus
 				//Destroy(gameObject);
 			}
 
+
 		}
 		private void Update()
 		{
@@ -48,6 +51,16 @@ namespace OdinPlus
 				Instantiate(NpcManager.RavenPrefab.GetComponent<Raven>().m_despawnEffect.m_effectPrefabs[0].m_prefab, gameObject.transform.position, Quaternion.identity);
 				ZNetScene.instance.Destroy(gameObject);
 			}
+		}
+		public void OnOpen(Humanoid user)
+		{
+			if (user.m_name==OwenerID)
+			{
+				//+ finish
+				return;
+			}
+			//+Stoled
+
 		}
 	}
 }

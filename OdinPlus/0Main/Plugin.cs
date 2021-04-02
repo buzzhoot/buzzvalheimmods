@@ -49,7 +49,7 @@ namespace OdinPlus
 			CFG_OdinPosition = base.Config.Bind<Vector3>("2Server set only", "Odin position", Vector3.zero);
 			CFG_ForceOdinPosition = base.Config.Bind<bool>("2Server set only", "Force Odin Position", false);
 
-			RegRPC=(Action)ReigsterRpc;
+			RegRPC = (Action)ReigsterRpc;
 
 			_harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), null);
 
@@ -391,7 +391,22 @@ namespace OdinPlus
 		}
 
 		#endregion znet
-		#endregion
+		#region container
+		[HarmonyPatch(typeof(Container), "Interact")]
+		private static class Postfix_Container_Interact
+		{
+			private static void Postfix(Container __instance,Humanoid user,bool hold)
+			{
+			var a = __instance.GetComponent<LegacyChest>();
+				if (a)
+				{
+					
+				}
+			}
+		}
+		#endregion container
+
+		#endregion patch
 
 		#region Tool
 		public static bool CheckPlayerNull(bool log = false)
