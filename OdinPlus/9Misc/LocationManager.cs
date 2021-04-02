@@ -18,7 +18,7 @@ namespace OdinPlus
 		private void Awake()
 		{
 			instance = this;
-			Plugin.posZnet = (Action)Delegate.Combine(Plugin.posZnet, (Action)initRPC);
+			Plugin.RegRPC= (Action)Delegate.Combine(Plugin.RegRPC, (Action)initRPC);
 		}
 		public static void Init()
 		{

@@ -35,7 +35,7 @@ namespace OdinPlus
 
 		#region Actions
 		public static Action posZone;
-		public static Action posZnet;
+		public static Action RegRPC;
 		public static Action<ObjectDB> preODB;
 		#endregion Actions
 
@@ -48,6 +48,9 @@ namespace OdinPlus
 			KS_SecondInteractkey = base.Config.Bind<KeyboardShortcut>("1Hotkeys", "Second Interact key", new KeyboardShortcut(KeyCode.G));
 			CFG_OdinPosition = base.Config.Bind<Vector3>("2Server set only", "Odin position", Vector3.zero);
 			CFG_ForceOdinPosition = base.Config.Bind<bool>("2Server set only", "Force Odin Position", false);
+
+			RegRPC=(Action)ReigsterRpc;
+
 			_harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), null);
 
 			//-- init here
@@ -62,6 +65,10 @@ namespace OdinPlus
 			DBG.blogInfo("OdinPlus Loadded");
 		}
 
+		public static void ReigsterRpc()
+		{
+			DBG.blogWarning("Starting reg rpc");
+		}
 		private void OnDestroy()
 		{
 			if (_harmony != null) _harmony.UnpatchSelf();
@@ -342,7 +349,7 @@ namespace OdinPlus
 		{
 			private static void Postfix()
 			{
-				if (posZone!=null)
+				if (posZone != null)
 				{
 					posZone();
 				}
@@ -378,11 +385,11 @@ namespace OdinPlus
 		{
 			private static void Postfix()
 			{
-				posZnet();
+				RegRPC();
 				LocationManager.RequestServerFop();
 			}
 		}
-		
+
 		#endregion znet
 		#endregion
 

@@ -118,7 +118,6 @@ namespace OdinPlus
 
 			LocationManager.Init();
 			OdinPlus.InitNPC();
-			TaskManager.instance.ReigsterRpc();
 			if (ZNet.instance.IsDedicated() && ZNet.instance.IsServer())
 			{
 				OdinData.loadOdinData(ZNet.instance.GetWorldName());
@@ -256,7 +255,8 @@ namespace OdinPlus
 			Root.AddComponent<TaskManager>();
 			Root.AddComponent<LocationManager>();
 			Root.AddComponent<FxAssetManager>();
-
+			TaskManager.instance.ReigsterRpc();
+			Plugin.RegRPC();
 
 			isInit = true;
 
@@ -269,6 +269,7 @@ namespace OdinPlus
 			}
 			PostZone();
 			PostZNS();
+			
 			NpcManager.RavenPrefab = Tutorial.instance.m_ravenPrefab.transform.Find("Munin").gameObject;
 			InitNPC();
 			isLoaded = true;
