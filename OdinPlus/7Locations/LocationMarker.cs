@@ -15,6 +15,7 @@ namespace OdinPlus
 		private Vector3 m_pos;
 		private void Awake()
 		{
+			//ADD
 			m_nview=GetComponent<ZNetView>();
 			m_locationProxy= transform.parent.GetComponent<LocationProxy>();
 			m_pos=m_locationProxy.transform.position;

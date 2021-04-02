@@ -72,7 +72,7 @@
 //============== EndTODO=============
 
 //=================OP Rework TODO=============
-//|| ||Check 
+//||X||Check 
 //|| ||Finish Human NPC visual
 //|| ||TrY Task Mark
 //|| ||Dungeon Mark Derive form task mark
