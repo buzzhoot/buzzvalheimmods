@@ -392,18 +392,18 @@ namespace OdinPlus
 
 		#endregion znet
 		#region container
-		[HarmonyPatch(typeof(Container), "Interact")]
+/* 		[HarmonyPatch(typeof(Container), "Interact")]
 		private static class Postfix_Container_Interact
 		{
-			private static void Postfix(Container __instance,Humanoid user,bool hold)
+			private static void Postfix(Container __instance,Humanoid character,bool hold)
 			{
 			var a = __instance.GetComponent<LegacyChest>();
 				if (a)
 				{
-					
+					//add
 				}
 			}
-		}
+		} */
 		#endregion container
 
 		#endregion patch
