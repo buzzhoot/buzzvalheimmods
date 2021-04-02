@@ -18,12 +18,13 @@ namespace BuzzValheimTemplate
             //heloot
             //public static ConfigEntry<int> nexusID;
              private static ManualLogSource logger;
+             Harmony _harmony;
         #endregion
        
 		private void Awake()
 		{
 		Plugin.logger = base.Logger;
-        
+        _harmony = Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), null);
         //Plugin.nexusID = base.Config.Bind<int>("General", "NexusID", 354, "Nexus mod ID for updates");
         Plugin.logger.LogInfo("name Loadded"); 
 		}

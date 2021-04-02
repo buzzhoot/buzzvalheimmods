@@ -36,6 +36,7 @@ namespace OdinPlus
 			Root = new GameObject("TaskRoot");
 			Root.transform.SetParent(OdinPlus.Root.transform);
 			MyTasks = new List<ClientTaskData>();
+			Plugin.RegRPC=(Action)Delegate.Combine(Plugin.RegRPC,(Action)ReigsterRpc);
 		}
 		public void ReigsterRpc()
 		{
