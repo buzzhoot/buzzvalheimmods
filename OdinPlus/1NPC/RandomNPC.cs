@@ -16,7 +16,7 @@ namespace OdinPlus
 		#region var
 
 		#region Visuals
-		public static string[] NPCnames = { "$op_npc_name1", "$op_npc_name2", "$op_npc_name3", "$op_npc_name4", "$op_npc_name5", "$op_npc_name6", "$op_npc_name7", "$op_npc_name8", "$op_npc_name9", "$op_npc_name10", "$op_npc_name11", "$op_npc_name12", "$op_npc_name13", "$op_npc_name14", "$op_npc_name15", "$op_npc_name16", "$op_npc_name17", "$op_npc_name18", "$op_npc_name19", "$op_npc_name20", "$op_npc_name21", "$op_npc_name22", "$op_npc_name23", "$op_npc_name24", "$op_npc_name25", "$op_npc_name26", "$op_npc_name27", "$op_npc_name28", "$op_npc_name29", "$op_npc_name30" };
+		public static string[] NPCnames = { "$op_npc_name1", "$op_npc_name2", "$op_npc_name3", "$op_npc_name4", "$op_npc_name5", "$op_npc_name6", "$op_npc_name7", "$op_npc_name8", "$op_npc_name9", "$op_npc_name10", "$op_npc_name11", "$op_npc_name12", "$op_npc_name13", "$op_npc_name14", "$op_npc_name15", "$op_npc_name16", "$op_npc_name17", "$op_npc_name18", "$op_npc_name19", "$op_npc_name20", "$op_npc_name21", "$op_npc_name22", "$op_npc_name23", "$op_npc_name24", "$op_npc_name25", "$op_npc_name26", "$op_npc_name27", "$op_npc_name28", "$op_npc_name29", "$op_npc_name30", "$op_npc_name31", "$op_npc_name32", "$op_npc_name33", "$op_npc_name34", "$op_npc_name35", "$op_npc_name36", "$op_npc_name37", "$op_npc_name38", "$op_npc_name39", "$op_npc_name40", "$op_npc_name41", "$op_npc_name42", "$op_npc_name43", "$op_npc_name44", "$op_npc_name45", "$op_npc_name46", "$op_npc_name47", "$op_npc_name48", "$op_npc_name49", "$op_npc_name50" };
 		public string[] m_beardItem = { "Beard2", "Beard3", "Beard4", "Beard5", "Beard6", "Beard7", "Beard8", "Beard9", "Beard10" };
 		public string[] m_hairItem = { "Hair1", "Hair2", "Hair3", "Hair4", "Hair5", "Hair6", "Hair7", "Hair8", "Hair9", "Hair10" };
 		public string[] m_helmetItem = { "" };
@@ -29,7 +29,11 @@ namespace OdinPlus
 		#region ref
 		protected ZNetView m_nview;
 		protected VisEquipment m_vis;
+		protected Animator m_ani;
 		#endregion ref
+		#region Interal
+		public string[] ChoiceList = {"$op_talk"};
+		#endregion Interal
 		#endregion var
 
 
@@ -37,32 +41,38 @@ namespace OdinPlus
 		{
 			m_talker = gameObject;
 			m_nview = GetComponent<ZNetView>();
+			m_ani = GetComponentInChildren<Animator>();
 			Util.seed = (int)((gameObject.transform.position.x + gameObject.transform.position.y) * 1000);
+			SetName();
 			SetupVisual();
 			RemoveUnusedComp();
 
 		}
-		protected virtual void SetName(string name)
+		protected virtual void SetName()
 		{
 			m_name = m_nview.GetZDO().GetString("op_npcname", NPCnames.GetRandomElement());
 		}
 		protected virtual void SetupVisual()
 		{
-			SetItem("BeardItem",m_beardItem);
-			SetItem("HairItem",m_hairItem);
-			if (m_helmetItem!=new string[]{""})
+			SetItem("BeardItem", m_beardItem);
+			SetItem("HairItem", m_hairItem);
+			if (m_helmetItem != new string[] { "" })
 			{
-				SetItem("HelmetItem",m_helmetItem);
+				SetItem("HelmetItem", m_helmetItem);
 			}
-			SetItem("ChestItem",m_chestItem);
-			SetItem("ShoulderItem",m_shoulderItem);
-			SetItem("LegItem",m_legItem);
-			//m_vis.m_modelIndex = 2.RollDices();
+			SetItem("ChestItem", m_chestItem);
+			SetItem("ShoulderItem", m_shoulderItem);
+			SetItem("LegItem", m_legItem);
+			m_nview.GetZDO().GetInt("ModelIndex", 2.RollDices());
+			m_nview.GetZDO().GetVec3("HairColor", new Vector3(1f.RollDices(), 1f.RollDices(), 1f.RollDices()));
+			m_nview.GetZDO().GetVec3("SkinColor", new Vector3(1f.RollDices(), 1f.RollDices(), 1f.RollDices()));
+			Traverse.Create(m_vis).Field<Vector3>("m_hairColor").Value = new Vector3(1f.RollDices(), 1f.RollDices(), 1f.RollDices());
+			Traverse.Create(m_vis).Field<Vector3>("m_skinColor").Value = new Vector3(1f.RollDices(), 1f.RollDices(), 1f.RollDices());
 			//m_vis.m_skinColor = new Vector3(1f.RollDices(), 1f.RollDices(), 1);
 		}
 		protected void SetItem(string slot, string[] items)
 		{
-			m_nview.GetZDO().Set(slot,items.GetRandomElement().GetStableHashCode());
+			m_nview.GetZDO().Set(slot, items.GetRandomElement().GetStableHashCode());
 		}
 
 		private void RemoveUnusedComp()
@@ -80,6 +90,7 @@ namespace OdinPlus
 			text = Localization.instance.Localize(text);
 			var tname = Localization.instance.Localize(m_name);
 			Chat.instance.SetNpcText(m_talker, Vector3.up * 1.5f, 60f, 5, tname, text, false);
+			m_ani.SetTrigger("emote_wave");
 		}
 		public override bool Interact(Humanoid user, bool hold)
 		{

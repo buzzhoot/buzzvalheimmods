@@ -65,10 +65,12 @@ namespace OdinPlus
 			DestroyImmediate(hum);
 			//DestroyImmediate(go.GetComponent<ZSyncAnimation>());
 			//DestroyImmediate(go.GetComponent<ZSyncTransform>());
+			DestroyImmediate(go.GetComponentInChildren<CharacterAnimEvent>());
 			//hum.m_health = 1000;
 			//hum.m_faction = Character.Faction.Boss;
 
 			//EXC
+			go.AddComponent<StaticPhysics>();
 			go.GetComponentInChildren<Animator>().SetBool("wakeup",false);//+
 			//+Delay EXC
 			//var exc_prb = Tutorial.instance.m_ravenPrefab.transform.Find("Munin").gameObject;
