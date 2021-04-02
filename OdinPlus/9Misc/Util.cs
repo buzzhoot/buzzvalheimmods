@@ -143,6 +143,8 @@ namespace OdinPlus
 		#endregion Reflection
 
 		#region  game
+#region RollDice 
+
 		public static float RollDice(this float val)
 		{
 			UnityEngine.Random.InitState((int)((Time.time + val) * 1000));
@@ -163,8 +165,26 @@ namespace OdinPlus
 			UnityEngine.Random.InitState((int)((Time.time + val) * 1000));
 			return (UnityEngine.Random.Range(val, max));
 		}
+		public static int seed = 0;
+		public static float RollDices(this float val)
+		{
+			UnityEngine.Random.InitState((int)((Time.time + val) * 1000)+seed);
+			return val * UnityEngine.Random.value;
+		}
+		public static int RollDices(this int val)
+		{
+			UnityEngine.Random.InitState((int)((Time.time + val) * 1000)+seed);
+			return Mathf.FloorToInt(UnityEngine.Random.Range(0, val - 0.0001f));
+		}
+		//100d6 大失败！！！！！
 
-		//5d6 大失败！！！！！
+#endregion
+
+		
+		public static string GetRandomElement(this string[] array)
+		{
+			return array[array.Length.RollDices()];
+		}
 		public static Vector3 GetRandomLocation(this Vector3 pos, float range)
 		{
 			float seed = Time.time;
