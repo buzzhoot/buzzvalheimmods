@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -15,7 +15,7 @@ namespace BuzzValheimTemplate
 	public class Plugin:BaseUnityPlugin
 	{
         #region Var
-            
+            //heloot
             //public static ConfigEntry<int> nexusID;
              private static ManualLogSource logger;
         #endregion
