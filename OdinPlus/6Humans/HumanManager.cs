@@ -14,7 +14,7 @@ namespace OdinPlus
 		public static Dictionary<string, GameObject> PrefabList = new Dictionary<string, GameObject>();
 		public static GameObject BasicHuman;
 		public static string[] Weapons = { "AtgeirBlackmetal", "AtgeirBronze", "AtgeirIron", "Battleaxe", "KnifeBlackMetal", "KnifeChitin", "KnifeCopper", "KnifeFlint", "MaceBronze", "MaceIron", "MaceNeedle", "MaceSilve", "SledgeIron", "SledgeStagbreaker", "SpearBronze", "SpearElderbark", "SpearFlint", "SpearWolfFang", "SwordBlackmetal", "SwordBronze", "SwordCheat", "SwordIron", "SwordIronFire", "SwordSilver", "AtgeirBlackmetal", "AtgeirBronze", "AtgeirIron", "Battleaxe", "KnifeBlackMetal", "KnifeChitin", "KnifeCopper", "KnifeFlint", "MaceBronze", "MaceIron", "MaceNeedle", "MaceSilver" };
-		public static string[] Armor = { "ArmorBronzeChest", "ArmorBronzeLegs", "ArmorIronChest", "ArmorIronLegs", "ArmorLeatherChest", "ArmorLeatherLegs", "ArmorPaddedCuirass", "ArmorPaddedGreaves", "ArmorRagsChest", "ArmorRagsLegs", "ArmorTrollLeatherChest", "ArmorTrollLeatherLegs", "ArmorWolfChest", "ArmorWolfLegs", "CapeDeerHide", "CapeLinen", "CapeLox", "CapeOdin", "CapeTest", "CapeTrollHide", "CapeWolf", "HelmetBronze", "HelmetDrake", "HelmetDverger", "HelmetIron", "HelmetLeather", "HelmetOdin", "HelmetPadded", "HelmetTrollLeather", "HelmetYule" };
+		public static string[] Armor = { "ArmorBronzeChest", "ArmorBronzeLegs", "ArmorIronChest", "ArmorIronLegs", "ArmorLeatherChest", "ArmorLeatherLegs", "ArmorPaddedCuirass", "ArmorPaddedGreaves", "ArmorRagsChest", "ArmorRagsLegs", "ArmorTrollLeatherChest", "ArmorTrollLeatherLegs", "ArmorWolfChest", "ArmorWolfLegs", "CapeDeerHide", "CapeLinen", "CapeLox", "CapeTest", "CapeTrollHide", "CapeWolf", "HelmetBronze", "HelmetDrake", "HelmetDverger", "HelmetIron", "HelmetLeather","HelmetPadded", "HelmetTrollLeather", "HelmetYule" };
 		public static string[] Shield = { "ShieldBanded", "ShieldBlackmetal", "ShieldBlackmetalTower", "ShieldBronzeBuckler", "ShieldIronSquare", "ShieldIronTower", "ShieldKnight", "ShieldSerpentscale", "ShieldSilver", "ShieldWood", "ShieldWoodTower" };
 
 		public static void Init()
@@ -62,10 +62,11 @@ namespace OdinPlus
 
 			var vis = go.GetComponent<VisEquipment>();
 			var hum = go.GetComponent<Humanoid>();
-			vis.m_isPlayer = false;
-
-			hum.m_health = 1000;
-			hum.m_faction = Character.Faction.Boss;
+			DestroyImmediate(hum);
+			DestroyImmediate(go.GetComponent<ZSyncAnimation>());
+			DestroyImmediate(go.GetComponent<ZSyncTransform>());
+			//hum.m_health = 1000;
+			//hum.m_faction = Character.Faction.Boss;
 
 			//EXC
 			go.GetComponentInChildren<Animator>().SetBool("wakeup",false);//+
@@ -75,15 +76,11 @@ namespace OdinPlus
 			//exc.name="excOBJ";
 			//exc.transform.localScale=Vector3.one*0.5f;
 
-
-			hum.m_defaultItems = new GameObject[]{
-				ZNetScene.instance.GetPrefab("ArmorTrollLeatherLegs"),
-				ZNetScene.instance.GetPrefab("HelmetTrollLeather"),
-				ZNetScene.instance.GetPrefab("CapeTrollHide"),
-				ZNetScene.instance.GetPrefab("ArmorTrollLeatherChest"),
-
-			};
-			go.AddComponent<RandomNPC>();
+			var hnpc = go.AddComponent<HumanNPC>();
+			hnpc.m_shoulderItem=new string[]{"CapeTrollHide","CapeDeerHide"};
+			hnpc.m_chestItem=new string[]{"ArmorTrollLeatherLegs","ArmorLeatherChest"};
+			hnpc.m_legItem=new string[]{"ArmorTrollLeatherLegs", "ArmorLeatherLegs"};
+			
 
 			//ADD exc
 
