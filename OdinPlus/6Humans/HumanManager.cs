@@ -63,8 +63,8 @@ namespace OdinPlus
 			var vis = go.GetComponent<VisEquipment>();
 			var hum = go.GetComponent<Humanoid>();
 			DestroyImmediate(hum);
-			DestroyImmediate(go.GetComponent<ZSyncAnimation>());
-			DestroyImmediate(go.GetComponent<ZSyncTransform>());
+			//DestroyImmediate(go.GetComponent<ZSyncAnimation>());
+			//DestroyImmediate(go.GetComponent<ZSyncTransform>());
 			//hum.m_health = 1000;
 			//hum.m_faction = Character.Faction.Boss;
 

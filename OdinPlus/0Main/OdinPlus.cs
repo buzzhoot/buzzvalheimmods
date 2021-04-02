@@ -256,8 +256,8 @@ namespace OdinPlus
 			Root.AddComponent<TaskManager>();
 			Root.AddComponent<LocationManager>();
 			Root.AddComponent<FxAssetManager>();
-			TaskManager.instance.ReigsterRpc();
-			Plugin.RegRPC();
+			//TaskManager.instance.ReigsterRpc();
+			//Plugin.RegRPC();
 
 			isInit = true;
 
