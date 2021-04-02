@@ -63,11 +63,9 @@ namespace OdinPlus
 			SetItem("ChestItem", m_chestItem);
 			SetItem("ShoulderItem", m_shoulderItem);
 			SetItem("LegItem", m_legItem);
-			m_nview.GetZDO().GetInt("ModelIndex", 2.RollDices());
-			m_nview.GetZDO().GetVec3("HairColor", new Vector3(1f.RollDices(), 1f.RollDices(), 1f.RollDices()));
-			m_nview.GetZDO().GetVec3("SkinColor", new Vector3(1f.RollDices(), 1f.RollDices(), 1f.RollDices()));
-			Traverse.Create(m_vis).Field<Vector3>("m_hairColor").Value = new Vector3(1f.RollDices(), 1f.RollDices(), 1f.RollDices());
-			Traverse.Create(m_vis).Field<Vector3>("m_skinColor").Value = new Vector3(1f.RollDices(), 1f.RollDices(), 1f.RollDices());
+			Traverse.Create(m_vis).Field<int>("m_modelIndex").Value=m_nview.GetZDO().GetInt("ModelIndex", 2.RollDices());
+			Traverse.Create(m_vis).Field<Vector3>("m_hairColor").Value = m_nview.GetZDO().GetVec3("HairColor", new Vector3(1f.RollDices(), 1f.RollDices(), 1f.RollDices()));
+			Traverse.Create(m_vis).Field<Vector3>("m_skinColor").Value = m_nview.GetZDO().GetVec3("SkinColor", new Vector3(1f.RollDices(), 1f.RollDices(), 1f.RollDices()));
 			//m_vis.m_skinColor = new Vector3(1f.RollDices(), 1f.RollDices(), 1);
 		}
 		protected void SetItem(string slot, string[] items)
