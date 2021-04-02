@@ -155,6 +155,21 @@ namespace OdinPlus
 			return null;
 		}
 		#endregion Distance
+		#region Vector2i
+
+		public static string Pak(this Vector2i v2i)
+		{
+			return v2i.x.ToString() + "_" + v2i.y.ToString();
+		}
+		public static Vector2i ToV2I(this string str)
+		{
+			Vector2i val;
+			string[] a = str.Split(new char[] { '_' });
+			val.x = int.Parse(a[0]);
+			val.y = int.Parse(a[1]);
+			return val;
+		}
+		#endregion Vector2i
 	}
 
 }
