@@ -32,7 +32,9 @@ namespace OdinPlus
 		protected Animator m_ani;
 		#endregion ref
 		#region Interal
-		public string[] ChoiceList = {"$op_talk"};
+		public string[] ChoiceList = { "$op_talk" };
+		private int index = 0;
+		private string currentChoice = "";
 		#endregion Interal
 		#endregion var
 
@@ -46,7 +48,7 @@ namespace OdinPlus
 			SetName();
 			SetupVisual();
 			RemoveUnusedComp();
-
+			currentChoice = ChoiceList[index];
 		}
 		protected virtual void SetName()
 		{
@@ -63,7 +65,7 @@ namespace OdinPlus
 			SetItem("ChestItem", m_chestItem);
 			SetItem("ShoulderItem", m_shoulderItem);
 			SetItem("LegItem", m_legItem);
-			Traverse.Create(m_vis).Field<int>("m_modelIndex").Value=m_nview.GetZDO().GetInt("ModelIndex", 2.RollDices());
+			Traverse.Create(m_vis).Field<int>("m_modelIndex").Value = m_nview.GetZDO().GetInt("ModelIndex", 2.RollDices());
 			Traverse.Create(m_vis).Field<Vector3>("m_hairColor").Value = m_nview.GetZDO().GetVec3("HairColor", new Vector3(1f.RollDices(), 1f.RollDices(), 1f.RollDices()));
 			Traverse.Create(m_vis).Field<Vector3>("m_skinColor").Value = m_nview.GetZDO().GetVec3("SkinColor", new Vector3(1f.RollDices(), 1f.RollDices(), 1f.RollDices()));
 			//m_vis.m_skinColor = new Vector3(1f.RollDices(), 1f.RollDices(), 1);
@@ -75,7 +77,7 @@ namespace OdinPlus
 
 		private void RemoveUnusedComp()
 		{
-			foreach (var comp in gameObject.GetComponents<Component>())
+			foreach (var comp in gameObject.GetComponents<UnityEngine.Component>())
 			{
 				if (!(comp is Transform) && !(comp is HumanNPC) && !(comp is CapsuleCollider) && !(comp is ZNetView) && !(comp is VisEquipment))
 				{
@@ -96,17 +98,27 @@ namespace OdinPlus
 			{
 				return false;
 			}
-			Say("Find me some <color=lightblue><b>BlueBerry</b></color> then i will tell you where to go");
+			Invoke("Choice"+index.ToString(),0f);
 			return true;
+		}
+		public virtual void Choice1()
+		{
+			Say("Find me some <color=lightblue><b>BlueBerry</b></color> then i will tell you where to go");
 		}
 		public override void SecondaryInteract(Humanoid user)
 		{
-
+			index += 1;
+			if (index + 1 > ChoiceList.Length)
+			{
+				index = 0;
+			}
+			currentChoice = ChoiceList[index];
 		}
 		public override string GetHoverText()
 		{
 			string n = string.Format("<color=lightblue><b>{0}</b></color>", m_name);
 			n += string.Format("\n<color=green><b>Credits:{0}</b></color>", OdinData.Credits);
+			n += "\n[<color=yellow><b>$KEY_Use</b></color>]" + currentChoice;
 			n += "\n[<color=yellow><b>1-8</b></color>]$op_offer";
 			n += String.Format("\n<color=yellow><b>[{0}]</b></color>$op_switch", Plugin.KS_SecondInteractkey.Value.MainKey.ToString());
 			return Localization.instance.Localize(n);
