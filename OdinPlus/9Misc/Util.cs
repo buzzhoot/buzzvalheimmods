@@ -168,11 +168,13 @@ namespace OdinPlus
 		public static int seed = 0;
 		public static float RollDices(this float val)
 		{
+			seed+=1;
 			UnityEngine.Random.InitState((int)((Time.time + val) * 1000)+seed);
 			return val * UnityEngine.Random.value;
 		}
 		public static int RollDices(this int val)
 		{
+			seed+=1;
 			UnityEngine.Random.InitState((int)((Time.time + val) * 1000)+seed);
 			return Mathf.FloorToInt(UnityEngine.Random.Range(0, val - 0.0001f));
 		}
