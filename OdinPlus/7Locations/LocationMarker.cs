@@ -9,6 +9,7 @@ namespace OdinPlus
 		public static Dictionary<string,LocationMarker> MarkList =new Dictionary<string, LocationMarker> ();
 		private List<Container> m_container = new List<Container>();
 		public string ID = "";
+		public bool used = false;
 		private ZNetView m_nview;
 		private LocationProxy m_locationProxy;
 		private Vector3 m_pos;

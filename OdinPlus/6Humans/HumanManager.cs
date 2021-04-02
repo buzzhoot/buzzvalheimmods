@@ -67,7 +67,7 @@ namespace OdinPlus
 			hum.m_faction = Character.Faction.Boss;
 
 			//EXC
-			
+			go.GetComponent<Animator>().SetBool("wakeup",false);//+
 			var exc_prb = Tutorial.instance.m_ravenPrefab.transform.Find("Munin").gameObject;
 			var exc = Instantiate(exc_prb.GetComponentInChildren<Raven>().m_exclamation, Vector3.up*2, Quaternion.identity, go.transform);
 			exc.name="excOBJ";
