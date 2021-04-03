@@ -13,6 +13,7 @@ namespace OdinPlus
 		#region Setting
 		public string ID = "";
 		public string owner = "";
+		public bool isDungeon = false;
 		#endregion Setting
 		#region Internal
 		private ZNetView m_nview;
@@ -45,7 +46,11 @@ namespace OdinPlus
 			}
 			if (m_nview.IsOwner())
 			{
-				//DxBG.blogWarning("I am Owner");
+				if (isDungeon)
+				{
+					var ctns = transform.parent.GetComponentsInChildren<Container>();
+					DBG.blogWarning("Found ctn: " + ctns.Length);
+				}
 			}
 			else
 			{
@@ -66,12 +71,13 @@ namespace OdinPlus
 			m_nview.GetZDO().Set("Used", true);
 		}
 
-		#region Start
+		#region static
 		public static void CreatePrefab()
 		{
 			//GameObject go = new GameObject("LocMark");
 			var go = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-			go.name= ("LocMark");
+			go.GetComponent<Renderer>().material.color = Color.red;
+			go.name = ("LocMark");
 			go.transform.SetParent(OdinPlus.PrefabParent.transform);
 			go.AddComponent<LocationMarker>();
 			var zv = go.AddComponent<ZNetView>();
@@ -92,13 +98,32 @@ namespace OdinPlus
 				var par = locPar.GetChild(i);
 				for (int k = 0; k < par.childCount; k++)
 				{
-					var go = Instantiate(Prefab, par.GetChild(k));
-					go.name = ("LocMark");
-					DBG.blogWarning(go.transform.parent.name + " Hacked");
+					var par2 = par.GetChild(k);
+					var dgg = par.GetComponentInChildren<DungeonGenerator>();
+					if (dgg)
+					{
+						var go = Instantiate(Prefab, dgg.transform);
+						go.name = ("LocMark");
+						go.GetComponent<LocationMarker>().isDungeon = true;
+						DBG.blogWarning("Hack Dungeon" + par2.name);
+						continue;
+					}
+					var go2 = Instantiate(Prefab, par2);
+					go2.name = ("LocMark");
+
 				}
 			}
 		}
 		#endregion Start
+
+		#region Debug
+		public void WatchMe()
+		{
+			GameCamera.instance.transform.localPosition = transform.position+Vector3.forward*1;
+		}
+		#endregion Debug
+
+		//EndClass
 	}
 }
 
