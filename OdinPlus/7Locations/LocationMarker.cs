@@ -51,7 +51,7 @@ namespace OdinPlus
 			{
 				DBG.blogWarning("I am not owner");
 			}
-			m_locationProxy = transform.parent.GetComponent<LocationProxy>();
+			m_locationProxy = transform.parent.parent.GetComponent<LocationProxy>();
 			m_pos = m_locationProxy.transform.position;
 			DBG.blogWarning("Mark report zdo get");
 			MarkList.Add(ID, this);
