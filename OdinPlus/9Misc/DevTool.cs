@@ -143,7 +143,7 @@ namespace OdinPlus
 		#endregion Mono
 
 		#region Gui
-		Rect windowRect = new Rect(20, 20, 200, 400);
+		Rect windowRect = new Rect(200, 200, 200, 400);
 		public bool ShowWindow = true;
 		private void OnGUI()
 		{

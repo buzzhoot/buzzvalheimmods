@@ -55,7 +55,7 @@ namespace OdinPlus
 			PrefabParent = new GameObject("OdinPlusPrefabs");
 			PrefabParent.SetActive(false);
 			PrefabParent.transform.SetParent(Root.transform);
-			LocationMarker.CreatePrefab();
+			
 
 			Plugin.preODB = (Action<ObjectDB>)Delegate.Combine(Plugin.preODB, (Action<ObjectDB>)PreODB);
 

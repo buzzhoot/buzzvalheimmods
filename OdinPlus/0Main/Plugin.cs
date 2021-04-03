@@ -360,7 +360,7 @@ namespace OdinPlus
 		{
 		private static void Prefix()
 		{
-			LocationMarker.HackLoctaions();
+			//LocationMarker.HackLoctaions();
 		}
 		}
 

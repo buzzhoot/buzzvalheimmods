@@ -8,12 +8,12 @@ namespace OdinPlus
 	{
 		#region Var
 		public static Dictionary<string, LocationMarker> MarkList = new Dictionary<string, LocationMarker>();
+		public static Dictionary<string, LocationMarker> DubList = new Dictionary<string, LocationMarker>();
 		public static GameObject Prefab;
 
 		#region Setting
 		public string ID = "";
 		public string owner = "";
-		public bool isDungeon = false;
 		#endregion Setting
 		#region Internal
 		private ZNetView m_nview;
@@ -39,24 +39,27 @@ namespace OdinPlus
 				return;
 			}
 			ID = ZoneSystem.instance.GetZone(transform.position).Pak();
-			if (m_nview.GetZDO().GetBool("Used", false))
+
+			if (transform.GetComponentInParent<DungeonGenerator>())
 			{
-				ZNetScene.instance.Destroy(gameObject);
-				//add remove list
-			}
-			if (m_nview.IsOwner())
-			{
-				if (isDungeon)
+				var ctns = transform.parent.GetComponentsInChildren<Container>(true);
+				if (ctns == null)
 				{
-					var ctns = transform.parent.GetComponentsInChildren<Container>();
+					DBG.blogWarning("Can't Find Container");
+				}
+				else
+				{
 					DBG.blogWarning("Found ctn: " + ctns.Length);
 				}
 			}
+			if (MarkList.ContainsKey(ID))
+			{
+				DubList.Add(ID, this);
+			}
 			else
 			{
-				//DBxG.blogWarning("I am not owner");
+				MarkList.Add(ID, this);
 			}
-			MarkList.Add(ID, this);
 		}
 		private void Start()
 		{
@@ -76,6 +79,7 @@ namespace OdinPlus
 		{
 			//GameObject go = new GameObject("LocMark");
 			var go = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+			go.transform.localScale = Vector3.one * 3;
 			go.GetComponent<Renderer>().material.color = Color.red;
 			go.name = ("LocMark");
 			go.transform.SetParent(OdinPlus.PrefabParent.transform);
@@ -99,17 +103,19 @@ namespace OdinPlus
 				for (int k = 0; k < par.childCount; k++)
 				{
 					var par2 = par.GetChild(k);
-					var dgg = par.GetComponentInChildren<DungeonGenerator>();
+					var dgg = par2.GetComponentInChildren<DungeonGenerator>();
 					if (dgg)
 					{
 						var go = Instantiate(Prefab, dgg.transform);
 						go.name = ("LocMark");
-						go.GetComponent<LocationMarker>().isDungeon = true;
 						DBG.blogWarning("Hack Dungeon" + par2.name);
-						continue;
 					}
-					var go2 = Instantiate(Prefab, par2);
-					go2.name = ("LocMark");
+					else
+					{
+						var go2 = Instantiate(Prefab, par2);
+						go2.name = ("LocMark");
+					}
+
 
 				}
 			}
@@ -119,7 +125,7 @@ namespace OdinPlus
 		#region Debug
 		public void WatchMe()
 		{
-			GameCamera.instance.transform.localPosition = transform.position+Vector3.forward*1;
+			GameCamera.instance.transform.localPosition = transform.position + Vector3.forward * 1;
 		}
 		#endregion Debug
 
