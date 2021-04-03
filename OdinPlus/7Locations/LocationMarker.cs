@@ -45,15 +45,12 @@ namespace OdinPlus
 			}
 			if (m_nview.IsOwner())
 			{
-				DBG.blogWarning("I am Owner");
+				//DxBG.blogWarning("I am Owner");
 			}
 			else
 			{
-				DBG.blogWarning("I am not owner");
+				//DBxG.blogWarning("I am not owner");
 			}
-			m_locationProxy = transform.parent.parent.GetComponent<LocationProxy>();
-			m_pos = m_locationProxy.transform.position;
-			DBG.blogWarning("Mark report zdo get");
 			MarkList.Add(ID, this);
 		}
 		private void Start()
@@ -72,15 +69,23 @@ namespace OdinPlus
 		#region Start
 		public static void CreatePrefab()
 		{
-			GameObject go = new GameObject("LocMark");
+			//GameObject go = new GameObject("LocMark");
+			var go = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+			go.name= ("LocMark");
 			go.transform.SetParent(OdinPlus.PrefabParent.transform);
 			go.AddComponent<LocationMarker>();
-			go.AddComponent<ZNetView>();
+			var zv = go.AddComponent<ZNetView>();
+			zv.m_persistent = true;
+			zv.m_type = ZDO.ObjectType.Solid;
 			PrefabManager.PrefabList.Add(go.name, go);
 			Prefab = go;
 		}
 		public static void HackLoctaions()
 		{
+			if (!ZNet.instance.IsServer())
+			{
+				return;
+			}
 			var locPar = GameObject.Find("/_Locations").transform;
 			for (int i = 0; i < locPar.childCount; i++)
 			{
@@ -89,7 +94,7 @@ namespace OdinPlus
 				{
 					var go = Instantiate(Prefab, par.GetChild(k));
 					go.name = ("LocMark");
-					DBG.blogWarning(go.transform.parent.name+" Hacked");
+					DBG.blogWarning(go.transform.parent.name + " Hacked");
 				}
 			}
 		}
