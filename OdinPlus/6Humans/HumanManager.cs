@@ -256,7 +256,7 @@ namespace OdinPlus
 			var list = DungeonDB.GetRooms();
 			var go = list[0].m_room.transform.parent;
 			var a = go.GetComponentsInChildren<CreatureSpawner>(true);
-			Debug.Log(a.Length);
+			//Debug.Log(a.Length);
 			foreach (var item in a)
 			{
 				if (item.name.StartsWith("Spawner_Goblin"))
@@ -265,7 +265,7 @@ namespace OdinPlus
 					c.transform.localPosition = item.transform.localPosition;
 					item.m_creaturePrefab = PrefabList["HumanMobB"];
 					c.name = "SpawnHuman";
-					Debug.Log("hack campe");
+					//Debug.Log("hack campe");
 				}
 			}
 			//var a =  ZNetScene.instance.GetPrefab("Spawner_Goblin").GetComponent<CreatureSpawner>();

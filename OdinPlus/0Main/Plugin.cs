@@ -287,7 +287,6 @@ namespace OdinPlus
 					return;
 				}
 				{
-					HumanManager.HackCamp();//!
 					if (CheckPlayerNull() || OdinPlus.m_instance.isLoaded) { return; }
 					OdinData.loadOdinData(Player.m_localPlayer.GetPlayerName() + "_" + ZNet.instance.GetWorldName());
 				}

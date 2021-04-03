@@ -161,14 +161,12 @@ namespace OdinPlus
 		{
 			if (character == null)
 			{
-				Debug.Log("Cant find target");
 				return;
 			}
 			if (character.IsPlayer())
 			{
 				foreach (var item in HumanNPCS)
 				{
-					Debug.Log(((Player)character).GetHoverName());
 					item.ChangeFaction(Player.m_localPlayer);
 				}
 			}
@@ -176,13 +174,6 @@ namespace OdinPlus
 		public void ChangeFaction(Character target)
 		{
 			m_hum.m_faction = Character.Faction.PlainsMonsters;
-			//monsterAI.m_randomMoveInterval = 30;
-
-			//monsterAI.SetHuntPlayer(true);
-		}
-		public void HuntPlayer(Character c)
-		{
-
 		}
 		#region Debug
 
