@@ -136,29 +136,66 @@ namespace OdinPlus
 			}
 			if (Input.GetKeyDown(KeyCode.KeypadPeriod) && Input.GetKey(KeyCode.RightControl))
 			{
-				ShowWindow=!ShowWindow;
+				ShowWindow = !ShowWindow;
 			}
 		}
 
 		#endregion Mono
 
 		#region Gui
-		Rect windowRect = new Rect(200, 200, 200, 400);
-		public bool ShowWindow = true;
+		Rect windowRect = new Rect(200, 200, 400, 800);
+		public bool ShowWindow = false;
+		GUIStyle style;
 		private void OnGUI()
 		{
 			if (ShowWindow)
 			{
+				style = new GUIStyle();
+				style.fontSize = 30;
+				style.normal.textColor = Color.white;
+				GUI.backgroundColor = Color.black;
 				windowRect = GUILayout.Window(1219, windowRect, DevWindow, "Buzz Odin Plus Debug");
 			}
 		}
 		void DevWindow(int WindowID)
 		{
+
+			GUI.DragWindow(new Rect(0, 0, 400, 800));
+			
+			GUILayout.Width(400);
+			GUILayout.Height(50);
+			GUILayout.Label("welcom to use odin plus debug tool", style);
 			var player = Player.m_localPlayer;
-			if (player)
+			if (player != null)
 			{
-				GUILayout.Label("Zone: " + ZoneSystem.instance.GetZone(player.transform.position).ToString());
-				GUILayout.Label("Location: " + (player.transform.position).ToString());
+				var val = ZoneSystem.instance.GetZone(player.transform.position);
+				GUILayout.Label("Zone: " + val.ToString(), style);
+				GUILayout.Label("Location: " + (player.transform.position).ToString(), style);
+				if (ZNet.instance != null)
+				{
+					if (ZNet.instance.IsServer())
+					{
+						var dic = Traverse.Create(ZoneSystem.instance).Field<Dictionary<Vector2i, ZoneSystem.LocationInstance>>("m_locationInstances").Value;
+
+						if (dic.ContainsKey(val))
+						{
+							string locName = dic[ZoneSystem.instance.GetZone(player.transform.position)].m_location.m_prefabName;
+							GUILayout.Label(locName, style);
+						}
+						else
+						{
+							GUILayout.Label("No location here", style);
+						}
+					}
+					string lname = "";
+					lname = GUILayout.TextField(lname,style);
+					if (GUILayout.Button("FindLoctaion"))
+					{
+						Game.instance.DiscoverClosestLocation(lname,player.transform.position,lname,0);
+					}
+				}
+
+
 			}
 		}
 		#endregion Gui
@@ -170,6 +207,12 @@ namespace OdinPlus
 			Game.instance.DiscoverClosestLocation("Crypt4", Player.m_localPlayer.transform.position, "test", 1);
 			Minimap.PinData pinData = Enumerable.First<Minimap.PinData>((List<Minimap.PinData>)Traverse.Create(Minimap.instance).Field("m_pins").GetValue(), (Minimap.PinData p) => p.m_type == Minimap.PinType.None && p.m_name == "");
 			ZoneSystem.instance.FindClosestLocation("Crypt4", Player.m_localPlayer.transform.position, out dbginsa);
+		}
+		public static void findLoc(int x, int y)
+		{
+			var dic = Traverse.Create(ZoneSystem.instance).Field<Dictionary<Vector2i, ZoneSystem.LocationInstance>>("m_locationInstances").Value;
+			Vector2i val = new Vector2i(x, y);
+			dbginsa = dic[val];
 		}
 		public static void findLocPrefab()
 		{

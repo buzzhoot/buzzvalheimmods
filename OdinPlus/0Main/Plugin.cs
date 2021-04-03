@@ -363,6 +363,17 @@ namespace OdinPlus
 			//LocationMarker.HackLoctaions();
 		}
 		}
+		[HarmonyPatch(typeof(DungeonGenerator), "Awake")]
+		private static class Postfix_DungeonDB_Awake
+		{
+		private static void Postfix(DungeonGenerator __instance)
+		{
+			if (__instance.GetComponent<ZNetView>())
+			{
+				__instance.gameObject.AddComponent<LocationMarker>();
+			}
+		}
+		}
 
 		#endregion ZoneSystem
 		#region ODB

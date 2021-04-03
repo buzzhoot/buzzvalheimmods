@@ -55,6 +55,7 @@ namespace OdinPlus
 			PrefabParent = new GameObject("OdinPlusPrefabs");
 			PrefabParent.SetActive(false);
 			PrefabParent.transform.SetParent(Root.transform);
+			PrefabParent.AddComponent<LocationMarker>();
 			
 
 			Plugin.preODB = (Action<ObjectDB>)Delegate.Combine(Plugin.preODB, (Action<ObjectDB>)PreODB);
@@ -273,7 +274,7 @@ namespace OdinPlus
 			PostZNS();
 			
 			NpcManager.RavenPrefab = Tutorial.instance.m_ravenPrefab.transform.Find("Munin").gameObject;
-			InitNPC();
+			//InitNPC();
 			isLoaded = true;
 		}
 		#endregion Debug

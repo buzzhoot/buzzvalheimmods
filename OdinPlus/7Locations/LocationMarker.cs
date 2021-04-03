@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace OdinPlus
@@ -8,6 +9,7 @@ namespace OdinPlus
 	{
 		#region Var
 		public static Dictionary<string, LocationMarker> MarkList = new Dictionary<string, LocationMarker>();
+		public static Dictionary<string, LocationMarker> DunList = new Dictionary<string, LocationMarker>();
 		public static Dictionary<string, LocationMarker> DubList = new Dictionary<string, LocationMarker>();
 		public static GameObject Prefab;
 
@@ -21,7 +23,11 @@ namespace OdinPlus
 		#endregion Internal
 		#region Out
 		private List<Container> m_container = new List<Container>();
-		private Vector3 m_pos;
+		public struct CtnInfo
+		{
+			public Vector3 Pos;
+			public Quaternion Rot;
+		}
 
 		#endregion Out
 
@@ -39,32 +45,14 @@ namespace OdinPlus
 				return;
 			}
 			ID = ZoneSystem.instance.GetZone(transform.position).Pak();
-
-			if (transform.GetComponentInParent<DungeonGenerator>())
-			{
-				var ctns = transform.parent.GetComponentsInChildren<Container>(true);
-				if (ctns == null)
-				{
-					DBG.blogWarning("Can't Find Container");
-				}
-				else
-				{
-					DBG.blogWarning("Found ctn: " + ctns.Length);
-				}
-			}
-			if (MarkList.ContainsKey(ID))
-			{
-				DubList.Add(ID, this);
-			}
-			else
-			{
-				MarkList.Add(ID, this);
-			}
+			MarkList.Add(ID, this);
 		}
 		private void Start()
 		{
-			DBG.blogWarning("Start");
+
 		}
+
+
 		private void OnDestroy()
 		{
 			MarkList.Remove(ID);
@@ -73,7 +61,28 @@ namespace OdinPlus
 		{
 			m_nview.GetZDO().Set("Used", true);
 		}
+		#region feature
+		public CtnInfo GetCtnInfo()
+		{
+			CtnInfo result;
+			var ctns = GetComponentsInChildren<Container>(true);
+			if (ctns.Length == 0)
+			{
+				var ctn = ctns[ctns.Length.RollDice()];
+				return result = new CtnInfo { Pos = ctn.transform.position, Rot = ctn.transform.rotation };
+			}
+			Room[] array = GetComponentsInChildren<Room>();
+			var array2 = array.Where(c => c.m_endCap != true).ToArray();
+			var room = array2[array2.Length.RollDice()];
+			var y = room.GetComponentInChildren<RoomConnection>().transform.localPosition.y;
+			var x = room.m_size.x / 2;
+			var z = room.m_size.z / 2;
+			var pos = new Vector3(0, y + 0.2f, 0) + room.transform.position;
+			result = new CtnInfo { Pos = pos, Rot = Quaternion.identity };
+			return result;
+		}
 
+		#endregion feature
 		#region static
 		public static void CreatePrefab()
 		{
@@ -126,6 +135,29 @@ namespace OdinPlus
 		public void WatchMe()
 		{
 			GameCamera.instance.transform.localPosition = transform.position + Vector3.forward * 1;
+		}
+		public void DrawBall()
+		{
+			var go = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+			go.transform.localScale = Vector3.one * 3;
+			go.GetComponent<Renderer>().material.color = Color.red;
+			go.name = ("LocMark");
+			go.transform.SetParent(transform);
+		}
+		public void test()
+		{
+			var go = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+			Vector3 pos;
+			Quaternion rot;
+			var info = GetCtnInfo();
+			pos = info.Pos;
+			rot = info.Rot;
+			go.transform.localScale = Vector3.one;
+			go.transform.position = pos;
+			go.transform.rotation = rot;
+			go.GetComponent<Renderer>().material.color = Color.red;
+			go.AddComponent<Light>();
+			go.name = ("Fake Chest" + ID);
 		}
 		#endregion Debug
 

@@ -13,7 +13,10 @@
 				"/property:GenerateFullPaths=false",
 				"/consoleloggerparameters:NoSummary"
 			],
-			"group": "build",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
 			"presentation": {
 				"reveal": "silent"
 			},
@@ -31,10 +34,7 @@
 				"/property:GenerateFullPaths=false",
 				"/consoleloggerparameters:NoSummary"
 			],
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			},
+			"group": "build",
 			"presentation": {
 				"reveal": "silent"
 			},
