@@ -139,7 +139,7 @@ namespace OdinPlus
 			{
 				LocationManager.GetLocationInstance(Id, out location);
 				gameObject.name = "Task" + Id;
-				LocationManager.Remove(Id);
+				//+LocationManager.Remove(Id);
 				return true;
 			}
 			return false;

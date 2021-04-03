@@ -14,11 +14,11 @@ namespace OdinPlus
 		public static bool rpc = false;
 		public static Vector3 OdinPostion = Vector3.zero;
 
-		#region Mono
+		#region Main
 		private void Awake()
 		{
 			instance = this;
-			Plugin.RegRPC= (Action)Delegate.Combine(Plugin.RegRPC, (Action)initRPC);
+			Plugin.RegRPC = (Action)Delegate.Combine(Plugin.RegRPC, (Action)initRPC);
 		}
 		public static void Init()
 		{
@@ -29,9 +29,9 @@ namespace OdinPlus
 					ZoneSystem.LocationInstance temp;
 					ZoneSystem.instance.FindClosestLocation("StartTemple", Vector3.zero, out temp);
 					OdinPostion = temp.m_position + new Vector3(-6, 0, -8);
-					if (OdinPostion==Vector3.zero)
+					if (OdinPostion == Vector3.zero)
 					{
-						OdinPostion+=Vector3.forward*0.0001f;
+						OdinPostion += Vector3.forward * 0.0001f;
 					}
 				}
 				else
@@ -41,11 +41,8 @@ namespace OdinPlus
 				BlackList = OdinData.Data.BlackList;
 				GetValDictionary();
 			}
-			
-		}
-		#endregion Mono
 
-		#region Init
+		}
 		public static void GetValDictionary()
 		{
 			var a = Traverse.Create(ZoneSystem.instance).Field<Dictionary<Vector2i, ZoneSystem.LocationInstance>>("m_locationInstances").Value;
@@ -54,11 +51,12 @@ namespace OdinPlus
 				m_locationInstances.Add(item.Key, item.Value);
 			}
 		}
+
 		public static void RemoveBlackList()
 		{
 			foreach (var item in BlackList)
 			{
-				m_locationInstances.Remove(Tweakers.Pak(item));
+				m_locationInstances.Remove(item.ToV2I());
 			}
 		}
 		public static void Clear()
@@ -69,12 +67,6 @@ namespace OdinPlus
 		#endregion Init
 
 		#region Feature
-		public static void Remove(string id)
-		{
-			BlackList.Add(id);
-			m_locationInstances.Remove(Tweakers.Pak(id));
-		}
-
 		public static bool GetLocationInstance(string id, out ZoneSystem.LocationInstance li)
 		{
 			var a = Traverse.Create(ZoneSystem.instance).Field<Dictionary<Vector2i, ZoneSystem.LocationInstance>>("m_locationInstances").Value;
@@ -99,7 +91,7 @@ namespace OdinPlus
 				if (item.Value.m_location.m_prefabName == name && num2 < num)
 				{
 					num = num2;
-					id = Tweakers.DepakVector2i(item.Key);
+					id = item.Key.Pak();
 					result = true;
 				}
 			}
@@ -122,6 +114,26 @@ namespace OdinPlus
 				}
 			}
 			pos = Vector3.zero;
+			return result;
+		}
+		public static bool FindClosestLocation(string name, Vector3 point, out string id, out Vector3 pos)
+		{
+
+			float num = 999999f;
+			pos = Vector3.zero;
+			id = "0_0";
+			bool result = false;
+			foreach (var item in m_locationInstances)
+			{
+				float num2 = Vector3.Distance(item.Value.m_position, point);
+				if (item.Value.m_location.m_prefabName == name && num2 < num)
+				{
+					pos = item.Value.m_position;
+					id = item.Key.Pak();
+					num = num2;
+					result = true;
+				}
+			}
 			return result;
 		}
 		#endregion Feature
@@ -161,7 +173,7 @@ namespace OdinPlus
 		public void initRPC()
 		{
 			ZRoutedRpc.instance.Register<Vector3>("RPC_SetStartPos", new Action<long, Vector3>(this.RPC_SetStartPos));
-			ZRoutedRpc.instance.Register<string, Vector3, string, int>("RPC_ClientInitDungeon", new RoutedMethod<string, Vector3, string, int>.Method(RPC_ClientInitDungeon));
+			ZRoutedRpc.instance.Register<string, Vector3, string, int>("RPC_ClientInitDungeon", new RoutedMethod<string, Vector3, string, int>.Method(RPC_ClientInitDungeon));//XXX
 			ZRoutedRpc.instance.Register<bool>("RPC_ReceiveServerFOP", new Action<long, bool>(RPC_ReceiveServerFOP));
 			if (ZNet.instance.IsServer())
 			{
@@ -287,10 +299,38 @@ namespace OdinPlus
 			DBG.blogWarning("Placed LegacyChest at Dungeon room: " + chest.transform.localPosition);
 			return;
 		}
+
 		#endregion Dungeon
 
 		#endregion RPC
 
+		#region New
+		#region ServerSide
+
+		#endregion ServerSide
+		public static void RPC_Remove(string id)
+		{
+			BlackList.Add(id);
+			m_locationInstances.Remove(id.ToV2I());
+		}
+		public static void RPC_ServerFindLocation(long sender, string sender_locName, Vector3 sender_pos)
+		{
+			var _id = "0_0";
+			var _pos = Vector3.zero;
+			if (FindClosestLocation(sender_locName, sender_pos, out _id, out _pos))
+			{
+				ZRoutedRpc.instance.InvokeRoutedRPC(sender, "RPC_ReceiveServerLocation", new object[] { _id, _pos });
+				DBG.blogWarning(string.Format("Location found location {0} at {1}", sender_locName, _pos.ToString()));
+				return;
+			}
+			ZRoutedRpc.instance.InvokeRoutedRPC(sender, "RPC_CreateTaskFailed", new object[] { sender_locName });
+			DBG.blogWarning(string.Format("Location cant find location {0} at {1}", sender_locName, sender_pos));
+		}
+		public static void RPC_ReceiveServerLocation(long sender, string _id, Vector3 _pos)
+		{
+			//+ QuestManger Succes
+		}
+		#endregion New
 
 	}
 }
