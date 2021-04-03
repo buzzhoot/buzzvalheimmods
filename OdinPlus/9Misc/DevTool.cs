@@ -120,7 +120,7 @@ namespace OdinPlus
 			}
 			if (Input.GetKeyDown(KeyCode.Keypad6) && Input.GetKey(KeyCode.RightControl))
 			{
-
+				GameCamera.instance.ToggleFreeFly();
 			}
 			if (Input.GetKeyDown(KeyCode.Keypad7) && Input.GetKey(KeyCode.RightControl))
 			{
@@ -149,7 +149,7 @@ namespace OdinPlus
 		{
 			if (ShowWindow)
 			{
-				windowRect = GUILayout.Window(0, windowRect, DevWindow, "Buzz Odin Plus Debug");
+				windowRect = GUILayout.Window(1219, windowRect, DevWindow, "Buzz Odin Plus Debug");
 			}
 		}
 		void DevWindow(int WindowID)
