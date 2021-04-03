@@ -356,6 +356,14 @@ namespace OdinPlus
 				OdinPlus.PostZone();
 			}
 		}
+		[HarmonyPatch(typeof(ZoneSystem), "Start")]
+		private static class Prefix_ZoneSystem_Start
+		{
+		private static void Prefix()
+		{
+			LocationMarker.HackLoctaions();
+		}
+		}
 
 		#endregion ZoneSystem
 		#region ODB
