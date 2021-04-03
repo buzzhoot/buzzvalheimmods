@@ -170,7 +170,7 @@ namespace OdinPlus
 		#endregion Tool
 
 		#region RPC
-		public void initRPC()
+		public void initRPC()//RPC
 		{
 			ZRoutedRpc.instance.Register<Vector3>("RPC_SetStartPos", new Action<long, Vector3>(this.RPC_SetStartPos));
 			ZRoutedRpc.instance.Register<string, Vector3, string, int>("RPC_ClientInitDungeon", new RoutedMethod<string, Vector3, string, int>.Method(RPC_ClientInitDungeon));//XXX
