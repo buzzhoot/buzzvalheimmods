@@ -395,9 +395,9 @@ namespace OdinPlus
 		[HarmonyPatch(typeof(Container), "Interact")]
 		private static class Postfix_Container_Interact
 		{
-			private static void Postfix(Container __instance,Humanoid character,bool hold)
+			private static void Postfix(Container __instance, Humanoid character, bool hold)
 			{
-			var a = __instance.GetComponent<LegacyChest>();
+				var a = __instance.GetComponent<LegacyChest>();
 				if (a)
 				{
 					//add
@@ -405,7 +405,22 @@ namespace OdinPlus
 			}
 		}
 		#endregion container
-
+		#region Charactor
+			[HarmonyPatch(typeof(Character), "GetHoverText")]
+			private static class Prefix_Character_GetHoverText
+			{
+			private static bool Prefix(Character __instance ,ref string __result)
+			{
+					Component comp = __instance.GetComponent<HumanNPC>();
+					if (comp)
+					{
+						__result=((HumanNPC)comp).GetHoverText();
+						return false;
+					}
+				return true;
+			}
+			}
+		#endregion Charactor
 		#endregion patch
 
 		#region Tool

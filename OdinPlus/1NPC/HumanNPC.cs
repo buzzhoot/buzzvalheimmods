@@ -14,7 +14,7 @@ namespace OdinPlus
 	public class HumanNPC : OdinNPC, Hoverable, Interactable, OdinInteractable
 	{
 		#region var
-
+		public static List<HumanNPC> HumanNPCS = new List<HumanNPC>();
 		#region Visuals
 		public static string[] NPCnames = { "$op_npc_name1", "$op_npc_name2", "$op_npc_name3", "$op_npc_name4", "$op_npc_name5", "$op_npc_name6", "$op_npc_name7", "$op_npc_name8", "$op_npc_name9", "$op_npc_name10", "$op_npc_name11", "$op_npc_name12", "$op_npc_name13", "$op_npc_name14", "$op_npc_name15", "$op_npc_name16", "$op_npc_name17", "$op_npc_name18", "$op_npc_name19", "$op_npc_name20", "$op_npc_name21", "$op_npc_name22", "$op_npc_name23", "$op_npc_name24", "$op_npc_name25", "$op_npc_name26", "$op_npc_name27", "$op_npc_name28", "$op_npc_name29", "$op_npc_name30", "$op_npc_name31", "$op_npc_name32", "$op_npc_name33", "$op_npc_name34", "$op_npc_name35", "$op_npc_name36", "$op_npc_name37", "$op_npc_name38", "$op_npc_name39", "$op_npc_name40", "$op_npc_name41", "$op_npc_name42", "$op_npc_name43", "$op_npc_name44", "$op_npc_name45", "$op_npc_name46", "$op_npc_name47", "$op_npc_name48", "$op_npc_name49", "$op_npc_name50" };
 		public string[] m_beardItem = { "Beard2", "Beard3", "Beard4", "Beard5", "Beard6", "Beard7", "Beard8", "Beard9", "Beard10" };
@@ -30,6 +30,8 @@ namespace OdinPlus
 		protected ZNetView m_nview;
 		protected VisEquipment m_vis;
 		protected Animator m_ani;
+		protected Humanoid m_hum;
+		protected MonsterAI monsterAI;
 		#endregion ref
 		#region Interal
 		public string[] ChoiceList = { "$op_talk" };
@@ -37,26 +39,44 @@ namespace OdinPlus
 		private string currentChoice = "";
 		#endregion Interal
 		#endregion var
-
-
 		protected virtual void Awake()
 		{
+			if (HumanNPCS == null)
+			{
+				HumanNPCS = new List<HumanNPC>();
+			}
+			monsterAI = GetComponent<MonsterAI>();
 			m_talker = gameObject;
 			m_nview = GetComponent<ZNetView>();
 			m_ani = GetComponentInChildren<Animator>();
-			Util.seed = (int)((gameObject.transform.position.x + gameObject.transform.position.y) * 1000);
+			m_hum = GetComponent<Humanoid>();
+			m_vis = GetComponent<VisEquipment>();
+			HumanNPCS.Add(this);
+
+			m_ani.SetBool("wakeup", false);
+
+			m_hum.m_onDamaged = (Action<float, Character>)Delegate.Combine(m_hum.m_onDamaged, (Action<float, Character>)(Damage));
+			Util.seed += (int)((gameObject.transform.position.x + gameObject.transform.position.y) * 1000);
+			
+
 			SetName();
 			SetupVisual();
-			RemoveUnusedComp();
+			//RemoveUnusedComp();
 			currentChoice = ChoiceList[index];
+
 		}
 		protected virtual void SetName()
 		{
-			m_name = m_nview.GetZDO().GetString("op_npcname", NPCnames.GetRandomElement());
+			m_name = m_nview.GetZDO().GetString("npcname", NPCnames.GetRandomElement());
+			m_hum.m_name = m_name;
 		}
 		protected virtual void SetupVisual()
 		{
-			SetItem("BeardItem", m_beardItem);
+			int sex =  2.RollDices();
+			if (sex==0)
+			{
+				SetItem("BeardItem", m_beardItem);
+			}
 			SetItem("HairItem", m_hairItem);
 			if (m_helmetItem != new string[] { "" })
 			{
@@ -65,9 +85,11 @@ namespace OdinPlus
 			SetItem("ChestItem", m_chestItem);
 			SetItem("ShoulderItem", m_shoulderItem);
 			SetItem("LegItem", m_legItem);
-			Traverse.Create(m_vis).Field<int>("m_modelIndex").Value = m_nview.GetZDO().GetInt("ModelIndex", 2.RollDices());
-			Traverse.Create(m_vis).Field<Vector3>("m_hairColor").Value = m_nview.GetZDO().GetVec3("HairColor", new Vector3(1f.RollDices(), 1f.RollDices(), 1f.RollDices()));
-			Traverse.Create(m_vis).Field<Vector3>("m_skinColor").Value = m_nview.GetZDO().GetVec3("SkinColor", new Vector3(1f.RollDices(), 1f.RollDices(), 1f.RollDices()));
+			float skin = 0.5f+0.8f.RollDices();
+			Color hair = Color.HSVToRGB(0.13f+0.03f.RollDices(),1f.RollDices(),1.3f.RollDices());
+			m_vis.SetModel(m_nview.GetZDO().GetInt("ModelIndex", 2.RollDices()));
+			m_vis.SetHairColor(m_nview.GetZDO().GetVec3("HairColor", new Vector3(hair.r,hair.g,hair.b)));
+			m_vis.SetSkinColor(m_nview.GetZDO().GetVec3("SkinColor", new Vector3(skin,skin,skin)));
 			//m_vis.m_skinColor = new Vector3(1f.RollDices(), 1f.RollDices(), 1);
 		}
 		protected void SetItem(string slot, string[] items)
@@ -79,7 +101,7 @@ namespace OdinPlus
 		{
 			foreach (var comp in gameObject.GetComponents<UnityEngine.Component>())
 			{
-				if (!(comp is Transform) && !(comp is HumanNPC) && !(comp is CapsuleCollider) && !(comp is ZNetView) && !(comp is VisEquipment))
+				if (!(comp is Transform) && !(comp is HumanNPC) && !(comp is CapsuleCollider) && !(comp is ZNetView) && !(comp is VisEquipment) && !(comp is MonsterAI) && !(comp is Humanoid))
 				{
 					DestroyImmediate(comp);
 				}
@@ -98,12 +120,12 @@ namespace OdinPlus
 			{
 				return false;
 			}
-			Invoke("Choice"+index.ToString(),0f);
+			Invoke("Choice" + index.ToString(), 0f);
 			return true;
 		}
 		public virtual void Choice0()
 		{
-			Say("Find me some <color=lightblue><b>BlueBerry</b></color> then i will tell you where to go");
+			Say("Greeting");
 		}
 		public override void SecondaryInteract(Humanoid user)
 		{
@@ -131,6 +153,39 @@ namespace OdinPlus
 		{
 			return false;
 		}
+		private void OnDestroy()
+		{
+			HumanNPCS.Remove(this);
+		}
+		private void Damage(float hit, Character character)
+		{
+			if (character == null)
+			{
+				Debug.Log("Cant find target");
+				return;
+			}
+			if (character.IsPlayer())
+			{
+				foreach (var item in HumanNPCS)
+				{
+					Debug.Log(((Player)character).GetHoverName());
+					item.ChangeFaction(Player.m_localPlayer);
+				}
+			}
+		}
+		public void ChangeFaction(Character target)
+		{
+			m_hum.m_faction = Character.Faction.PlainsMonsters;
+			//monsterAI.m_randomMoveInterval = 30;
 
+			//monsterAI.SetHuntPlayer(true);
+		}
+		public void HuntPlayer(Character c)
+		{
+
+		}
+		#region Debug
+
+		#endregion Debug
 	}
 }
