@@ -120,23 +120,48 @@ namespace OdinPlus
 			}
 			if (Input.GetKeyDown(KeyCode.Keypad6) && Input.GetKey(KeyCode.RightControl))
 			{
-				
+
 			}
 			if (Input.GetKeyDown(KeyCode.Keypad7) && Input.GetKey(KeyCode.RightControl))
 			{
-				
+
 			}
 			if (Input.GetKeyDown(KeyCode.Keypad8) && Input.GetKey(KeyCode.RightControl))
 			{
-				
+
 			}
 			if (Input.GetKeyDown(KeyCode.Keypad9) && Input.GetKey(KeyCode.RightControl))
 			{
-				
+
+			}
+			if (Input.GetKeyDown(KeyCode.KeypadPeriod) && Input.GetKey(KeyCode.RightControl))
+			{
+				ShowWindow=!ShowWindow;
 			}
 		}
 
 		#endregion Mono
+
+		#region Gui
+		Rect windowRect = new Rect(20, 20, 200, 400);
+		public bool ShowWindow = true;
+		private void OnGUI()
+		{
+			if (ShowWindow)
+			{
+				windowRect = GUILayout.Window(0, windowRect, DevWindow, "Buzz Odin Plus Debug");
+			}
+		}
+		void DevWindow(int WindowID)
+		{
+			var player = Player.m_localPlayer;
+			if (player)
+			{
+				GUILayout.Label("Zone: " + ZoneSystem.instance.GetZone(player.transform.position).ToString());
+				GUILayout.Label("Location: " + (player.transform.position).ToString());
+			}
+		}
+		#endregion Gui
 
 		#region ZoneSys
 		public static ZoneSystem.LocationInstance dbginsa;
