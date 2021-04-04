@@ -66,7 +66,7 @@ namespace OdinPlus
 		{
 			CtnInfo result;
 			var ctns = GetComponentsInChildren<Container>(true);
-			if (ctns.Length == 0)
+			if (ctns.Length != 0)
 			{
 				var ctn = ctns[ctns.Length.RollDice()];
 				return result = new CtnInfo { Pos = ctn.transform.position, Rot = ctn.transform.rotation };
@@ -139,6 +139,7 @@ namespace OdinPlus
 		public void DrawBall()
 		{
 			var go = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+			go.transform.position=transform.position;
 			go.transform.localScale = Vector3.one * 3;
 			go.GetComponent<Renderer>().material.color = Color.red;
 			go.name = ("LocMark");
@@ -158,6 +159,7 @@ namespace OdinPlus
 			go.GetComponent<Renderer>().material.color = Color.red;
 			go.AddComponent<Light>();
 			go.name = ("Fake Chest" + ID);
+			GameCamera.instance.transform.localPosition=pos;
 		}
 		#endregion Debug
 

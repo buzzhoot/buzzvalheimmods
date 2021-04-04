@@ -69,8 +69,8 @@ namespace OdinPlus
 			HumanMobA();
 			HumanMobB();
 			HumanSpawner();
-			HackSpawner();
 
+			//HackSpawner();
 			//HackCamp();
 
 
