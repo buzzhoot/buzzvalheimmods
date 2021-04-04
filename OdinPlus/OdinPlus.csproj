@@ -381,6 +381,12 @@
     <Compile Include="5Quest\Quest.cs" />
     <Compile Include="5Quest\QuestRef.cs" />
     <Compile Include="5Quest\MuninExtension.cs" />
+    <Compile Include="5Quest\QuestBasicExtension.cs" />
+    <Compile Include="5Quest\QuestProcesser.cs" />
+    <Compile Include="5Quest\DungeonQuestProcesser.cs" />
+    <Compile Include="5Quest\TreasureQuestProcesser.cs" />
+    <Compile Include="5Quest\HuntQuestProcesser.cs" />
+    <Compile Include="5Quest\SearchQuestProcesser.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

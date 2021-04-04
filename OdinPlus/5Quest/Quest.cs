@@ -37,6 +37,8 @@ namespace OdinPlus
 		#endregion in
 
 		#endregion Varable
+
+		#region Function
 		private void SetPin()
 		{
 			Minimap.instance.DiscoverLocation(m_pinPosition, Minimap.PinType.Icon3, m_message);
@@ -66,102 +68,83 @@ namespace OdinPlus
 		{
 			Chat.instance.SendPing(m_pinPosition);
 		}
-		private void Discovery()
-		{
-			Tweakers.QuestHintHugin((isMain ? "Main" : "$op_quest_side") + "$op_quest_quest " + m_index + " : " + QuestName, HintTarget);
-		}
 		public QuestType GetQuestType()
 		{
 			return m_type;
 		}
 		public string PrintData()
 		{
-			string n = "\n" + (isMain ? "$op_quest_main" : " $op_quest_side ");
-			n += String.Format(" $op_quest_quest [<color=yellow><b>{0}</b></color>] : {1}", m_index, QuestName);
-			return n;
-		}
-		private void SetHintStart()
-		{
-			switch (GetQuestType())
+			if (m_message == "")
 			{
-				case QuestType.Hunt:
-					//HintStart = String.Format("There is a <color=yellow><b>[{0}]</b></color> near the location i marked for you,check your map ...", locName);
-					HintStart = String.Format("$op_quest_hunt_start_pr_1 <color=yellow><b>[{0}]</b></color> $op_quest_hunt_start_po_1 ", locName);
-					break;
-				case QuestType.Treasure:
-					//HintStart = String.Format("There a chest burried under a  <color=yellow><b>[{0}]</b></color> near the location i marked for you,check your map ...", locName);
-					HintStart = String.Format("$op_quest_treasure_start_pr_1 <color=yellow><b>[{0}]</b></color> $op_quest_treasure_start_po_1 ", locName);
-					break;
-				case QuestType.Dungeon:
-					//HintStart = String.Format("There a chest in the dungeon <color=yellow><b>[{0}]</b></color> near the location i marked for you,check your map ...", locName);
-					HintStart = String.Format("$op_quest_dungeon_start_pr_1 <color=yellow><b>[{0}]</b></color> $op_quest_dungeon_start_po_1 ", locName);
-					break;
+				return "";
 			}
-
+			//string n = "\n" + (isMain ? "$op_quest_main" : " $op_quest_side ");
+			//n += String.Format(" $op_quest_quest [<color=yellow><b>{0}</b></color>] : {1}", m_index, QuestName);
+			return m_message;
 		}
-		private void SetHintTarget()
+		public void ShowMessage(string result)
 		{
-			switch (GetQuestType())
+			if (m_message == "")
 			{
-				case QuestType.Hunt:
-					//HintTarget = string.Format("Looks like you are close to the <color=yellow><b>[{0}]</b></color> Watchout!", locName);
-					HintStart = String.Format("$op_quest_hunt_target_pr_1 <color=yellow><b>[{0}]</b></color> $op_quest_hunt_target_po_1 ", locName);
-					break;
-				case QuestType.Treasure:
-					//HintTarget = string.Format("Looks like you are close to the chest,look around find a <color=yellow><b>[{0}]</b></color>", locName);
-					HintStart = String.Format("$op_quest_treasure_target_pr_1 <color=yellow><b>[{0}]</b></color> $op_quest_treasure_target_po_1 ", locName);
-					break;
-				case QuestType.Dungeon:
-					//HintTarget = string.Format("Looks like you are close to the dungeon,look around find a <color=yellow><b>[{0}]</b></color>", locName);
-					HintStart = String.Format("$op_quest_dungeon_target_pr_1 <color=yellow><b>[{0}]</b></color> $op_quest_dungeon_target_po_1 ", locName);
-					break;
+				return;
 			}
+			string n = "\n" + " $op_quest_" + result;
+			MessageHud.instance.ShowBiomeFoundMsg(m_message + n, true);
 		}
+		public void ShowMuninMessage(string msg)
+		{
+			if (m_message == "" || msg == null)
+			{
+				return;
+			}
+			m_message.Replace('\n', ' ');
+			Tweakers.QuestHintHugin(m_message, msg);
+		}
+		#endregion Function
 		public void Begin()
 		{
-
 			OdinData.Data.QuestCount++;
 			m_index = OdinData.Data.QuestCount;
 			SetLocName();
 			SetQuestName();
-			SetHintStart();
 			SetRange(30.RollDice(30 + Level * 30));
 			SetPosition();
 			SetPin();
 			ShowMessage("start");
-			Tweakers.QuestHintHugin((isMain ? "Main" : " $op_quest_side ") + " $op_quest_quest " + m_index + " : " + QuestName, HintStart);
+			ShowMuninMessage(HintStart);
 			//+UpdateQuestList();
 		}
-		public void SearchBegin()
-		{
-			MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : " $op_quest_side ") + " $op_quest_quest " + m_index + "\n" + QuestName + "\n $op_quest_start", true);
-			Tweakers.QuestHintHugin((isMain ? "Main" : " $op_quest_side ") + "$op_quest_quest " + m_index + " : " + QuestName, HintStart);
-		}
+
+		
 		public void Discovered()
 		{
-			SetHintTarget();
-			Tweakers.QuestHintHugin((isMain ? "Main" : "$op_quest_side ") + " $op_quest_quest " + m_index + " : " + QuestName, HintTarget);
+			//HACK
+			ShowMuninMessage(HintTarget);
 		}
 		public void Finish()
 		{
 			RemovePin();
 			//+UpdateQuestList();
 			Clear();
+			//ShowMessage("clear");
+			//HACK
+			QuestManager.instance.MyQuests.Remove(ID);
 		}
 		public void Clear()
 		{
-			string result = "$op_quest_stolen";
+			string result = "stolen";
 			if (isMeInsideQuestArea() || ZNet.instance.IsLocalInstance())
 			{
-				result = "$op_quest_clear";
+				result = "clear";
 			}
-			MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : " $op_quest_side ") + " $op_quest_quest " + m_index + "\n" + QuestName + "\n" + result, true);
-			QuestManager.instance.MyQuests.Remove(ID);
+			ShowMessage(result);
+
 		}
 		private bool isMeInsideQuestArea()
 		{
 			Vector3 ppos = Player.m_localPlayer.transform.position;
-			return Tweakers.isInsideArea(ppos, new Vector3(m_realPostion.x, ppos.y, m_realPostion.z), 200);
+			Vector2i val = ZoneSystem.instance.GetZone(ppos);
+			return ID.ToV2I() == val;
 		}
 		public void Giveup()
 		{
@@ -170,10 +153,6 @@ namespace OdinPlus
 			//+ZRoutedRpc.instance.InvokeRoutedRPC("RPC_ServerGiveup", new object[] { ID });
 			this.Clear();
 		}
-		public void ShowMessage(string result)
-		{
-			string n  = "$op_quest_clear"+result;
-			MessageHud.instance.ShowBiomeFoundMsg(m_message+n,true);
-		}
+
 	}
 }
