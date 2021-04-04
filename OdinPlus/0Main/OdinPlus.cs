@@ -270,7 +270,7 @@ namespace OdinPlus
 				ZNetScene.instance.m_prefabs.Add(item.Value);
 				m_namedPrefabs.Add(item.Key, item.Value);
 			}
-			PostZone();
+			//PostZone();
 			PostZNS();
 			
 			NpcManager.RavenPrefab = Tutorial.instance.m_ravenPrefab.transform.Find("Munin").gameObject;
