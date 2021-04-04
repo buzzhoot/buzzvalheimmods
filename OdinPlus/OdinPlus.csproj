@@ -379,6 +379,7 @@
     <Compile Include="1NPC\HumanNPC.cs" />
     <Compile Include="5Quest\QuestManager.cs" />
     <Compile Include="5Quest\Quest.cs" />
+    <Compile Include="5Quest\QuestRef.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
