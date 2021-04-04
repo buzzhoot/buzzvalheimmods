@@ -37,7 +37,7 @@ namespace OdinPlus
 			HuginSays(tutorialText.m_name, tutorialText.m_topic, tutorialText.m_text, tutorialText.m_label);
 			addHints(messageName + "\n" + tutorialText.m_text + "\n");
 		}
-		public static void TaskTopicHugin(string messageName, string messageText)
+		public static void QuestTopicHugin(string messageName, string messageText)
 		{
 			Tutorial.TutorialText tutorialText = new Tutorial.TutorialText
 			{

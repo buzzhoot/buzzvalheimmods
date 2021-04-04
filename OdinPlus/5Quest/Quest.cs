@@ -16,9 +16,10 @@ namespace OdinPlus
 		public string ID = "0_0";
 		public QuestType m_type;
 		public Vector3 m_realPostion;
-		public bool hasPIN = false;
-		public Vector3 m_pinPosition;
+		public bool hasPIN = false;//XXX
+		public Vector3 m_pinPosition = Vector3.zero;
 		public float m_range;
+		public List<Quest> m_chain = new List<Quest>();
 
 		#endregion Data
 
@@ -41,7 +42,10 @@ namespace OdinPlus
 		#region Function
 		private void SetPin()
 		{
-			Minimap.instance.DiscoverLocation(m_pinPosition, Minimap.PinType.Icon3, m_message);
+			if (CheckPinNeed())
+			{
+				Minimap.instance.DiscoverLocation(m_pinPosition, Minimap.PinType.Icon3, m_message);
+			}
 		}
 		public void SetLocName()
 		{
@@ -62,7 +66,10 @@ namespace OdinPlus
 		}
 		private void RemovePin()
 		{
-			Minimap.instance.RemovePin(m_pinPosition, 10);
+			if (CheckPinNeed())
+			{
+				Minimap.instance.RemovePin(m_pinPosition, 10);
+			}
 		}
 		public void SendPing()
 		{
@@ -100,6 +107,14 @@ namespace OdinPlus
 			m_message.Replace('\n', ' ');
 			Tweakers.QuestHintHugin(m_message, msg);
 		}
+		public bool CheckPinNeed()
+		{
+			if (m_pinPosition == Vector3.zero)
+			{
+				return false;
+			}
+			return true;
+		}
 		#endregion Function
 		public void Begin()
 		{
@@ -114,8 +129,6 @@ namespace OdinPlus
 			ShowMuninMessage(HintStart);
 			//+UpdateQuestList();
 		}
-
-		
 		public void Discovered()
 		{
 			//HACK
@@ -138,7 +151,6 @@ namespace OdinPlus
 				result = "clear";
 			}
 			ShowMessage(result);
-
 		}
 		private bool isMeInsideQuestArea()
 		{
@@ -153,6 +165,5 @@ namespace OdinPlus
 			//+ZRoutedRpc.instance.InvokeRoutedRPC("RPC_ServerGiveup", new object[] { ID });
 			this.Clear();
 		}
-
 	}
 }

@@ -9,7 +9,8 @@ namespace OdinPlus
 		#region  var
 		#region Data
 		public enum TaskType { Treasure = 1, Hunt = 2, Dungeon = 3, Search = 4 };
-		private static string[] RefKeys = { "defeated_eikthyr", "defeated_gdking", "defeated_bonemass", "defeated_moder", "defeated_goblinking" };
+		private static readonly string[] RefKeys = { "defeated_eikthyr", "defeated_gdking", "defeated_bonemass", "defeated_moder", "defeated_goblinking" };
+		
 		public const int MaxLevel = 3;
 		public static List<ClientTaskData> MyTasks = new List<ClientTaskData>();
 		public static TaskManager instance;
@@ -33,7 +34,7 @@ namespace OdinPlus
 
 		public void ReigsterRpc()
 		{
-			
+
 			MyTasks = new List<ClientTaskData>();
 			ZRoutedRpc.instance.Register<string, string, Vector3>("RPC_CreateTaskSucced", new Action<long, string, string, Vector3>(RPC_CreateTaskSucced));
 			ZRoutedRpc.instance.Register<int, string>("RPC_CreateTaskFailed", new Action<long, int, string>(RPC_CreateTaskFailed));
@@ -85,7 +86,7 @@ namespace OdinPlus
 			{
 				n += task.PrintData();
 			}
-			Tweakers.TaskTopicHugin("Quest List", n);
+			Tweakers.QuestTopicHugin("Quest List", n);
 		}
 		public static void UpdateTaskList()
 		{
@@ -469,7 +470,7 @@ namespace OdinPlus
 			}
 			public void Begin(Vector3 pos)
 			{
-				
+
 				//OdinData.Data.TaskCount++;
 				//m_index = OdinData.Data.TaskCount;
 				SetLocName();
@@ -502,7 +503,7 @@ namespace OdinPlus
 			public void Clear()
 			{
 				string result = "$op_task_stolen";
-				if (isMeInsideTaskArea()||ZNet.instance.IsLocalInstance())
+				if (isMeInsideTaskArea() || ZNet.instance.IsLocalInstance())
 				{
 					result = "$op_task_clear";
 				}

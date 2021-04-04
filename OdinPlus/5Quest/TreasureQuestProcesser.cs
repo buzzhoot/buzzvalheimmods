@@ -4,6 +4,6 @@ namespace OdinPlus
 {
 	public class TreasureQuestProcesser : QuestProcesser
 	{
-
+		
 	}
 }

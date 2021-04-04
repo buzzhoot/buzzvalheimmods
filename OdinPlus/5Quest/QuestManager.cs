@@ -9,17 +9,23 @@ namespace OdinPlus
 		#region Variable
 
 		#region Data
+
 		public Dictionary<string, Quest> MyQuests = new Dictionary<string, Quest>();
 		private Quest WaitQuest = null;
 
 		#endregion Data
 		#region CFG
-		public const int MaxLevel = 3;
+		private static readonly string[] RefKeys = { "defeated_eikthyr", "defeated_gdking", "defeated_bonemass", "defeated_moder", "defeated_goblinking" };
+		public static readonly int MaxLevel = 3;
 		#endregion CFG
 
+		#region In
+		public bool isMain = false;
+		public int Level = 1;
+		public int GameKey = 0;
+		#endregion In
+
 		#region interal
-		public static GameObject Root;
-		public static int Level = 1;
 		public static QuestManager instance;
 		QuestProcesser questProcesser;
 		#endregion interal
@@ -43,7 +49,7 @@ namespace OdinPlus
 		#region Rpc
 		public void ReigsterRpc()
 		{
-
+			MyQuests = new Dictionary<string, Quest>();
 			ZRoutedRpc.instance.Register<string, Vector3>("RPC_CreateQuestSucced", new Action<long, string, Vector3>(RPC_CreateQuestSucced));
 			ZRoutedRpc.instance.Register("RPC_CreateQuestFailed", new Action<long>(RPC_CreateQuestFailed));
 			DBG.blogWarning("QuestManager rpc reged");
@@ -58,7 +64,7 @@ namespace OdinPlus
 		}
 		public void RPC_CreateQuestFailed(long sender)
 		{
-			DBG.InfoCT("Try Agian,the dice may run out");
+			DBG.InfoCT("Try Agian,the dice is broken");
 			DBG.blogError(string.Format("Cannot Place Quest :  {0}", WaitQuest.locName, WaitQuest.m_type));
 			WaitQuest = null;
 		}
@@ -70,18 +76,6 @@ namespace OdinPlus
 		{
 
 		}
-		public bool CreateLocQuest(string lname, QuestType type, Vector3 pos)
-		{
-			if (CanCreateQuest())
-			{
-				WaitQuest = new Quest();
-				WaitQuest.locName = lname;
-				WaitQuest.m_type = type;
-				//XXXZRoutedRpc.instance.InvokeRoutedRPC("RPC_ServerFindLocation", new object[] { lname, pos });
-				return true;
-			}
-			return false;
-		}
 		public bool CanCreateQuest()
 		{
 			if (WaitQuest != null)
@@ -91,17 +85,22 @@ namespace OdinPlus
 			}
 			return true;
 		}
-		public void CreateRandomTask()
+		public void CreateRandomQuest()
 		{
 
 		}
-		public void CreatTask(QuestType type)
+		public Quest CreatQuest(QuestType type)
 		{
 			WaitQuest = new Quest();
 			WaitQuest.m_type = type;
-			//ZRoutedRpc.instance.InvokeRoutedRPC("RPC_ServerFindLocation", new object[] { lname, pos });
+			WaitQuest.Key = GameKey;
+			//upd ismain?
+			//hack LEVEL
+			SelectProcesser();
+			questProcesser.Init();
+			return WaitQuest;
 		}
-		private void Catalog()
+		private void SelectProcesser()
 		{
 			var quest = WaitQuest;
 			switch (quest.m_type)
@@ -121,8 +120,62 @@ namespace OdinPlus
 			}
 		}
 		#endregion Feature
-		#region Tool
 
+		#region Tool
+		public int CheckKey()
+		{
+			int result = 0;
+			var keys = ZoneSystem.instance.GetGlobalKeys();
+			foreach (var item in RefKeys)
+			{
+				if (keys.Contains(item)) { result += 1; }
+			}
+			GameKey = result;
+			return result;
+		}
+		public bool HasQuest()
+		{
+			return !(MyQuests.Count == 0);
+		}
+		public int Count()
+		{
+			if (MyQuests == null)
+			{
+				return 0;
+			}
+			return MyQuests.Count;
+		}
+		public void PrintQuestList()
+		{
+			string n = "";
+			foreach (var quest in MyQuests.Values)
+			{
+				n += quest.PrintData();
+			}
+			Tweakers.QuestTopicHugin("Quest List", n);
+		}
+		public void UpdateQuestList()
+		{
+			string n = "";
+			foreach (var quest in MyQuests.Values)
+			{
+				n += quest.PrintData();
+			}
+			Tweakers.addHints(n);
+		}
+		public bool GiveUpQuest(int ind)
+		{
+			foreach (var quest in MyQuests.Values)
+			{
+				if (quest.m_index == ind)
+				{
+					quest.Giveup();
+					DBG.blogInfo("Client give up quest" + ind);
+					return true;
+				}
+			}
+			return false;
+		}
 		#endregion Tool
 	}
 }
