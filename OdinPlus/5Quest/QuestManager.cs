@@ -51,7 +51,7 @@ namespace OdinPlus
 			var quest = WaitQuest;
 			quest.ID = id;
 			quest.m_realPostion = pos;
-			quest.Begin(pos);
+			quest.Begin();
 			DBG.blogWarning(string.Format("Client :Create Quest {0} {1} at {2}", id, quest.locName, pos));
 		}
 		public void RPC_CreateQuestFailed(long sender)

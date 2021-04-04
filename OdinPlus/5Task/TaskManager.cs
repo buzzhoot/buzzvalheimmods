@@ -455,15 +455,15 @@ namespace OdinPlus
 				{
 					case TaskType.Hunt:
 						//HintTarget = string.Format("Looks like you are close to the <color=yellow><b>[{0}]</b></color> Watchout!", locName);
-						HintStart = String.Format("$op_task_hunt_target_pr_1 <color=yellow><b>[{0}]</b></color> $op_task_hunt_target_po_1 ", locName);
+						HintTarget = String.Format("$op_task_hunt_target_pr_1 <color=yellow><b>[{0}]</b></color> $op_task_hunt_target_po_1 ", locName);
 						break;
 					case TaskType.Treasure:
 						//HintTarget = string.Format("Looks like you are close to the chest,look around find a <color=yellow><b>[{0}]</b></color>", locName);
-						HintStart = String.Format("$op_task_treasure_target_pr_1 <color=yellow><b>[{0}]</b></color> $op_task_treasure_target_po_1 ", locName);
+						HintTarget = String.Format("$op_task_treasure_target_pr_1 <color=yellow><b>[{0}]</b></color> $op_task_treasure_target_po_1 ", locName);
 						break;
 					case TaskType.Dungeon:
 						//HintTarget = string.Format("Looks like you are close to the dungeon,look around find a <color=yellow><b>[{0}]</b></color>", locName);
-						HintStart = String.Format("$op_task_dungeon_target_pr_1 <color=yellow><b>[{0}]</b></color> $op_task_dungeon_target_po_1 ", locName);
+						HintTarget = String.Format("$op_task_dungeon_target_pr_1 <color=yellow><b>[{0}]</b></color> $op_task_dungeon_target_po_1 ", locName);
 						break;
 				}
 			}
