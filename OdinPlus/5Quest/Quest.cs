@@ -5,28 +5,44 @@ using UnityEngine;
 
 namespace OdinPlus
 {
-    public enum TaskType { Treasure = 1, Hunt = 2, Dungeon = 3, Search = 4 }; 
+	public enum TaskType { Treasure = 1, Hunt = 2, Dungeon = 3, Search = 4 };
 	[Serializable]
 	public class Quest
 	{
+
+
+		#region Varable
+		#region Data
 		public string locName = "";
 		public string Id = "0_0";
 		public TaskType m_type;
-		public string HintTarget;
-		public string HintStart;
-		public string taskName;
-		public int m_index;
-		public bool isMain;
 		public float m_positionX = 0f;
 		public float m_positionY = 0f;
 		public float m_positionZ = 0f;
 		public float m_range;
-        public int Level;
+
+		#endregion Data
+		#region Munin
+		public string HintTarget;
+		public string HintStart;
+		public string taskName;
+		#endregion Munin
+		#region Out
+		public int m_index;
+		public bool isMain;
+		public int Level;
+		public int Key;
+		#endregion Out
+
+		#endregion Varable
+
+
+
 		private void SetPin()
 		{
 			Minimap.instance.DiscoverLocation(new Vector3(m_positionX, m_positionY, m_positionZ), Minimap.PinType.Icon3, (isMain ? "Main" : " $op_task_side ") + " $op_task_quest " + m_index + " : " + taskName);
 		}
-		protected virtual void SetLocName()
+		public void SetLocName()
 		{
 			locName = Regex.Replace(locName, @"[\d-]", string.Empty);
 			locName = Regex.Replace(locName, @"[_]", "");
