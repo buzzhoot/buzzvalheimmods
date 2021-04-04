@@ -89,7 +89,7 @@ namespace OdinPlus
 			OdinData.Data.SearchTaskList.Add(m_item, m_count);
 
 			//?MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : "Side") + " Quest " + m_index + "\n" + taskName + "\nStart", true);
-			//?Tweakers.TaskHintHugin((isMain ? "Main" : "Side") + "Quest " + m_index + " : " + taskName, HintTarget);
+			//?Tweakers.QuestHintHugin((isMain ? "Main" : "Side") + "Quest " + m_index + " : " + taskName, HintTarget);
 			m_isInit = true;
 		}
 		public override void Finish()

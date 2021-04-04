@@ -25,7 +25,7 @@ namespace OdinPlus
 			humanoid.m_speed = speed;
 			return humanoid;
 		}
-		public static void TaskHintHugin(string messageName, string messageText)
+		public static void QuestHintHugin(string messageName, string messageText)
 		{
 			Tutorial.TutorialText tutorialText = new Tutorial.TutorialText
 			{

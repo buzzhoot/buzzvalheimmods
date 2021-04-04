@@ -305,9 +305,7 @@ namespace OdinPlus
 		#endregion RPC
 
 		#region New
-		#region ServerSide
 
-		#endregion ServerSide
 		public static void RPC_Remove(string id)
 		{
 			BlackList.Add(id);
@@ -319,16 +317,13 @@ namespace OdinPlus
 			var _pos = Vector3.zero;
 			if (FindClosestLocation(sender_locName, sender_pos, out _id, out _pos))
 			{
-				ZRoutedRpc.instance.InvokeRoutedRPC(sender, "RPC_ReceiveServerLocation", new object[] { _id, _pos });
+				ZRoutedRpc.instance.InvokeRoutedRPC(sender, "RPC_CreateQuestSucced", new object[] { _id, _pos});
 				DBG.blogWarning(string.Format("Location found location {0} at {1}", sender_locName, _pos.ToString()));
 				return;
 			}
-			ZRoutedRpc.instance.InvokeRoutedRPC(sender, "RPC_CreateTaskFailed", new object[] { sender_locName });
-			DBG.blogWarning(string.Format("Location cant find location {0} at {1}", sender_locName, sender_pos));
-		}
-		public static void RPC_ReceiveServerLocation(long sender, string _id, Vector3 _pos)
-		{
-			//+ QuestManger Succes
+			ZRoutedRpc.instance.InvokeRoutedRPC(sender, "RPC_CreateQuestFailed", new object[]{});
+			DBG.blogWarning(String.Format("Location cant find location {0} at {1}",sender_locName,sender_pos));
+			
 		}
 		#endregion New
 

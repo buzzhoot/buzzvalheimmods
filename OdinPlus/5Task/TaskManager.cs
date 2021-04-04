@@ -30,14 +30,7 @@ namespace OdinPlus
 
 		#region Mono
 
-		private void Awake()
-		{
-			instance = this;
-			Root = new GameObject("TaskRoot");
-			Root.transform.SetParent(OdinPlus.Root.transform);
-			MyTasks = new List<ClientTaskData>();
-			Plugin.RegRPC=(Action)Delegate.Combine(Plugin.RegRPC,(Action)ReigsterRpc);
-		}
+
 		public void ReigsterRpc()
 		{
 			
@@ -425,7 +418,7 @@ namespace OdinPlus
 			}
 			private void Discovery()
 			{
-				Tweakers.TaskHintHugin((isMain ? "Main" : "$op_task_side") + "$op_task_quest " + m_index + " : " + taskName, HintTarget);
+				Tweakers.QuestHintHugin((isMain ? "Main" : "$op_task_side") + "$op_task_quest " + m_index + " : " + taskName, HintTarget);
 			}
 			public TaskManager.TaskType GetTaskType()
 			{
@@ -477,8 +470,8 @@ namespace OdinPlus
 			public void Begin(Vector3 pos)
 			{
 				
-				OdinData.Data.TaskCount++;
-				m_index = OdinData.Data.TaskCount;
+				//OdinData.Data.TaskCount++;
+				//m_index = OdinData.Data.TaskCount;
 				SetLocName();
 				SetTaskName();
 				SetHintStart();
@@ -486,18 +479,18 @@ namespace OdinPlus
 				SetPosition(pos);
 				SetPin();
 				MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : " $op_task_side ") + " $op_task_quest " + m_index + "\n" + taskName + "\n $op_task_start", true);
-				Tweakers.TaskHintHugin((isMain ? "Main" : " $op_task_side ") + " $op_task_quest " + m_index + " : " + taskName, HintStart);
+				Tweakers.QuestHintHugin((isMain ? "Main" : " $op_task_side ") + " $op_task_quest " + m_index + " : " + taskName, HintStart);
 				UpdateTaskList();
 			}
 			public void SearchBegin()
 			{
 				MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : " $op_task_side ") + " $op_task_quest " + m_index + "\n" + taskName + "\n $op_task_start", true);
-				Tweakers.TaskHintHugin((isMain ? "Main" : " $op_task_side ") + "$op_task_quest " + m_index + " : " + taskName, HintStart);
+				Tweakers.QuestHintHugin((isMain ? "Main" : " $op_task_side ") + "$op_task_quest " + m_index + " : " + taskName, HintStart);
 			}
 			public void Discovered()
 			{
 				SetHintTarget();
-				Tweakers.TaskHintHugin((isMain ? "Main" :  "$op_task_side ") + " $op_task_quest " + m_index + " : " + taskName, HintTarget);
+				Tweakers.QuestHintHugin((isMain ? "Main" :  "$op_task_side ") + " $op_task_quest " + m_index + " : " + taskName, HintTarget);
 			}
 			public void Finish()
 			{

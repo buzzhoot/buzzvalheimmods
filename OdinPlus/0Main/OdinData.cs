@@ -21,7 +21,7 @@ namespace OdinPlus
 			public bool hasTroll = false;
 			public List<string> BlackList = new List<string>();
 			public List<OdinData.TaskDataTable> Tasks = new List<TaskDataTable>();
-			public int TaskCount = 0;
+			public int QuestCount = 0;
 			public Dictionary<string, int> SearchTaskList = new Dictionary<string, int>();
 			public List<TaskManager.ClientTaskData> ClientTaskDatas = new List<TaskManager.ClientTaskData>();
 			public override Type BindToType(string assemblyName, string typeName)
