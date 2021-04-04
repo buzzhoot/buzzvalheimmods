@@ -118,7 +118,7 @@ namespace OdinPlus
 				RequestSetGlobalKey("defeated_moder");
 				RequestSetGlobalKey("defeated_goblinking");
 			}
-			if (Input.GetKeyDown(KeyCode.Keypad6) && Input.GetKey(KeyCode.RightControl))
+			if (Input.GetKeyDown(KeyCode.Period) && Input.GetKey(KeyCode.RightControl))
 			{
 				GameCamera.instance.ToggleFreeFly();
 			}
@@ -134,7 +134,7 @@ namespace OdinPlus
 			{
 
 			}
-			if (Input.GetKeyDown(KeyCode.KeypadPeriod) && Input.GetKey(KeyCode.RightControl))
+			if (Input.GetKeyDown(KeyCode.Comma) && Input.GetKey(KeyCode.RightControl))
 			{
 				ShowWindow = !ShowWindow;
 			}
@@ -161,7 +161,7 @@ namespace OdinPlus
 		{
 
 			GUI.DragWindow(new Rect(0, 0, 400, 800));
-			
+
 			GUILayout.Width(400);
 			GUILayout.Height(50);
 			GUILayout.Label("welcom to use odin plus debug tool", style);
@@ -187,12 +187,62 @@ namespace OdinPlus
 							GUILayout.Label("No location here", style);
 						}
 					}
+					GUILayout.BeginHorizontal();
 					string lname = "HelloWorld";
-					lname = GUILayout.TextField(lname,40);
+					lname = GUILayout.TextField(lname, 40);
 					if (GUILayout.Button("FindLoctaion"))
 					{
-						Game.instance.DiscoverClosestLocation(lname,player.transform.position,lname,0);
+						Game.instance.DiscoverClosestLocation(lname, player.transform.position, lname, 0);
 					}
+					GUILayout.EndHorizontal();
+					GUILayout.BeginHorizontal();
+					if (GUILayout.Button("Key0"))
+					{
+						RequestResetGlobalKey();
+					}
+					if (GUILayout.Button("Key1"))
+					{
+						RequestResetGlobalKey();
+						RequestSetGlobalKey("defeated_eikthyr");
+					}
+
+					if (GUILayout.Button("Key2"))
+					{
+						RequestResetGlobalKey();
+						RequestSetGlobalKey("defeated_eikthyr");
+						RequestSetGlobalKey("defeated_gdking"); 
+					}
+					if (GUILayout.Button("Key3"))
+					{
+						RequestResetGlobalKey();
+						RequestSetGlobalKey("defeated_eikthyr");
+						RequestSetGlobalKey("defeated_gdking");
+						RequestSetGlobalKey("defeated_bonemass");
+					}
+					if (GUILayout.Button("Key4"))
+					{
+						RequestResetGlobalKey();
+						RequestSetGlobalKey("defeated_eikthyr");
+						RequestSetGlobalKey("defeated_gdking");
+						RequestSetGlobalKey("defeated_bonemass");
+						RequestSetGlobalKey("defeated_moder");
+					}
+					if (GUILayout.Button("Key5"))
+					{
+						RequestResetGlobalKey();
+						RequestSetGlobalKey("defeated_eikthyr");
+						RequestSetGlobalKey("defeated_gdking");
+						RequestSetGlobalKey("defeated_bonemass");
+						RequestSetGlobalKey("defeated_moder");
+						RequestSetGlobalKey("defeated_goblinking");
+					}
+					GUILayout.EndHorizontal();
+					GUILayout.BeginHorizontal();
+					if (GUILayout.Button("FreeCam"))
+					{
+						GameCamera.instance.ToggleFreeFly();
+					}
+					GUILayout.EndHorizontal();
 				}
 
 
