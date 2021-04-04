@@ -478,25 +478,25 @@ namespace OdinPlus
 				SetRange(30.RollDice(30 + Level * 30));
 				SetPosition(pos);
 				SetPin();
-				MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : " $op_task_side ") + " $op_task_quest " + m_index + "\n" + taskName + "\n $op_task_start", true);
-				Tweakers.QuestHintHugin((isMain ? "Main" : " $op_task_side ") + " $op_task_quest " + m_index + " : " + taskName, HintStart);
+				//MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : " $op_task_side ") + " $op_task_quest " + m_index + "\n" + taskName + "\n $op_task_start", true);
+				//Tweakers.QuestHintHugin((isMain ? "Main" : " $op_task_side ") + " $op_task_quest " + m_index + " : " + taskName, HintStart);
 				UpdateTaskList();
 			}
 			public void SearchBegin()
 			{
-				MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : " $op_task_side ") + " $op_task_quest " + m_index + "\n" + taskName + "\n $op_task_start", true);
-				Tweakers.QuestHintHugin((isMain ? "Main" : " $op_task_side ") + "$op_task_quest " + m_index + " : " + taskName, HintStart);
+				//MessageHud.instance.ShowBiomeFoundMsg((isMain ? "Main" : " $op_task_side ") + " $op_task_quest " + m_index + "\n" + taskName + "\n $op_task_start", true);
+				//Tweakers.QuestHintHugin((isMain ? "Main" : " $op_task_side ") + "$op_task_quest " + m_index + " : " + taskName, HintStart);
 			}
 			public void Discovered()
 			{
 				SetHintTarget();
-				Tweakers.QuestHintHugin((isMain ? "Main" :  "$op_task_side ") + " $op_task_quest " + m_index + " : " + taskName, HintTarget);
+				//Tweakers.QuestHintHugin((isMain ? "Main" :  "$op_task_side ") + " $op_task_quest " + m_index + " : " + taskName, HintTarget);
 			}
 			public void Finish()
 			{
 				RemovePin();
 				OdinMunin.ResetTimer();
-				UpdateTaskList();
+				//UpdateTaskList();
 				Clear();
 			}
 			public void Clear()
