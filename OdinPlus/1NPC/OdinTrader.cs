@@ -18,8 +18,8 @@ namespace OdinPlus
 			//m_talker = this.gameObject;
 			//m_randomStartTradeFX = td.m_randomStartTradeFX;
 		}
-		private new void Start() { }
-		private new void Update() { }
+		//private new void Start() { }
+		//private new void Update() { }
 		#endregion
 		#region Features
 
@@ -69,11 +69,11 @@ namespace OdinPlus
 
 		#endregion
 		#region private 
-		private new void Say(List<string> texts, string trigger) { return; }
-		private new void Say(string text, string trigger) { return; }
-		private new void RandomTalk() { return; }
-		private new void OnBought(TradeItem item) { return; }
-		private new void OnSold() { return; }
+		//private new void Say(List<string> texts, string trigger) { return; }
+		//private new void Say(string text, string trigger) { return; }
+		//private new void RandomTalk() { return; }
+		//private new void OnBought(TradeItem item) { return; }
+		//private new void OnSold() { return; }
 		#endregion
 	}
 }
