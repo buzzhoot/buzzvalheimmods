@@ -187,8 +187,8 @@ namespace OdinPlus
 							GUILayout.Label("No location here", style);
 						}
 					}
-					string lname = "";
-					lname = GUILayout.TextField(lname,style);
+					string lname = "HelloWorld";
+					lname = GUILayout.TextField(lname,40);
 					if (GUILayout.Button("FindLoctaion"))
 					{
 						Game.instance.DiscoverClosestLocation(lname,player.transform.position,lname,0);
