@@ -306,10 +306,11 @@ namespace OdinPlus
 
 		#region New
 
-		public static void RPC_Remove(string id)
+		public static void Remove(string id)
 		{
 			BlackList.Add(id);
 			m_locationInstances.Remove(id.ToV2I());
+			//upd add a new list for remove elements;
 		}
 		public static void RPC_ServerFindLocation(long sender, string sender_locName, Vector3 sender_pos)
 		{
@@ -319,6 +320,7 @@ namespace OdinPlus
 			{
 				ZRoutedRpc.instance.InvokeRoutedRPC(sender, "RPC_CreateQuestSucced", new object[] { _id, _pos});
 				DBG.blogWarning(string.Format("Location found location {0} at {1}", sender_locName, _pos.ToString()));
+				Remove(_id);
 				return;
 			}
 			ZRoutedRpc.instance.InvokeRoutedRPC(sender, "RPC_CreateQuestFailed", new object[]{});
