@@ -127,7 +127,7 @@ namespace OdinPlus
 			SetPin();
 			ShowMessage("start");
 			ShowMuninMessage(HintStart);
-			//+UpdateQuestList();
+			QuestManager.instance.UpdateQuestList();
 		}
 		public void Discovered()
 		{
@@ -137,11 +137,11 @@ namespace OdinPlus
 		public void Finish()
 		{
 			RemovePin();
-			//+UpdateQuestList();
 			Clear();
-			//ShowMessage("clear");
+			ShowMessage("clear");
 			//HACK
 			QuestManager.instance.MyQuests.Remove(ID);
+			QuestManager.instance.UpdateQuestList();
 		}
 		public void Clear()
 		{
@@ -160,10 +160,8 @@ namespace OdinPlus
 		}
 		public void Giveup()
 		{
-			DBG.blogWarning("Client Giveup Quest");
 			RemovePin();
-			//+ZRoutedRpc.instance.InvokeRoutedRPC("RPC_ServerGiveup", new object[] { ID });
-			this.Clear();
+			ShowMessage("giveup");
 		}
 	}
 }
