@@ -71,6 +71,7 @@ namespace OdinPlus
 		}
 		public void RPC_CreateQuestSucced(long sender, string id, Vector3 pos)
 		{
+			CancelWaitError();
 			var quest = WaitQuest;
 			quest.ID = id;
 			quest.m_realPostion = pos;
@@ -79,6 +80,7 @@ namespace OdinPlus
 		}
 		public void RPC_CreateQuestFailed(long sender)
 		{
+			CancelWaitError();
 			DBG.InfoCT("Try Agian,the dice is broken");
 			DBG.blogError(string.Format("Cannot Place Quest :  {0}", WaitQuest.locName, WaitQuest.m_type));
 			WaitQuest = null;
@@ -191,6 +193,19 @@ namespace OdinPlus
 			}
 			return false;
 		}
+
+		private void ShowWaitError()
+		{
+			DBG.InfoCT("There maybe something wrong with the server,please try again later");
+		}
+		public void CancelWaitError()
+		{
+			CancelInvoke("ShowWaitError");
+		}
 		#endregion Tool
+		
+		#region SaveLoad
+
+		#endregion SaveLoad
 	}
 }
