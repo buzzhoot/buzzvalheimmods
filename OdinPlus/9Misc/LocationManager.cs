@@ -312,6 +312,7 @@ namespace OdinPlus
 			m_locationInstances.Remove(id.ToV2I());
 			//upd add a new list for remove elements;
 		}
+		//OPT definitely need a thread pool !! struct[] quenee //notice
 		public static void RPC_ServerFindLocation(long sender, string sender_locName, Vector3 sender_pos)
 		{
 			var _id = "0_0";
