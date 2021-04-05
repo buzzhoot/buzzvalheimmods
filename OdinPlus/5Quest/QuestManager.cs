@@ -41,7 +41,7 @@ namespace OdinPlus
 		}
 		private void Update()
 		{
-
+			CheckPlace();
 		}
 		private void CheckPlace()
 		{
