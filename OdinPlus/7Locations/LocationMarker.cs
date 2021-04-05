@@ -19,16 +19,13 @@ namespace OdinPlus
 		#endregion Setting
 		#region Internal
 		private ZNetView m_nview;
-		private LocationProxy m_locationProxy;
 		#endregion Internal
 		#region Out
-		private List<Container> m_container = new List<Container>();
 		public struct CtnInfo
 		{
 			public Vector3 Pos;
 			public Quaternion Rot;
 		}
-
 		#endregion Out
 
 		#endregion Var
@@ -44,22 +41,28 @@ namespace OdinPlus
 				DBG.blogWarning("Mark Report zdo null");
 				return;
 			}
-			ID = ZoneSystem.instance.GetZone(transform.position).Pak();
-			MarkList.Add(ID, this);
+			if (m_nview.GetZDO().GetBool("LocMarkUsed", false))
+			{
+				ID = ZoneSystem.instance.GetZone(transform.position).Pak();
+				MarkList.Add(ID, this);
+			}
+			else
+			{
+				Destroy(this);
+			}
 		}
 		private void Start()
 		{
 
 		}
 
-
 		private void OnDestroy()
 		{
+			if (ID == "")
+			{
+				return;
+			}
 			MarkList.Remove(ID);
-		}
-		public void Used()
-		{
-			m_nview.GetZDO().Set("Used", true);
 		}
 		#region feature
 		public CtnInfo GetCtnInfo()
@@ -82,7 +85,21 @@ namespace OdinPlus
 			return result;
 		}
 
+		public Vector3 GetPosition()
+		{
+			return transform.position;
+		}
+
+
+
+		public void Used()
+		{
+			m_nview.GetZDO().Set("LocMarkUsed", true);
+			Destroy(this);
+		}
+
 		#endregion feature
+
 		#region static
 		public static void CreatePrefab()
 		{
@@ -117,12 +134,13 @@ namespace OdinPlus
 					{
 						var go = Instantiate(Prefab, dgg.transform);
 						go.name = ("LocMark");
-						DBG.blogWarning("Hack Dungeon" + par2.name);
+						DBG.blogWarning("Hack Dungeon: " + par2.name);
 					}
 					else
 					{
 						var go2 = Instantiate(Prefab, par2);
 						go2.name = ("LocMark");
+						DBG.blogWarning("Hack Location: " + par2.name);
 					}
 
 
@@ -139,7 +157,7 @@ namespace OdinPlus
 		public void DrawBall()
 		{
 			var go = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-			go.transform.position=transform.position;
+			go.transform.position = transform.position;
 			go.transform.localScale = Vector3.one * 3;
 			go.GetComponent<Renderer>().material.color = Color.red;
 			go.name = ("LocMark");
@@ -159,7 +177,7 @@ namespace OdinPlus
 			go.GetComponent<Renderer>().material.color = Color.red;
 			go.AddComponent<Light>();
 			go.name = ("Fake Chest" + ID);
-			GameCamera.instance.transform.localPosition=pos;
+			GameCamera.instance.transform.localPosition = pos;
 		}
 		#endregion Debug
 
