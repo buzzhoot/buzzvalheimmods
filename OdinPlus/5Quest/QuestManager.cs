@@ -109,8 +109,10 @@ namespace OdinPlus
 		}
 		public Quest CreatQuest(QuestType type, Vector3 pos)
 		{
+			//upd multiple overloads
 			WaitQuest = new Quest();
 			WaitQuest.m_type = type;
+			GameKey=CheckKey();
 			WaitQuest.Key = GameKey;
 			WaitQuest.m_realPostion = pos;
 			//upd ismain?

@@ -10,18 +10,21 @@ namespace OdinPlus
 			{
 				case QuestType.Hunt:
 					//HintTarget = string.Format("Looks like you are close to the <color=yellow><b>[{0}]</b></color> Watchout!", locName);
-					quest.HintStart = String.Format("$op_quest_hunt_target_pr_1 <color=yellow><b>[{0}]</b></color> $op_quest_hunt_target_po_1 ", quest.locName);
+					quest.HintStart = String.Format("$op_quest_hunt_start_pr_1 <color=yellow><b>[{0}]</b></color> $op_quest_hunt_start_po_1 ", quest.locName);
 					quest.HintTarget = String.Format("$op_task_hunt_target_pr_1 <color=yellow><b>[{0}]</b></color> $op_task_hunt_target_po_1 ", quest.locName);
 					break;
 				case QuestType.Treasure:
 					//HintTarget = string.Format("Looks like you are close to the chest,look around find a <color=yellow><b>[{0}]</b></color>", locName);
-					quest.HintStart = String.Format("$op_quest_treasure_target_pr_1 <color=yellow><b>[{0}]</b></color> $op_quest_treasure_target_po_1 ", quest.locName);
+					quest.HintStart = String.Format("$op_quest_treasure_start_pr_1 <color=yellow><b>[{0}]</b></color> $op_quest_treasure_start_po_1 ", quest.locName);
 					quest.HintTarget = String.Format("$op_task_treasure_target_pr_1 <color=yellow><b>[{0}]</b></color> $op_task_treasure_target_po_1 ", quest.locName);
 					break;
 				case QuestType.Dungeon:
 					//HintTarget = string.Format("Looks like you are close to the dungeon,look around find a <color=yellow><b>[{0}]</b></color>", locName);
-					quest.HintStart = String.Format("$op_quest_dungeon_target_pr_1 <color=yellow><b>[{0}]</b></color> $op_quest_dungeon_target_po_1 ", quest.locName);
+					quest.HintStart = String.Format("$op_quest_dungeon_start_pr_1 <color=yellow><b>[{0}]</b></color> $op_quest_dungeon_start_po_1 ", quest.locName);
 					quest.HintTarget = String.Format("$op_task_dungeon_target_pr_1 <color=yellow><b>[{0}]</b></color> $op_task_dungeon_target_po_1 ", quest.locName);
+					break;
+				case QuestType.Search:
+					quest.HintStart = String.Format("$op_quest_search_start_pr_1 <color=yellow><b>[{0}]</b></color> $op_quest_search_start_po_1 ", quest.locName);
 					break;
 			}
 		}

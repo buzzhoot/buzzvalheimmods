@@ -23,11 +23,6 @@ namespace OdinPlus
 			var list1 = QuestRef.LocDic[quest.GetQuestType()];
 			var list2 = list1[quest.Key];
 			quest.locName = list2.GetRandomElement();
-			if (quest.GetQuestType() == QuestType.Search)
-			{
-				Begin();
-				return;
-			}
 			ZRoutedRpc.instance.InvokeRoutedRPC("RPC_ServerFindLocation", new object[] { quest.locName, quest.m_realPostion });
 			QuestManager.instance.Invoke("ShowWaitError", 10);
 		}
