@@ -52,6 +52,7 @@ namespace OdinPlus
 				ZNetScene.instance.Destroy(gameObject);
 			}
 		}
+		//HELP how to make a delegate here?//notice
 		public void OnOpen(Humanoid user)
 		{
 			if (user.m_name==OwenerID)

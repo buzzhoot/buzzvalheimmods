@@ -41,6 +41,7 @@ namespace OdinPlus
 		#endregion Varable
 
 		#region Function
+		//HELP is using extesion better than this?
 		private void SetPin()
 		{
 			if (CheckPinNeed())
@@ -155,6 +156,7 @@ namespace OdinPlus
 		}
 		private bool isMeInsideQuestArea()
 		{
+			//OPT move to util                        
 			Vector3 ppos = Player.m_localPlayer.transform.position;
 			Vector2i val = ZoneSystem.instance.GetZone(ppos);
 			return ID.ToV2I() == val;
