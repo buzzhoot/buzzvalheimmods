@@ -3,7 +3,7 @@ using System;
 using UnityEngine;
 namespace OdinPlus
 {
-	public class QuestManager
+	public class QuestManager : MonoBehaviour
 	{
 
 		#region Variable
@@ -106,20 +106,20 @@ namespace OdinPlus
 		{
 
 		}
-		public Quest CreatQuest(QuestType type)
+		public Quest CreatQuest(QuestType type, Vector3 pos)
 		{
 			WaitQuest = new Quest();
 			WaitQuest.m_type = type;
 			WaitQuest.Key = GameKey;
+			WaitQuest.m_realPostion = pos;
 			//upd ismain?
 			//hack LEVEL
-			SelectProcesser();
+			SelectProcesser(WaitQuest);
 			questProcesser.Init();
 			return WaitQuest;
 		}
-		private void SelectProcesser()
+		private void SelectProcesser(Quest quest)
 		{
-			var quest = WaitQuest;
 			switch (quest.m_type)
 			{
 				case QuestType.Dungeon:
@@ -187,6 +187,8 @@ namespace OdinPlus
 				if (quest.m_index == ind)
 				{
 					quest.Giveup();
+					MyQuests.Remove(quest.ID);
+					UpdateQuestList();
 					DBG.blogInfo("Client give up quest" + ind);
 					return true;
 				}
