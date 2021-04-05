@@ -55,7 +55,7 @@ namespace OdinPlus
 		//HELP how to make a delegate here?//notice
 		public void OnOpen(Humanoid user)
 		{
-			if (user.m_name==OwenerID)
+			if (user.GetHoverName()==OwenerID)
 			{
 				//+ finish
 				return;
