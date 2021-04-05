@@ -43,6 +43,21 @@ namespace OdinPlus
 		{
 
 		}
+		private void CheckPlace()
+		{
+			var lmList = LocationMarker.MarkList;
+			foreach (var item in MyQuests.Keys)
+			{
+				if (lmList.ContainsKey(item))
+				{
+					var lm = lmList[item];
+					var quest  = MyQuests[item];
+					SelectProcesser(quest);
+					questProcesser.Place(lm);
+					return;
+				}
+			}
+		}
 
 		#endregion Main
 
