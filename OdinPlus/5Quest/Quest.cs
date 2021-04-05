@@ -14,6 +14,7 @@ namespace OdinPlus
 		#region Data
 		public string locName = "";
 		public string ID = "0_0";
+		public string m_owenerName="";
 		public QuestType m_type;
 		public Vector3 m_realPostion;
 		public bool hasPIN = false;//XXX
