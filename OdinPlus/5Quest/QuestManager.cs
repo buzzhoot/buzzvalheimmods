@@ -51,7 +51,7 @@ namespace OdinPlus
 				if (lmList.ContainsKey(item))
 				{
 					var lm = lmList[item];
-					var quest  = MyQuests[item];
+					var quest = MyQuests[item];
 					SelectProcesser(quest);
 					questProcesser.Place(lm);
 					return;
@@ -112,7 +112,7 @@ namespace OdinPlus
 			//upd multiple overloads
 			WaitQuest = new Quest();
 			WaitQuest.m_type = type;
-			GameKey=CheckKey();
+			GameKey = CheckKey();
 			WaitQuest.Key = GameKey;
 			WaitQuest.m_realPostion = pos;
 			//upd ismain?
@@ -121,6 +121,36 @@ namespace OdinPlus
 			questProcesser.Init();
 			return WaitQuest;
 		}
+		public bool GiveUpQuest(int ind)
+		{
+			foreach (var quest in MyQuests.Values)
+			{
+				if (quest.m_index == ind)
+				{
+					quest.Giveup();
+					MyQuests.Remove(quest.ID);
+					UpdateQuestList();
+					DBG.blogInfo("Client give up quest" + ind);
+					return true;
+				}
+			}
+			return false;
+		}
+		public Quest GetQuest(string p_id)
+		{
+			foreach (var id in MyQuests.Keys)
+			{
+				if (id == p_id)
+				{
+					return MyQuests[id];
+				}
+			}
+			return null;
+		}
+
+		#endregion Feature
+
+		#region Tool
 		private void SelectProcesser(Quest quest)
 		{
 			switch (quest.m_type)
@@ -139,9 +169,6 @@ namespace OdinPlus
 					break;
 			}
 		}
-		#endregion Feature
-
-		#region Tool
 		public int CheckKey()
 		{
 			int result = 0;
@@ -183,22 +210,6 @@ namespace OdinPlus
 			}
 			Tweakers.addHints(n);
 		}
-		public bool GiveUpQuest(int ind)
-		{
-			foreach (var quest in MyQuests.Values)
-			{
-				if (quest.m_index == ind)
-				{
-					quest.Giveup();
-					MyQuests.Remove(quest.ID);
-					UpdateQuestList();
-					DBG.blogInfo("Client give up quest" + ind);
-					return true;
-				}
-			}
-			return false;
-		}
-
 		private void ShowWaitError()
 		{
 			DBG.InfoCT("There maybe something wrong with the server,please try again later");
@@ -208,7 +219,7 @@ namespace OdinPlus
 			CancelInvoke("ShowWaitError");
 		}
 		#endregion Tool
-		
+
 		#region SaveLoad
 
 		#endregion SaveLoad
