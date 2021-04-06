@@ -8,39 +8,43 @@ namespace OdinPlus
 	{
 
 		private ZNetView m_nview;
-		public string ID = "";
 		public bool Placing = false;
-		public bool isPublic = false;
-		public string OwenerID = "";
+		public bool m_sphy = false;
+		//upd maybe make this private box??public bool isPublic = false;
+		public string m_id = "";
+		public string m_ownerName = "";
 		private Transform m_task;
 		private Container m_container;
-		private void Start()
+		private void Awake()
 		{
-			if (gameObject.transform.position.y > 4000)
-			{
-				DestroyImmediate(this.GetComponent<StaticPhysics>());
-			}
 			m_nview = gameObject.GetComponent<ZNetView>();
 			m_container = gameObject.GetComponent<Container>();
+			var zdo = m_nview.GetZDO();
 			if (Placing)
 			{
-				m_nview.GetZDO().Set("TaskID", ID);
+
+				zdo.Set("QuestID", m_id);
+				zdo.Set("QuestSphy", m_sphy);
+				zdo.Set("QuestOwener", m_ownerName);
 				return;
 			}
 			else
 			{
-				ID = m_nview.GetZDO().GetString("TaskID");
+				m_id = zdo.GetString("QuestID","public");
+				m_sphy = zdo.GetBool("QuestSphy",true);
+				m_ownerName = zdo.GetString("QuestOwener","public");
 			}
-			if (ZNet.instance.IsServer() && ZNet.instance.IsDedicated())
+			if (!m_sphy)
 			{
-				//Destroy(gameObject);
+				DestroyImmediate(this.GetComponent<StaticPhysics>());
 			}
-
-
+			/* 			if (ZNet.instance.IsServer() && ZNet.instance.IsDedicated())
+						{
+							Destroy(gameObject);
+						} */
 		}
 		private void Update()
 		{
-			ID = m_nview.GetZDO().GetString("TaskID");
 			if (m_container.GetInventory() == null)
 			{
 				DBG.blogWarning("Cant find inv");
@@ -48,7 +52,7 @@ namespace OdinPlus
 			}
 			if (m_container.GetInventory().NrOfItems() == 0)
 			{
-				ZRoutedRpc.instance.InvokeRoutedRPC("RPC_FinishTask", new object[] { ID });
+			
 				Instantiate(NpcManager.RavenPrefab.GetComponent<Raven>().m_despawnEffect.m_effectPrefabs[0].m_prefab, gameObject.transform.position, Quaternion.identity);
 				ZNetScene.instance.Destroy(gameObject);
 			}
@@ -56,27 +60,52 @@ namespace OdinPlus
 		//HELP how to make a delegate here?//notice
 		public void OnOpen(Humanoid user)
 		{
-			if (user.GetHoverName() == OwenerID)
+			if (user.GetHoverName() == m_ownerName)
 			{
-				//+ finish
-				return;
+				var quest = QuestManager.instance.GetQuest(m_id);
+				if (quest!=null)
+				{
+					//upd should select in base?
+					QuestProcesser.Create(quest).Finish();
+					return;
+				}
+				//upd giveup without destroy?
 			}
-			//+Stoled
+			string n  = string.Format("Hey you found the chest belong to <color=yellow><b>{0}</b></color",m_ownerName);//trans
+			DBG.InfoCT(n);
 
 		}
 
 		#region Static
-		public static GameObject Place(Vector3 pos, string p_id,int p_key, bool sphy = true)
+		public static GameObject Place(Vector3 pos, float p_range,string p_owner ,string p_id, int p_key, Quaternion rot, bool sphy = true)
 		{
-			return Place(pos,p_id,p_key,Quaternion.identity,sphy);
+			Collider[] array = Physics.OverlapBox(pos, Vector3.one * p_range);
+			foreach (var col in array)
+			{
+				var ctn = col.GetComponent<Container>();
+				if (ctn)
+				{
+					ctn.gameObject.GetComponent<ZNetView>().Destroy();
+				}
+			}
+			return Place(pos,p_owner , p_id, p_key, rot, sphy);
+
 		}
-		public static GameObject Place(Vector3 pos, string p_id, int p_key, Quaternion rot, bool sphy = true)
+		public static GameObject Place(Vector3 pos,string p_owner , string p_id, int p_key, bool sphy = true)
+		{
+			return Place(pos, p_id, p_owner ,p_key, Quaternion.identity, sphy);
+		}
+		public static GameObject Place(Vector3 pos,string p_owner , string p_id, int p_key, Quaternion rot, bool sphy = true)
 		{
 			GameObject chest;
 			chest = Instantiate(ZNetScene.instance.GetPrefab("LegacyChest" + (p_key + 1).ToString()), pos, rot, OdinPlus.PrefabParent.transform);
-			chest.GetComponent<LegacyChest>().ID = p_id;
-			chest.GetComponent<LegacyChest>().Placing = true;
-			//opt!(sphy)
+
+			var lc = chest.GetComponent<LegacyChest>();
+			lc.Placing = true;
+			lc.m_id = p_id;
+			lc.m_sphy = sphy;
+			lc.m_ownerName=p_owner;
+
 			chest.transform.SetParent(OdinPlus.Root.transform);
 			return chest;
 		}
