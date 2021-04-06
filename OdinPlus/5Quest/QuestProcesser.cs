@@ -38,6 +38,10 @@ namespace OdinPlus
 		{
 			lm.Used();
 		}
+		public virtual void Finish()
+		{
+			quest.Finish();
+		}
 
 	}
 }
