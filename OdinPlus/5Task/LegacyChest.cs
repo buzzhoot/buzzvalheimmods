@@ -1,3 +1,4 @@
+using System.IO.Pipes;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -55,7 +56,7 @@ namespace OdinPlus
 		//HELP how to make a delegate here?//notice
 		public void OnOpen(Humanoid user)
 		{
-			if (user.GetHoverName()==OwenerID)
+			if (user.GetHoverName() == OwenerID)
 			{
 				//+ finish
 				return;
@@ -63,5 +64,22 @@ namespace OdinPlus
 			//+Stoled
 
 		}
+
+		#region Static
+		public static GameObject Place(Vector3 pos, string p_id,int p_key, bool sphy = true)
+		{
+			return Place(pos,p_id,p_key,Quaternion.identity,sphy);
+		}
+		public static GameObject Place(Vector3 pos, string p_id, int p_key, Quaternion rot, bool sphy = true)
+		{
+			GameObject chest;
+			chest = Instantiate(ZNetScene.instance.GetPrefab("LegacyChest" + (p_key + 1).ToString()), pos, rot, OdinPlus.PrefabParent.transform);
+			chest.GetComponent<LegacyChest>().ID = p_id;
+			chest.GetComponent<LegacyChest>().Placing = true;
+			//opt!(sphy)
+			chest.transform.SetParent(OdinPlus.Root.transform);
+			return chest;
+		}
+		#endregion Static
 	}
 }
