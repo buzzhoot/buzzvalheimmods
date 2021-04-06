@@ -16,7 +16,6 @@ namespace OdinPlus
 		public int Level;
 		public int Key;
 		public bool Placing = false;
-		private Transform m_task;
 		private Character m_chrct;
 		private Humanoid m_hum;
 		private CharacterDrop m_cDrop;
@@ -60,7 +59,7 @@ namespace OdinPlus
 			{
 				return;
 			}
-			m_task = TaskManager.Root.transform.Find("Task" + ID);
+			var m_task = QuestManager.instance.GetQuest(ID);
 			if (m_task == null)
 			{
 				DBG.blogInfo("Cant find task,Destroy Hunt Target" + ID);
