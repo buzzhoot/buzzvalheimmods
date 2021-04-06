@@ -30,9 +30,9 @@ namespace OdinPlus
 			}
 			else
 			{
-				m_id = zdo.GetString("QuestID","public");
-				m_sphy = zdo.GetBool("QuestSphy",true);
-				m_ownerName = zdo.GetString("QuestOwener","public");
+				m_id = zdo.GetString("QuestID", "public");
+				m_sphy = zdo.GetBool("QuestSphy", true);
+				m_ownerName = zdo.GetString("QuestOwener", "public");
 			}
 			if (!m_sphy)
 			{
@@ -52,7 +52,7 @@ namespace OdinPlus
 			}
 			if (m_container.GetInventory().NrOfItems() == 0)
 			{
-			
+
 				Instantiate(NpcManager.RavenPrefab.GetComponent<Raven>().m_despawnEffect.m_effectPrefabs[0].m_prefab, gameObject.transform.position, Quaternion.identity);
 				ZNetScene.instance.Destroy(gameObject);
 			}
@@ -63,7 +63,7 @@ namespace OdinPlus
 			if (user.GetHoverName() == m_ownerName)
 			{
 				var quest = QuestManager.instance.GetQuest(m_id);
-				if (quest!=null)
+				if (quest != null)
 				{
 					//upd should select in base?
 					QuestProcesser.Create(quest).Finish();
@@ -71,31 +71,36 @@ namespace OdinPlus
 				}
 				//upd giveup without destroy?
 			}
-			string n  = string.Format("Hey you found the chest belong to <color=yellow><b>{0}</b></color",m_ownerName);//trans
+			string n = string.Format("Hey you found the chest belong to <color=yellow><b>{0}</b></color", m_ownerName);//trans
 			DBG.InfoCT(n);
 
 		}
 
 		#region Static
-		public static GameObject Place(Vector3 pos, float p_range,string p_owner ,string p_id, int p_key, Quaternion rot, bool sphy = true)
+		public static GameObject Place(Vector3 pos, Quaternion rot, float p_range, string p_owner, string p_id, int p_key, bool sphy = true)
 		{
 			Collider[] array = Physics.OverlapBox(pos, Vector3.one * p_range);
 			foreach (var col in array)
 			{
 				var ctn = col.GetComponent<Container>();
+				var cnt2 = col.transform.parent.GetComponent<Container>();
 				if (ctn)
 				{
 					ctn.gameObject.GetComponent<ZNetView>().Destroy();
 				}
+				if (cnt2)
+				{
+					col.transform.parent.GetComponent<ZNetView>().Destroy();
+				}
 			}
-			return Place(pos,p_owner , p_id, p_key, rot, sphy);
+			return Place(pos, p_owner, p_id, p_key, rot, sphy);
 
 		}
-		public static GameObject Place(Vector3 pos,string p_owner , string p_id, int p_key, bool sphy = true)
+		public static GameObject Place(Vector3 pos, string p_owner, string p_id, int p_key, bool sphy = true)
 		{
-			return Place(pos, p_id, p_owner ,p_key, Quaternion.identity, sphy);
+			return Place(pos, p_id, p_owner, p_key, Quaternion.identity, sphy);
 		}
-		public static GameObject Place(Vector3 pos,string p_owner , string p_id, int p_key, Quaternion rot, bool sphy = true)
+		public static GameObject Place(Vector3 pos, string p_owner, string p_id, int p_key, Quaternion rot, bool sphy = true)
 		{
 			GameObject chest;
 			chest = Instantiate(ZNetScene.instance.GetPrefab("LegacyChest" + (p_key + 1).ToString()), pos, rot, OdinPlus.PrefabParent.transform);
@@ -104,7 +109,7 @@ namespace OdinPlus
 			lc.Placing = true;
 			lc.m_id = p_id;
 			lc.m_sphy = sphy;
-			lc.m_ownerName=p_owner;
+			lc.m_ownerName = p_owner;
 
 			chest.transform.SetParent(OdinPlus.Root.transform);
 			return chest;
