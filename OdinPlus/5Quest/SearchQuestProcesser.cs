@@ -28,6 +28,7 @@ namespace OdinPlus
 			quest.ID=m_item;
 			base.Begin();
 		}
+		
 		#endregion Main
 		#region Feature
 		public static bool CanOffer(string item)
@@ -47,8 +48,9 @@ namespace OdinPlus
 			if (inv.CountItems(iname) >= count)
 			{
 				inv.RemoveItem(iname, count);
-				var t = TaskManager.Root.transform.Find("Task" + item);
-				t.gameObject.GetComponent<SearchTask>().Finish();
+				var quest = QuestManager.instance.MyQuests[iname];
+				quest.Finish();
+				OdinMunin.Reward(quest.Key,quest.Level);
 				return true;
 			}
 			return false;

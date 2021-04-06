@@ -135,11 +135,11 @@ namespace OdinPlus
 		}
 		public override bool UseItem(Humanoid user, ItemDrop.ItemData item)
 		{
-			if (!SearchTask.CanOffer(item.m_dropPrefab.name))
+			if (!SearchQuestProcesser.CanOffer(item.m_dropPrefab.name))
 			{
 				return false;
 			}
-			if (SearchTask.CanFinish(item.m_dropPrefab.name))
+			if (SearchQuestProcesser.CanFinish(item.m_dropPrefab.name))
 			{
 				Say("$op_munin_takeoffer");
 				return true;
