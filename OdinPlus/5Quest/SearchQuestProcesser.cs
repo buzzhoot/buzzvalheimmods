@@ -23,15 +23,36 @@ namespace OdinPlus
 			quest.locName=m_item;
 			Begin();
 		}
+		 public override void Begin()
+		{
+			quest.ID=m_item;
+			base.Begin();
+		}
 		#endregion Main
 		#region Feature
-
-		#endregion Feature
-
-		#region Tool
-
-#endregion Main
-		#region Feature
+		public static bool CanOffer(string item)
+		{
+			if (OdinData.Data.SearchTaskList.ContainsKey(item))
+			{
+				return true;
+			}
+			return false;
+		}
+		public static bool CanFinish(string item)
+		{
+			var inv = Player.m_localPlayer.GetInventory();
+			int count = OdinData.Data.SearchTaskList[item];
+			string iname = Tweakers.GetItemData(item).m_shared.m_name;
+			Debug.LogWarning(count);
+			if (inv.CountItems(iname) >= count)
+			{
+				inv.RemoveItem(iname, count);
+				var t = TaskManager.Root.transform.Find("Task" + item);
+				t.gameObject.GetComponent<SearchTask>().Finish();
+				return true;
+			}
+			return false;
+		}
 
 		#endregion Feature
 
@@ -61,7 +82,6 @@ namespace OdinPlus
 			m_count = l1.ElementAt(ind).Value * quest.Level;
 			return true;
 		}
-
 		#endregion Tool
 	}
 }
