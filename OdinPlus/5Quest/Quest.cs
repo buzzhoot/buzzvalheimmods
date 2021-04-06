@@ -139,12 +139,13 @@ namespace OdinPlus
 		public void Finish()
 		{
 			RemovePin();
-			Clear();
+			//Clear();
 			ShowMessage("clear");
 			//HACK
 			QuestManager.instance.MyQuests.Remove(ID);
 			QuestManager.instance.UpdateQuestList();
 		}
+		//clear should change to another method for finish then you don't have to create processer again
 		public void Clear()
 		{
 			string result = "stolen";

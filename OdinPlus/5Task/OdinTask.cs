@@ -185,7 +185,7 @@ namespace OdinPlus
 			GameObject chest;
 			chest = Instantiate(ZNetScene.instance.GetPrefab("LegacyChest" + (parKey + 1).ToString()), OdinPlus.PrefabParent.transform);
 			chest.transform.localPosition = pos;
-			chest.GetComponent<LegacyChest>().ID = parId;
+			//chest.GetComponent<LegacyChest>().ID = parId;
 			chest.GetComponent<LegacyChest>().Placing = true;
 			chest.transform.SetParent(OdinPlus.Root.transform);
 			return chest;
@@ -194,7 +194,7 @@ namespace OdinPlus
 		{
 			GameObject chest;
 			chest = Instantiate(ZNetScene.instance.GetPrefab("LegacyChest" + (parKey + 1).ToString()), pos, rot, OdinPlus.PrefabParent.transform);
-			chest.GetComponent<LegacyChest>().ID = parId;
+			//chest.GetComponent<LegacyChest>().ID = parId;
 			chest.GetComponent<LegacyChest>().Placing = true;
 			chest.transform.SetParent(OdinPlus.Root.transform);
 			return chest;
