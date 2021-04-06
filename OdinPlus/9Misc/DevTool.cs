@@ -402,8 +402,8 @@ namespace OdinPlus
 		#region Debug
 		public static void TestA()
 		{
-			TaskManager.CheckKey();
-			TaskManager.CreateRandomTask();
+			QuestManager.instance.CheckKey();
+			QuestManager.instance.CreateRandomQuest();
 		}
 		public static void TestB()
 		{
@@ -442,7 +442,7 @@ namespace OdinPlus
 				if (CMD.StartsWith("/ctask"))
 				{
 					CMD = CMD.Remove(0, 6);
-					TaskManager.instance.CreateTask((TaskManager.TaskType)int.Parse(CMD));
+					QuestManager.instance.CreateQuest((QuestType)int.Parse(CMD),Game.instance.GetPlayerProfile().GetCustomSpawnPoint());
 					Debug.Log("creatin task");
 				}
 			}

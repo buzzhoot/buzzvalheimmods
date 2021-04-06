@@ -59,6 +59,10 @@ namespace OdinPlus
 				}
 			}
 		}
+		public void Clear()
+		{
+			MyQuests.Clear();
+		}
 
 		#endregion Main
 
@@ -105,10 +109,44 @@ namespace OdinPlus
 		}
 		public void CreateRandomQuest()
 		{
-
+			UnityEngine.Random.InitState((int)Time.time);
+			QuestType[] a = new QuestType[] { QuestType.Treasure };
+			switch (CheckKey())
+			{
+				case 0:
+					a = new QuestType[] { QuestType.Search, QuestType.Treasure };
+					break;
+				case 1:
+					a = new QuestType[] { QuestType.Treasure, QuestType.Dungeon, QuestType.Search };
+					break;
+				case 2:
+					a = new QuestType[] { QuestType.Treasure, QuestType.Hunt, QuestType.Dungeon, QuestType.Search };
+					break;
+				case 3:
+					a = new QuestType[] { QuestType.Treasure, QuestType.Dungeon, QuestType.Hunt, QuestType.Search };
+					break;
+				case 4:
+					a = new QuestType[] { QuestType.Treasure, QuestType.Dungeon, QuestType.Hunt, QuestType.Search };
+					break;
+				case 5:
+					a = new QuestType[] { QuestType.Treasure, QuestType.Dungeon, QuestType.Hunt, QuestType.Search };
+					break;
+			}
+			int l = a.Length;
+			if (1f.RollDice() < 0.1)
+			{
+				CreateQuest(QuestType.Search, Game.instance.GetPlayerProfile().GetCustomSpawnPoint());
+				return;
+			}
+			DBG.blogWarning("Dice Rolled");
+			instance.CreateQuest(a[l.RollDice()], Game.instance.GetPlayerProfile().GetCustomSpawnPoint());
 		}
-		public Quest CreatQuest(QuestType type, Vector3 pos)
+		public Quest CreateQuest(QuestType type, Vector3 pos)
 		{
+			if (MyQuests == null)
+			{
+				MyQuests = new Dictionary<string, Quest>();
+			}
 			//upd multiple overloads
 			WaitQuest = new Quest();
 			WaitQuest.m_type = type;
@@ -221,7 +259,22 @@ namespace OdinPlus
 		#endregion Tool
 
 		#region SaveLoad
-
+		public void Save()
+		{
+			var data = OdinData.Data.Quests;
+			data = new List<Quest>();
+			foreach (var quest in MyQuests.Values)
+			{
+				data.Add(quest);
+			}
+		}
+		public void Load()
+		{
+			foreach (var quest in OdinData.Data.Quests)
+			{
+				MyQuests.Add(quest.ID, quest);
+			}
+		}
 		#endregion SaveLoad
 	}
 }

@@ -61,7 +61,7 @@ namespace OdinPlus
 			Plugin.preODB = (Action<ObjectDB>)Delegate.Combine(Plugin.preODB, (Action<ObjectDB>)PreODB);
 
 			Root.AddComponent<OdinData>();
-			Root.AddComponent<TaskManager>();
+			Root.AddComponent<QuestManager>();
 
 			
 			Root.AddComponent<OdinSE>();
@@ -134,7 +134,7 @@ namespace OdinPlus
 		public static void Clear()
 		{
 			PetManager.Clear();
-			TaskManager.Clear();
+			QuestManager.instance.Clear();
 			LocationManager.Clear();
 			Destroy(Root.GetComponent<NpcManager>());
 			isNPCInit = false;
@@ -255,10 +255,9 @@ namespace OdinPlus
 			Root.AddComponent<OdinItem>();
 			Root.AddComponent<PetManager>();
 			Root.AddComponent<PrefabManager>();
-			Root.AddComponent<TaskManager>();
+			Root.AddComponent<QuestManager>();
 			Root.AddComponent<LocationManager>();
 			Root.AddComponent<FxAssetManager>();
-			//TaskManager.instance.ReigsterRpc();
 			//Plugin.RegRPC();
 
 			isInit = true;

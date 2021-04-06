@@ -23,7 +23,7 @@ namespace OdinPlus
 			public List<OdinData.TaskDataTable> Tasks = new List<TaskDataTable>();
 			public int QuestCount = 0;
 			public Dictionary<string, int> SearchTaskList = new Dictionary<string, int>();
-			public List<TaskManager.ClientTaskData> ClientTaskDatas = new List<TaskManager.ClientTaskData>();
+			public List<Quest> Quests = new List<Quest>();
 			public override Type BindToType(string assemblyName, string typeName)
 			{
 				Type tyType = null;
@@ -120,7 +120,7 @@ namespace OdinPlus
 				Credits = 1000;
 			}
 			Data = new DataTable();
-			Data.ClientTaskDatas=new List<TaskManager.ClientTaskData>();
+			Data.Quests=new List<Quest>();
 			if (Plugin.CFG_ItemSellValue.Value == "") { return; }
 			string[] l1 = Plugin.CFG_ItemSellValue.Value.Split(new char[] { ';' });
 			for (int i = 0; i < l1.Length; i++)
@@ -168,11 +168,7 @@ namespace OdinPlus
 				return;
 			}
 			#region Save
-			if (ZNet.instance.IsServer())
-			{
-				Data.Tasks = TaskManager.Save();
-			}
-			TaskManager.ClientSave();
+			QuestManager.instance.Save();
 			Data.Credits = Credits;
 			#endregion Save
 
@@ -218,11 +214,7 @@ namespace OdinPlus
 
 			#region Load
 			Credits = Data.Credits;
-			if (ZNet.instance.IsServer())
-			{
-				TaskManager.Load(Data.Tasks);
-			}
-			TaskManager.ClientLoad();
+			QuestManager.instance.Load();
 			LocationManager.BlackList = Data.BlackList;
 			LocationManager.RemoveBlackList();
 			#endregion Load

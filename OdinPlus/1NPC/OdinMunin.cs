@@ -46,20 +46,20 @@ namespace OdinPlus
 				Say("$op_munin_cd "+n);
 				return;
 			}
-			if (TaskManager.Count() >= 10)
+			if (QuestManager.instance.Count() >= 10)
 			{
 				Say("$op_munin_taskfulll");
 				return;
 			}
-			TaskManager.CreateRandomTask();
+			QuestManager.instance.CreateRandomQuest();
 			Say("$op_munin_wait_hug");
 			timer = taskCD;
 		}
-		private void GiveUpTask()
+		private void GiveUpQuest()
 		{
-			if (TaskManager.HasTask())
+			if (QuestManager.instance.HasQuest())
 			{
-				//string n = string.Format("Which Quest you want to give up?", TaskManager.Count());
+				//string n = string.Format("Which Quest you want to give up?", QuestManager.instance.Count());
 				string n = "$op_munin_giveup";
 				n = Localization.instance.Localize(n);
 				TextInput.instance.RequestText(new TR_Giveup(), n, 3);
@@ -70,12 +70,12 @@ namespace OdinPlus
 		}
 		private void ChangeLevel()
 		{
-			if (TaskManager.Level == TaskManager.MaxLevel)
+			if (QuestManager.instance.Level == QuestManager.MaxLevel)
 			{
-				TaskManager.Level = 1;
+				QuestManager.instance.Level = 1;
 				return;
 			}
-			TaskManager.Level++;
+			QuestManager.instance.Level++;
 		}
 
 		#endregion Feature
@@ -93,15 +93,15 @@ namespace OdinPlus
 					CreatSideQuest();
 					break;
 				case 1:
-					GiveUpTask();
+					GiveUpQuest();
 					break;
 				case 2:
 					ChangeLevel();
 					break;
 				case 3:
-					if (TaskManager.HasTask())
+					if (QuestManager.instance.HasQuest())
 					{
-						TaskManager.PrintTaskList();
+						QuestManager.instance.PrintQuestList();
 						Say("$op_munin_wait_hug");
 						break;
 					}
@@ -122,8 +122,8 @@ namespace OdinPlus
 		public override string GetHoverText()
 		{
 			string n = string.Format("<color=lightblue><b>{0}</b></color>", m_name);
-			n += string.Format("\n<color=lightblue><b>$op_munin_task_lvl :{0}</b></color>", TaskManager.Level);
-			n += string.Format("\n$op_munin_tasknum_b <color=lightblue><b>{0}</b></color> $op_munin_tasknum_a", TaskManager.Count());
+			n += string.Format("\n<color=lightblue><b>$op_munin_task_lvl :{0}</b></color>", QuestManager.instance.Level);
+			n += string.Format("\n$op_munin_tasknum_b <color=lightblue><b>{0}</b></color> $op_munin_tasknum_a", QuestManager.instance.Count());
 			n += "\n[<color=yellow><b>1-8</b></color>]$op_offer";
 			n += "\n[<color=yellow><b>$KEY_Use</b></color>]" + currentChoice;
 			n += String.Format("\n<color=yellow><b>[{0}]</b></color>$op_switch", Plugin.KS_SecondInteractkey.Value.MainKey.ToString());
@@ -176,7 +176,7 @@ namespace OdinPlus
 				int num;
 				if (int.TryParse(text, out num))
 				{
-					if (!TaskManager.GiveUpTask(num))
+					if (!QuestManager.instance.GiveUpQuest(num))
 					{
 						DBG.InfoCT("$op_munin_noq " + num);
 						return;
