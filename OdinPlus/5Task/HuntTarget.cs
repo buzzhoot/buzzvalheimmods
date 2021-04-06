@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using HarmonyLib;
+using System.Text.RegularExpressions;
+
 //opt:Create base class for task target//notice Use Invoke
 namespace OdinPlus
 {
@@ -71,10 +73,10 @@ namespace OdinPlus
 		{
 			ZRoutedRpc.instance.InvokeRoutedRPC("RPC_FinishTask", new object[] { ID });
 			Tweakers.ValSpawn("vfx_GodExplosion", transform.position);
-			var r= Instantiate(ZNetScene.instance.GetPrefab("OdinLegacy"),transform.localPosition,Quaternion.identity);
-			r.GetComponent<ItemDrop>().m_itemData.m_quality=Key;
-			r.GetComponent<ItemDrop>().m_itemData.m_stack=Level;
-			
+			var r = Instantiate(ZNetScene.instance.GetPrefab("OdinLegacy"), transform.localPosition, Quaternion.identity);
+			r.GetComponent<ItemDrop>().m_itemData.m_quality = Key;
+			r.GetComponent<ItemDrop>().m_itemData.m_stack = Level;
+
 		}
 
 		#endregion Mono
@@ -91,9 +93,10 @@ namespace OdinPlus
 		public static GameObject CreateMonster(string name)
 		{
 			var go = Instantiate(ZNetScene.instance.GetPrefab(name), OdinPlus.PrefabParent.transform);
+			name = Regex.Replace(name, @"[_]", "");
 			go.name = name + "Hunt";
 			go.AddComponent<HuntTarget>();
-			go.GetComponent<Humanoid>().m_name+=" $op_hunt_target";
+			go.GetComponent<Humanoid>().m_name += " $op_hunt_target";
 			DestroyImmediate(go.GetComponent<CharacterDrop>());
 			var fx = Instantiate(FxAssetManager.GetFxNN("GreenSmoke"), go.transform);
 			fx.transform.position = go.FindObject("Spine2").transform.position;//opt Random smoke
@@ -105,11 +108,21 @@ namespace OdinPlus
 			d.m_chance = 1;
 			d.m_amountMax = Level + Key;
 			d.m_amountMin = d.m_amountMax;
-			d.m_levelMultiplier=false;
+			d.m_levelMultiplier = false;
 			d.m_prefab = ZNetScene.instance.GetPrefab("OdinLegacy");
 			m_cDrop.m_drops = new List<CharacterDrop.Drop>();
 			Traverse.Create(m_cDrop).Field<bool>("m_dropsEnabled").Value = true;
 			m_cDrop.m_drops.Add(d);
+		}
+		public static void Place(Vector3 pos, string monster, string id, int p_key, int p_lvl)
+		{
+			float y = 0;
+			ZoneSystem.instance.FindFloor(pos, out y);
+			pos = new Vector3(pos.x, y + 2, pos.z + 5);
+			var Reward = Instantiate(ZNetScene.instance.GetPrefab(monster + "Hunt"), pos, Quaternion.identity);
+			Reward.GetComponent<HuntTarget>().ID = id;
+			Reward.GetComponent<HuntTarget>().Setup(p_key, p_lvl);
+			DBG.blogWarning("Placed Hunt " + monster + " at : " + Reward.transform.localPosition);
 		}
 		#endregion Tool
 
