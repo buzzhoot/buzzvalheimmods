@@ -25,7 +25,6 @@ namespace OdinPlus
 				return;
 			}
 			quest.locName = m_item;
-			quest.m_realPostion=NpcManager.Root.transform.position;
 			quest.m_range=0;
 			Begin();
 		}
