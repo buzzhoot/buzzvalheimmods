@@ -28,35 +28,34 @@ namespace OdinPlus
 			public string prefab = "Goblin";
 			public bool isFriend = false;
 			public float m_randomMoveInterval = 30;
+			public float m_randomMoveRange = 3;
+			public float m_moveMinAngle = 30;
 			public float health = 200;
 			public float speed = 7;
+			public Humanoid.ItemSet sets  = new Humanoid.ItemSet();
 			public string[] weapons = { "SwordBronze", "SwordIron", "AtgeirBronze", "AtgeirIron", "SpearBronze" };
 			public string[] sheild = { "ShieldBanded", "ShieldBlackmetal", "ShieldBlackmetalTower", "ShieldBronzeBuckler", "ShieldIronSquare", "ShieldIronTower", "ShieldKnight", "ShieldSerpentscale", "ShieldSilver", "ShieldWood", "ShieldWoodTower" };
-			public string[] armor = { "ArmorBronzeChest", "ArmorBronzeLegs", "ArmorIronChest", "ArmorIronLegs", "CapeTrollHide", "CapeWolf", "HelmetBronze", "HelmetDrake", "HelmetIron" };
+			//public string[] armor = { "ArmorBronzeChest", "ArmorBronzeLegs", "ArmorIronChest", "ArmorIronLegs", "CapeTrollHide", "CapeWolf", "HelmetBronze", "HelmetDrake", "HelmetIron" };
 		}
 		private static List<humanData> presets = new List<humanData>
 		{
 			new humanData(),
 			new humanData(){presetNAME="LowEnemey1",health=300,
 			weapons = new string[]{"Club","SpearFlint","KnifeFlint"},
-			armor = new string[]{"ArmorTrollLeatherLegs","ArmorTrollLeatherChest","CapeTrollHide"}
 			},
 			new humanData(){presetNAME="Fighter1",health=500,
 			weapons = new string[]{"Club","SpearFlint","KnifeFlint"},
-			armor = new string[]{""},
 			},
 			new humanData(){presetNAME="DumbNPC",health=300,
 			m_randomMoveInterval=30000,
 			weapons = new string[]{""},
 			isFriend=true,
-			armor = new string[]{""},
 			sheild=new string[]{"ShieldWood", "ShieldWoodTower"}
 			},
 			new humanData(){presetNAME="GuardNPC",health=300,
 			weapons = new string[]{"SwordBronze", "SwordIron"},
 			m_randomMoveInterval=30,
 			isFriend=true,
-			armor = new string[]{""},
 			sheild=new string[]{""}
 			}
 		};
@@ -106,14 +105,15 @@ namespace OdinPlus
 			//hum.m_runSpeed = dat.speed;
 			hum.m_health = dat.health;
 			hum.m_defaultItems = new GameObject[0];
-			hum.m_randomSets = new Humanoid.ItemSet[0];
+			hum.m_randomSets = new Humanoid.ItemSet[1]{dat.sets};
 			hum.m_unarmedWeapon = null;
-			hum.m_randomArmor = RandomVis(dat.armor);
 			hum.m_randomWeapon = RandomVis(dat.weapons);
 			hum.m_randomShield = RandomVis(dat.sheild);
 
 			mai.m_attackPlayerObjects = !dat.isFriend;
 			mai.m_randomMoveInterval = dat.m_randomMoveInterval;
+			mai.m_randomMoveRange=dat.m_randomMoveRange;
+			mai.m_moveMinAngle=dat.m_moveMinAngle;
 
 			go.name = dat.presetNAME;
 			HumanPreset.Add(dat.presetNAME, go);
@@ -124,7 +124,7 @@ namespace OdinPlus
 		}
 		public static void AddPreset(GameObject go, string prname)
 		{
-			go.AddComponentcc<Humanoid>(HumanPreset[prname].GetComponent<Humanoid>());
+			go.GetComponent<Humanoid>().CopyOtherComonent(HumanPreset[prname].GetComponent<Humanoid>());
 			go.AddComponentcc<MonsterAI>(HumanPreset[prname].GetComponent<MonsterAI>());
 		}
 		private static void HackValHuman()
@@ -139,7 +139,7 @@ namespace OdinPlus
 			var vis = go.GetComponent<VisEquipment>();
 			var hum = go.AddComponent<Humanoid>();
 
-			//vis.m_isPlayer = false;
+			go.AddComponent<HumanVis>();
 
 			hum.CopySonComponet<Humanoid, Player>(oply);
 
@@ -154,7 +154,6 @@ namespace OdinPlus
 		{
 			var go = Instantiate(BasicHuman, OdinPlus.PrefabParent.transform);
 
-			var vis = go.GetComponent<VisEquipment>();
 			var hum = go.GetComponent<Humanoid>();
 			var mai = go.AddComponentcc<MonsterAI>(ZNetScene.instance.GetPrefab("Goblin").GetComponent<MonsterAI>());
 
@@ -175,10 +174,6 @@ namespace OdinPlus
 			//exc.transform.localScale=Vector3.one*0.5f;
 
 			var hnpc = go.AddComponent<HumanNPC>();
-			//hnpc.m_shoulderItem = new string[] { "CapeTrollHide", "CapeDeerHide" };
-			//hnpc.m_chestItem = new string[] { "ArmorTrollLeatherChest", "ArmorLeatherChest" };
-			//hnpc.m_legItem = new string[] { "ArmorTrollLeatherLegs", "ArmorLeatherLegs", "HelmetTrollLeather" };
-
 
 			//ADD exc
 
