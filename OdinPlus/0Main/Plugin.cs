@@ -379,7 +379,7 @@ namespace OdinPlus
 		{
 			private static void Postfix(LocationProxy __instance)
 			{
-				if (__instance.GetComponentInChildren<DungeonGenerator>(true))
+				if (__instance.GetComponentInChildren<DungeonGenerator>(true)!=null)
 				{
 					return;
 				}

@@ -41,10 +41,10 @@ namespace OdinPlus
 		public virtual void Begin()
 		{
 			QuestManager.instance.MyQuests.Add(quest.ID, quest);
-			quest.SetMuninHints();
-			quest.SetMuninMessage();
 			quest.m_ownerName = Player.m_localPlayer.GetPlayerName();
 			quest.Begin();
+			quest.SetMuninHints();
+			quest.SetMuninMessage();
 		}
 		public virtual void Place(LocationMarker lm)
 		{

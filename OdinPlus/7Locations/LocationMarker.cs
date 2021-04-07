@@ -45,6 +45,7 @@ namespace OdinPlus
 			{
 				ID = ZoneSystem.instance.GetZone(transform.position).Pak();
 				MarkList.Add(ID, this);
+				DBG.blogInfo("locmark placed at zone : " + ID);
 			}
 			else
 			{
