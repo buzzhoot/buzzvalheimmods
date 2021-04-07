@@ -143,7 +143,7 @@ namespace OdinPlus
 		#endregion Reflection
 
 		#region  game
-#region RollDice 
+		#region RollDice 
 
 		public static float RollDice(this float val)
 		{
@@ -168,21 +168,21 @@ namespace OdinPlus
 		public static int seed = 0;
 		public static float RollDices(this float val)
 		{
-			seed+=1;
-			UnityEngine.Random.InitState((int)((Time.time + val) * 1000)+seed);
+			seed += 1;
+			UnityEngine.Random.InitState((int)((Time.time + val) * 1000) + seed);
 			return val * UnityEngine.Random.value;
 		}
 		public static int RollDices(this int val)
 		{
-			seed+=1;
-			UnityEngine.Random.InitState((int)((Time.time + val) * 1000)+seed);
+			seed += 1;
+			UnityEngine.Random.InitState((int)((Time.time + val) * 1000) + seed);
 			return Mathf.FloorToInt(UnityEngine.Random.Range(0, val - 0.0001f));
 		}
 		//100d6 大失败！！！！！
 
-#endregion
+		#endregion
 
-		
+
 		public static string GetRandomElement(this string[] array)
 		{
 			return array[array.Length.RollDices()];
@@ -229,6 +229,16 @@ namespace OdinPlus
 				//DBG.blogWarning(finfo+" , "+finfo.GetType() + " , " +finfo.Name);
 			}
 			return comp as T;
+		}
+		public static Component CopyOtherComonent(this Component comp, Component other)
+		{
+			IEnumerable<FieldInfo> finfos = comp.GetType().GetFields(bindingFlags);
+			foreach (var finfo in finfos)
+			{
+				finfo.SetValue(comp, finfo.GetValue(other));
+				//DBG.blogWarning(finfo+" , "+finfo.GetType() + " , " +finfo.Name);
+			}
+			return comp;
 		}
 		private const BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.GetField;
 
