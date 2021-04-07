@@ -52,8 +52,7 @@ namespace OdinPlus
 				{
 					var lm = lmList[item];
 					var quest = MyQuests[item];
-					SelectProcesser(quest);
-					questProcesser.Place(lm);
+					QuestProcesser.Create(quest).Place(lm);
 					return;
 					//HELP Do i need yield return? but will Lead to a new questprocser(Multi-thread)
 				}
@@ -160,7 +159,7 @@ namespace OdinPlus
 			WaitQuest.m_realPostion = pos;
 			//upd ismain?
 			//hack LEVEL
-			SelectProcesser(WaitQuest);
+			questProcesser=QuestProcesser.Create(WaitQuest);
 			questProcesser.Init();
 			return WaitQuest;
 		}
@@ -194,24 +193,6 @@ namespace OdinPlus
 		#endregion Feature
 
 		#region Tool
-		private void SelectProcesser(Quest quest)
-		{
-			switch (quest.m_type)
-			{
-				case QuestType.Dungeon:
-					questProcesser = DungeonQuestProcesser.Create(quest);
-					break;
-				case QuestType.Treasure:
-					questProcesser = TreasureQuestProcesser.Create(quest);
-					break;
-				case QuestType.Hunt:
-					questProcesser = HuntQuestProcesser.Create(quest);
-					break;
-				case QuestType.Search:
-					questProcesser = SearchQuestProcesser.Create(quest);
-					break;
-			}
-		}
 		public int CheckKey()
 		{
 			int result = 0;

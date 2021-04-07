@@ -69,7 +69,7 @@ namespace OdinPlus
 				var quest = QuestManager.instance.GetQuest(m_id);
 				if (quest != null)
 				{
-					//upd should select in base?
+					//upd should select in base? yes!!!!!!!!!
 					QuestProcesser.Create(quest).Finish();
 					return;
 				}

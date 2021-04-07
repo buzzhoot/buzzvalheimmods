@@ -12,6 +12,10 @@ namespace OdinPlus
 		#endregion Var
 
 		#region Main
+		public SearchQuestProcesser(Quest inq)
+		{
+			quest = inq;
+		}
 		public override void Init()
 		{
 			if (!PickItem())
@@ -20,15 +24,15 @@ namespace OdinPlus
 				//upd Failed process
 				return;
 			}
-			quest.locName=m_item;
+			quest.locName = m_item;
 			Begin();
 		}
-		 public override void Begin()
+		public override void Begin()
 		{
-			quest.ID=m_item;
+			quest.ID = m_item;
 			base.Begin();
 		}
-		
+
 		#endregion Main
 		#region Feature
 		public static bool CanOffer(string item)
@@ -50,7 +54,7 @@ namespace OdinPlus
 				inv.RemoveItem(iname, count);
 				var quest = QuestManager.instance.MyQuests[iname];
 				quest.Finish();
-				OdinMunin.Reward(quest.Key,quest.Level);
+				OdinMunin.Reward(quest.Key, quest.Level);
 				return true;
 			}
 			return false;

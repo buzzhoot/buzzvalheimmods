@@ -7,7 +7,19 @@ namespace OdinPlus
 		protected Quest quest;
 		public static QuestProcesser Create(Quest inq)
 		{
-			return new QuestProcesser(inq);
+			switch (inq.m_type)
+			{
+				case QuestType.Dungeon:
+					return new DungeonQuestProcesser(inq);
+				case QuestType.Treasure:
+					return new TreasureQuestProcesser(inq);
+				case QuestType.Hunt:
+					return new HuntQuestProcesser(inq);
+				case QuestType.Search:
+					return new SearchQuestProcesser(inq);
+				default:
+					return new QuestProcesser(inq);
+			}
 		}
 		public void SetQuest(Quest inq)
 		{
