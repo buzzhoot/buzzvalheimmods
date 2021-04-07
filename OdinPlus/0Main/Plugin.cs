@@ -374,12 +374,12 @@ namespace OdinPlus
 				}
 			}
 		}
-		[HarmonyPatch(typeof(Location), "Awake")]
-		private static class Postfix_Location_Awake
+		[HarmonyPatch(typeof(LocationProxy), "Awake")]
+		private static class Postfix_LocationProxy_Awake
 		{
-			private static void Postfix(Location __instance)
+			private static void Postfix(LocationProxy __instance)
 			{
-				if (__instance.GetComponentInChildren<DungeonGenerator>())
+				if (__instance.GetComponentInChildren<DungeonGenerator>(true))
 				{
 					return;
 				}
