@@ -86,23 +86,37 @@ namespace OdinPlus
 		#region Static
 		public static GameObject Place(Vector3 pos, Quaternion rot, float p_range, string p_id, string p_owner, int p_key, bool sphy = true)
 		{
+			DestroyCTN(pos,p_range);
+			return Place(pos, p_id, p_owner, p_key, rot, sphy);
+
+		}
+		public static void DestroyCTN(Vector3 pos,float p_range)
+		{
 			Collider[] array = Physics.OverlapBox(pos, Vector3.one * p_range);
 			foreach (var col in array)
 			{
 				var ctn = col.GetComponent<Container>();
-				var cnt2 = col.transform.parent.GetComponent<Container>();
+				var ctn2 = col.transform.parent.GetComponent<Container>();
+				var ctn3 = col.transform.parent.parent.GetComponent<Container>();
 				if (ctn)
 				{
 					ctn.gameObject.GetComponent<ZNetView>().Destroy();
+					DBG.blogWarning("Find destroyable ctn");
+					return;
 				}
-				if (cnt2)
+				if (ctn2)
 				{
 					col.transform.parent.GetComponent<ZNetView>().Destroy();
+					DBG.blogWarning("Find destroyable ctn parent");
+					return;
 				}
-				//FIXME cant destroy don't know why.
+				if (ctn3)
+				{
+					ctn3.GetComponent<ZNetView>().Destroy();
+					DBG.blogWarning("Find destroyable ctn grandparent");
+					return;
+				}
 			}
-			return Place(pos, p_id, p_owner, p_key, rot, sphy);
-
 		}
 		public static GameObject Place(Vector3 pos, string p_id, string p_owner, int p_key, bool sphy = true)
 		{
@@ -123,7 +137,7 @@ namespace OdinPlus
 			{
 				DestroyImmediate(chest.GetComponent<StaticPhysics>());
 			}
-			DBG.blogWarning("Placed Chest at "+pos);
+			DBG.blogWarning("Placed Chest at " + pos);
 			chest.transform.SetParent(OdinPlus.Root.transform);
 			return chest;
 		}
