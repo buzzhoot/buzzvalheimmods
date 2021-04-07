@@ -12,7 +12,7 @@ namespace OdinPlus
 		public override void Place(LocationMarker lm)
 		{
 			var cinfo = lm.GetCtnInfo();
-			LegacyChest.Place(cinfo.Pos, cinfo.Rot, 2, quest.m_ownerName, quest.ID, quest.Key, false);
+			LegacyChest.Place(cinfo.Pos, cinfo.Rot, 2,  quest.ID,quest.m_ownerName, quest.Key, false);
 			base.Place(lm);
 		}
 

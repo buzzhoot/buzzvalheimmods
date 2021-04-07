@@ -19,7 +19,7 @@ namespace OdinPlus
 		public Vector3 m_realPostion;
 		public bool hasPIN = false;//XXX
 		public Vector3 m_pinPosition = Vector3.zero;
-		public float m_range;
+		public float m_range=30;
 		public List<Quest> m_chain = new List<Quest>();
 
 		#endregion Data
@@ -34,8 +34,8 @@ namespace OdinPlus
 		public string QuestName;
 		public int m_index;
 		public bool isMain;
-		public int Level;
-		public int Key;
+		public int Level=1;
+		public int Key=0;
 		#endregion in
 
 		#endregion Varable
@@ -62,9 +62,13 @@ namespace OdinPlus
 		{
 			m_pinPosition = m_realPostion.GetRandomLocation(m_range);
 		}
-		public void SetRange(int range)
+		public void SetRange()
 		{
-			m_range = range.RollDice();
+			if (m_range==0)
+			{
+				return;
+			}
+			m_range =  m_range.RollDice((Level+1) * m_range);
 		}
 		private void RemovePin()
 		{
@@ -126,7 +130,7 @@ namespace OdinPlus
 			SetQuestName();
 			this.SetMuninHints();
 			this.SetMuninMessage();
-			SetRange(30.RollDice(30 + Level * 30));
+			SetRange();
 			SetPosition();
 			SetPin();
 			ShowMessage("start");

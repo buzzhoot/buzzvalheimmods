@@ -58,7 +58,7 @@ namespace OdinPlus
 			}
 		}
 		//HELP how to make a delegate here?//notice
-		public void OnOpen(Humanoid user,bool hold)
+		public void OnOpen(Humanoid user, bool hold)
 		{
 			if (hold)
 			{
@@ -75,13 +75,13 @@ namespace OdinPlus
 				}
 				//upd giveup without destroy?
 			}
-			string n = string.Format("Hey you found the chest belong to <color=yellow><b>{0}</b></color", m_ownerName);//trans
+			string n = string.Format("Hey you found the chest belong to <color=yellow><b>{0}</b></color>", m_ownerName);//trans
 			DBG.InfoCT(n);
 
 		}
 
 		#region Static
-		public static GameObject Place(Vector3 pos, Quaternion rot, float p_range, string p_owner, string p_id, int p_key, bool sphy = true)
+		public static GameObject Place(Vector3 pos, Quaternion rot, float p_range, string p_id, string p_owner, int p_key, bool sphy = true)
 		{
 			Collider[] array = Physics.OverlapBox(pos, Vector3.one * p_range);
 			foreach (var col in array)
@@ -97,14 +97,14 @@ namespace OdinPlus
 					col.transform.parent.GetComponent<ZNetView>().Destroy();
 				}
 			}
-			return Place(pos, p_owner, p_id, p_key, rot, sphy);
+			return Place(pos, p_id, p_owner, p_key, rot, sphy);
 
 		}
-		public static GameObject Place(Vector3 pos, string p_owner, string p_id, int p_key, bool sphy = true)
+		public static GameObject Place(Vector3 pos, string p_id, string p_owner, int p_key, bool sphy = true)
 		{
 			return Place(pos, p_id, p_owner, p_key, Quaternion.identity, sphy);
 		}
-		public static GameObject Place(Vector3 pos, string p_owner, string p_id, int p_key, Quaternion rot, bool sphy = true)
+		public static GameObject Place(Vector3 pos, string p_id, string p_owner, int p_key, Quaternion rot, bool sphy = true)
 		{
 			GameObject chest;
 			chest = Instantiate(ZNetScene.instance.GetPrefab("LegacyChest" + (p_key + 1).ToString()), pos, rot, OdinPlus.PrefabParent.transform);

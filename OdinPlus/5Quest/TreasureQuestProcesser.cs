@@ -21,8 +21,8 @@ namespace OdinPlus
 				z = 1.999f;
 			}
 			pos += new Vector3(x.RollDice(), y, z.RollDice());
-			var chest = LegacyChest.Place(pos, quest.m_ownerName, quest.ID, quest.Key);
-			DBG.blogWarning("Sever Placed LegacyChest at : " + pos);
+			var chest = LegacyChest.Place(pos, quest.ID, quest.m_ownerName, quest.Key);
+			DBG.blogWarning("Client Placed LegacyChest at : " + pos);
 			base.Place(lm);
 		}
 	}
