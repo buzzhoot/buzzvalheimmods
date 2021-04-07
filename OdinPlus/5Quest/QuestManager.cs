@@ -135,12 +135,17 @@ namespace OdinPlus
 			int l = a.Length;
 			if (1f.RollDice() < 0.1)
 			{
-				CreateQuest(QuestType.Search, Game.instance.GetPlayerProfile().GetCustomSpawnPoint());
+				CreateQuest(QuestType.Search);
 				return;
 			}
 			DBG.blogWarning("Dice Rolled");
-			instance.CreateQuest(a[l.RollDice()], Game.instance.GetPlayerProfile().GetCustomSpawnPoint());
+			instance.CreateQuest(a[l.RollDice()]);
 		}
+		public Quest CreateQuest(QuestType type)
+		{
+			return CreateQuest(type,Game.instance.GetPlayerProfile().GetCustomSpawnPoint());
+		}
+
 		public Quest CreateQuest(QuestType type, Vector3 pos)
 		{
 			if (MyQuests == null)
