@@ -198,6 +198,7 @@ namespace OdinPlus
 					GUILayout.BeginHorizontal();
 					if (GUILayout.Button("Key0"))
 					{
+						DBG.blogWarning("Reseting global keys");
 						RequestResetGlobalKey();
 					}
 					if (GUILayout.Button("Key1"))
