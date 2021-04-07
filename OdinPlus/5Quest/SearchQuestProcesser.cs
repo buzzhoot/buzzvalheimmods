@@ -25,6 +25,7 @@ namespace OdinPlus
 				return;
 			}
 			quest.locName = m_item;
+			quest.m_realPostion=Vector3.zero;
 			Begin();
 		}
 		public override void Begin()
