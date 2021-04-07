@@ -24,7 +24,7 @@ namespace OdinPlus
 				//upd Failed process
 				return;
 			}
-			quest.locName = m_item;
+			quest.locName = m_count.ToString()+m_item;
 			quest.m_range=0;
 			Begin();
 		}
@@ -53,7 +53,7 @@ namespace OdinPlus
 			if (inv.CountItems(iname) >= count)
 			{
 				inv.RemoveItem(iname, count);
-				var quest = QuestManager.instance.MyQuests[iname];
+				var quest = QuestManager.instance.MyQuests[item];
 				quest.Finish();
 				OdinMunin.Reward(quest.Key, quest.Level);
 				return true;
