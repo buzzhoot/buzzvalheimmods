@@ -160,7 +160,7 @@ namespace OdinPlus
 		void DevWindow(int WindowID)
 		{
 
-			GUI.DragWindow(new Rect(0, 0, 400, 800));
+			GUI.DragWindow(new Rect(0, 0, 4000, 20));
 
 			GUILayout.Width(400);
 			GUILayout.Height(50);
@@ -171,6 +171,7 @@ namespace OdinPlus
 				var val = ZoneSystem.instance.GetZone(player.transform.position);
 				GUILayout.Label("Zone: " + val.ToString(), style);
 				GUILayout.Label("Location: " + (player.transform.position).ToString(), style);
+
 				if (ZNet.instance != null)
 				{
 					if (ZNet.instance.IsServer())
