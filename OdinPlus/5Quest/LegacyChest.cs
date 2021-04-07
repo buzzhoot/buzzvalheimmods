@@ -58,8 +58,12 @@ namespace OdinPlus
 			}
 		}
 		//HELP how to make a delegate here?//notice
-		public void OnOpen(Humanoid user)
+		public void OnOpen(Humanoid user,bool hold)
 		{
+			if (hold)
+			{
+				return;
+			}
 			if (user.GetHoverName() == m_ownerName)
 			{
 				var quest = QuestManager.instance.GetQuest(m_id);

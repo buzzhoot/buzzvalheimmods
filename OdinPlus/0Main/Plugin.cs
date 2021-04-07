@@ -358,21 +358,33 @@ namespace OdinPlus
 		[HarmonyPatch(typeof(ZoneSystem), "Start")]
 		private static class Prefix_ZoneSystem_Start
 		{
-		private static void Prefix()
-		{
-			//LocationMarker.HackLoctaions();
-		}
+			private static void Prefix()
+			{
+				//LocationMarker.HackLoctaions();
+			}
 		}
 		[HarmonyPatch(typeof(DungeonGenerator), "Awake")]
 		private static class Postfix_DungeonDB_Awake
 		{
-		private static void Postfix(DungeonGenerator __instance)
-		{
-			if (__instance.GetComponent<ZNetView>())
+			private static void Postfix(DungeonGenerator __instance)
 			{
-				__instance.gameObject.AddComponent<LocationMarker>();
+				if (__instance.GetComponent<ZNetView>())
+				{
+					__instance.gameObject.AddComponent<LocationMarker>();
+				}
 			}
 		}
+		[HarmonyPatch(typeof(Location), "Awake")]
+		private static class Postfix_Location_Awake
+		{
+			private static void Postfix(Location __instance)
+			{
+				if (__instance.GetComponentInChildren<DungeonGenerator>())
+				{
+					return;
+				}
+				__instance.gameObject.AddComponent<LocationMarker>();
+			}
 		}
 
 		#endregion ZoneSystem
@@ -418,26 +430,26 @@ namespace OdinPlus
 				var a = __instance.GetComponent<LegacyChest>();
 				if (a)
 				{
-					//add
+					a.OnOpen(character,hold);
 				}
 			}
 		}
 		#endregion container
 		#region Charactor
-			[HarmonyPatch(typeof(Character), "GetHoverText")]
-			private static class Prefix_Character_GetHoverText
+		[HarmonyPatch(typeof(Character), "GetHoverText")]
+		private static class Prefix_Character_GetHoverText
+		{
+			private static bool Prefix(Character __instance, ref string __result)
 			{
-			private static bool Prefix(Character __instance ,ref string __result)
-			{
-					Component comp = __instance.GetComponent<HumanNPC>();
-					if (comp)
-					{
-						__result=((HumanNPC)comp).GetHoverText();
-						return false;
-					}
+				Component comp = __instance.GetComponent<HumanNPC>();
+				if (comp)
+				{
+					__result = ((HumanNPC)comp).GetHoverText();
+					return false;
+				}
 				return true;
 			}
-			}
+		}
 		#endregion Charactor
 		#endregion patch
 
