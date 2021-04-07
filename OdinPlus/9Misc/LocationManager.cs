@@ -233,7 +233,7 @@ namespace OdinPlus
 			if (FindClosestLocation(sender_locName, sender_pos, out _id, out _pos))
 			{
 				ZRoutedRpc.instance.InvokeRoutedRPC(sender, "RPC_CreateQuestSucced", new object[] { _id, _pos});
-				DBG.blogWarning(string.Format("Location found location {0} at {1}", sender_locName, _pos.ToString()));
+				DBG.blogWarning(string.Format("Server Location found location {0} at {1}", sender_locName, _pos.ToString()));
 				Remove(_id);
 				return;
 			}
