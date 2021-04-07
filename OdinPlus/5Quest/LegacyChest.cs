@@ -13,7 +13,6 @@ namespace OdinPlus
 		//upd maybe make this private box??public bool isPublic = false;
 		public string m_id = "";
 		public string m_ownerName = "";
-		private Transform m_task;
 		private Container m_container;
 		private void Awake()
 		{
@@ -79,6 +78,10 @@ namespace OdinPlus
 			DBG.InfoCT(n);
 
 		}
+		public void WatchMe()
+		{
+			GameCamera.instance.transform.localPosition = transform.position + Vector3.forward * 1;
+		}
 
 		#region Static
 		public static GameObject Place(Vector3 pos, Quaternion rot, float p_range, string p_id, string p_owner, int p_key, bool sphy = true)
@@ -96,6 +99,7 @@ namespace OdinPlus
 				{
 					col.transform.parent.GetComponent<ZNetView>().Destroy();
 				}
+				//FIXME cant destroy don't know why.
 			}
 			return Place(pos, p_id, p_owner, p_key, rot, sphy);
 
@@ -115,6 +119,11 @@ namespace OdinPlus
 			lc.m_sphy = sphy;
 			lc.m_ownerName = p_owner;
 
+			if (!sphy)
+			{
+				DestroyImmediate(chest.GetComponent<StaticPhysics>());
+			}
+			DBG.blogWarning("Placed Chest at "+pos);
 			chest.transform.SetParent(OdinPlus.Root.transform);
 			return chest;
 		}
