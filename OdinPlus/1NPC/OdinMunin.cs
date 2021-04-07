@@ -9,7 +9,7 @@ namespace OdinPlus
 		private int index = 0;
 		private string currentChoice="";
 		private float timer = 0f;
-		private float taskCD = 60f;
+		private float questCD = 60f;
 		private Animator m_animator;
 		public static OdinMunin instance;
 		private void Awake()
@@ -48,12 +48,12 @@ namespace OdinPlus
 			}
 			if (QuestManager.instance.Count() >= 10)
 			{
-				Say("$op_munin_taskfulll");
+				Say("$op_munin_questfulll");
 				return;
 			}
 			QuestManager.instance.CreateRandomQuest();
 			Say("$op_munin_wait_hug");
-			timer = taskCD;
+			timer = questCD;
 		}
 		private void GiveUpQuest()
 		{
@@ -66,7 +66,7 @@ namespace OdinPlus
 				ResetTimer();
 				return;
 			}
-			Say("$op_munin_notask");
+			Say("$op_munin_noquest");
 		}
 		private void ChangeLevel()
 		{
@@ -105,7 +105,7 @@ namespace OdinPlus
 						Say("$op_munin_wait_hug");
 						break;
 					}
-					Say("$op_munin_notask");
+					Say("$op_munin_noquest");
 					break;
 			}
 			return true;
@@ -122,8 +122,8 @@ namespace OdinPlus
 		public override string GetHoverText()
 		{
 			string n = string.Format("<color=lightblue><b>{0}</b></color>", m_name);
-			n += string.Format("\n<color=lightblue><b>$op_munin_task_lvl :{0}</b></color>", QuestManager.instance.Level);
-			n += string.Format("\n$op_munin_tasknum_b <color=lightblue><b>{0}</b></color> $op_munin_tasknum_a", QuestManager.instance.Count());
+			n += string.Format("\n<color=lightblue><b>$op_munin_quest_lvl :{0}</b></color>", QuestManager.instance.Level);
+			n += string.Format("\n$op_munin_questnum_b <color=lightblue><b>{0}</b></color> $op_munin_questnum_a", QuestManager.instance.Count());
 			n += "\n[<color=yellow><b>1-8</b></color>]$op_offer";
 			n += "\n[<color=yellow><b>$KEY_Use</b></color>]" + currentChoice;
 			n += String.Format("\n<color=yellow><b>[{0}]</b></color>$op_switch", Plugin.KS_SecondInteractkey.Value.MainKey.ToString());
