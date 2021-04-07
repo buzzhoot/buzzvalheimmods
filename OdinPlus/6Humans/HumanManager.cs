@@ -14,6 +14,7 @@ namespace OdinPlus
 		public static bool isInit = false;
 		public static Dictionary<string, GameObject> PrefabList = new Dictionary<string, GameObject>();
 		public static GameObject BasicHuman;
+		#region Presets
 		public static string[] Weapons = { "AtgeirBlackmetal", "AtgeirBronze", "AtgeirIron", "Battleaxe", "KnifeBlackMetal", "KnifeChitin", "KnifeCopper", "KnifeFlint", "MaceBronze", "MaceIron", "MaceNeedle", "MaceSilve",
 		 "SledgeIron", "SledgeStagbreaker", "SpearBronze", "SpearElderbark", "SpearFlint", "SpearWolfFang", "SwordBlackmetal", "SwordBronze","SwordIron", "SwordSilver", "AtgeirBlackmetal",
 		 "AtgeirBronze", "AtgeirIron", "Battleaxe", "KnifeBlackMetal", "KnifeChitin", "KnifeCopper", "KnifeFlint", "MaceBronze", "MaceIron", "MaceNeedle", "MaceSilver" };
@@ -59,7 +60,17 @@ namespace OdinPlus
 			sheild=new string[]{""}
 			}
 		};
+		#endregion Presets
 		public static Dictionary<string, GameObject> HumanPreset = new Dictionary<string, GameObject>();
+		public static Dictionary<string, string[]> ArmorSets = new Dictionary<string, string[]>
+		{
+			{"Troll",new string[]{"HelmetTrollLeather","CapeTrollHide","ArmorTrollLeatherChest","ArmorTrollLeatherLegs"}},
+			{"Troll0",new string[]{"CapeTrollHide","ArmorTrollLeatherChest","ArmorTrollLeatherLegs"}},
+			{"Brozen",new string[]{"ArmorBronzeChest","ArmorBronzeLegs","HelmetBronze","CapeTrollHide"}},
+			{"Iron",new string[]{"ArmorIronChest","ArmorIronLegs","HelmetIron","CapeLinen"}},
+			{"Silver",new string[]{"ArmorWolfChest","ArmorWolfLegs","HelmetDrake","CapeWolf"}},
+			{"Padded",new string[]{"ArmorPaddedCuirass","ArmorPaddedGreaves","HelmetPadded","CapeLinen"}}
+		};
 		public static void Init()
 		{
 
@@ -148,7 +159,7 @@ namespace OdinPlus
 			var mai = go.AddComponentcc<MonsterAI>(ZNetScene.instance.GetPrefab("Goblin").GetComponent<MonsterAI>());
 
 			hum.m_defaultItems = new GameObject[0];
-			//hum.m_randomSets = new Humanoid.ItemSet[1]{new Humanoid.ItemSet(){m_items}}
+			hum.m_randomSets = new Humanoid.ItemSet[1]{GetSet("Troll0")};
 			hum.m_unarmedWeapon = null;
 			//hum.m_randomArmor = RandomVis(Armor);
 			hum.m_randomWeapon = RandomVis(Weapons);
@@ -164,9 +175,9 @@ namespace OdinPlus
 			//exc.transform.localScale=Vector3.one*0.5f;
 
 			var hnpc = go.AddComponent<HumanNPC>();
-			hnpc.m_shoulderItem = new string[] { "CapeTrollHide", "CapeDeerHide" };
-			hnpc.m_chestItem = new string[] { "ArmorTrollLeatherChest", "ArmorLeatherChest" };
-			hnpc.m_legItem = new string[] { "ArmorTrollLeatherLegs", "ArmorLeatherLegs", "HelmetTrollLeather" };
+			//hnpc.m_shoulderItem = new string[] { "CapeTrollHide", "CapeDeerHide" };
+			//hnpc.m_chestItem = new string[] { "ArmorTrollLeatherChest", "ArmorLeatherChest" };
+			//hnpc.m_legItem = new string[] { "ArmorTrollLeatherLegs", "ArmorLeatherLegs", "HelmetTrollLeather" };
 
 
 			//ADD exc
@@ -189,9 +200,9 @@ namespace OdinPlus
 			var tame = go.AddComponent<Tameable>();
 
 			hum.m_defaultItems = new GameObject[0];
-			hum.m_randomSets = new Humanoid.ItemSet[0];
+			hum.m_randomSets = new Humanoid.ItemSet[1]{GetSet("Silver")};
 			hum.m_unarmedWeapon = null;
-			hum.m_randomArmor = RandomVis(Armor);
+			//hum.m_randomArmor = RandomVis(Armor);
 			hum.m_randomWeapon = RandomVis(Weapons);
 			hum.m_randomShield = RandomVis(Shield);
 			go.name = "HumanMobA";
@@ -213,8 +224,8 @@ namespace OdinPlus
 
 			hum.m_defaultItems = new GameObject[0];
 			hum.m_unarmedWeapon = null;
-			hum.m_randomSets = new Humanoid.ItemSet[0];
-			hum.m_randomArmor = RandomVis(Armor);
+			hum.m_randomSets = new Humanoid.ItemSet[1]{GetSet("Silver")};
+			//hum.m_randomArmor = RandomVis(Armor);
 			hum.m_randomWeapon = RandomVis(Weapons);
 			hum.m_randomShield = RandomVis(Shield);
 
@@ -236,6 +247,15 @@ namespace OdinPlus
 			}
 
 			return items;
+		}
+		public static Humanoid.ItemSet GetSet(string set_name)
+		{
+			Humanoid.ItemSet result = new Humanoid.ItemSet();
+			string[] list = ArmorSets[set_name];
+			result.m_name = set_name;
+			var sets = RandomVis(list);
+			result.m_items=sets;
+			return result;
 		}
 		public static void HumanSpawner()
 		{
