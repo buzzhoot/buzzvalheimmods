@@ -10,15 +10,14 @@ namespace OdinPlus
 		{
 			quest = inq;
 		}
-		public override void Init()
+		public override void Begin()
 		{
-			base.Init();
 			SetMonsterName();
-
+			base.Begin();
 		}
 		public override void Place(LocationMarker lm)
 		{
-			HuntTarget.Place(lm.GetPosition(), quest.locName, quest.ID, quest.Key, quest.Level);
+			HuntTarget.Place(lm.GetPosition(), quest.locName, quest.ID,quest.m_ownerName, quest.Key, quest.Level);
 			base.Place(lm);
 		}
 		private void SetMonsterName()
