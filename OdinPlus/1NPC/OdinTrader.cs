@@ -12,6 +12,8 @@ namespace OdinPlus
 
 		#endregion,
 		#region Mono
+		private new void Start() { }
+		private new void Update() { }
 		#endregion
 		#region Features
 
@@ -54,16 +56,16 @@ namespace OdinPlus
 			var icon = __instance.m_coinText.transform.parent.GetChild(0).GetComponent<Image>();
 			sell.gameObject.SetActive(!set);
 			icon.sprite = !set ? OdinPlus.CoinsIcon : OdinPlus.OdinCreditIcon;
-			GameObject.Find("/_GameMain/GUI/PixelFix/IngameGui(Clone)/Store_Screen/Store/topic").GetComponent<Text>().text=Localization.instance.Localize(set?"OdinStore":@"$store_topic");
+			GameObject.Find("/_GameMain/GUI/PixelFix/IngameGui(Clone)/Store_Screen/Store/topic").GetComponent<Text>().text = Localization.instance.Localize(set ? "OdinStore" : @"$store_topic");
 		}
 
 		#endregion
 		#region private 
-		//private new void Say(List<string> texts, string trigger) { return; }
-		//private new void Say(string text, string trigger) { return; }
-		//private new void RandomTalk() { return; }
-		//private new void OnBought(TradeItem item) { return; }
-		//private new void OnSold() { return; }
+		private new void Say(List<string> texts, string trigger) { return; }
+		private new void Say(string text, string trigger) { return; }
+		private new void RandomTalk() { return; }
+		private new void OnBought(TradeItem item) { return; }
+		private new void OnSold() { return; }
 		#endregion
 	}
 }
