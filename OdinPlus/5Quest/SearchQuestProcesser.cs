@@ -87,6 +87,7 @@ namespace OdinPlus
 			int ind = l1.Count.RollDice();
 			m_item = l1.ElementAt(ind).Key;
 			m_count = l1.ElementAt(ind).Value * quest.Level;
+			OdinData.Data.SearchTaskList.Add(m_item,m_count);
 			return true;
 		}
 		#endregion Tool
