@@ -173,12 +173,12 @@ namespace OdinPlus
 		public void initRPC()//RPC
 		{
 			ZRoutedRpc.instance.Register<Vector3>("RPC_SetStartPos", new Action<long, Vector3>(this.RPC_SetStartPos));
-			ZRoutedRpc.instance.Register<string, Vector3, string, int>("RPC_ClientInitDungeon", new RoutedMethod<string, Vector3, string, int>.Method(RPC_ClientInitDungeon));//XXX
 			ZRoutedRpc.instance.Register<bool>("RPC_ReceiveServerFOP", new Action<long, bool>(RPC_ReceiveServerFOP));
 			if (ZNet.instance.IsServer())
 			{
 				ZRoutedRpc.instance.Register("Rpc_GetStartPos", new Action<long>(this.Rpc_GetStartPos));
 				ZRoutedRpc.instance.Register("RPC_SendServerFOP", new Action<long>(RPC_SendServerFOP));
+				ZRoutedRpc.instance.Register<string,Vector3>("RPC_ServerFindLocation", new Action<long,string,Vector3>(RPC_ServerFindLocation));
 			}
 
 		}
@@ -214,93 +214,6 @@ namespace OdinPlus
 			DBG.blogWarning("Client Got FOP:" + result);
 			Plugin.Set_FOP = result;
 		}
-		#region Dungeon
-		private void RPC_ClientInitDungeon(long sender, string name, Vector3 pos, string Id, int Key)
-		{
-			if (!AddDungeonChest(name, pos, Id, Key))
-			{
-				ZRoutedRpc.instance.InvokeRoutedRPC("RPC_ServerDisInitTask", new object[] { Id });
-			}
-
-		}
-		private bool AddDungeonChest(string name, Vector3 pos, string Id, int Key)
-		{
-			var DungeonRoot = new GameObject();
-			if (name == "GoblinCamp2")
-			{
-				var dunPos = pos;
-				if (!AddChest(dunPos, Id, Key))
-				{
-					var Reward = OdinTask.PlacingChest(dunPos, Id, Key);
-					DBG.blogWarning("Placed LegacyChest at Dungeon camp: " + Reward.transform.position);
-					return true;
-				}
-				return true;
-			}
-			else
-			{
-				DungeonRoot = LocationManager.FindDungeon(pos);
-			}
-			if (DungeonRoot == null)
-			{
-				return false;
-			}
-			if (!AddChest(DungeonRoot.transform.position, Id, Key))
-			{
-				Room[] array = DungeonRoot.GetComponentsInChildren<Room>();
-				if (array.Length == 0) { return false; }
-
-				var array2 = array.Where(c => c.m_endCap != true).ToArray();
-
-				if (array2 == null)
-				{
-					var a = array[array.Length.RollDice()];
-					AddChest(a, Id, Key);
-					return true;
-				}
-				AddChest(array2[array2.Length.RollDice()], Id, Key);
-				return true;
-			}
-			return true;
-		}
-		private bool AddChest(Vector3 pos, string Id, int Key)
-		{
-			Collider[] array = Physics.OverlapBox(pos, new Vector3(60, 60, 60));
-			Container comp;
-			foreach (var item in array)
-			{
-				var ci = item.transform;
-				while (ci.transform.parent != null)
-				{
-					if (ci.TryGetComponent<Container>(out comp))
-					{
-						if (ci.name.Contains("Clone"))
-						{
-							var Reward = OdinTask.PlacingChest(comp.transform.position, comp.transform.rotation, Id, Key);
-							comp.GetInventory().RemoveAll();
-							comp.GetComponent<ZNetView>().Destroy();
-							DBG.blogWarning("Placed LegacyChest at Dungeon ctn: " + Reward.transform.position);
-							return true;
-						}
-					}
-					ci = ci.transform.parent;
-				}
-			}
-			DBG.blogWarning("Cant Find Chest in dungeon");
-			return false;
-		}
-		private void AddChest(Room room, string Id, int Key)
-		{
-			var y = room.GetComponentInChildren<RoomConnection>().transform.localPosition.y;
-			var x = room.m_size.x / 2;
-			var z = room.m_size.z / 2;
-			var pos = new Vector3(0, y + 0.2f, 0) + room.transform.position;
-			var chest = OdinTask.PlacingChest(pos, Id, Key);
-			DBG.blogWarning("Placed LegacyChest at Dungeon room: " + chest.transform.localPosition);
-			return;
-		}
-
-		#endregion Dungeon
 
 		#endregion RPC
 

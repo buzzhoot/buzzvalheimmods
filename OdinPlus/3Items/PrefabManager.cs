@@ -41,7 +41,7 @@ namespace OdinPlus
 		#region Task
 		private static void CreateHuntTargetMonster()
 		{
-			foreach (var item in HuntTask.Monsters)
+			foreach (var item in QuestRef.HunterMonsterList)
 			{
 				PrefabList.Add(item + "Hunt", HuntTarget.CreateMonster(item));
 			}

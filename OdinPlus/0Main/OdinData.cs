@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -20,7 +20,6 @@ namespace OdinPlus
 			public bool hasWolf = false;
 			public bool hasTroll = false;
 			public List<string> BlackList = new List<string>();
-			public List<OdinData.TaskDataTable> Tasks = new List<TaskDataTable>();
 			public int QuestCount = 0;
 			public Dictionary<string, int> SearchTaskList = new Dictionary<string, int>();
 			public List<Quest> Quests = new List<Quest>();
@@ -43,38 +42,7 @@ namespace OdinPlus
 
 			}
 		}
-		[Serializable]
-		public class TaskDataTable : SerializationBinder
-		{
-			public TaskManager.TaskType m_type = TaskManager.TaskType.Treasure;
-			public long owner;
-			public string playerName;
-			public int Key = 0;
-			public int Level = 1;
-			public bool m_pause = false;
-			public bool m_isInit = false;
-			public bool m_finished = false;
-			public bool m_isClear = false;
-			public string Id = "0_0";
-			public override Type BindToType(string assemblyName, string typeName)
-			{
-				Type tyType = null;
-				string sShortAssemblyName = assemblyName.Split(',')[0];
-
-				Assembly[] ayAssemblies = AppDomain.CurrentDomain.GetAssemblies();
-
-				foreach (Assembly ayAssembly in ayAssemblies)
-				{
-					if (sShortAssemblyName == ayAssembly.FullName.Split(',')[0])
-					{
-						tyType = ayAssembly.GetType(typeName);
-						break;
-					}
-				}
-				return tyType;
-			}
-
-		}
+		
 
 		#endregion serialization
 		#region interl
