@@ -210,7 +210,7 @@ namespace OdinPlus
 					{
 						RequestResetGlobalKey();
 						RequestSetGlobalKey("defeated_eikthyr");
-						RequestSetGlobalKey("defeated_gdking"); 
+						RequestSetGlobalKey("defeated_gdking");
 					}
 					if (GUILayout.Button("Key3"))
 					{
@@ -241,6 +241,13 @@ namespace OdinPlus
 					if (GUILayout.Button("FreeCam"))
 					{
 						GameCamera.instance.ToggleFreeFly();
+					}
+					foreach (QuestType item in Enum.GetValues(typeof(QuestType)))
+					{
+						if (GUILayout.Button(item.ToString()))
+						{
+							QuestManager.instance.CreateQuest(item);
+						}
 					}
 					GUILayout.EndHorizontal();
 				}
@@ -442,7 +449,7 @@ namespace OdinPlus
 				if (CMD.StartsWith("/ctask"))
 				{
 					CMD = CMD.Remove(0, 6);
-					QuestManager.instance.CreateQuest((QuestType)int.Parse(CMD),Game.instance.GetPlayerProfile().GetCustomSpawnPoint());
+					QuestManager.instance.CreateQuest((QuestType)int.Parse(CMD), Game.instance.GetPlayerProfile().GetCustomSpawnPoint());
 					Debug.Log("creatin task");
 				}
 			}
