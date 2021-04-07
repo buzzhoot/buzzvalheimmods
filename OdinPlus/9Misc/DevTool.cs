@@ -450,7 +450,6 @@ namespace OdinPlus
 				{
 					CMD = CMD.Remove(0, 6);
 					QuestManager.instance.CreateQuest((QuestType)int.Parse(CMD), Game.instance.GetPlayerProfile().GetCustomSpawnPoint());
-					Debug.Log("creatin task");
 				}
 			}
 		}

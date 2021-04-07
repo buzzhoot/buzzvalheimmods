@@ -124,6 +124,8 @@ namespace OdinPlus
 			m_index = OdinData.Data.QuestCount;
 			SetLocName();
 			SetQuestName();
+			this.SetMuninHints();
+			this.SetMuninMessage();
 			SetRange(30.RollDice(30 + Level * 30));
 			SetPosition();
 			SetPin();

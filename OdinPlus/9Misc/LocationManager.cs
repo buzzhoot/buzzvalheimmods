@@ -232,8 +232,8 @@ namespace OdinPlus
 			var _pos = Vector3.zero;
 			if (FindClosestLocation(sender_locName, sender_pos, out _id, out _pos))
 			{
-				ZRoutedRpc.instance.InvokeRoutedRPC(sender, "RPC_CreateQuestSucced", new object[] { _id, _pos});
 				DBG.blogWarning(string.Format("Server Location found location {0} at {1}", sender_locName, _pos.ToString()));
+				ZRoutedRpc.instance.InvokeRoutedRPC(sender, "RPC_CreateQuestSucced", new object[] { _id, _pos});
 				Remove(_id);
 				return;
 			}

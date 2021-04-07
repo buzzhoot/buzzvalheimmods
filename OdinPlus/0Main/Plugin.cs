@@ -381,6 +381,7 @@ namespace OdinPlus
 			{
 				if (__instance.GetComponentInChildren<DungeonGenerator>(true)!=null)
 				{
+					DBG.blogWarning("Dungeon found ,skipped");
 					return;
 				}
 				__instance.gameObject.AddComponent<LocationMarker>();

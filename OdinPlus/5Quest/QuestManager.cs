@@ -108,7 +108,6 @@ namespace OdinPlus
 		}
 		public void CreateRandomQuest()
 		{
-			UnityEngine.Random.InitState((int)Time.time);
 			QuestType[] a = new QuestType[] { QuestType.Treasure };
 			switch (CheckKey())
 			{

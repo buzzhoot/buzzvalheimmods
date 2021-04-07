@@ -43,13 +43,13 @@ namespace OdinPlus
 			}
 			if (m_nview.GetZDO().GetBool("LocMarkUsed", false))
 			{
-				ID = ZoneSystem.instance.GetZone(transform.position).Pak();
-				MarkList.Add(ID, this);
-				DBG.blogInfo("locmark placed at zone : " + ID);
+				Destroy(this);
 			}
 			else
 			{
-				Destroy(this);
+				ID = ZoneSystem.instance.GetZone(transform.position).Pak();
+				MarkList.Add(ID, this);
+				DBG.blogInfo("locmark placed at zone : " + ID);
 			}
 		}
 		private void Start()
