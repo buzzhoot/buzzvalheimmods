@@ -12,13 +12,9 @@ namespace OdinPlus
 
 		#endregion,
 		#region Mono
-<<<<<<< HEAD
 		private new void Start() { }
 		private new void Update() { }
-=======
-		//private new void Start() { }
-		//private new void Update() { }
->>>>>>> 422e9af6d4cdad85394851d9fd01ce389b5bb0c8
+
 		#endregion
 		#region Features
 
