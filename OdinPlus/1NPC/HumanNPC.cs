@@ -53,48 +53,9 @@ namespace OdinPlus
 			m_vis = GetComponent<VisEquipment>();
 			HumanNPCS.Add(this);
 
-			m_ani.SetBool("wakeup", false);
-
 			m_hum.m_onDamaged = (Action<float, Character>)Delegate.Combine(m_hum.m_onDamaged, (Action<float, Character>)(Damage));
-			Util.seed += (int)((gameObject.transform.position.x + gameObject.transform.position.y) * 1000);
-			
-
-			SetName();
-			SetupVisual();
 			//RemoveUnusedComp();
 			currentChoice = ChoiceList[index];
-
-		}
-		protected virtual void SetName()
-		{
-			m_name = m_nview.GetZDO().GetString("npcname", NPCnames.GetRandomElement());
-			m_hum.m_name = m_name;
-		}
-		protected virtual void SetupVisual()
-		{
-			int sex =  2.RollDices();
-			if (sex==0)
-			{
-				SetItem("BeardItem", m_beardItem);
-			}
-			SetItem("HairItem", m_hairItem);
-			if (m_helmetItem != new string[] { "" })
-			{
-				SetItem("HelmetItem", m_helmetItem);
-			}
-			SetItem("ChestItem", m_chestItem);
-			SetItem("ShoulderItem", m_shoulderItem);
-			SetItem("LegItem", m_legItem);
-			float skin = 0.5f+0.8f.RollDices();
-			Color hair = Color.HSVToRGB(0.13f+0.03f.RollDices(),1f.RollDices(),1.3f.RollDices());
-			m_vis.SetModel(m_nview.GetZDO().GetInt("ModelIndex", 2.RollDices()));
-			m_vis.SetHairColor(m_nview.GetZDO().GetVec3("HairColor", new Vector3(hair.r,hair.g,hair.b)));
-			m_vis.SetSkinColor(m_nview.GetZDO().GetVec3("SkinColor", new Vector3(skin,skin,skin)));
-			//m_vis.m_skinColor = new Vector3(1f.RollDices(), 1f.RollDices(), 1);
-		}
-		protected void SetItem(string slot, string[] items)
-		{
-			m_nview.GetZDO().Set(slot, items.GetRandomElement().GetStableHashCode());
 		}
 
 		private void RemoveUnusedComp()
