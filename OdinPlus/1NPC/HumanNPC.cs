@@ -14,18 +14,7 @@ namespace OdinPlus
 	public class HumanNPC : OdinNPC, Hoverable, Interactable, OdinInteractable
 	{
 		#region var
-		public static List<HumanNPC> HumanNPCS = new List<HumanNPC>();
-		#region Visuals
-		public static string[] NPCnames = { "$op_npc_name1", "$op_npc_name2", "$op_npc_name3", "$op_npc_name4", "$op_npc_name5", "$op_npc_name6", "$op_npc_name7", "$op_npc_name8", "$op_npc_name9", "$op_npc_name10", "$op_npc_name11", "$op_npc_name12", "$op_npc_name13", "$op_npc_name14", "$op_npc_name15", "$op_npc_name16", "$op_npc_name17", "$op_npc_name18", "$op_npc_name19", "$op_npc_name20", "$op_npc_name21", "$op_npc_name22", "$op_npc_name23", "$op_npc_name24", "$op_npc_name25", "$op_npc_name26", "$op_npc_name27", "$op_npc_name28", "$op_npc_name29", "$op_npc_name30", "$op_npc_name31", "$op_npc_name32", "$op_npc_name33", "$op_npc_name34", "$op_npc_name35", "$op_npc_name36", "$op_npc_name37", "$op_npc_name38", "$op_npc_name39", "$op_npc_name40", "$op_npc_name41", "$op_npc_name42", "$op_npc_name43", "$op_npc_name44", "$op_npc_name45", "$op_npc_name46", "$op_npc_name47", "$op_npc_name48", "$op_npc_name49", "$op_npc_name50" };
-		public string[] m_beardItem = { "Beard2", "Beard3", "Beard4", "Beard5", "Beard6", "Beard7", "Beard8", "Beard9", "Beard10" };
-		public string[] m_hairItem = { "Hair1", "Hair2", "Hair3", "Hair4", "Hair5", "Hair6", "Hair7", "Hair8", "Hair9", "Hair10" };
-		public string[] m_helmetItem = { "" };
-		public string[] m_shoulderItem = { "" };
-		public string[] m_leftItem = { "" };
-		public string[] m_rightItem = { "" };
-		public string[] m_chestItem = { "" };
-		public string[] m_legItem = { "" };
-		#endregion Visuals	
+		
 		#region ref
 		protected ZNetView m_nview;
 		protected VisEquipment m_vis;
@@ -41,19 +30,15 @@ namespace OdinPlus
 		#endregion var
 		protected virtual void Awake()
 		{
-			if (HumanNPCS == null)
-			{
-				HumanNPCS = new List<HumanNPC>();
-			}
+			
 			monsterAI = GetComponent<MonsterAI>();
 			m_talker = gameObject;
 			m_nview = GetComponent<ZNetView>();
 			m_ani = GetComponentInChildren<Animator>();
 			m_hum = GetComponent<Humanoid>();
 			m_vis = GetComponent<VisEquipment>();
-			HumanNPCS.Add(this);
+			
 
-			m_hum.m_onDamaged = (Action<float, Character>)Delegate.Combine(m_hum.m_onDamaged, (Action<float, Character>)(Damage));
 			//RemoveUnusedComp();
 			currentChoice = ChoiceList[index];
 		}
@@ -99,6 +84,10 @@ namespace OdinPlus
 		}
 		public override string GetHoverText()
 		{
+			if (m_hum.m_faction!=Character.Faction.Players)
+			{
+				return "";
+			}
 			string n = string.Format("<color=lightblue><b>{0}</b></color>", m_name);
 			n += string.Format("\n<color=green><b>Credits:{0}</b></color>", OdinData.Credits);
 			n += "\n[<color=yellow><b>$KEY_Use</b></color>]" + currentChoice;
@@ -114,24 +103,7 @@ namespace OdinPlus
 		{
 			return false;
 		}
-		private void OnDestroy()
-		{
-			HumanNPCS.Remove(this);
-		}
-		private void Damage(float hit, Character character)
-		{
-			if (character == null)
-			{
-				return;
-			}
-			if (character.IsPlayer())
-			{
-				foreach (var item in HumanNPCS)
-				{
-					item.ChangeFaction(Player.m_localPlayer);
-				}
-			}
-		}
+
 		public void ChangeFaction(Character target)
 		{
 			m_hum.m_faction = Character.Faction.PlainsMonsters;

@@ -382,6 +382,9 @@
     <Compile Include="5Quest\HuntQuestProcesser.cs" />
     <Compile Include="5Quest\SearchQuestProcesser.cs" />
     <Compile Include="6Humans\HumanVis.cs" />
+    <Compile Include="6Humans\HumanTrader.cs" />
+    <Compile Include="6Humans\HumanMessager.cs" />
+    <Compile Include="6Humans\HumanVillager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

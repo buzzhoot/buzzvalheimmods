@@ -12,6 +12,7 @@ namespace OdinPlus
 
 		public Dictionary<string, Quest> MyQuests = new Dictionary<string, Quest>();
 		private Quest WaitQuest = null;
+		public string[] BuzzKeys = new string[0];
 
 		#endregion Data
 		#region CFG
