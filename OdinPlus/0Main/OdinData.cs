@@ -42,7 +42,7 @@ namespace OdinPlus
 
 			}
 		}
-		
+
 
 		#endregion serialization
 		#region interl
@@ -88,7 +88,7 @@ namespace OdinPlus
 				Credits = 1000;
 			}
 			Data = new DataTable();
-			Data.Quests=new List<Quest>();
+			Data.Quests = new List<Quest>();
 			if (Plugin.CFG_ItemSellValue.Value == "") { return; }
 			string[] l1 = Plugin.CFG_ItemSellValue.Value.Split(new char[] { ';' });
 			for (int i = 0; i < l1.Length; i++)
@@ -112,9 +112,9 @@ namespace OdinPlus
 		#endregion Mono
 
 		#region Credits
-		public static void AddCredits(int s, Transform m_head)
+		public static void AddCredits(int val, Transform m_head)
 		{
-			Credits += s;
+			AddCredits(val);
 			Player.m_localPlayer.m_skillLevelupEffects.Create(m_head.position, m_head.rotation, m_head, 1f);
 		}
 		public static bool RemoveCredits(int s)
@@ -125,6 +125,20 @@ namespace OdinPlus
 			}
 			Credits -= s;
 			return true;
+		}
+		public static void AddCredits(int val)
+		{
+			Credits += val;
+		}
+		public static void AddCredits(int val, bool _notice)
+		{
+			AddCredits(val);
+			if (_notice)
+			{
+				string n = String.Format("Odin Credits added : <color=lightblue><b>[{0}]</b></color>",Credits);
+				MessageHud.instance.ShowBiomeFoundMsg(n,true);//trans
+			}
+			
 		}
 		#endregion Credits
 		#region Save And Load
@@ -161,14 +175,14 @@ namespace OdinPlus
 			DBG.blogWarning("Starting loding data");
 			if (DevTool.DisableSaving)
 			{
-				OdinPlus.m_instance.isLoaded= true;
+				OdinPlus.m_instance.isLoaded = true;
 				return;
 			}
 			#region Serial
 			string file = Path.Combine(Application.persistentDataPath, (name + ".odinplus"));
 			if (!File.Exists(@file))
 			{
-				OdinPlus.m_instance.isLoaded= true;
+				OdinPlus.m_instance.isLoaded = true;
 				Credits = 100;
 				DBG.blogWarning("Profile not exists:" + name);
 				return;
@@ -187,7 +201,7 @@ namespace OdinPlus
 			LocationManager.RemoveBlackList();
 			#endregion Load
 
-			OdinPlus.m_instance.isLoaded= true;
+			OdinPlus.m_instance.isLoaded = true;
 			DBG.blogWarning("OdinDataLoaded:" + name);
 		}
 		#endregion Save And Load
