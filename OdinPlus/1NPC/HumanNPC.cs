@@ -14,7 +14,7 @@ namespace OdinPlus
 	public class HumanNPC : OdinNPC, Hoverable, Interactable, OdinInteractable
 	{
 		#region var
-		
+
 		#region ref
 		protected ZNetView m_nview;
 		protected VisEquipment m_vis;
@@ -30,14 +30,14 @@ namespace OdinPlus
 		#endregion var
 		protected virtual void Awake()
 		{
-			
+
 			monsterAI = GetComponent<MonsterAI>();
 			m_talker = gameObject;
 			m_nview = GetComponent<ZNetView>();
 			m_ani = GetComponentInChildren<Animator>();
 			m_hum = GetComponent<Humanoid>();
 			m_vis = GetComponent<VisEquipment>();
-			
+
 
 			//RemoveUnusedComp();
 			currentChoice = ChoiceList[index];
@@ -84,7 +84,7 @@ namespace OdinPlus
 		}
 		public override string GetHoverText()
 		{
-			if (m_hum.m_faction!=Character.Faction.Players)
+			if (m_hum.m_faction != Character.Faction.Players)
 			{
 				return "";
 			}
@@ -107,6 +107,10 @@ namespace OdinPlus
 		public void ChangeFaction(Character target)
 		{
 			m_hum.m_faction = Character.Faction.PlainsMonsters;
+		}
+		public void ChangeFaction(Character.Faction f)
+		{
+			m_hum.m_faction = f;
 		}
 		#region Debug
 
