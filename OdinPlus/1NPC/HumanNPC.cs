@@ -37,8 +37,6 @@ namespace OdinPlus
 			m_ani = GetComponentInChildren<Animator>();
 			m_hum = GetComponent<Humanoid>();
 			m_vis = GetComponent<VisEquipment>();
-
-
 			//RemoveUnusedComp();
 			currentChoice = ChoiceList[index];
 		}
