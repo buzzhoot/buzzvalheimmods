@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -14,7 +14,7 @@ namespace OdinPlus
 		#region Var
 		#region serialization
 		[Serializable]
-		public class DataTable : SerializationBinder
+		public class DataTable
 		{
 			public int Credits = 100;
 			public bool hasWolf = false;
@@ -23,24 +23,7 @@ namespace OdinPlus
 			public int QuestCount = 0;
 			public Dictionary<string, int> SearchTaskList = new Dictionary<string, int>();
 			public List<Quest> Quests = new List<Quest>();
-			public override Type BindToType(string assemblyName, string typeName)
-			{
-				Type tyType = null;
-				string sShortAssemblyName = assemblyName.Split(',')[0];
-
-				Assembly[] ayAssemblies = AppDomain.CurrentDomain.GetAssemblies();
-
-				foreach (Assembly ayAssembly in ayAssemblies)
-				{
-					if (sShortAssemblyName == ayAssembly.FullName.Split(',')[0])
-					{
-						tyType = ayAssembly.GetType(typeName);
-						break;
-					}
-				}
-				return tyType;
-
-			}
+			public List<string> BuzzKeys = new List<string>();
 		}
 
 
@@ -135,12 +118,24 @@ namespace OdinPlus
 			AddCredits(val);
 			if (_notice)
 			{
-				string n = String.Format("Odin Credits added : <color=lightblue><b>[{0}]</b></color>",Credits);
-				MessageHud.instance.ShowBiomeFoundMsg(n,true);//trans
+				string n = String.Format("Odin Credits added : <color=lightblue><b>[{0}]</b></color>", Credits);
+				MessageHud.instance.ShowBiomeFoundMsg(n, true);//trans
 			}
-			
+
 		}
 		#endregion Credits
+
+		#region Feature
+		public static void AddKey(string key)
+		{
+			Data.BuzzKeys.Add(key);
+		}
+		public static void RemoveKey(string key)
+		{
+			Data.BuzzKeys.Remove(key);
+		}
+		#endregion Feature
+
 		#region Save And Load
 		public static void saveOdinData(string name)
 		{
@@ -163,7 +158,6 @@ namespace OdinPlus
 			FileStream fileStream = new FileStream(@file, FileMode.Create, FileAccess.Write);
 
 			BinaryFormatter formatter = new BinaryFormatter();
-			formatter.Binder = new DataTable();
 			formatter.Serialize(fileStream, Data);
 			fileStream.Close();
 			#endregion Serialize
@@ -189,7 +183,6 @@ namespace OdinPlus
 			}
 			FileStream fileStream = new FileStream(@file, FileMode.Open, FileAccess.Read);
 			BinaryFormatter formatter = new BinaryFormatter();
-			formatter.Binder = new DataTable();
 			Data = (DataTable)formatter.Deserialize(fileStream);
 			fileStream.Close();
 			#endregion Serial
