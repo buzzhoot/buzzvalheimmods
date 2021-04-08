@@ -87,7 +87,6 @@ namespace OdinPlus
 				return "";
 			}
 			string n = string.Format("<color=lightblue><b>{0}</b></color>", m_name);
-			n += string.Format("\n<color=green><b>Credits:{0}</b></color>", OdinData.Credits);
 			n += "\n[<color=yellow><b>$KEY_Use</b></color>]" + currentChoice;
 			n += "\n[<color=yellow><b>1-8</b></color>]$op_offer";
 			n += String.Format("\n<color=yellow><b>[{0}]</b></color>$op_switch", Plugin.KS_SecondInteractkey.Value.MainKey.ToString());
