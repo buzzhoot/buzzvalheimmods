@@ -9,7 +9,7 @@ namespace OdinPlus
 		public static List<HumanVillager> Villagers = new List<HumanVillager>();
 		protected readonly float QuestCD = 1800;
 		public float timer = 0;
-		public GameObject EXC;
+		public GameObject EXCobj;
 		protected override void Awake()
 		{
 			if (Villagers == null)
@@ -22,9 +22,10 @@ namespace OdinPlus
 			m_hum.m_onDamaged = (Action<float, Character>)Delegate.Combine(m_hum.m_onDamaged, (Action<float, Character>)(Damage));
 
 		}
+
 		private void OnDestroy()
 		{
-			
+
 			Villagers.Remove(this);
 		}
 		private void Damage(float hit, Character character)
@@ -41,10 +42,10 @@ namespace OdinPlus
 				}
 			}
 		}
-	public bool IsQuestReady()
-	{
-		DateTime d = new DateTime(this.m_nview.GetZDO().GetLong("TameLastFeeding", (long)QuestCD));
-		return (ZNet.instance.GetTime() - d).TotalSeconds > (double)QuestCD;
-	}
+		public bool IsQuestReady()
+		{
+			DateTime d = new DateTime(this.m_nview.GetZDO().GetLong("TameLastFeeding", (long)QuestCD));
+			return (ZNet.instance.GetTime() - d).TotalSeconds > (double)QuestCD;
+		}
 	}
 }

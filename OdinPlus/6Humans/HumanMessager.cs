@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace OdinPlus
 {
-	public class HumanMessager : HumanVillager, Hoverable, Interactable, OdinInteractable
+	public class HumanMessager : QuestVillager, Hoverable, Interactable, OdinInteractable
 	{
 
 		protected override void Awake()

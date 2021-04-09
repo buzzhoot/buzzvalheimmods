@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace OdinPlus
 {
-	public class MaterialVillager : HumanVillager, Hoverable, Interactable, OdinInteractable
+	public class MaterialVillager : QuestVillager, Hoverable, Interactable, OdinInteractable
 	{
 		public readonly string[] m_materials = new string[] { "Wood", "Stone" };
 		public string m_item = "";

@@ -53,10 +53,15 @@ namespace OdinPlus
 		}
 		public override void Say(string text)
 		{
+			
 			Say(text, "emote_wave");
 		}
 		public void Say(string text, string emote)
 		{
+			if (m_hum.m_faction != Character.Faction.Players)
+			{
+				return;
+			}
 			text = Localization.instance.Localize(text);
 			var tname = Localization.instance.Localize(m_name);
 			Chat.instance.SetNpcText(m_talker, Vector3.up * 1.5f, 60f, 5, tname, text, false);

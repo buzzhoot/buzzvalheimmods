@@ -388,6 +388,7 @@
     <Compile Include="6Humans\HumanFighter.cs" />
     <Compile Include="6Humans\MaterialVillager.cs" />
     <Compile Include="6Humans\HumanWorker.cs" />
+    <Compile Include="6Humans\QuestVillager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
