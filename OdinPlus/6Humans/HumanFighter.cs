@@ -14,11 +14,12 @@ namespace OdinPlus
 		}
 		public override void Choice0()
 		{
-			Say("Want a Fight?");
+			Say("Want a Fight?","emote_point");
 		}
+
 		public void Choice1()
 		{
-			Say("How dare you");
+			Say("How dare you","emote_point");
 			ChangeFaction(Character.Faction.Boss);
 		}
 		public void onDeath()

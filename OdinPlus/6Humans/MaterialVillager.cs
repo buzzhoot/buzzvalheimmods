@@ -19,6 +19,11 @@ namespace OdinPlus
 				zdo.Set("Qmat",m_item);
 			}
 		}
+		public override void Choice0()
+		{
+			string n = string.Format("I could use some <color=yellow><b>{0}</b></color> to build our home",m_item);
+			Say(n);
+		}
 		public override bool UseItem(Humanoid user, ItemDrop.ItemData item)
 		{
 			if (!IsQuestReady())
