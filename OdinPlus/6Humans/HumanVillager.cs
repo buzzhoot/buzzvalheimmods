@@ -44,8 +44,14 @@ namespace OdinPlus
 		}
 		public bool IsQuestReady()
 		{
-			DateTime d = new DateTime(this.m_nview.GetZDO().GetLong("TameLastFeeding", (long)QuestCD));
-			return (ZNet.instance.GetTime() - d).TotalSeconds > (double)QuestCD;
+			DateTime d = new DateTime(this.m_nview.GetZDO().GetLong("QuestTime", (long)QuestCD));
+			bool result = (ZNet.instance.GetTime() - d).TotalSeconds > (double)QuestCD;
+			EXCobj.SetActive(result);
+			return result;
+		}
+		public void ResetQuestCD()
+		{
+			m_nview.GetZDO().Set("QuestTime",ZNet.instance.GetTime().Ticks);
 		}
 	}
 }

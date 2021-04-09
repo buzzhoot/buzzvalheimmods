@@ -38,6 +38,7 @@ namespace OdinPlus
 				inv.RemoveItem(iname,count);
 				OdinData.AddCredits(30,true);
 				Say("$op_human_thx");
+				ResetQuestCD();
 				return true;
 			}
 			else

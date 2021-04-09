@@ -29,7 +29,7 @@ namespace OdinPlus
 			PlaceRandom(key);
 			string n = String.Format("Thx, you can find <color=yellow><b>{0}</b></color> near our village", key);
 			Say(n);
-			timer = QuestCD;
+			ResetQuestCD();
 		}
 		private void PlaceQuestHuman(string key,Vector3 pos)
 		{
