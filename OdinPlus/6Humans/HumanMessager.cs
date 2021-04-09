@@ -33,7 +33,7 @@ namespace OdinPlus
 		}
 		private void PlaceQuestHuman(string key,Vector3 pos)
 		{
-			var pgo = ZNetScene.instance.GetPrefab("HumanWorker");
+			var pgo = ZNetScene.instance.GetPrefab("WorkerNPCHuman");
 			var go  = Instantiate(pgo,PrefabManager.Root.transform);
 			go.GetComponent<HumanVis>().m_name= key;
 			float y;
