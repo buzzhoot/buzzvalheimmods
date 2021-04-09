@@ -66,8 +66,9 @@ namespace OdinPlus
 			isFriend=true,
 			},
 			new humanData(){presetNAME="GuardNPC",health=300,
-			sets="Troll0",
-			m_randomMoveInterval=30,
+			sets="Padded0",
+			m_randomMoveInterval=5,
+			m_randomMoveRange=60,
 			isFriend=true,
 			}
 		};
@@ -80,7 +81,8 @@ namespace OdinPlus
 			{"Brozen",new string[]{"ArmorBronzeChest","ArmorBronzeLegs","HelmetBronze","CapeTrollHide"}},
 			{"Iron",new string[]{"ArmorIronChest","ArmorIronLegs","HelmetIron","CapeLinen"}},
 			{"Silver",new string[]{"ArmorWolfChest","ArmorWolfLegs","HelmetDrake","CapeWolf"}},
-			{"Padded",new string[]{"ArmorPaddedCuirass","ArmorPaddedGreaves","HelmetPadded","CapeLinen"}}
+			{"Padded",new string[]{"ArmorPaddedCuirass","ArmorPaddedGreaves","HelmetPadded","CapeLinen"}},
+			{"Padded0",new string[]{"ArmorPaddedCuirass","ArmorPaddedGreaves","CapeLinen"}}
 		};
 		public static void Init()
 		{
@@ -121,10 +123,10 @@ namespace OdinPlus
 		{
 			CreateNPC<HumanFighter>("Fighter1");
 			CreateNPC<HumanFighter>("Fighter2");
-			CreateNPC<MaterialVillager>("DumbNPC", "MatNPCHuman");
+			CreateNPC<MaterialVillager>("DumbWorker", "MatNPCHuman");
 			CreateNPC<HumanMessager>("DumbWorker", "MessageNPCHuman");
 			CreateNPC<HumanWorker>("DumbWorker", "WorkerNPCHuman");
-			CreateNPC<HumanNPC>("GuardNPC", "GuardVillager");
+			CreateNPC<HumanVillager>("GuardNPC", "GuardVillager");
 		}
 		public static void CreateNPC<T>(string pname, string goname) where T : Component
 		{
@@ -168,7 +170,6 @@ namespace OdinPlus
 			result.m_items = sets;
 			return result;
 		}
-
 		public static void PostZone()
 		{
 			var exc_prb = Tutorial.instance.m_ravenPrefab.transform.Find("Munin").gameObject;
@@ -178,7 +179,7 @@ namespace OdinPlus
 				if (comp)
 				{
 					var go = comp.gameObject;
-					var exc = Instantiate(exc_prb.GetComponentInChildren<Raven>().m_exclamation, Vector3.up * 2, Quaternion.identity, go.transform);
+					var exc = Instantiate(exc_prb.GetComponentInChildren<Raven>().m_exclamation, Vector3.up *1.3f+go.transform.position, Quaternion.identity, go.transform);
 					exc.name = "excOBJ";
 					exc.transform.localScale = Vector3.one * 0.5f;
 					comp.EXCobj = exc;
@@ -187,7 +188,6 @@ namespace OdinPlus
 
 			HackingLoc();
 		}
-
 
 		#endregion Tool		
 
@@ -287,6 +287,7 @@ namespace OdinPlus
 		public static void CreateSpawner(string cname)
 		{
 			var go = new GameObject(cname + "Spawner");
+			go.transform.SetParent(PrefabManager.Root.transform);
 			var znv = go.AddComponent<ZNetView>();
 			var spn = go.AddComponent<CreatureSpawner>();
 			spn.m_creaturePrefab = PrefabList[cname];
@@ -371,29 +372,51 @@ namespace OdinPlus
 		}
 		public static void HackingFarm()
 		{
-			var t = GameObject.Find("/_Locations/Meadows/WoodFarm1").transform;
-			var guard = ZNetScene.instance.GetPrefab("GuradVillager" + "Spawner");
-			var msg = ZNetScene.instance.GetPrefab("GuradVillager" + "Spawner");
-			var rsc = ZNetScene.instance.GetPrefab("MatNPCHuman" + "Spawner");
-			Instantiate(rsc, new Vector3(1, 0, 2) + t.position, Quaternion.identity, t);
-			Instantiate(msg, new Vector3(2, 0, 1) + t.position, Quaternion.identity, t);
-			for (int i = 0; i < 15; i++)
+			Transform t = PrefabManager.Root.transform;
+			var a = ZoneSystem.instance.m_locations;
+			foreach (var item in a)
 			{
-				Instantiate(msg, new Vector3(10.RollDices(), 0, 10.RollDices()) + t.position, Quaternion.identity, t);
+				if (item.m_prefabName == "WoodFarm1")
+				{
+					t = item.m_prefab.transform;
+					break;
+				}
 			}
+			var guard = ZNetScene.instance.GetPrefab("GuardVillager" + "Spawner");
+			var msg = ZNetScene.instance.GetPrefab("MessageNPCHuman" + "Spawner");
+			var rsc = ZNetScene.instance.GetPrefab("MatNPCHuman" + "Spawner");
+			rsc = Instantiate(rsc, new Vector3(5, 0, 5) + t.position, Quaternion.identity, t);
+			msg = Instantiate(msg, new Vector3(5.5f, 0, 5.5f) + t.position, Quaternion.identity, t);
+			for (int i = 0; i < 9; i++)
+			{
+				guard  = Instantiate(guard, new Vector3(10.RollDices(), 0, 10.RollDices()) + t.position, Quaternion.identity, t);
+			}
+			rsc.name=rsc.name.RemoveClone();
+			msg.name=msg.name.RemoveClone();
+			guard.name=guard.name.RemoveClone();
+			DBG.blogWarning("Hacking Village");
 		}
-		private static readonly string[] rstones = new string[]{"Runestone_Meadows","Runestone_Swamps","Runestone_BlackForest"};
+		private static readonly string[] rstones = new string[] { "Runestone_Meadows", "Runestone_Swamps", "Runestone_BlackForest" };
 		public static void HackingRuneStones()
 		{
+			Transform t = PrefabManager.Root.transform;
+			var a = ZoneSystem.instance.m_locations;
 			foreach (var item in rstones)
 			{
-				var t = GameObject.Find("/_Locations/Meadows/"+item).transform;
-				var  go  = Instantiate(ZNetScene.instance.GetPrefab("Fighter1" + "Spawner"),t.position,Quaternion.identity,t);
+				foreach (var item2 in a)
+				{
+					if (item2.m_prefabName==item)
+					{
+						t=item2.m_location.gameObject.transform;
+					}
+				}
+				var go = Instantiate(ZNetScene.instance.GetPrefab("Fighter1" + "Spawner"), t.position, Quaternion.identity, t);
+				go.name="Fighter1" + "Spawner";
 				var rnd = go.AddComponent<RandomSpawn>();
-				rnd.m_chanceToSpawn=90;
+				rnd.m_chanceToSpawn = 90;
 				DBG.blogWarning("hacking " + item);
 			}
-			
+
 		}
 		#endregion  HackingLocation
 
