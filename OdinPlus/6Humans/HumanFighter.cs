@@ -18,6 +18,7 @@ namespace OdinPlus
 		}
 		public void Choice1()
 		{
+			Say("How dare you");
 			ChangeFaction(Character.Faction.Boss);
 		}
 		public void onDeath()
