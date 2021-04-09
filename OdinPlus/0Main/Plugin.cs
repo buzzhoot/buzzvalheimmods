@@ -244,6 +244,11 @@ namespace OdinPlus
 						CFG_OdinPosition.Value = NpcManager.Root.transform.localPosition;
 						return;
 					}
+					if (cmd.ToLower() == "/findfarm")
+					{
+						Game.instance.DiscoverClosestLocation("WoodFarm1", Player.m_localPlayer.transform.position, "Village", 0);
+						return;
+					}
 				}
 			}
 		}
