@@ -27,7 +27,7 @@ namespace OdinPlus
 			var key = m_nview.GetZDO().GetString("npcname");
 			OdinData.AddKey(key);
 			PlaceQuestHuman(key);
-			Say("Thx, you can find him near this location");
+			Say("Thx, you can find him near in the woods");
 			timer=QuestCD;
 		}
 		private void PlaceQuestHuman(string key)
