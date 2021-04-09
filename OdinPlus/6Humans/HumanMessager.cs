@@ -13,8 +13,6 @@ namespace OdinPlus
 		{
 			base.Awake();
 			ChoiceList = new string[2] { "$op_talk", "$op_human_quest_take" };
-			var zdo = m_nview.GetZDO();
-			zdo.GetFloat("QuestTimer", 0);
 		}
 		public override void Choice0()
 		{
@@ -22,10 +20,15 @@ namespace OdinPlus
 		}
 		public void Choice1()
 		{
+			if (!IsQuestReady())
+			{
+				return;
+			}
 			var key = m_nview.GetZDO().GetString("npcname");
 			OdinData.AddKey(key);
 			PlaceQuestHuman(key);
 			Say("Thx, you can find him near this location");
+			timer=QuestCD;
 		}
 		private void PlaceQuestHuman(string key)
 		{
