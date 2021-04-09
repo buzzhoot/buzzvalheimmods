@@ -145,6 +145,7 @@ namespace OdinPlus
 		#region Gui
 		Rect windowRect = new Rect(200, 200, 400, 800);
 		public bool ShowWindow = false;
+		public string lname = "HelloWorld";
 		GUIStyle style;
 		private void OnGUI()
 		{
@@ -189,7 +190,7 @@ namespace OdinPlus
 						}
 					}
 					GUILayout.BeginHorizontal();
-					string lname = "HelloWorld";
+					
 					lname = GUILayout.TextField(lname, 40);
 					if (GUILayout.Button("FindLoctaion"))
 					{
