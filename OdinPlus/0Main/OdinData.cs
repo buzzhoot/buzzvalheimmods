@@ -134,6 +134,14 @@ namespace OdinPlus
 		{
 			Data.BuzzKeys.Remove(key);
 		}
+		public static bool GetKey(string key)
+		{
+			if (Data.BuzzKeys.Contains(key))
+			{
+				return true;
+			}
+			return false;
+		}
 		#endregion Feature
 
 		#region Save And Load
