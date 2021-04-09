@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Text.RegularExpressions;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -204,6 +205,10 @@ namespace OdinPlus
 				}
 			}
 			return null;
+		}
+		public static string RemoveClone(this string str)
+		{
+			return Regex.Replace(str,"(Clone)","");
 		}
 
 		#endregion  game
