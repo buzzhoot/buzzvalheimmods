@@ -110,7 +110,6 @@ namespace OdinPlus
 			hum.m_randomWeapon = RandomVis(dat.weapons);
 			hum.m_randomShield = RandomVis(dat.sheild);
 
-			mai.m_attackPlayerObjects = !dat.isFriend;
 			mai.m_randomMoveInterval = dat.m_randomMoveInterval;
 			mai.m_randomMoveRange=dat.m_randomMoveRange;
 			mai.m_moveMinAngle=dat.m_moveMinAngle;
