@@ -11,7 +11,7 @@ namespace OdinPlus
 		protected ZNetView m_nview;
 		protected VisEquipment m_vis;
 		protected Animator m_ani;
-		protected string m_name;
+		public string m_name="";
 
 		private void Awake()
 		{
@@ -26,7 +26,15 @@ namespace OdinPlus
 		protected virtual void SetName()
 		{
 			var hum = GetComponent<Humanoid>();
-			var n = m_nview.GetZDO().GetString("npcname", "no");
+			string n ;
+			if (m_name!="")
+			{
+				n=m_name;
+			}
+			else
+			{
+				n = m_nview.GetZDO().GetString("npcname", "no");
+			}
 			if (n == "no")
 			{
 				n = NPCnames.GetRandomElement();
