@@ -164,9 +164,13 @@ namespace OdinPlus
 				//add Backup
 			}
 			FileStream fileStream = new FileStream(@file, FileMode.Create, FileAccess.Write);
-
-			BinaryFormatter formatter = new BinaryFormatter();
-			formatter.Serialize(fileStream, Data);
+			string dat = JsonUtility.ToJson(Data);
+			BinaryWriter binaryWriter= new BinaryWriter(fileStream);
+			binaryWriter.Write(JsonUtility.ToJson(Data));
+			binaryWriter.Flush();
+			binaryWriter.Close();
+			//BinaryFormatter formatter = new BinaryFormatter();
+			//formatter.Serialize(fileStream, Data);
 			fileStream.Close();
 			#endregion Serialize
 
@@ -189,9 +193,13 @@ namespace OdinPlus
 				DBG.blogWarning("Profile not exists:" + name);
 				return;
 			}
+			
 			FileStream fileStream = new FileStream(@file, FileMode.Open, FileAccess.Read);
-			BinaryFormatter formatter = new BinaryFormatter();
-			Data = (DataTable)formatter.Deserialize(fileStream);
+			//BinaryFormatter formatter = new BinaryFormatter();
+			//Data = (DataTable)formatter.Deserialize(fileStream);
+			BinaryReader binaryReader = new BinaryReader(fileStream);
+			var str = binaryReader.ReadString();
+			Data=JsonUtility.FromJson<DataTable>(str);
 			fileStream.Close();
 			#endregion Serial
 
