@@ -502,8 +502,9 @@ namespace OdinPlus
 		{
 			string file = Path.Combine(Application.persistentDataPath, (SaveDataFileName + ".odinplus"));
 			FileStream fileStream = new FileStream(@file, FileMode.Open, FileAccess.Read);
-			BinaryFormatter formatter = new BinaryFormatter();
-			SaveDataDebug = (OdinData.DataTable)formatter.Deserialize(fileStream);
+			BinaryReader binaryReader = new BinaryReader(fileStream);
+			var str = binaryReader.ReadString();
+			SaveDataDebug=JsonUtility.FromJson<OdinData.DataTable>(str);
 			fileStream.Close();
 		}
 
