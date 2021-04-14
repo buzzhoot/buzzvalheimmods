@@ -2,6 +2,7 @@
 using UnityEngine;
 using HarmonyLib;
 using System.Reflection;
+using System;
 //TODO maybe remove the deco for colorize keyword,just let writers do it themsevels.make a note for them!
 namespace OdinPlus
 {
@@ -289,12 +290,19 @@ namespace OdinPlus
 		}
 		public static void UpdateDictinary()
 		{
-			var len = t.Count;
-			foreach (var el in t)
+			string missing = "Missing Words:";
+			foreach (var el in english)
 			{
+				if (t.ContainsKey(el.Key))
+				{
+					AddWord(new object[] { el.Key, t[el.Key] });
+					continue;
+				}
 				AddWord(new object[] { el.Key, el.Value });
+				missing+=el.Key;
 			}
 			DBG.blogInfo("Translation added");
+			DBG.blogWarning(missing);
 		}
 	}
 }
