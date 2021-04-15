@@ -14,6 +14,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Globalization;
 using UnityEngine.UI;
+using Newtonsoft.Json;
 
 //|| ||DEBUG How to
 //Right Ctrl + keypad[0-5] global key sets (how many kinds of boss have you defeated,quest is based on that)
@@ -504,7 +505,7 @@ namespace OdinPlus
 			FileStream fileStream = new FileStream(@file, FileMode.Open, FileAccess.Read);
 			BinaryReader binaryReader = new BinaryReader(fileStream);
 			var str = binaryReader.ReadString();
-			SaveDataDebug=JsonUtility.FromJson<OdinData.DataTable>(str);
+			SaveDataDebug=JsonConvert.DeserializeObject<OdinData.DataTable>(str);
 			fileStream.Close();
 		}
 
