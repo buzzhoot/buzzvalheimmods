@@ -9,15 +9,15 @@ namespace AllTameable
 		//public GameObject m_grownPrefab;
 		//private ZNetView m_nview;
 		public string m_name;
-		private new ZNetView m_nview;
+		private ZNetView m_nview;
 		private int growStats;
 
-		private new void  Start()
+		private void  Start()
 		{
 			m_nview = gameObject.GetComponent<ZNetView>();
 			InvokeRepeating("GrowUpdate", UnityEngine.Random.Range(10f, 15f), 10f);
 		}
-		private new void GrowUpdate()
+		private void GrowUpdate()
 		{
 			if (!this.m_nview.IsValid() || !this.m_nview.IsOwner())
 			{

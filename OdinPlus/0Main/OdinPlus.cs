@@ -110,7 +110,6 @@ namespace OdinPlus
 				{
 					PrefabManager.Init();
 				}
-				HumanManager.Init();
 				ZnsInit = true;
 			}
 

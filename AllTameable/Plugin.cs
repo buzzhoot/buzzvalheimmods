@@ -10,10 +10,15 @@ using BepInEx.Configuration;
 using HarmonyLib;
 using BepInEx.Logging;
 using UnityEngine;
-
+using Jotunn.Configs;
+using Jotunn.InGameConfig;
+using Jotunn.Entities;
+using Jotunn.Utils;
 
 namespace AllTameable
 {
+	[NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.Major)]
+
 	[BepInPlugin("buzz.valheim.AllTameable", "AllTameable", "2.0.2")]
 	class Plugin : BaseUnityPlugin
 	{
@@ -50,7 +55,7 @@ namespace AllTameable
 		}
 		public static Dictionary<string, TameTable> cfgList = new Dictionary<string, TameTable>();
 		public static TameTable CfgTable;
-		public static List<string> ThxList = new List<string> { "deftesthawk", "buzz", "lordbugx", "hawksword" };
+		public static List<string> ThxList = new List<string> { "deftesthawk", "buzz", "lordbugx", "hawksword", "zarboz" };
 		public static EffectList.EffectData firework = new EffectList.EffectData();
 		#endregion Data
 		#region plugin
@@ -59,6 +64,8 @@ namespace AllTameable
 		public static PrefabManager prefabManager;
 		public static PetManager petManager;
 		public static ConfigManager configManager;
+		public static ConfigEntry<string> Animal1;
+		public static ConfigEntry<string> Animal2;
 		#endregion plugin
 
 		#endregion Var
@@ -73,7 +80,8 @@ namespace AllTameable
 			cfg = base.Config.Bind<string>("1General", "Settings",
 				"Hatchling,true,600,300,30,10,300,10,RawMeat,true,true,5,0.33,10,300",
 				"name,commandable,tamingTime,fedDuration,consumeRange,consumeSearchInterval,consumeHeal,consumeSearchRange,consumeItem:consumeItem,changeFaction,procretion,maxCreatures,pregnancyChance,pregnancyDuration,growTime,;next one;...;last one");
-
+			Animal1 = Config.Bind("1General", "Settings","Hatchling,true,600,300,30,10,300,10,RawMeat,true,true,5,0.33,10,300", new ConfigDescription("name,commandable,tamingTime,fedDuration,consumeRange,consumeSearchInterval,consumeHeal,consumeSearchRange,consumeItem:consumeItem,changeFaction,procretion,maxCreatures,pregnancyChance,pregnancyDuration,growTime", null, new ConfigurationManagerAttributes { IsAdminOnly = true }));
+			Animal2 = Config.Bind("1General", "Settings", "Hatchling,true,600,300,30,10,300,10,RawMeat,true,true,5,0.33,10,300", new ConfigDescription("Server side string", null, new ConfigurationManagerAttributes { IsAdminOnly = true }));
 			loaded = initCfg();
 			CfgTable = new TameTable();
 			string list = "Your list has: ";
