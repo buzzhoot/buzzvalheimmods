@@ -4,7 +4,7 @@ using System.IO;
 using System.Reflection;
 using HarmonyLib;
 using UnityEngine;
-using Newtonsoft.Json;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace OdinPlus
 {
@@ -163,13 +163,8 @@ namespace OdinPlus
 				//add Backup
 			}
 			FileStream fileStream = new FileStream(@file, FileMode.Create, FileAccess.Write);
-			string dat = JsonConvert.SerializeObject(Data);
-			BinaryWriter binaryWriter= new BinaryWriter(fileStream);
-			binaryWriter.Write(dat);
-			binaryWriter.Flush();
-			binaryWriter.Close();
-			//BinaryFormatter formatter = new BinaryFormatter();
-			//formatter.Serialize(fileStream, Data);
+			BinaryFormatter formatter = new BinaryFormatter();
+			formatter.Serialize(fileStream, Data);
 			fileStream.Close();
 			#endregion Serialize
 
@@ -194,11 +189,8 @@ namespace OdinPlus
 			}
 			
 			FileStream fileStream = new FileStream(@file, FileMode.Open, FileAccess.Read);
-			//BinaryFormatter formatter = new BinaryFormatter();
-			//Data = (DataTable)formatter.Deserialize(fileStream);
-			BinaryReader binaryReader = new BinaryReader(fileStream);
-			var str = binaryReader.ReadString();
-			Data=JsonConvert.DeserializeObject<DataTable>(str);
+			BinaryFormatter formatter = new BinaryFormatter();
+			Data = (DataTable)formatter.Deserialize(fileStream);
 			fileStream.Close();
 			#endregion Serial
 
