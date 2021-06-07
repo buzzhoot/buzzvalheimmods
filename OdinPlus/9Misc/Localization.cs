@@ -143,7 +143,8 @@ namespace OdinPlus
 {"op_quest_quest","Quest"},
 {"op_quest_start","Start"},
 {"op_quest_clear","Clear"},
-{"op_quest_stolen","Lost"}
+{"op_quest_stolen","Lost"},
+{"op_quest_search_start_pr_1", "Hail Viking! Go and find Munin" }
 		};
 		private static Dictionary<string, string> chinese = new Dictionary<string, string>() {
 			{"op_use","升级你的技能：" },
