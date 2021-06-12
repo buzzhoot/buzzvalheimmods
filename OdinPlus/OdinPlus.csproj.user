@@ -4,5 +4,7 @@
     <StartAction>Program</StartAction>
     <StartProgram>C:\Program Files %28x86%29\Steam\steamapps\common\Valheim-jotunn\valheim.exe</StartProgram>
     <StartArguments>-console</StartArguments>
+    <EnableUnmanagedDebugging>true</EnableUnmanagedDebugging>
+    <EnableSQLServerDebugging>true</EnableSQLServerDebugging>
   </PropertyGroup>
 </Project>
