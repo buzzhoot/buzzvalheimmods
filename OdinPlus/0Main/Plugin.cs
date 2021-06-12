@@ -440,9 +440,7 @@ namespace OdinPlus
 			}
 		}
 		#endregion container
-		#region Charactor
-		
-		#endregion Charactor
+
 		#endregion patch
 
 		#region Tool

@@ -14,12 +14,12 @@ namespace OdinPlus
 		 new string[]{ "Crypt3", "Crypt2", "Crypt4", "SunkenCrypt4", "GoblinCamp2" }};
 		public static List<string[]> TreasureLoc = new List<string[]> {
 				new string[] { "WoodHouse11", "WoodHouse6", "WoodHouse3", "WoodHouse4", "WoodHouse6", "WoodHouse7", "WoodHouse8", "WoodHouse9" },
-				new string[] { "WoodHouse3", "WoodHouse4", "Ruin2", "Ruin1", "ShipSetting01", "Runestone_Boars", "Runestone_Meadows", "Runestone_Greydwarfs", "RuneStone_BlackForest" },
+				new string[] { "WoodHouse3", "WoodHouse4", "Ruin2", "Ruins1", "ShipSetting01", "Runestone_Boars", "Runestone_Meadows", "Runestone_Greydwarfs", "Runestone_BlackForest" },
 				new string[] { "SwampRuin1", "SwampRuin2", "SwampHut5", "SwampHut1", "SwampHut2", "SwampHut3", "SwampHut4", "Runestone_Draugr", "FireHole", "DrakeNest01", "Waymarker02", "AbandonedLogCabin02", "AbandonedLogCabin03", "AbandonedLogCabin04", "MountainGrave01" },
 				new string[] { "DrakeNest01", "Waymarker02", "AbandonedLogCabin02", "AbandonedLogCabin03", "AbandonedLogCabin04", "MountainGrave01", "DrakeLorestone" },
 				new string[] { "StoneHenge1", "StoneHenge2", "StoneHenge3", "StoneHenge4", "StoneHenge5", "StoneHenge6" },
 				new string[] {"WoodHouse11","WoodHouse6","WoodHouse3","WoodHouse4","WoodHouse6","WoodHouse7","WoodHouse8","WoodHouse9","WoodHouse3",
-				"WoodHouse4","Ruin2","Ruins1","ShipSetting01","Runestone_Boars","Runestone_Meadows","Runestone_Greydwarfs","RuneStone_BlackForest","SwampRuin1",
+				"WoodHouse4","Ruin2","Ruins1","ShipSetting01","Runestone_Boars","Runestone_Meadows","Runestone_Greydwarfs","Runestone_BlackForest","SwampRuin1",
 				"SwampRuin2","SwampHut5","SwampHut1","SwampHut2","SwampHut3","SwampHut4","Runestone_Draugr","FireHole","DrakeNest01","Waymarker02",
 				"AbandonedLogCabin02","AbandonedLogCabin03","AbandonedLogCabin04","MountainGrave01","DrakeNest01","Waymarker02","AbandonedLogCabin02",
 				"AbandonedLogCabin03","AbandonedLogCabin04","MountainGrave01","DrakeLorestone","StoneHenge1","StoneHenge2","StoneHenge3","StoneHenge4","StoneHenge5","StoneHenge6"}};
