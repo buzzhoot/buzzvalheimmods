@@ -1,10 +1,5 @@
-using System.Reflection;
-using System.Collections.Generic;
-using BepInEx;
-using BepInEx.Configuration;
-using HarmonyLib;
-using BepInEx.Logging;
 using UnityEngine;
+
 namespace OdinPlus
 {
 
@@ -39,7 +34,7 @@ namespace OdinPlus
 		}
 		public virtual string GetHoverName()
 		{
-			return Localization.instance.Localize(this.m_name);
+			return Localization.instance.Localize(m_name);
 		}
 		public virtual bool UseItem(Humanoid user, ItemDrop.ItemData item)
 		{

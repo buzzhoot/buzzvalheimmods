@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 using HarmonyLib;
 using System.Reflection;
-using System;
+
 //TODO maybe remove the deco for colorize keyword,just let writers do it themsevels.make a note for them!
 namespace OdinPlus
 {
@@ -144,6 +143,8 @@ namespace OdinPlus
 {"op_quest_start","Start"},
 {"op_quest_clear","Clear"},
 {"op_quest_stolen","Lost"},
+{"op_quest_search_start_pr_1", "Hail Viking! Go and find Munin" },
+{"op_quest_search_start_po_1","And return them to his location for a reward" },
 //names
 {"op_npc_name1","Arne"},
 {"op_npc_name2","Birger"},

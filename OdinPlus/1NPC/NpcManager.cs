@@ -1,3 +1,4 @@
+using System;
 using System.Reflection;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ namespace OdinPlus
 
 	class NpcManager : MonoBehaviour
 	{
-		public static bool IsInit = false;
+		public static bool IsInit;
 		public static GameObject Root;
 		public static GameObject terrain;
 		public static OdinGod m_odinGod;
@@ -210,7 +211,7 @@ namespace OdinPlus
 		}
 		public static void CopyComponent(Component original, GameObject destination)
 		{
-			System.Type type = original.GetType();
+			Type type = original.GetType();
 			Component copy = destination.AddComponent(type);
 			// Copied fields can be restricted with BindingFlags
 			FieldInfo[] fields = type.GetFields();
@@ -223,8 +224,7 @@ namespace OdinPlus
 			//{
 			//    props.SetValue(copy, props.GetValue(original));
 			//}
-			return;
-		}
+    }
 
 		#endregion Utilities
 	}

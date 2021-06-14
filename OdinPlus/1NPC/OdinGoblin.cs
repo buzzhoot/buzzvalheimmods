@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using UnityEngine;
 namespace OdinPlus
 {
 	class OdinGoblin : OdinNPC
@@ -29,7 +26,7 @@ namespace OdinPlus
 		}
 		public override string GetHoverName()
 		{
-			return Localization.instance.Localize(this.m_name);
+			return Localization.instance.Localize(m_name);
 		}
 		public override bool UseItem(Humanoid user, ItemDrop.ItemData item)
 		{

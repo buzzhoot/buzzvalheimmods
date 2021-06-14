@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
-using System.Reflection;
 using HarmonyLib;
+using UnityEngine;
+
 namespace OdinPlus
 {
 	class OdinShaman : OdinNPC, Hoverable, Interactable, OdinInteractable
@@ -24,13 +24,13 @@ namespace OdinPlus
 		private void Awake()
 		{
 			m_name = "$op_shaman";
-			m_talker = this.gameObject;
+			m_talker = gameObject;
 		}
 
 		#endregion  Mono
 		private void Start()
 		{
-			var prefab = this.gameObject;
+			var prefab = gameObject;
 			ZNetView znv = prefab.GetComponent<ZNetView>();
 			ZDO zdo = prefab.GetComponent<ZNetView>().GetZDO();
 			DestroyImmediate(prefab.GetComponent<ZNetView>());
@@ -87,7 +87,7 @@ namespace OdinPlus
 		}
 		public override string GetHoverName()
 		{
-			return Localization.instance.Localize(this.m_name);
+			return Localization.instance.Localize(m_name);
 		}
 		public override bool UseItem(Humanoid user, ItemDrop.ItemData item)
 		{

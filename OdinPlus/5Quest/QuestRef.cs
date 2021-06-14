@@ -1,50 +1,69 @@
 using System.Collections.Generic;
-using System;
 
 namespace OdinPlus
 {
-	public class QuestRef
-	{
-		public static List<string[]> DungeonLoc = new List<string[]>{
-		new string[]{ "Crypt3" },
-		 new string[]{ "Crypt3", "Crypt2", "Crypt4" },
-		 new string[]{ "SunkenCrypt4" },
-		 new string[]{ "SunkenCrypt4" },
-		 new string[]{ "GoblinCamp2" },
-		 new string[]{ "Crypt3", "Crypt2", "Crypt4", "SunkenCrypt4", "GoblinCamp2" }};
-		public static List<string[]> TreasureLoc = new List<string[]> {
-				new string[] { "WoodHouse11", "WoodHouse6", "WoodHouse3", "WoodHouse4", "WoodHouse6", "WoodHouse7", "WoodHouse8", "WoodHouse9" },
-				new string[] { "WoodHouse3", "WoodHouse4", "Ruin2", "Ruins1", "ShipSetting01", "Runestone_Boars", "Runestone_Meadows", "Runestone_Greydwarfs", "Runestone_BlackForest" },
-				new string[] { "SwampRuin1", "SwampRuin2", "SwampHut5", "SwampHut1", "SwampHut2", "SwampHut3", "SwampHut4", "Runestone_Draugr", "FireHole", "DrakeNest01", "Waymarker02", "AbandonedLogCabin02", "AbandonedLogCabin03", "AbandonedLogCabin04", "MountainGrave01" },
-				new string[] { "DrakeNest01", "Waymarker02", "AbandonedLogCabin02", "AbandonedLogCabin03", "AbandonedLogCabin04", "MountainGrave01", "DrakeLorestone" },
-				new string[] { "StoneHenge1", "StoneHenge2", "StoneHenge3", "StoneHenge4", "StoneHenge5", "StoneHenge6" },
-				new string[] {"WoodHouse11","WoodHouse6","WoodHouse3","WoodHouse4","WoodHouse6","WoodHouse7","WoodHouse8","WoodHouse9","WoodHouse3",
-				"WoodHouse4","Ruin2","Ruins1","ShipSetting01","Runestone_Boars","Runestone_Meadows","Runestone_Greydwarfs","Runestone_BlackForest","SwampRuin1",
-				"SwampRuin2","SwampHut5","SwampHut1","SwampHut2","SwampHut3","SwampHut4","Runestone_Draugr","FireHole","DrakeNest01","Waymarker02",
-				"AbandonedLogCabin02","AbandonedLogCabin03","AbandonedLogCabin04","MountainGrave01","DrakeNest01","Waymarker02","AbandonedLogCabin02",
-				"AbandonedLogCabin03","AbandonedLogCabin04","MountainGrave01","DrakeLorestone","StoneHenge1","StoneHenge2","StoneHenge3","StoneHenge4","StoneHenge5","StoneHenge6"}};
-		public static List<string[]> HuntLoc = new List<string[]>{
-			new string[] { "Runestone_Greydwarfs" },
-			new string[] { "Ruin1", "Runestone_Greydwarfs" },
-			new string[] { "Runestone_Draugr" },
-			new string[] { "Waymarker02" },
-			new string[] { "Runestone_Plains" },
-			new string[] { "Runestone_Greydwarfs", "Ruin1", "Runestone_Greydwarfs", "Runestone_Draugr", "Waymarker02", "Runestone_Plains" }};
+  public class QuestRef
+  {
+    private static readonly List<string[]> DungeonLoc = new List<string[]>
+    {
+      new[] {"Crypt3"},
+      new[] {"Crypt3", "Crypt2", "Crypt4"},
+      new[] {"SunkenCrypt4"},
+      new[] {"SunkenCrypt4"},
+      new[] {"GoblinCamp2"},
+      new[] {"Crypt3", "Crypt2", "Crypt4", "SunkenCrypt4", "GoblinCamp2"}
+    };
 
-		public static List<string[]> SearchItem = new List<string[]>
-		 {
-			new string[] { "LeatherScraps:20", "Mushroom:20", "CookedMeat:20", "Raspberry:20", "Stone:50", "Wood:50", "DeerHide:15", "Resin:20" },
-			new string[] { "TrollHide:10", "Coins:100", "Resin:50", "BoneFragments:20", "MushroomYellow:20", "Blueberries:20", "HardAntler:1" },
-			new string[] { "Guck:30", "Ooze:10", "SurtlingCore:20", "ElderBark:50", "Amber:20", "AmberPearl:20", "Resin:100" },
-			new string[] { "Guck:50", "Ooze:20", "SurtlingCore:30", "ElderBark:50", "DragonEgg:1", "WolfFang:20", "WolfPelt:10", "Resin:100" },
-			new string[] { "Amber:20", "AmberPearl:20", "Bread:50", "Guck:80", "Ooze:40", "SurtlingCore:30", "ElderBark:80", "DragonEgg:1", "WolfFang:20", "WolfPelt:20", "Resin:100" }
-		};
-		public static Dictionary<QuestType, List<string[]>> LocDic = new Dictionary<QuestType, List<string[]>>
-		{
-			{QuestType.Dungeon,DungeonLoc},{QuestType.Hunt,HuntLoc},{QuestType.Search,SearchItem},{QuestType.Treasure,TreasureLoc}
-		};
-		public static string[] HunterMonsterList = new string[] { "Troll", "Draugr_Elite", "Fenring", "GoblinBrute" };
-	}
+    private static readonly List<string[]> TreasureLoc = new List<string[]>
+    {
+      new[] {"WoodHouse11", "WoodHouse6", "WoodHouse3", "WoodHouse4", "WoodHouse6", "WoodHouse7", "WoodHouse8", "WoodHouse9"},
+      new[] {"WoodHouse3", "WoodHouse4", "Ruin2", "Ruins1", "ShipSetting01", "Runestone_Boars", "Runestone_Meadows", "Runestone_Greydwarfs", "Runestone_BlackForest"},
+      new[]
+      {
+        "SwampRuin1", "SwampRuin2", "SwampHut5", "SwampHut1", "SwampHut2", "SwampHut3", "SwampHut4", "Runestone_Draugr", 
+        "FireHole", "DrakeNest01", "Waymarker02", "AbandonedLogCabin02", "AbandonedLogCabin03", "AbandonedLogCabin04", "MountainGrave01"
+      },
+      new[] {"DrakeNest01", "Waymarker02", "AbandonedLogCabin02", "AbandonedLogCabin03", "AbandonedLogCabin04", "MountainGrave01", "DrakeLorestone"},
+      new[] {"StoneHenge1", "StoneHenge2", "StoneHenge3", "StoneHenge4", "StoneHenge5", "StoneHenge6"},
+      new[]
+      {
+        "WoodHouse11", "WoodHouse6", "WoodHouse3", "WoodHouse4", "WoodHouse6", "WoodHouse7", "WoodHouse8", "WoodHouse9", "WoodHouse3",
+        "WoodHouse4", "Ruin2", "Ruins1", "ShipSetting01", "Runestone_Boars", "Runestone_Meadows", "Runestone_Greydwarfs", "Runestone_BlackForest", "SwampRuin1",
+        "SwampRuin2", "SwampHut5", "SwampHut1", "SwampHut2", "SwampHut3", "SwampHut4", "Runestone_Draugr", "FireHole", "DrakeNest01", "Waymarker02",
+        "AbandonedLogCabin02", "AbandonedLogCabin03", "AbandonedLogCabin04", "MountainGrave01", "DrakeNest01", "Waymarker02", "AbandonedLogCabin02",
+        "AbandonedLogCabin03", "AbandonedLogCabin04", "MountainGrave01", "DrakeLorestone", "StoneHenge1", "StoneHenge2", "StoneHenge3", "StoneHenge4", "StoneHenge5", "StoneHenge6"
+      }
+    };
+
+    private static readonly List<string[]> HuntLoc = new List<string[]>
+    {
+      new[] {"Runestone_Greydwarfs"},
+      new[] {"Ruin1", "Runestone_Greydwarfs"},
+      new[] {"Runestone_Draugr"},
+      new[] {"Waymarker02"},
+      new[] {"Runestone_Plains"},
+      new[] {"Runestone_Greydwarfs", "Ruin1", "Runestone_Greydwarfs", "Runestone_Draugr", "Waymarker02", "Runestone_Plains"}
+    };
+
+    private static readonly List<string[]> SearchItem = new List<string[]>
+    {
+      new[] {"LeatherScraps:20", "Mushroom:20", "CookedMeat:20", "Raspberry:20", "Stone:50", "Wood:50", "DeerHide:15", "Resin:20"},
+      new[] {"TrollHide:10", "Coins:100", "Resin:50", "BoneFragments:20", "MushroomYellow:20", "Blueberries:20", "HardAntler:1"},
+      new[] {"Guck:30", "Ooze:10", "SurtlingCore:20", "ElderBark:50", "Amber:20", "AmberPearl:20", "Resin:100"},
+      new[] {"Guck:50", "Ooze:20", "SurtlingCore:30", "ElderBark:50", "DragonEgg:1", "WolfFang:20", "WolfPelt:10", "Resin:100"},
+      new[] {"Amber:20", "AmberPearl:20", "Bread:50", "Guck:80", "Ooze:40", "SurtlingCore:30", "ElderBark:80", "DragonEgg:1", "WolfFang:20", "WolfPelt:20", "Resin:100"}
+    };
+
+    public static Dictionary<QuestType, List<string[]>> LocDic = new Dictionary<QuestType, List<string[]>>
+    {
+      {QuestType.Dungeon, DungeonLoc},
+      {QuestType.Hunt, HuntLoc}, 
+      {QuestType.Search, SearchItem}, 
+      {QuestType.Treasure, TreasureLoc}
+    };
+
+    public static string[] HunterMonsterList = {"Troll", "Draugr_Elite", "Fenring", "GoblinBrute"};
+  }
 }
 
 

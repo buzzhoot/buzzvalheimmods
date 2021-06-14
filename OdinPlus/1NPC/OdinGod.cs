@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using System.Reflection;
-using HarmonyLib;
+using Random = UnityEngine.Random;
+
 //||X||Sell Value Don't Resolve Here!!!
 namespace OdinPlus
 {
@@ -14,13 +14,13 @@ namespace OdinPlus
 		private List<string> slist = new List<string>();
 		private List<Skills.SkillType> stlist = new List<Skills.SkillType>();
 		private string cskill;
-		private int cskillIndex = 0;
+		private int cskillIndex;
 		#endregion
 		#region util
 		private Vector3 FindSpawnPoint()
 		{
-			var a = UnityEngine.Random.Range(10, 10);
-			var b = UnityEngine.Random.Range(10, 10);
+			var a = Random.Range(10, 10);
+			var b = Random.Range(10, 10);
 			var c = ZoneSystem.instance.GetGroundHeight(new Vector3(a, 500, b));
 			ZoneSystem.LocationInstance locationInstance;
 			if (ZoneSystem.instance.FindClosestLocation("StartTemple", Vector3.zero, out locationInstance))
@@ -33,9 +33,9 @@ namespace OdinPlus
 		}
 		private string randomName()
 		{
-			UnityEngine.Random.InitState(Mathf.FloorToInt(Time.realtimeSinceStartup));
+			Random.InitState(Mathf.FloorToInt(Time.realtimeSinceStartup));
 			var l = OdinData.ItemSellValue;
-			int i = UnityEngine.Random.Range(0, l.Count - 1);
+			int i = Random.Range(0, l.Count - 1);
 			return l.ElementAt(i).Key.GetTransName();
 		}
 		public static bool IsInstantiated()
@@ -53,9 +53,9 @@ namespace OdinPlus
 		{
 			m_instance = this;
 			Summon();
-			m_head = this.gameObject.transform.Find("visual/Armature/Hips/Spine0/Spine1/Spine2/Head");
+			m_head = gameObject.transform.Find("visual/Armature/Hips/Spine0/Spine1/Spine2/Head");
 			m_name = "$op_god";
-			m_talker = this.gameObject;
+			m_talker = gameObject;
 			InvokeRepeating("requestOidnPosition", 1, 3);
 			DBG.blogInfo("Client start to Calling Request Odin Location");
 		}
@@ -71,9 +71,9 @@ namespace OdinPlus
 		}
 		private void Start()
 		{
-			Debug.LogWarning(this.gameObject.transform.parent.rotation);
-			this.gameObject.transform.parent.Rotate(0, 42, 0);
-			Debug.LogWarning(this.gameObject.transform.parent.rotation);
+			Debug.LogWarning(gameObject.transform.parent.rotation);
+			gameObject.transform.parent.Rotate(0, 42, 0);
+			Debug.LogWarning(gameObject.transform.parent.rotation);
 		}
 		private void OnDestroy()
 		{

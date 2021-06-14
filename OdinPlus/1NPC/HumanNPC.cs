@@ -1,13 +1,6 @@
-using System.Reflection;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
 using System;
-using BepInEx;
-using BepInEx.Configuration;
-using HarmonyLib;
-using BepInEx.Logging;
 using UnityEngine;
+
 namespace OdinPlus
 {
 
@@ -24,7 +17,7 @@ namespace OdinPlus
 		#endregion ref
 		#region Interal
 		public string[] ChoiceList = { "$op_talk" };
-		private int index = 0;
+		private int index;
 		private string currentChoice = "";
 		#endregion Interal
 		#endregion var
@@ -43,7 +36,7 @@ namespace OdinPlus
 
 		private void RemoveUnusedComp()
 		{
-			foreach (var comp in gameObject.GetComponents<UnityEngine.Component>())
+			foreach (var comp in gameObject.GetComponents<Component>())
 			{
 				if (!(comp is Transform) && !(comp is HumanNPC) && !(comp is CapsuleCollider) && !(comp is ZNetView) && !(comp is VisEquipment) && !(comp is MonsterAI) && !(comp is Humanoid))
 				{
@@ -73,7 +66,7 @@ namespace OdinPlus
 			{
 				return false;
 			}
-			Invoke("Choice" + index.ToString(), 0f);
+			Invoke("Choice" + index, 0f);
 			return true;
 		}
 		public virtual void Choice0()
@@ -103,7 +96,7 @@ namespace OdinPlus
 		}
 		public override string GetHoverName()
 		{
-			return Localization.instance.Localize(this.m_name);
+			return Localization.instance.Localize(m_name);
 		}
 		public override bool UseItem(Humanoid user, ItemDrop.ItemData item)
 		{

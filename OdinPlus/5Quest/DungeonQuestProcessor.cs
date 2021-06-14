@@ -3,9 +3,9 @@ using UnityEngine;
 namespace OdinPlus
 {
 
-	public class DungeonQuestProcesser : QuestProcesser
+	public class DungeonQuestProcessor : QuestProcessor
 	{
-		public DungeonQuestProcesser(Quest inq)
+		public DungeonQuestProcessor(Quest inq)
 		{
 			quest = inq;
 		}

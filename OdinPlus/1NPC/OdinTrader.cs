@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -62,11 +61,16 @@ namespace OdinPlus
 
 		#endregion
 		#region private 
-		private new void Say(List<string> texts, string trigger) { return; }
-		private new void Say(string text, string trigger) { return; }
-		private new void RandomTalk() { return; }
-		private new void OnBought(TradeItem item) { return; }
-		private new void OnSold() { return; }
+		private new void Say(List<string> texts, string trigger) {
+    }
+		private new void Say(string text, string trigger) {
+    }
+		private new void RandomTalk() {
+    }
+		private new void OnBought(TradeItem item) {
+    }
+		private new void OnSold() {
+    }
 		#endregion
 	}
 }
