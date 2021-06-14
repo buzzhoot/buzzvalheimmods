@@ -394,7 +394,7 @@ namespace OdinPlus
 			rsc.name=rsc.name.RemoveClone();
 			msg.name=msg.name.RemoveClone();
 			guard.name=guard.name.RemoveClone();
-			DBG.blogWarning("Hacking Village");
+			DBG.blogWarning("Pacing villagers at Village");
 		}
 		private static readonly string[] rstones = new string[] { "Runestone_Meadows", "Runestone_Swamps", "Runestone_BlackForest" };
 		public static void HackingRuneStones()
@@ -414,7 +414,7 @@ namespace OdinPlus
 				go.name="Fighter1" + "Spawner";
 				var rnd = go.AddComponent<RandomSpawn>();
 				rnd.m_chanceToSpawn = 90;
-				DBG.blogWarning("hacking " + item);
+				DBG.blogWarning("Pacing villagers at " + item);
 			}
 
 		}
