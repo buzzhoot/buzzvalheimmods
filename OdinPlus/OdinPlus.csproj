@@ -33,6 +33,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim-jotunn\BepInEx\core\0Harmony.dll</HintPath>
+    </Reference>
     <Reference Include="assembly_googleanalytics_publicized">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim-jotunn\valheim_Data\Managed\publicized_assemblies\assembly_googleanalytics_publicized.dll</HintPath>
     </Reference>
@@ -60,11 +63,41 @@
     <Reference Include="assembly_valheim_publicized">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim-jotunn\valheim_Data\Managed\publicized_assemblies\assembly_valheim_publicized.dll</HintPath>
     </Reference>
+    <Reference Include="BepInEx">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim-jotunn\BepInEx\core\BepInEx.dll</HintPath>
+    </Reference>
+    <Reference Include="BepInEx.Harmony">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim-jotunn\BepInEx\core\BepInEx.Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="BepInEx.Preloader">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim-jotunn\BepInEx\core\BepInEx.Preloader.dll</HintPath>
+    </Reference>
     <Reference Include="fastJSON, Version=2.4.0.0, Culture=neutral, PublicKeyToken=6b75a806b86095cd, processorArchitecture=MSIL">
       <HintPath>..\packages\fastJSON.2.4.0.4\lib\net40\fastJSON.dll</HintPath>
     </Reference>
+    <Reference Include="HarmonyXInterop">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim-jotunn\BepInEx\core\HarmonyXInterop.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim-jotunn\BepInEx\core\Mono.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Mdb">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim-jotunn\BepInEx\core\Mono.Cecil.Mdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Pdb">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim-jotunn\BepInEx\core\Mono.Cecil.Pdb.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cecil.Rocks">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim-jotunn\BepInEx\core\Mono.Cecil.Rocks.dll</HintPath>
+    </Reference>
     <Reference Include="Mono.Posix">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim-jotunn\unstripped_corlib\Mono.Posix.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoMod.RuntimeDetour">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim-jotunn\BepInEx\core\MonoMod.RuntimeDetour.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoMod.Utils">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Valheim-jotunn\BepInEx\core\MonoMod.Utils.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Private>False</Private>
