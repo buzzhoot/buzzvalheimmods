@@ -1,20 +1,10 @@
+using fastJSON;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
 using System.IO;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using BepInEx;
-using BepInEx.Configuration;
-using HarmonyLib;
-using BepInEx.Logging;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using System.Globalization;
-using UnityEngine.UI;
-using Newtonsoft.Json;
 
 //|| ||DEBUG How to
 //Right Ctrl + keypad[0-5] global key sets (how many kinds of boss have you defeated,quest is based on that)
@@ -25,7 +15,7 @@ using Newtonsoft.Json;
 //Thx for your help for testing!
 namespace OdinPlus
 {
-	public class DevTool : MonoBehaviour
+  public class DevTool : MonoBehaviour
 	{
 		public static bool DisableSaving = false;
 		public static List<string> UnLocal = new List<string>();
@@ -505,7 +495,7 @@ namespace OdinPlus
 			FileStream fileStream = new FileStream(@file, FileMode.Open, FileAccess.Read);
 			BinaryReader binaryReader = new BinaryReader(fileStream);
 			var str = binaryReader.ReadString();
-			SaveDataDebug=JsonConvert.DeserializeObject<OdinData.DataTable>(str);
+			SaveDataDebug=JSON.ToObject<OdinData.DataTable>(str);
 			fileStream.Close();
 		}
 
