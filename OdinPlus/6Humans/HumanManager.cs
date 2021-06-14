@@ -288,10 +288,19 @@ namespace OdinPlus
 		{
 			var go = new GameObject(cname + "Spawner");
 			go.transform.SetParent(PrefabManager.Root.transform);
-			var znv = go.AddComponent<ZNetView>();
+			if (go.GetComponent<ZNetView>() == null)
+			{
+				var znv = go.AddComponent<ZNetView>();
+				znv.m_persistent = true;
+			}
+			if( go.GetComponent<ZNetView>() != null)
+		    {
+				var znv = go.GetComponent<ZNetView>();
+				znv.m_persistent = true;
+            }
 			var spn = go.AddComponent<CreatureSpawner>();
 			spn.m_creaturePrefab = PrefabList[cname];
-			znv.m_persistent = true;
+			
 
 			spn.m_respawnTimeMinuts = 0;
 			spn.m_levelupChance = 10;
