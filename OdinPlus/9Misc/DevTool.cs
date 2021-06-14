@@ -1,4 +1,3 @@
-using fastJSON;
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
@@ -495,7 +494,7 @@ namespace OdinPlus
 			FileStream fileStream = new FileStream(@file, FileMode.Open, FileAccess.Read);
 			BinaryReader binaryReader = new BinaryReader(fileStream);
 			var str = binaryReader.ReadString();
-			SaveDataDebug=JSON.ToObject<OdinData.DataTable>(str);
+			SaveDataDebug=JsonUtility.FromJson<OdinData.DataTable>(str);
 			fileStream.Close();
 		}
 

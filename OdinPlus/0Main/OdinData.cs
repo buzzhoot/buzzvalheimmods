@@ -1,5 +1,4 @@
-﻿using fastJSON;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -161,7 +160,7 @@ namespace OdinPlus
 				//add Backup
 			}
 			FileStream fileStream = new FileStream(@file, FileMode.Create, FileAccess.Write);
-			string dat = JSON.ToJSON(Data);
+			string dat = JsonUtility.ToJson(Data);
 			BinaryWriter binaryWriter= new BinaryWriter(fileStream);
 			binaryWriter.Write(dat);
 			binaryWriter.Flush();
@@ -196,7 +195,7 @@ namespace OdinPlus
 			//Data = (DataTable)formatter.Deserialize(fileStream);
 			BinaryReader binaryReader = new BinaryReader(fileStream);
 			var str = binaryReader.ReadString();
-      Data = JSON.ToObject<DataTable>(str);
+			Data = JsonUtility.FromJson<DataTable>(str);
 			fileStream.Close();
 			#endregion Serial
 
