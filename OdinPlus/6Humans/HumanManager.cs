@@ -293,7 +293,7 @@ namespace OdinPlus
 				var znv = go.AddComponent<ZNetView>();
 				znv.m_persistent = true;
 			}
-			if (go.GetComponent<ZNetView>() != null)
+			else if (go.GetComponent<ZNetView>() != null)
 		    {
 				var znv = go.GetComponent<ZNetView>();
 				znv.m_persistent = true;
